@@ -282,7 +282,32 @@ html, body { height: 100%; overflow: hidden; background: var(--outer-bg); color:
   margin-bottom: 24px; overflow: hidden; border: 1px solid var(--border2);
   display: flex; align-items: center; justify-content: center;
 }
-.pdf-container:fullscreen { background: #fff; padding: 20px; border: none; border-radius: 0; }
+/* ── FULLSCREEN PDF FIX ── */
+.pdf-container:fullscreen { 
+  width: 100vw !important; 
+  height: 100vh !important; 
+  max-width: 100% !important;
+  max-height: 100% !important;
+  background: #e5e7eb !important; 
+  padding: 0 !important; 
+  border: none !important; 
+  border-radius: 0 !important; 
+}
+.pdf-container:-webkit-full-screen { 
+  width: 100vw !important; 
+  height: 100vh !important; 
+  max-width: 100% !important;
+  max-height: 100% !important;
+  background: #e5e7eb !important; 
+  padding: 0 !important; 
+  border: none !important; 
+  border-radius: 0 !important; 
+}
+.pdf-container:fullscreen iframe,
+.pdf-container:-webkit-full-screen iframe {
+  width: 100% !important;
+  height: 100% !important;
+}
 .pdf-container iframe { width: 100%; height: 100%; border: none; }
 
 .form-submit-full {
