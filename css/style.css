@@ -1,4 +1,4 @@
-<style>
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* ── BRAND COLORS SYNCED WITH LOGO ── */
@@ -474,4 +474,3 @@ html, body { height: 100%; overflow: hidden; background: var(--outer-bg); color:
   .dots { display: none; }
   .home-footer { padding: 16px 24px; flex-direction: column-reverse; gap: 16px; }
 }
-</style>
