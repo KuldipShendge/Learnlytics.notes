@@ -101,12 +101,18 @@ function submitModalForm() {
   const btn = document.querySelector('.modal-submit');
   btn.innerText = "Processing...";
 
-  const scriptURL = 'const scriptURL = 'https://script.google.com/macros/s/AKfycbxpLmLgjZ2EmPOap7jPvmjB_-6QMM8MbefF6LId6iVGAIFv4gAFks1EEF9Cj_HKAjjK/exec';
+  // Your exact Google Script URL
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxpLmLgjZ2EmPOap7jPvmjB_-6QMM8MbefF6LId6iVGAIFv4gAFks1EEF9Cj_HKAjjK/exec';
+
+  // Package the data as standard Form Data to bypass browser security
+  const formData = new URLSearchParams();
+  formData.append('name', name);
+  formData.append('email', email);
+  formData.append('phone', wa);
 
   fetch(scriptURL, {
     method: 'POST',
-    body: JSON.stringify({ name: name, email: email, phone: wa }),
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+    body: formData
   })
   .then(response => {
     document.getElementById('modal-form-content').style.display = 'none';
