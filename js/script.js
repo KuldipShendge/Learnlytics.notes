@@ -1,16 +1,3 @@
-
-// ── FULLSCREEN API FOR PDF ──
-function toggleFullscreen(elementId) {
-  const elem = document.getElementById(elementId);
-  if (!document.fullscreenElement) {
-    elem.requestFullscreen().catch(err => {
-      alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-    });
-  } else {
-    document.exitFullscreen();
-  }
-}
-
 // ── SLIDER ──────────────────────────────
 const totalCourses = 3; 
 let current = 0, locked = false;
@@ -106,12 +93,30 @@ function submitModalForm() {
   const email = document.getElementById('inp-email').value.trim();
   const wa = document.getElementById('inp-wa').value.trim();
   
-  if (!name) { alert('Please enter your full name.'); return; }
-  if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
-  if (!wa || wa.replace(/\D/g,'').length < 10) { alert('Please enter a valid phone number.'); return; }
-  
-  document.getElementById('modal-form-content').style.display = 'none';
-  document.getElementById('modal-success').style.display = 'block';
+  if (!name || !email.includes('@') || wa.replace(/\D/g,'').length < 10) { 
+      alert('Please fill out all fields correctly.'); return; 
+  }
+
+  // Change button text to show loading
+  const btn = document.querySelector('.modal-submit');
+  btn.innerText = "Processing...";
+
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbwGAlorsFMI73Ct4k__llysyxnKYuXKALFgbEcHIvAmN0b_qU7gomzoTdJTJHiod4yD/exec';
+
+  fetch(scriptURL, {
+    method: 'POST',
+    body: JSON.stringify({ name: name, email: email, phone: wa }),
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+  })
+  .then(response => {
+    document.getElementById('modal-form-content').style.display = 'none';
+    document.getElementById('modal-success').style.display = 'block';
+    btn.innerText = "Unlock My PDF"; // reset
+  })
+  .catch(error => {
+    alert('Error submitting form. Please try again.');
+    btn.innerText = "Unlock My PDF";
+  });
 }
 
 window.addEventListener('keydown', e => {
