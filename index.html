@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
 <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
   <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
     <stop offset="0%" stop-color="#fd5949" />
@@ -20,10 +19,10 @@
 </svg>
 
 <nav class="outer-nav">
-  <div class="outer-logo">Learnlytics<span>.notes</span></div>
+  <img src="images/Logo.png" alt="Learnlytics" style="height: 50px; width: 200px;">
   <div class="outer-links">
     <a class="nav-link" onclick="openCoursesMenu()">Courses</a>
-    <a href="https://wa.me/1234567890" target="_blank" class="btn-help">
+    <a href="https://wa.me/919130631497" target="_blank" class="btn-help">
       Need Help?
     </a>
   </div>
@@ -260,7 +259,7 @@
             <p>View our complete SQL database notes right here. No sign-up required.</p>
             <div class="pdf-top-bar"><button class="btn-fullscreen" onclick="toggleFullscreen('pdf-container-1')">&#x26F6; Open Full Screen</button></div>
             <div class="pdf-container" id="pdf-container-1">
-              <iframe src="your-sql-notes.pdf#toolbar=0" title="Free SQL Notes Preview"></iframe>
+              <iframe src="pdfs/sql-notes.pdf#toolbar=0" title="Free SQL Notes Preview"></iframe>
             </div>
             <button class="form-submit-full" onclick="openModal()">&#x2B07; Get Free SQL Notes PDF</button>
           </div>
@@ -545,7 +544,7 @@
             <p>View our complete SQL database Questions Set right here. No sign-up required.</p>
             <div class="pdf-top-bar"><button class="btn-fullscreen" onclick="toggleFullscreen('pdf-container-2')">&#x26F6; Open Full Screen</button></div>
             <div class="pdf-container" id="pdf-container-2">
-              <iframe src="your-sql-questions.pdf#toolbar=0" title="Free SQL Questions Preview"></iframe>
+              <iframe src="pdfs/sql-questions.pdf#toolbar=0" title="Free SQL Questions Preview"></iframe>
             </div>
             <button class="form-submit-full" onclick="openModal()">&#x2B07; Get Free SQL Questions PDF</button>
           </div>
@@ -1050,137 +1049,6 @@
     </div>
   </div>
 </div>
-
-<script>
-// ── FULLSCREEN API FOR PDF ──
-function toggleFullscreen(elementId) {
-  const elem = document.getElementById(elementId);
-  if (!document.fullscreenElement) {
-    elem.requestFullscreen().catch(err => {
-      alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-    });
-  } else {
-    document.exitFullscreen();
-  }
-}
-
-// ── SLIDER ──────────────────────────────
-const totalCourses = 3; 
-let current = 0, locked = false;
-const track = document.getElementById('track');
-const detailView = document.getElementById('detail-view');
-const homeFooter = document.getElementById('homeFooter');
-
-function buildDots() {
-  const dotsEl = document.getElementById('dots');
-  dotsEl.innerHTML = '';
-  for(let i=0; i<totalCourses; i++) {
-    const d = document.createElement('div');
-    d.className = 'dot' + (i === 0 ? ' active' : '');
-    d.onclick = () => goTo(i);
-    dotsEl.appendChild(d);
-  }
-}
-
-function goTo(n) {
-  if (locked) return;
-  if (detailView.classList.contains('open')) return;
-  locked = true;
-  current = Math.max(0, Math.min(totalCourses - 1, n));
-  track.style.transform = `translateY(-${current * 100}%)`;
-  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
-  const scrollHint = document.getElementById('scrollHint');
-  if(scrollHint) scrollHint.style.opacity = current === totalCourses - 1 ? '0' : '1';
-  setTimeout(() => locked = false, 800);
-}
-
-window.addEventListener('wheel', e => {
-  if (detailView.classList.contains('open') || document.getElementById('courses-menu').classList.contains('open')) return;
-  goTo(current + (e.deltaY > 0 ? 1 : -1));
-}, { passive: true });
-
-let touchStartY = 0;
-window.addEventListener('touchstart', e => touchStartY = e.touches[0].clientY, { passive: true });
-window.addEventListener('touchend', e => {
-  if (detailView.classList.contains('open') || document.getElementById('courses-menu').classList.contains('open')) return;
-  const dy = touchStartY - e.changedTouches[0].clientY;
-  if (Math.abs(dy) > 40) goTo(current + (dy > 0 ? 1 : -1));
-}, { passive: true });
-
-buildDots();
-
-// ── FULL WEBSITE MENU & DETAIL VIEWS ──
-function openCoursesMenu() {
-  document.getElementById('courses-menu').classList.add('open');
-}
-
-function closeCoursesMenu() {
-  document.getElementById('courses-menu').classList.remove('open');
-}
-
-function openDetail(courseId) {
-  document.querySelectorAll('.course-container').forEach(el => el.classList.remove('active'));
-  document.getElementById('course-' + courseId).classList.add('active');
-  detailView.classList.add('open');
-  homeFooter.style.display = 'none'; 
-  document.body.style.overflow = 'hidden'; 
-  detailView.scrollTop = 0; 
-}
-
-function closeDetail() {
-  detailView.classList.remove('open');
-  homeFooter.style.display = 'flex'; 
-  document.body.style.overflow = 'auto'; 
-}
-
-function togglePhase(id) {
-  const card = document.getElementById(id);
-  card.classList.toggle('open');
-}
-
-// ── FREE NOTES MODAL LOGIC ──
-function openModal() {
-  document.getElementById('modal').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('modal').classList.remove('open');
-  setTimeout(() => {
-    document.getElementById('modal-form-content').style.display = 'block';
-    document.getElementById('modal-success').style.display = 'none';
-    document.getElementById('inp-name').value = '';
-    document.getElementById('inp-email').value = '';
-    document.getElementById('inp-wa').value = '';
-  }, 300);
-}
-
-function submitModalForm() {
-  const name = document.getElementById('inp-name').value.trim();
-  const email = document.getElementById('inp-email').value.trim();
-  const wa = document.getElementById('inp-wa').value.trim();
-  
-  if (!name) { alert('Please enter your full name.'); return; }
-  if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
-  if (!wa || wa.replace(/\D/g,'').length < 10) { alert('Please enter a valid phone number.'); return; }
-  
-  document.getElementById('modal-form-content').style.display = 'none';
-  document.getElementById('modal-success').style.display = 'block';
-}
-
-window.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    if (document.getElementById('modal').classList.contains('open')) {
-      closeModal();
-    } else if (document.getElementById('courses-menu').classList.contains('open')) {
-      closeCoursesMenu();
-    } else if (detailView.classList.contains('open')) {
-      closeDetail();
-    }
-  }
-  if (detailView.classList.contains('open') || document.getElementById('modal').classList.contains('open') || document.getElementById('courses-menu').classList.contains('open')) return;
-  if (e.key === 'ArrowDown') goTo(current + 1);
-  if (e.key === 'ArrowUp') goTo(current - 1);
-});
-</script>
+<script src="js/script.js"></script>
 </body>
 </html>
