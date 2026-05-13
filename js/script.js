@@ -101,7 +101,7 @@ function submitModalForm() {
   const btn = document.querySelector('.modal-submit');
   btn.innerText = "Processing...";
 
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbwGAlorsFMI73Ct4k__llysyxnKYuXKALFgbEcHIvAmN0b_qU7gomzoTdJTJHiod4yD/exec';
+  const scriptURL = 'const scriptURL = 'https://script.google.com/macros/s/AKfycbxpLmLgjZ2EmPOap7jPvmjB_-6QMM8MbefF6LId6iVGAIFv4gAFks1EEF9Cj_HKAjjK/exec';
 
   fetch(scriptURL, {
     method: 'POST',
