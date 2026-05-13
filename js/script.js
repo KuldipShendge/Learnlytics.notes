@@ -1,4 +1,4 @@
-<script>
+
 // ── FULLSCREEN API FOR PDF ──
 function toggleFullscreen(elementId) {
   const elem = document.getElementById(elementId);
@@ -128,4 +128,3 @@ window.addEventListener('keydown', e => {
   if (e.key === 'ArrowDown') goTo(current + 1);
   if (e.key === 'ArrowUp') goTo(current - 1);
 });
-</script>
