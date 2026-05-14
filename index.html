@@ -215,6 +215,7 @@
   <span>scroll</span>
 </div>
 
+
 <div class="home-footer" id="homeFooter">
   <div class="footer-copy">&copy; 2026 Learnlytics.notes. All rights reserved.</div>
   <div class="footer-socials">
@@ -258,7 +259,7 @@
         <div class="detail-right">
           <div class="pdf-viewer-wrap">
             <h3>Try before you buy.</h3>
-            <p>View our complete SQL database notes right here. No sign-up required.</p>
+            <p>View our SQL database notes right here. No sign-up required.</p>
             <div class="pdf-top-bar"><a href="pdfs/sql-notes.pdf" target="_blank" class="btn-fullscreen" style="text-decoration: none;">&#x26F6; Open Full Screen</a></div>
             <div class="pdf-container" id="pdf-container-1">
               <iframe src="pdfs/sql-notes.pdf#toolbar=0" title="Free SQL Notes Preview"></iframe>
@@ -489,7 +490,47 @@
         </div>
 
       </div>
+<div class="reviews-section" style="padding: 40px 0; border-top: 1px solid var(--border); margin-top: 40px;">
+        <div class="reviews-header" style="text-align: center; margin-bottom: 40px;">
+          <h2 style="font-family: 'DM Sans', sans-serif; font-size: 32px; font-weight: 800; color: var(--navy); margin-bottom: 12px;">What Students Say</h2>
+          <p style="color: var(--muted); font-size: 16px; font-weight: 500; margin-bottom: 24px;">Reviews from learners who upgraded their analytics and AI skills.</p>
+          <button class="btn-primary btn-navy" onclick="openReviewModal()">Post a Review</button>
+        </div>
+        <div class="reviews-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
+          <div class="review-card" style="background: var(--box-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03); display: flex; flex-direction: column;">
+            <div class="stars" style="color: #f59e0b; font-size: 20px; margin-bottom: 16px; letter-spacing: 2px;">★★★★★</div>
+            <p class="review-text" style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-weight: 500; flex: 1;">"The structured notes for SQL and Power BI saved me hours of confusing tutorials. Directly to the point and highly practical. I cleared my first technical round easily."</p>
+            <div class="review-author" style="font-weight: 800; color: var(--navy); font-size: 15px;">Rahul S.</div>
+          </div>
+          <div class="review-card" style="background: var(--box-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03); display: flex; flex-direction: column;">
+            <div class="stars" style="color: #f59e0b; font-size: 20px; margin-bottom: 16px; letter-spacing: 2px;">★★★★★</div>
+            <p class="review-text" style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-weight: 500; flex: 1;">"The 2000+ interview questions are a goldmine. I faced exact scenario-based questions from Phase 3 in my final data analyst interview."</p>
+            <div class="review-author" style="font-weight: 800; color: var(--navy); font-size: 15px;">Priya K.</div>
+          </div>
+          <div class="review-card" style="background: var(--box-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03); display: flex; flex-direction: column;">
+            <div class="stars" style="color: #f59e0b; font-size: 20px; margin-bottom: 16px; letter-spacing: 2px;">★★★★☆</div>
+            <p class="review-text" style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-weight: 500; flex: 1;">"Excellent breakdown of data engineering concepts. The 3-level warmup tests helped me find my weak spots before applying for jobs."</p>
+            <div class="review-author" style="font-weight: 800; color: var(--navy); font-size: 15px;">Sneha R.</div>
+          </div>
+		  <div class="review-card" style="background: var(--box-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03); display: flex; flex-direction: column;">
+            <div class="stars" style="color: #f59e0b; font-size: 20px; margin-bottom: 16px; letter-spacing: 2px;">★★★★★</div>
+            <p class="review-text" style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-weight: 500; flex: 1;">"The Business Intelligence dashboard notes gave me the exact vocabulary I needed to communicate effectively with stakeholders. A massive confidence booster."</p>
+            <div class="review-author" style="font-weight: 800; color: var(--navy); font-size: 15px;">Sarah L.</div>
+          </div>
 
+          <div class="review-card" style="background: var(--box-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03); display: flex; flex-direction: column;">
+            <div class="stars" style="color: #f59e0b; font-size: 20px; margin-bottom: 16px; letter-spacing: 2px;">★★★★★</div>
+            <p class="review-text" style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-weight: 500; flex: 1;">"I bought the complete bundle. Best investment for my career transition. The Math and Statistics notes alone are completely worth the full price."</p>
+            <div class="review-author" style="font-weight: 800; color: var(--navy); font-size: 15px;">Amit V.</div>
+          </div>
+          <div class="review-card" style="background: var(--box-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03); display: flex; flex-direction: column;">
+            <div class="stars" style="color: #f59e0b; font-size: 20px; margin-bottom: 16px; letter-spacing: 2px;">★★★★★</div>
+            <p class="review-text" style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-weight: 500; flex: 1;">"Finally, a resource that doesn't waste time. The Python structure notes are beautifully organized and very easy to reference while coding."</p>
+            <div class="review-author" style="font-weight: 800; color: var(--navy); font-size: 15px;">Arjun M.</div>
+       
+		  </div>
+        </div>
+      </div>
       <div class="detail-footer">
         <h2>Your Blueprint to a Data Career.</h2>
         <p>Pick the path that works for you. Grab the structured notes, test yourself with the interview question bundle, or lock down both to secure your dream offer.</p>
@@ -543,12 +584,12 @@
         <div class="detail-right">
           <div class="pdf-viewer-wrap">
             <h3>Try before you buy.</h3>
-            <p>View our complete SQL database Questions Set right here. No sign-up required.</p>
+            <p>View our SQL database notes right here. No sign-up required.</p>
             <div class="pdf-top-bar"><a href="pdfs/sql-questions.pdf" target="_blank" class="btn-fullscreen" style="text-decoration: none;">&#x26F6; Open Full Screen</a></div>
             <div class="pdf-container" id="pdf-container-2">
               <iframe src="pdfs/sql-questions.pdf#toolbar=0" title="Free SQL Questions Preview"></iframe>
             </div>
-            <button class="form-submit-full" onclick="openModal()">&#x2B07; Get Free SQL Questions PDF</button>
+            <button class="form-submit-full" onclick="openModal()">&#x2B07; Get Free SQL database notes</button>
           </div>
         </div>
       </div>
@@ -933,7 +974,10 @@
         </div>
 
       </div>
-
+	  	
+	
+		
+		
       <div class="detail-footer">
         <h2>Your Blueprint to a Data Career.</h2>
         <p>Pick the path that works for you. Grab the structured notes, test yourself with the interview question bundle, or lock down both to secure your dream offer.</p>
@@ -1016,13 +1060,12 @@
 
   </div>
 </div>
-
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">&times;</button>
     <div id="modal-form-content">
       <h2>Get Free SQL Notes</h2>
-      <p class="sub">Enter your details below &mdash; the Google Drive download link appears immediately. No spam, we promise.</p>
+      <p class="sub">Enter your details below &mdash; we will send the notes directly to your inbox. No spam, we promise.</p>
       
       <div class="modal-field">
         <label>FULL NAME</label>
@@ -1043,14 +1086,59 @@
       <p class="modal-privacy">Your info is securely stored and only used to send course updates.</p>
     </div>
 
-    <div class="modal-success" id="modal-success">
-      <div class="check">&#x2713;</div>
-      <h3>Here are your SQL notes!</h3>
-      <p>Thanks for signing up. Click below to view and download your PDF.</p>
-      <a href="your-sql-notes.pdf" target="_blank" class="drive-link" onclick="closeModal()">&#x2B07; Download SQL Notes PDF</a>
+    <div class="modal-success" id="modal-success" style="display: none; text-align: center;">
+      <div class="check" style="font-size: 56px; margin-bottom: 16px;">🎉</div>
+      <h3 style="font-size: 24px; color: var(--navy); margin-bottom: 8px;">Check Your Email!</h3>
+      <p style="font-size: 15px; color: var(--text);">We just sent the free notes directly to your inbox (check your spam folder just in case!).</p>
+      
+      <div style="background: #f8fafc; border: 2px dashed #cbd5e1; padding: 20px; border-radius: 12px; margin-top: 24px; margin-bottom: 24px; text-align: left;">
+        <p style="font-weight: 800; color: var(--navy); margin-bottom: 8px; font-size: 16px;">🎁 WAIT! Claim Your Free Bonus</p>
+        <p style="font-size: 14px; color: var(--text); margin-bottom: 16px; line-height: 1.5;">Want our Top 50 Data Analyst Interview Cheatsheet? Message us on WhatsApp to get it instantly.</p>
+        
+        <a href="https://wa.me/919326778036?text=Hi%20Learnlytics,%20send%20me%20the%20bonus!" target="_blank" class="btn-primary" style="background: #25D366; color: white; border: none; padding: 14px 24px; border-radius: 8px; text-decoration: none; display: flex; justify-content: center; font-weight: bold; cursor: pointer;">
+          &#128242; Send me the bonus!
+        </a>
+      </div>
+
+      <button class="btn-primary btn-navy" style="width: 100%; justify-content: center; padding: 14px 24px; border-radius: 8px; border: none; color: white; background: var(--navy); cursor: pointer;" onclick="closeModal()">Close</button>
     </div>
   </div>
 </div>
+
 <script src="js/script.js"></script>
+
+<div class="modal-overlay" id="review-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeReviewModal()">&times;</button>
+    <div id="review-form-content">
+      <h2>Post Your Review</h2>
+      <p class="sub">Tell us how the notes or interview questions helped you!</p>
+      
+      <div class="modal-field">
+        <label>FULL NAME</label>
+        <input type="text" id="rev-name" placeholder="Jane Doe">
+      </div>
+      
+      <div class="modal-field">
+        <label>RATING (1-5)</label>
+        <input type="number" id="rev-rating" min="1" max="5" value="5">
+      </div>
+
+      <div class="modal-field">
+        <label>YOUR REVIEW</label>
+        <textarea id="rev-text" rows="4" placeholder="Your experience..."></textarea>
+      </div>
+
+      <button class="modal-submit" onclick="submitReviewForm()">Submit Review</button>
+    </div>
+
+    <div class="modal-success" id="review-success">
+      <div class="check">&#x2713;</div>
+      <h3>Review Submitted!</h3>
+      <p>Thank you for sharing your experience. Your feedback helps us improve.</p>
+      <button class="btn-primary btn-navy" style="margin-top: 16px; width: 100%; justify-content: center; padding: 14px 24px; border-radius: 8px; border: none; color: white; background: var(--navy); cursor: pointer;" onclick="closeReviewModal()">Close</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
