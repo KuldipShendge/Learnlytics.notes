@@ -97,14 +97,11 @@ function submitModalForm() {
       alert('Please fill out all fields correctly.'); return; 
   }
 
-  // Change button text to show loading
   const btn = document.querySelector('.modal-submit');
   btn.innerText = "Processing...";
 
-  // Your exact Google Script URL
   const scriptURL = 'https://script.google.com/macros/s/AKfycbxpLmLgjZ2EmPOap7jPvmjB_-6QMM8MbefF6LId6iVGAIFv4gAFks1EEF9Cj_HKAjjK/exec';
 
-  // Package the data as standard Form Data to bypass browser security
   const formData = new URLSearchParams();
   formData.append('name', name);
   formData.append('email', email);
@@ -117,7 +114,7 @@ function submitModalForm() {
   .then(response => {
     document.getElementById('modal-form-content').style.display = 'none';
     document.getElementById('modal-success').style.display = 'block';
-    btn.innerText = "Unlock My PDF"; // reset
+    btn.innerText = "Unlock My PDF"; 
   })
   .catch(error => {
     alert('Error submitting form. Please try again.');
@@ -125,10 +122,63 @@ function submitModalForm() {
   });
 }
 
+// ── REVIEW MODAL LOGIC ──
+function openReviewModal() {
+  document.getElementById('review-modal').classList.add('open');
+}
+
+function closeReviewModal() {
+  document.getElementById('review-modal').classList.remove('open');
+  setTimeout(() => {
+    document.getElementById('review-form-content').style.display = 'block';
+    document.getElementById('review-success').style.display = 'none';
+    document.getElementById('rev-name').value = '';
+    document.getElementById('rev-rating').value = '5';
+    document.getElementById('rev-text').value = '';
+  }, 300);
+}
+
+function submitReviewForm() {
+  const name = document.getElementById('rev-name').value.trim();
+  const rating = document.getElementById('rev-rating').value.trim();
+  const review = document.getElementById('rev-text').value.trim();
+  
+  if (!name || !review) { 
+      alert('Please fill out your name and your review.'); return; 
+  }
+
+  const btn = document.querySelector('#review-form-content .modal-submit');
+  btn.innerText = "Submitting...";
+
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxpLmLgjZ2EmPOap7jPvmjB_-6QMM8MbefF6LId6iVGAIFv4gAFks1EEF9Cj_HKAjjK/exec';
+
+  const formData = new URLSearchParams();
+  formData.append('type', 'review'); 
+  formData.append('name', name);
+  formData.append('rating', rating);
+  formData.append('review', review);
+
+  fetch(scriptURL, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    document.getElementById('review-form-content').style.display = 'none';
+    document.getElementById('review-success').style.display = 'block';
+    btn.innerText = "Submit Review"; 
+  })
+  .catch(error => {
+    alert('Error submitting review. Please try again.');
+    btn.innerText = "Submit Review";
+  });
+}
+
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     if (document.getElementById('modal').classList.contains('open')) {
       closeModal();
+    } else if (document.getElementById('review-modal') && document.getElementById('review-modal').classList.contains('open')) {
+      closeReviewModal();
     } else if (document.getElementById('courses-menu').classList.contains('open')) {
       closeCoursesMenu();
     } else if (detailView.classList.contains('open')) {
