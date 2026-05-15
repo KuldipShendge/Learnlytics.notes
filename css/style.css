@@ -724,3 +724,22 @@ textarea:focus { border-color: var(--cyan); }
     height: 16px !important; 
   }
 }
+
+/* ── COURSES MENU SCROLL BUG FIX ── */
+#courses-menu {
+  overflow-y: auto !important;           /* Unlocks vertical scrolling */
+  justify-content: flex-start !important; /* Stops the top from getting cut off on small screens */
+  padding-top: 120px !important;         /* Pushes the content down safely below the Navigation Bar */
+  padding-bottom: 60px !important;       /* Gives some breathing room at the very bottom */
+}
+
+.courses-menu-inner {
+  margin: 0 auto auto auto !important;   /* Keeps it perfectly centered on desktop, but scrollable on mobile */
+}
+
+/* Slightly reduce the padding on mobile so it looks tighter */
+@media (max-width: 768px) {
+  #courses-menu {
+    padding-top: 100px !important;
+  }
+}
