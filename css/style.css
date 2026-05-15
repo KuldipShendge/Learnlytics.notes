@@ -752,36 +752,63 @@ textarea:focus { border-color: var(--cyan); }
   }
 }
 
-/* ── EXTREME SHORT SCREEN FAILSAFE (For 125% / 150% Windows Scaling) ── */
-@media (max-height: 720px) {
-  #main-stage {
-    padding-top: 80px !important; 
-    padding-bottom: 20px !important;
+/* ════════════════════════════════════════════════════════════
+   CROSS-DEVICE FIXES  (appended — do not edit above this line)
+   ════════════════════════════════════════════════════════════ */
+
+/* ── FIX 1: SCROLL HINT OVERLAP ON SHORT LAPTOP SCREENS ──────
+   Root cause: .scroll-hint is position:fixed; bottom:80px  
+   On 768-850px-tall laptops the box grows tall enough that  
+   bottom:80px lands inside the card, sitting on top of the  
+   second CTA button (visible in Friend 2 & Friend 3 laptops).
+   Solution: hide the hint below 780px viewport height.       
+   Users can still navigate with side dots or arrow keys.     */
+@media (max-height: 780px) {
+  .scroll-hint {
+    display: none !important;
   }
-  .central-box {
-    max-height: 90vh !important; /* Prevents the box from hitting the bottom edge */
+}
+
+/* ── FIX 2: NAV LOGO OVERFLOW ON ANDROID / SMALL PHONES ──────
+   Root cause: the logo <img> has an inline style="width:260px"
+   Inline styles beat normal CSS, so the .nav-logo class rules 
+   (width:auto) never apply. On a 375-400px Android screen:   
+     logo 260px + 48px padding + 2× button 100px = 508px      
+   → overflows the screen, clipping "Courses" and hiding      
+     "Need Help?" entirely (visible in Friend 1 Android shot). 
+   Solution: use !important to beat the inline style.         */
+@media (max-width: 520px) {
+  .outer-nav img {
+    max-width: 148px !important;   /* overrides inline width:260px */
+    width:     auto !important;
+    height:    40px !important;
+    object-fit: contain;
+  }
+  .outer-nav {
+    padding: 10px 14px !important; /* reclaim horizontal space    */
+  }
+  .btn-courses, .btn-help {
+    width: 90px !important;        /* slightly tighter pill width */
+    font-size: 11px !important;
+    padding: 5px 10px !important;
+  }
+}
+
+/* ── FIX 3: GIANT EMPTY SPACE AT TOP OF MOBILE SLIDES ────────
+   Root cause: .slide uses align-items:center which vertically  
+   centres content inside a full-viewport-height flex child.   
+   Slide 3 (one button, shorter text) leaves ~200px of dead    
+   space above the heading (visible in My Phone screenshot).   
+   The (max-width:1366px) rule also forces padding-top:40px    
+   with !important, compounding the empty gap on mobile.       
+   Solution: switch to flex-start on mobile so content reads   
+   naturally from the top, matching how images 2 & 4 look.    */
+@media (max-width: 768px) {
+  .slide {
+    align-items: flex-start !important;
   }
   .slide-content {
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-  }
-  .slide-heading {
-    font-size: 32px !important; /* Shrinks the massive header */
-    margin-bottom: 12px !important;
-  }
-  .slide-desc {
-    font-size: 14px !important; /* Shrinks description */
-    margin-bottom: 16px !important;
-    line-height: 1.4 !important;
-  }
-  .btn-primary {
-    padding: 10px 20px !important; /* Makes buttons slimmer */
-    font-size: 14px !important;
-  }
-  .btn-stack {
-    gap: 8px !important;
-  }
-  .scroll-hint {
-    bottom: 20px !important; /* Pulls the scroll text up into view */
+    padding-top:    24px !important;  /* replaces the 40px !important */
+    padding-bottom: 24px !important;
   }
 }
