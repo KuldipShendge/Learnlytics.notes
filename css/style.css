@@ -540,3 +540,100 @@ textarea {
   outline: none; transition: border-color .2s; resize: vertical;
 }
 textarea:focus { border-color: var(--cyan); }
+
+/* ── FIX FOR NAV BAR OVERLAP ── */
+#main-stage {
+  padding-top: 110px; /* Creates a bumper to push the box below the logo */
+  box-sizing: border-box; 
+}
+
+/* Extra adjustment for mobile phones */
+@media (max-width: 768px) {
+  #main-stage {
+    padding-top: 90px;
+  }
+  .central-box {
+    margin-top: 15px; /* Gives a little extra breathing room on small screens */
+  }
+}
+
+/* ── LAPTOP & SHORT SCREEN RESPONSIVENESS ── */
+@media (max-height: 850px), (max-width: 1366px) {
+  /* Forces a safe breathing space at the top so it never hits the ceiling */
+  .slide-content {
+    padding-top: 40px !important; 
+    padding-bottom: 40px !important;
+  }
+  
+  /* Smoothly scales the giant text down a bit on smaller screens */
+  .slide-heading {
+    font-size: 44px !important; 
+    line-height: 1.1 !important;
+    margin-bottom: 16px !important;
+  }
+  
+  /* Pulls the description up slightly */
+  .slide-desc {
+    font-size: 15px !important;
+    margin-bottom: 24px !important;
+  }
+  
+  /* Tucks the buttons a little closer together */
+  .btn-stack {
+    gap: 12px !important;
+  }
+}
+/* ── FIX FOR DETAIL VIEW OVERLAP ── */
+#detail-view {
+  padding-top: 110px !important;
+  box-sizing: border-box;
+}
+
+/* Matches the mobile spacing for phones */
+@media (max-width: 768px) {
+  #detail-view {
+    padding-top: 90px !important;
+  }
+}
+
+/* ── RESPONSIVE LOGO FIX ── */
+.nav-logo {
+  height: 60px;        /* Your preferred large size */
+  width: auto;         /* Automatically calculates width so it never stretches */
+  max-width: 100%;     /* Prevents it from breaking the screen horizontally */
+  object-fit: contain; /* Keeps the image perfectly crisp */
+}
+
+/* ── INDESTRUCTIBLE BUMPER FOR ALL PAGES ── */
+#main-stage, #detail-view {
+  padding-top: 130px !important; /* A larger, safer gap for laptops and desktops */
+}
+
+/* ── SMART ADJUSTMENTS FOR PHONES ── */
+@media (max-width: 768px) {
+  .nav-logo {
+    height: 42px; /* Slightly shrinks the logo ONLY on phones so buttons still fit beautifully */
+  }
+  #main-stage, #detail-view {
+    padding-top: 100px !important; /* Perfect spacing for the slightly smaller phone logo */
+  }
+}
+
+/* ── LAPTOP ASPECT RATIO FIX (Targets 1080p Laptops) ── */
+@media (max-height: 950px), (max-width: 1440px) {
+  .central-box {
+    max-width: 940px !important; /* Shrinks the box to restore perfect side margins */
+  }
+  .slide-orb {
+    width: 250px !important; 
+    height: 250px !important;
+    right: -10px !important; /* Tucks the circular graphic neatly into the smaller box */
+  }
+}
+
+/* Ensure it still looks good on smaller tablets/phones */
+@media (max-width: 768px) {
+  .central-box {
+    width: 92% !important; /* Gives back the space on mobile so text fits */
+  }
+}
