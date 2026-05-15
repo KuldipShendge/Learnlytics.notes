@@ -63,8 +63,8 @@ function openDetail(courseId) {
 
 function closeDetail() {
   detailView.classList.remove('open');
-  homeFooter.style.display = 'flex'; 
-  document.body.style.overflow = 'auto'; 
+  homeFooter.style.display = 'flex';
+  document.body.style.overflow = 'hidden'; // FIX: was 'auto', which broke the full-page slider after closing detail view
 }
 
 function togglePhase(id) {
@@ -185,7 +185,9 @@ window.addEventListener('keydown', e => {
       closeDetail();
     }
   }
-  if (detailView.classList.contains('open') || document.getElementById('modal').classList.contains('open') || document.getElementById('courses-menu').classList.contains('open')) return;
+  // FIX: added review-modal to guard — previously arrow keys could navigate slides while review modal was open
+  const reviewModal = document.getElementById('review-modal');
+  if (detailView.classList.contains('open') || document.getElementById('modal').classList.contains('open') || document.getElementById('courses-menu').classList.contains('open') || (reviewModal && reviewModal.classList.contains('open'))) return;
   if (e.key === 'ArrowDown') goTo(current + 1);
   if (e.key === 'ArrowUp') goTo(current - 1);
 });
