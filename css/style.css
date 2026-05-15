@@ -692,13 +692,35 @@ textarea:focus { border-color: var(--cyan); }
   height: 18px !important; 
 }
 
-/* ── MOBILE SPACING FOR DOUBLE BUTTONS ── */
+/* ── MOBILE SPECIFIC UPGRADES (STACKED BUTTONS & TINY FOOTER) ── */
 @media (max-width: 768px) {
+  /* 1. Stacks the Nav Buttons Top & Bottom */
   .outer-links {
-    gap: 8px !important; /* Brings buttons closer so they fit on small screens */
+    flex-direction: column !important; /* Forces the top-and-bottom stack */
+    align-items: flex-end !important;  /* Aligns them cleanly to the right edge */
+    gap: 6px !important;               /* Space between the two buttons */
   }
+  
   .btn-courses, .btn-help {
-    padding: 8px 12px !important; /* Shrinks buttons slightly on mobile */
-    font-size: 13px !important;
+    padding: 6px 14px !important;
+    font-size: 12px !important;
+    width: 100px !important;           /* Forces them to be exactly the same width for a clean look */
+    justify-content: center !important;
+  }
+
+  /* 2. Forces the Footer to be small on Mobile */
+  .footer-copy { 
+    font-size: 11px !important;        /* Extra small for mobile */
+    text-align: center !important;
+  }
+  
+  .footer-socials {
+    gap: 16px !important;              /* Brings icons closer together */
+    justify-content: center !important;
+  }
+  
+  .footer-socials svg { 
+    width: 16px !important;            /* Shrinks the social icons */
+    height: 16px !important; 
   }
 }
