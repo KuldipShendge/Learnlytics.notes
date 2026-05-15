@@ -1105,8 +1105,6 @@
   </div>
 </div>
 
-<script src="js/script.js"></script>
-
 <div class="modal-overlay" id="review-modal">
   <div class="modal">
     <button class="modal-close" onclick="closeReviewModal()">&times;</button>
@@ -1140,5 +1138,7 @@
     </div>
   </div>
 </div>
+<!-- FIX: script moved here from mid-body so all DOM elements (including #review-modal) exist before the script parses -->
+<script src="js/script.js"></script>
 </body>
 </html>
