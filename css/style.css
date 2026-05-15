@@ -751,3 +751,37 @@ textarea:focus { border-color: var(--cyan); }
     gap: 8px !important;           /* Brings the social icons and text closer together */
   }
 }
+
+/* ── EXTREME SHORT SCREEN FAILSAFE (For 125% / 150% Windows Scaling) ── */
+@media (max-height: 720px) {
+  #main-stage {
+    padding-top: 80px !important; 
+    padding-bottom: 20px !important;
+  }
+  .central-box {
+    max-height: 90vh !important; /* Prevents the box from hitting the bottom edge */
+  }
+  .slide-content {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+  .slide-heading {
+    font-size: 32px !important; /* Shrinks the massive header */
+    margin-bottom: 12px !important;
+  }
+  .slide-desc {
+    font-size: 14px !important; /* Shrinks description */
+    margin-bottom: 16px !important;
+    line-height: 1.4 !important;
+  }
+  .btn-primary {
+    padding: 10px 20px !important; /* Makes buttons slimmer */
+    font-size: 14px !important;
+  }
+  .btn-stack {
+    gap: 8px !important;
+  }
+  .scroll-hint {
+    bottom: 20px !important; /* Pulls the scroll text up into view */
+  }
+}
