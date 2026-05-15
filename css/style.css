@@ -812,3 +812,61 @@ textarea:focus { border-color: var(--cyan); }
     padding-bottom: 24px !important;
   }
 }
+
+/* ── QUICK BUY BUTTONS (UNDER HIGHLIGHT BOX) ── */
+.quick-buy-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+  max-width: 480px; /* Matches the width of the highlight box above it */
+}
+
+.quick-buy-row {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-quick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 99px; /* Pill shape matching Nav buttons */
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-quick.btn-navy {
+  background: var(--navy);
+  color: #fff;
+  flex: 1; /* Forces both top buttons to be exactly 50% width */
+}
+
+.btn-quick.btn-navy:hover {
+  background: var(--cyan);
+  transform: translateY(-2px);
+}
+
+.btn-quick.btn-cyan {
+  background: var(--cyan);
+  color: #fff;
+  width: 100%; /* Forces the bottom button to span the whole width */
+}
+
+.btn-quick.btn-cyan:hover {
+  background: var(--navy);
+  transform: translateY(-2px);
+}
+
+/* ── MOBILE FIX FOR QUICK BUY ── */
+@media (max-width: 768px) {
+  .quick-buy-row {
+    flex-direction: column; /* Stacks the top two buttons neatly on small phone screens */
+  }
+}
