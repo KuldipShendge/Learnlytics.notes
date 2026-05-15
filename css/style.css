@@ -637,3 +637,36 @@ textarea:focus { border-color: var(--cyan); }
     width: 92% !important; /* Gives back the space on mobile so text fits */
   }
 }
+
+/* ── MOBILE HERO REPAIR ── */
+@media (max-width: 768px) {
+  /* Shrink the giant heading so it fits on 2-3 lines */
+  .slide-heading {
+    font-size: 30px !important; 
+    line-height: 1.15 !important;
+    margin-bottom: 12px !important;
+  }
+  
+  /* Tighten up the description text */
+  .slide-desc {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    margin-bottom: 24px !important;
+  }
+
+  /* Make the buttons slightly more compact */
+  .btn-primary {
+    padding: 12px 20px !important;
+    font-size: 14px !important;
+  }
+  
+  /* Bring the buttons closer together */
+  .btn-stack {
+    gap: 12px !important;
+  }
+
+  /* Hide the overlapping 'SCROLL' arrow on mobile (users naturally swipe anyway) */
+  .scroll-hint {
+    display: none !important;
+  }
+}
