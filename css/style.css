@@ -670,3 +670,35 @@ textarea:focus { border-color: var(--cyan); }
     display: none !important;
   }
 }
+
+/* ── NAV BUTTON UPGRADES ── */
+.btn-courses {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 10px 20px; border-radius: 99px; font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 700; background: var(--cyan); color: #fff;
+  text-decoration: none; transition: all 0.2s; cursor: pointer;
+}
+.btn-courses:hover { 
+  background: var(--navy); transform: translateY(-1px); 
+}
+
+/* ── FOOTER RESIZING (ALL VIEWS) ── */
+.footer-copy { 
+  font-size: 12px !important; 
+  font-weight: 600 !important; 
+}
+.footer-socials svg { 
+  width: 18px !important; 
+  height: 18px !important; 
+}
+
+/* ── MOBILE SPACING FOR DOUBLE BUTTONS ── */
+@media (max-width: 768px) {
+  .outer-links {
+    gap: 8px !important; /* Brings buttons closer so they fit on small screens */
+  }
+  .btn-courses, .btn-help {
+    padding: 8px 12px !important; /* Shrinks buttons slightly on mobile */
+    font-size: 13px !important;
+  }
+}
