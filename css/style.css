@@ -743,3 +743,11 @@ textarea:focus { border-color: var(--cyan); }
     padding-top: 100px !important;
   }
 }
+
+/* ── MOBILE FOOTER HEIGHT FIX (SLIM CONTAINER) ── */
+@media (max-width: 768px) {
+  .home-footer {
+    padding: 12px 16px !important; /* Reduces the bulky top/bottom cushion */
+    gap: 8px !important;           /* Brings the social icons and text closer together */
+  }
+}
