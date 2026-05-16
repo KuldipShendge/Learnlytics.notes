@@ -59,12 +59,15 @@ function openDetail(courseId) {
   homeFooter.style.display = 'none'; 
   document.body.style.overflow = 'hidden'; 
   detailView.scrollTop = 0; 
+  window.location.hash = courseId;
 }
 
 function closeDetail() {
   detailView.classList.remove('open');
   homeFooter.style.display = 'flex';
   document.body.style.overflow = 'hidden'; // FIX: was 'auto', which broke the full-page slider after closing detail view
+  // NEW: Remove the hash from the URL when going back home
+  window.history.replaceState(null, null, window.location.pathname);
 }
 
 function togglePhase(id) {
@@ -190,4 +193,14 @@ window.addEventListener('keydown', e => {
   if (detailView.classList.contains('open') || document.getElementById('modal').classList.contains('open') || document.getElementById('courses-menu').classList.contains('open') || (reviewModal && reviewModal.classList.contains('open'))) return;
   if (e.key === 'ArrowDown') goTo(current + 1);
   if (e.key === 'ArrowUp') goTo(current - 1);
+});
+
+// NEW: Make direct shared links work!
+window.addEventListener('DOMContentLoaded', () => {
+  if (window.location.hash) {
+    const hashId = window.location.hash.substring(1); // Removes the '#' to get the ID
+    if (document.getElementById('course-' + hashId)) {
+      openDetail(hashId);
+    }
+  }
 });
