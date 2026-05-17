@@ -205,29 +205,34 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Function to detect location and change prices
+// Function to detect location and swap currency + payment links
 async function localizePrices() {
   try {
-    // 1. Ask the free API where the user is
     const response = await fetch('https://ipapi.co/json/');
     const data = await response.json();
     
-    // 2. Target your price text
-    const bundlePrices = document.querySelectorAll('.price-bundle');
-    const basicPrices = document.querySelectorAll('.price-basic');
-
-    // 3. Swap the prices if they are outside India
+    // If they are NOT in India, swap everything to USD
     if (data.country_code !== 'IN') {
-      bundlePrices.forEach(el => el.innerHTML = '$19'); // roughly ₹699
-      basicPrices.forEach(el => el.innerHTML = '$9');   // roughly ₹399
       
-      // Optional: You can even update the Buy buttons to link to an International payment page
-      // document.querySelectorAll('.btn-buy-bundle').forEach(btn => btn.href = 'YOUR_GLOBAL_LINK');
+      // 1. Update all Main Prices (in both the cards AND the top buttons)
+      document.querySelectorAll('.price-basic').forEach(el => el.innerHTML = '$19');
+      document.querySelectorAll('.price-bundle').forEach(el => el.innerHTML = '$29');
+      
+      // 2. Update the Crossed-Out (Strike) Prices in the cards
+      document.querySelectorAll('.strike-basic').forEach(el => el.innerHTML = '$39');
+      document.querySelectorAll('.strike-bundle').forEach(el => el.innerHTML = '$79');
+      
+      // 3. Swap the Checkout Links for Gumroad/Stripe (Optional for later)
+      // document.querySelectorAll('.link-basic, .quick-notes, .quick-qa').forEach(el => {
+      //  el.href = 'https://your-global-link.com/basic'; 
+      // });
+      // document.querySelectorAll('.link-bundle, .quick-bundle').forEach(el => {
+      //  el.href = 'https://your-global-link.com/bundle';
+      // });
     }
   } catch (error) {
-    console.log("Could not detect location, defaulting to INR.");
+    console.log("Location detection failed, defaulting to INR.", error);
   }
 }
 
-// Run it when the page loads
 window.addEventListener('DOMContentLoaded', localizePrices);
