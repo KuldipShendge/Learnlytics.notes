@@ -870,3 +870,41 @@ textarea:focus { border-color: var(--cyan); }
     flex-direction: column; /* Stacks the top two buttons neatly on small phone screens */
   }
 }
+
+/* ── DETAIL PAGE (OTHER PAGES) RESPONSIVE UPGRADE ── */
+
+/* 1. Make the Detail View a Floating Premium Card on Desktop */
+.detail-inner {
+  width: 94% !important; /* Forces safe margins on the sides for laptops */
+  max-width: 1200px !important;
+  margin: 0 auto 80px auto !important; /* Centers it and adds breathing room at the bottom */
+  border-radius: 24px !important; /* Rounds the corners to perfectly match the Home Page */
+  border: 1px solid var(--border) !important; 
+  min-height: auto !important;
+}
+
+/* 2. Small Laptop & Tablet Failsafe (Prevents the PDF from getting squished) */
+@media (max-width: 1024px) {
+  .detail-inner {
+    padding: 48px 40px 80px !important;
+  }
+  .detail-grid {
+    grid-template-columns: 1fr !important; /* Stacks the text on top of the PDF viewer */
+    gap: 56px !important;
+  }
+  .pdf-viewer-wrap {
+    max-width: 700px; /* Keeps the PDF a nice readable size */
+    margin: 0 auto; /* Centers the PDF block under the text */
+  }
+}
+
+/* 3. Mobile Phone Perfection (Snaps to edges to maximize reading space) */
+@media (max-width: 768px) {
+  .detail-inner {
+    width: 100% !important; /* Goes full width on phones */
+    border-radius: 0 !important; /* Removes rounded corners to sit flush */
+    border-left: none !important;
+    border-right: none !important;
+    padding: 40px 24px 80px !important; /* Shrinks the inner padding */
+  }
+}
