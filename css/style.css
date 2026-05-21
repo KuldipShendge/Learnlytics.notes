@@ -24,7 +24,15 @@
   --radius-sm: 12px;
 }
 
-html, body { height: 100%; overflow: hidden; background: var(--outer-bg); color: var(--text); font-family: 'DM Sans', sans-serif; }
+html, body { 
+  height: 100%; 
+  overflow: hidden; 
+  background-color: var(--outer-bg); 
+  background-image: linear-gradient(rgba(3, 27, 78, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(3, 27, 78, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  color: var(--text); 
+  font-family: 'DM Sans', sans-serif; 
+}
 
 /* ── PERSISTENT OUTER NAV ── */
 .outer-nav {
@@ -909,7 +917,6 @@ textarea:focus { border-color: var(--cyan); }
   }
 }
 
-
 /* ── DETAIL PAGE FONT SIZE FIX (LAPTOPS, TABLETS & MOBILE) ── */
 
 /* 1. Laptops and Smaller Monitors */
@@ -947,4 +954,90 @@ textarea:focus { border-color: var(--cyan); }
   .detail-footer h2 {
     font-size: 24px !important;
   }
+}
+/* ── FAQ & POLICIES ACCORDION UPGRADES ── */
+.faq-legal-section {
+  max-width: 800px;
+  margin: 64px auto 80px auto; /* Centers the block below pricing */
+  padding: 0 24px;
+}
+
+.faq-title {
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 32px;
+}
+
+.faq-item {
+  background: var(--box-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(3, 27, 78, 0.02);
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  border-color: var(--border2);
+}
+
+.faq-item[open] {
+  border-color: var(--cyan);
+  box-shadow: 0 4px 20px rgba(0, 180, 216, 0.08);
+}
+
+.faq-item summary {
+  padding: 20px 24px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none; /* Hides default triangle */
+}
+
+/* Hide default marker for Safari/older browsers */
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Custom + / x Icon */
+.faq-item summary::after {
+  content: '+';
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--cyan);
+  transition: transform 0.3s ease;
+  line-height: 1;
+}
+
+.faq-item[open] summary::after {
+  transform: rotate(45deg); /* Turns the + into an X */
+  color: var(--navy);
+}
+
+.faq-content {
+  padding: 0 24px 24px 24px;
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 15px;
+  font-weight: 500;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+  padding-top: 20px;
+}
+
+/* Mobile adjustment */
+@media (max-width: 768px) {
+  .faq-legal-section { margin-top: 48px; padding: 0 16px; }
+  .faq-title { font-size: 24px; margin-bottom: 24px; }
+  .faq-item summary { font-size: 15px; padding: 16px 20px; }
+  .faq-content { font-size: 14px; padding: 0 20px 20px 20px; }
 }
