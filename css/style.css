@@ -277,6 +277,33 @@ html, body {
 .pdf-viewer-wrap p {
   font-size: 14px; color: var(--muted); font-weight: 500; margin-bottom: 16px; width: 100%; text-align: left;
 }
+.video-section {
+  width: 100%;
+  margin-bottom: 24px;
+}
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 180px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: #0f172a;
+}
+.video-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.preview-copy {
+  font-weight: 700 !important;
+  color: var(--navy) !important;
+  margin-bottom: 12px !important;
+}
 .pdf-top-bar { width: 100%; display: flex; justify-content: flex-end; margin-bottom: 8px; }
 .btn-fullscreen {
   background: var(--box-bg); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px;
@@ -325,6 +352,67 @@ html, body {
   background: var(--navy); color: #fff; cursor: pointer; transition: all .2s; font-family: 'DM Sans', sans-serif;
 }
 .form-submit-full:hover { background: var(--cyan); transform: translateY(-1px); }
+
+.download-success {
+  max-width: 760px;
+  min-height: 520px;
+  margin: 0 auto;
+  padding: 96px 32px;
+  text-align: center;
+  background: var(--box-bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.download-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: rgba(0, 180, 216, 0.1);
+  border: 1px solid rgba(0, 180, 216, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  margin-bottom: 24px;
+}
+.download-success h1 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+.download-success p {
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.download-btn {
+  width: auto;
+  justify-content: center;
+  margin-top: 32px;
+  padding: 20px 40px;
+  font-size: 18px;
+}
+.download-help {
+  margin-top: 32px;
+  font-size: 15px !important;
+}
+.download-help a {
+  color: var(--blue);
+  font-weight: 800;
+  text-decoration: none;
+}
+.download-help a:hover {
+  color: var(--cyan);
+}
 
 .phases-wrap { margin-top: 80px; }
 .phases-title {
@@ -1040,4 +1128,136 @@ textarea:focus { border-color: var(--cyan); }
   .faq-title { font-size: 24px; margin-bottom: 24px; }
   .faq-item summary { font-size: 15px; padding: 16px 20px; }
   .faq-content { font-size: 14px; padding: 0 20px 20px 20px; }
+}
+
+/* ── DATA SCIENCE SUB-CHAPTER BOXES ── */
+.ds-sub-group {
+  margin-bottom: 20px;
+  padding: 24px;
+  background: var(--box-bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.ds-sub-group:last-child {
+  margin-bottom: 0;
+}
+.ds-sub-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ds-sub-desc {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+/* ── PREVENT COURSES MENU FROM HANGING DOWN ── */
+#courses-menu {
+  max-height: 100vh !important; 
+  overflow-y: auto !important; /* Adds a scrollbar if the menu is taller than the screen */
+  box-sizing: border-box !important;
+  padding-bottom: 24px !important; /* Gives breathing room at the bottom */
+}
+
+.subject-brief-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 12px;
+  background: var(--box-bg2);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  justify-content: center;
+}
+
+/* Course subject snapshot below quick-buy buttons */
+.preview-detail-grid {
+  align-items: stretch;
+}
+
+.preview-detail-grid .with-subject-map {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.subject-map {
+  width: 100%;
+  max-width: 480px;
+  min-height: 220px;
+  margin-top: 24px;
+  padding: 20px;
+  background: var(--box-bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03);
+  flex: 1;
+}
+
+.subject-map-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.subject-chip {
+  min-width: 0;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  background: var(--box-bg);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.subject-chip span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subject-logo {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(0, 180, 216, 0.1);
+  border: 1px solid rgba(0, 180, 216, 0.22);
+  color: var(--blue);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+@media (max-width: 768px) {
+  .preview-detail-grid .with-subject-map {
+    min-height: auto;
+  }
+  .subject-map {
+    min-height: auto;
+    flex: none;
+  }
 }
