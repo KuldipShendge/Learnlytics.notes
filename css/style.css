@@ -1333,3 +1333,69 @@ textarea:focus { border-color: var(--cyan); }
     bottom: 104px !important;
   }
 }
+
+/* Mobile detail pages must never create sideways drag */
+@media (max-width: 768px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden !important;
+  }
+
+  #detail-view {
+    overflow-x: hidden !important;
+  }
+
+  .detail-inner {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    overflow-x: hidden !important;
+  }
+
+  .detail-grid,
+  .preview-detail-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .detail-left,
+  .detail-right,
+  .detail-left > *,
+  .detail-right > *,
+  .quick-buy-stack,
+  .quick-buy-row,
+  .highlight-box,
+  .subject-map,
+  .pdf-viewer-wrap,
+  .price-block-container,
+  .price-card,
+  .reviews-section,
+  .faq-legal-section {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .detail-left h1,
+  .detail-left p,
+  .highlight-box,
+  .btn-quick,
+  .subject-chip,
+  .stat-item,
+  .topic-pill {
+    overflow-wrap: anywhere;
+  }
+
+  .detail-left .eyebrow {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .detail-back {
+    max-width: 100%;
+  }
+}
