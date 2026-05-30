@@ -75,7 +75,7 @@ function togglePhase(id) {
   card.classList.toggle('open');
 }
 
-// ── FREE NOTES MODAL LOGIC ──
+// ── FREE HANDBOOK MODAL LOGIC ──
 function openModal() {
   document.getElementById('modal').classList.add('open');
 }
@@ -109,12 +109,14 @@ function submitModalForm() {
   formData.append('name', name);
   formData.append('email', email);
   formData.append('phone', wa);
+  formData.append('fileLink', 'https://drive.google.com/file/d/1rHjdytHnAMnoK-Lj2JvCB7NQdmfQOnms/view?usp=sharing');
 
   fetch(scriptURL, {
     method: 'POST',
     body: formData
   })
   .then(response => {
+    if (!response.ok) throw new Error('Server error');
     document.getElementById('modal-form-content').style.display = 'none';
     document.getElementById('modal-success').style.display = 'block';
     btn.innerText = "Unlock My PDF"; 
@@ -166,6 +168,7 @@ function submitReviewForm() {
     body: formData
   })
   .then(response => {
+    if (!response.ok) throw new Error('Server error');
     document.getElementById('review-form-content').style.display = 'none';
     document.getElementById('review-success').style.display = 'block';
     btn.innerText = "Submit Review"; 
@@ -195,16 +198,6 @@ window.addEventListener('keydown', e => {
   if (e.key === 'ArrowUp') goTo(current - 1);
 });
 
-// NEW: Make direct shared links work!
-window.addEventListener('DOMContentLoaded', () => {
-  if (window.location.hash) {
-    const hashId = window.location.hash.substring(1); // Removes the '#' to get the ID
-    if (document.getElementById('course-' + hashId)) {
-      openDetail(hashId);
-    }
-  }
-});
-
 // Function to detect location and swap currency + payment links
 async function localizePrices() {
   try {
@@ -222,7 +215,7 @@ async function localizePrices() {
       document.querySelectorAll('.strike-basic').forEach(el => el.innerHTML = '$39');
       document.querySelectorAll('.strike-bundle').forEach(el => el.innerHTML = '$79');
       
-      // 3. Swap the Checkout Links for Gumroad/Stripe (Optional for later)
+      // 3. Swap the Checkout Links for Gumroad/Stripe (TODO: Enable after Razorpay international approval)
       // document.querySelectorAll('.link-basic, .quick-notes, .quick-qa').forEach(el => {
       //  el.href = 'https://your-global-link.com/basic'; 
       // });
@@ -235,4 +228,15 @@ async function localizePrices() {
   }
 }
 
-window.addEventListener('DOMContentLoaded', localizePrices);
+// Combined initialization: deep-link routing + price localization
+window.addEventListener('DOMContentLoaded', () => {
+  // Make direct shared links work
+  if (window.location.hash) {
+    const hashId = window.location.hash.substring(1);
+    if (document.getElementById('course-' + hashId)) {
+      openDetail(hashId);
+    }
+  }
+  // Detect location and swap currency
+  localizePrices();
+});
