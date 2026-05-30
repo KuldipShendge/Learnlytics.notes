@@ -75,6 +75,16 @@ function togglePhase(id) {
   card.classList.toggle('open');
 }
 
+// Scroll to a phase card and open it (triggered from subject-map chips)
+function scrollToPhase(id) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  if (!card.classList.contains('open')) {
+    card.classList.add('open');
+  }
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
 // ── FREE HANDBOOK MODAL LOGIC ──
 function openModal() {
   document.getElementById('modal').classList.add('open');
