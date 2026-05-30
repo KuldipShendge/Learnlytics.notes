@@ -113,7 +113,7 @@ function submitModalForm() {
   const btn = document.querySelector('.modal-submit');
   btn.innerText = "Processing...";
 
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbxpLmLgjZ2EmPOap7jPvmjB_-6QMM8MbefF6LId6iVGAIFv4gAFks1EEF9Cj_HKAjjK/exec';
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxl9TB50_VHlU_H6r6yCs33NNuzWU0VBqhWG5yXBbe7jwR4jMyd9zWbSj8AMGPRKgMy/exec';
 
   const formData = new URLSearchParams();
   formData.append('name', name);
@@ -165,7 +165,7 @@ function submitReviewForm() {
   const btn = document.querySelector('#review-form-content .modal-submit');
   btn.innerText = "Submitting...";
 
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbxpLmLgjZ2EmPOap7jPvmjB_-6QMM8MbefF6LId6iVGAIFv4gAFks1EEF9Cj_HKAjjK/exec';
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxl9TB50_VHlU_H6r6yCs33NNuzWU0VBqhWG5yXBbe7jwR4jMyd9zWbSj8AMGPRKgMy/exec';
 
   const formData = new URLSearchParams();
   formData.append('type', 'review'); 
