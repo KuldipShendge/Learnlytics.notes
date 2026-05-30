@@ -1364,7 +1364,7 @@ textarea:focus { border-color: var(--cyan); }
 /* Home slider controls: mobile swipe cue and card-adjacent dots */
 @media (max-width: 768px) {
   #main-stage {
-    padding: 100px 18px 150px !important;
+    padding: 100px 18px 70px !important;
   }
 
   .central-box {
@@ -1391,7 +1391,7 @@ textarea:focus { border-color: var(--cyan); }
   }
 
   .scroll-hint {
-    display: flex !important;
+    display: none !important;
     flex-direction: row !important;
     left: 50% !important;
     bottom: 96px !important;
@@ -1414,7 +1414,7 @@ textarea:focus { border-color: var(--cyan); }
 
 @media (max-width: 520px) {
   #main-stage {
-    padding: 104px 10px 148px !important;
+    padding: 104px 10px 70px !important;
   }
 
   .dots {
