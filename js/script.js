@@ -1,1507 +1,318 @@
+// ── SLIDER ──────────────────────────────
+const totalCourses = 3; 
+let current = 0, locked = false;
+const track = document.getElementById('track');
+const detailView = document.getElementById('detail-view');
+const homeFooter = document.getElementById('homeFooter');
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+function buildDots() {
+  const dotsEl = document.getElementById('dots');
+  dotsEl.innerHTML = '';
+  for(let i=0; i<totalCourses; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+}
 
-/* ── BRAND COLORS SYNCED WITH LOGO ── */
-:root {
-  --outer-bg: #f4f6f8;
-  --box-bg: #ffffff;
-  --box-bg2: #f0f4f8; 
-  --text: #374151;
-  --navy: #031b4e;     
-  --cyan: #00b4d8;     
-  --blue: #0066cc;     
-  --text-heading: var(--navy);
-  --muted: #6b7280;
-  --muted2: #9ca3af;
-  --border: rgba(3, 27, 78, 0.08);
-  --border2: rgba(3, 27, 78, 0.15);
+function goTo(n) {
+  if (locked) return;
+  if (detailView.classList.contains('open')) return;
+  locked = true;
+  current = Math.max(0, Math.min(totalCourses - 1, n));
+  track.style.transform = `translateY(-${current * 100}%)`;
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  const scrollHint = document.getElementById('scrollHint');
+  if(scrollHint) scrollHint.style.opacity = current === totalCourses - 1 ? '0' : '1';
+  setTimeout(() => locked = false, 800);
+}
+
+window.addEventListener('wheel', e => {
+  if (detailView.classList.contains('open') || document.getElementById('courses-menu').classList.contains('open')) return;
+  goTo(current + (e.deltaY > 0 ? 1 : -1));
+}, { passive: true });
+
+let touchStartY = 0;
+window.addEventListener('touchstart', e => touchStartY = e.touches[0].clientY, { passive: true });
+window.addEventListener('touchend', e => {
+  if (detailView.classList.contains('open') || document.getElementById('courses-menu').classList.contains('open')) return;
+  const dy = touchStartY - e.changedTouches[0].clientY;
+  if (Math.abs(dy) > 40) goTo(current + (dy > 0 ? 1 : -1));
+}, { passive: true });
+
+buildDots();
+
+// ── FULL WEBSITE MENU & DETAIL VIEWS ──
+function openCoursesMenu() {
+  document.getElementById('courses-menu').classList.add('open');
+}
+
+function closeCoursesMenu() {
+  document.getElementById('courses-menu').classList.remove('open');
+}
+
+function openDetail(courseId) {
+  document.querySelectorAll('.course-container').forEach(el => el.classList.remove('active'));
+  document.getElementById('course-' + courseId).classList.add('active');
+  detailView.classList.add('open');
+  homeFooter.style.display = 'none'; 
+  document.body.style.overflow = 'hidden'; 
+  detailView.scrollTop = 0; 
+  window.location.hash = courseId;
+}
+
+function closeDetail() {
+  detailView.classList.remove('open');
+  homeFooter.style.display = 'flex';
+  document.body.style.overflow = 'hidden'; // FIX: was 'auto', which broke the full-page slider after closing detail view
+  // NEW: Remove the hash from the URL when going back home
+  window.history.replaceState(null, null, window.location.pathname);
+}
+
+function togglePhase(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+// Scroll to a phase card and open it (triggered from subject-map chips)
+function scrollToPhase(id) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  if (!card.classList.contains('open')) {
+    card.classList.add('open');
+  }
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ── FREE HANDBOOK MODAL LOGIC ──
+let currentModalConfig = {
+  title: "Get Free SQL Handbook",
+  sub: "Enter your details below &mdash; we will send the handbook directly to your inbox. No spam, we promise.",
+  successMsg: "We just sent the free handbook directly to your inbox (check your spam folder just in case!).",
+  downloadText: "📄 Download Free SQL Handbook Now",
+  fileLink: "https://drive.google.com/file/d/1tg1D9w3WbXnH8scho_HbKwbqV6SG8tq0/view?usp=sharing",
+  subject: "📄 Your Free SQL Database Handbook — Learnlytics.handbook",
+  emailTitle: "Free SQL Database Handbook"
+};
+
+function openModal(type) {
+  const baseLink = window.location.origin;
   
-  --accent: var(--cyan);
-  --accent-hover: #0096b4;
-  --success: #10b981;
+  if (type === 'sql-questions') {
+    currentModalConfig = {
+      title: "Get Free SQL Questions Set",
+      sub: "Enter your details below &mdash; we will send the sample questions directly to your inbox. No spam, we promise.",
+      successMsg: "We just sent the free sample questions directly to your inbox (check your spam folder just in case!).",
+      downloadText: "📄 Download Free SQL Questions Now",
+      fileLink: "https://drive.google.com/file/d/1tg1D9w3WbXnH8scho_HbKwbqV6SG8tq0/view?usp=sharing",
+      subject: "📄 Your Free SQL Questions Set — Learnlytics.handbook",
+      emailTitle: "Free SQL Questions Set"
+    };
+  } else if (type === 'ds-handbook') {
+    currentModalConfig = {
+      title: "Get Free Machine Learning Handbook",
+      sub: "Enter your details below &mdash; we will send the handbook preview directly to your inbox.",
+      successMsg: "We just sent the free handbook preview directly to your inbox (check your spam folder just in case!).",
+      downloadText: "📄 Download ML Handbook Sample Now",
+      fileLink: baseLink + "/pdfs/ML-part01-handbook.pdf",
+      subject: "📄 Your Free Machine Learning Handbook Sample — Learnlytics.handbook",
+      emailTitle: "Free Machine Learning Handbook Sample"
+    };
+  } else if (type === 'ds-questions') {
+    currentModalConfig = {
+      title: "Get Free Machine Learning Questions Set",
+      sub: "Enter your details below &mdash; we will send the sample questions directly to your inbox.",
+      successMsg: "We just sent the free sample questions directly to your inbox (check your spam folder just in case!).",
+      downloadText: "📄 Download ML Questions Sample Now",
+      fileLink: baseLink + "/pdfs/ML-part01-que-handook.pdf",
+      subject: "📄 Your Free Machine Learning Questions Sample — Learnlytics.handbook",
+      emailTitle: "Free Machine Learning Questions Sample"
+    };
+  } else {
+    // Default: sql-handbook
+    currentModalConfig = {
+      title: "Get Free SQL Handbook",
+      sub: "Enter your details below &mdash; we will send the handbook directly to your inbox. No spam, we promise.",
+      successMsg: "We just sent the free handbook directly to your inbox (check your spam folder just in case!).",
+      downloadText: "📄 Download Free SQL Handbook Now",
+      fileLink: "https://drive.google.com/file/d/1tg1D9w3WbXnH8scho_HbKwbqV6SG8tq0/view?usp=sharing",
+      subject: "📄 Your Free SQL Database Handbook — Learnlytics.handbook",
+      emailTitle: "Free SQL Database Handbook"
+    };
+  }
+
+  // Swap modal DOM values
+  document.getElementById('modal-title').innerText = currentModalConfig.title;
+  document.getElementById('modal-sub').innerHTML = currentModalConfig.sub;
+  document.getElementById('modal-success-msg').innerText = currentModalConfig.successMsg;
   
-  --radius: 20px;
-  --radius-sm: 12px;
-  --home-box-max: 1100px;
+  const dlBtn = document.getElementById('modal-download-btn');
+  dlBtn.href = currentModalConfig.fileLink;
+  dlBtn.innerText = currentModalConfig.downloadText;
+
+  document.getElementById('modal').classList.add('open');
 }
 
-html, body { 
-  height: 100%; 
-  overflow: hidden; 
-  background-color: var(--outer-bg); 
-  background-image: linear-gradient(rgba(3, 27, 78, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(3, 27, 78, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  color: var(--text); 
-  font-family: 'DM Sans', sans-serif; 
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  setTimeout(() => {
+    document.getElementById('modal-form-content').style.display = 'block';
+    document.getElementById('modal-success').style.display = 'none';
+    document.getElementById('inp-name').value = '';
+    document.getElementById('inp-email').value = '';
+    document.getElementById('inp-wa').value = '';
+  }, 300);
 }
 
-/* ── PERSISTENT OUTER NAV ── */
-.outer-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 9000;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 24px 48px; background: var(--outer-bg); 
-  border-bottom: 1px solid transparent; transition: border-color 0.3s;
-}
-.outer-logo {
-  font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: 0.02em; color: var(--navy); 
-}
-.outer-logo span { color: var(--cyan); }
-
-.outer-links { display: flex; gap: 24px; align-items: center; }
-.outer-links a.nav-link {
-  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700;
-  color: var(--navy); text-decoration: none; transition: color .2s; 
-  cursor: pointer;
-}
-.outer-links a.nav-link:hover { color: var(--cyan); }
-
-.btn-help {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 10px 20px; border-radius: 99px; font-family: 'DM Sans', sans-serif;
-  font-size: 14px; font-weight: 700; background: var(--navy); color: #fff;
-  text-decoration: none; transition: all 0.2s;
-}
-.btn-help:hover { background: var(--cyan); transform: translateY(-1px); }
-
-/* ── MAIN STAGE ── */
-#main-stage {
-  position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; padding: 96px 48px 80px; 
-}
-
-.central-box {
-  position: relative; width: 100%; max-width: 1100px; height: 100%; max-height: 720px;
-  background: var(--box-bg); border-radius: var(--radius); border: 1px solid var(--border);
-  box-shadow: 0 10px 40px rgba(3, 27, 78, 0.05); overflow: hidden; display: flex; flex-direction: column;
-}
-.box-body { flex: 1; position: relative; overflow: hidden; }
-
-/* ── SLIDER ── */
-.slides-track {
-  display: flex; flex-direction: column; height: 100%; width: 100%;
-  transition: transform 0.75s cubic-bezier(0.77, 0, 0.175, 1);
-}
-.slide {
-  min-height: 100%; width: 100%; display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; position: relative; overflow: hidden;
-}
-.slide::before {
-  content: ''; position: absolute; inset: 0;
-  background-image: linear-gradient(rgba(3, 27, 78, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(3, 27, 78, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px; pointer-events: none;
-}
-.slide-content {
-  position: relative; z-index: 2; display: flex; flex-direction: column;
-  align-items: flex-start; text-align: left; padding: 0 48px; max-width: 760px;
-}
-.slide-orb {
-  position: absolute; right: 48px; top: 50%; transform: translateY(-50%);
-  width: 320px; height: 320px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, rgba(0, 180, 216, 0.08), transparent 60%);
-  pointer-events: none; z-index: 1;
-}
-.slide-orb::after {
-  content: ''; position: absolute; width: 8px; height: 8px; border-radius: 50%;
-  background: rgba(3, 27, 78, 0.15); top: 20%; right: 10%;
-}
-
-.slide-eyebrow {
-  font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 700;
-  letter-spacing: 0.2em; color: var(--blue); text-transform: uppercase;
-  margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
-}
-.slide-eyebrow::before { content: ''; display: block; width: 24px; height: 2px; background: var(--blue); }
-
-.slide-heading {
-  font-family: 'DM Sans', sans-serif; font-size: clamp(36px, 5vw, 64px); 
-  font-weight: 800; line-height: 1.1; color: var(--navy); margin-bottom: 20px;
-  letter-spacing: -0.02em;
-}
-.slide-desc {
-  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500;
-  line-height: 1.7; color: var(--muted); max-width: 650px; margin-bottom: 32px;
-}
-.conversion-copy {
-  max-width: 680px;
-  padding: 18px 20px;
-  background: linear-gradient(135deg, rgba(0, 180, 216, 0.12), rgba(255, 255, 255, 0.95));
-  border: 1px solid rgba(0, 180, 216, 0.28);
-  border-left: 5px solid var(--cyan);
-  border-radius: 10px;
-  color: var(--navy);
-  box-shadow: 0 10px 28px rgba(3, 27, 78, 0.08);
-}
-.conversion-copy strong {
-  color: var(--blue);
-  font-weight: 900;
-}
-.conversion-copy span {
-  display: inline-flex;
-  align-items: center;
-  margin-top: 8px;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: var(--navy);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 900;
-}
-
-/* Identical Size Hero Buttons Stack */
-.btn-stack {
-  display: flex; flex-direction: column; gap: 16px; width: 100%; max-width: 400px;
-}
-.btn-primary {
-  display: inline-flex; align-items: center; justify-content: space-between;
-  padding: 16px 28px; border-radius: 8px; font-family: 'DM Sans', sans-serif;
-  font-size: 16px; font-weight: 700; background: var(--cyan); color: #fff;
-  border: none; cursor: pointer; transition: all .2s; text-decoration: none;
-  box-shadow: 0 4px 14px rgba(0, 180, 216, 0.3); width: 100%;
-}
-.btn-primary.btn-navy { background: var(--navy); box-shadow: 0 4px 14px rgba(3, 27, 78, 0.2); }
-.btn-primary:hover { background: var(--navy); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(3, 27, 78, 0.2); }
-.btn-primary.btn-navy:hover { background: var(--cyan); box-shadow: 0 6px 20px rgba(0, 180, 216, 0.3); }
-.btn-primary svg { width: 20px; height: 20px; }
-
-/* ── DOT NAV & HINTS ── */
-.dots {
-  position: fixed;
-  right: max(16px, calc((100vw - min(var(--home-box-max), calc(100vw - 96px))) / 2 - 34px));
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2000; display: flex; flex-direction: column; gap: 12px;
-}
-.dot {
-  width: 10px; height: 10px; border-radius: 50%;
-  background: rgba(3, 27, 78, 0.15); cursor: pointer; transition: all .3s; border: 1.5px solid transparent;
-}
-.dot.active { background: var(--cyan); border-color: var(--cyan); transform: scale(1.3); }
-
-.scroll-hint {
-  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-  font-size: 12px; font-weight: 700; color: var(--muted2); letter-spacing: 0.1em;
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  z-index: 2000; animation: fadeUpDown 2s ease-in-out infinite; text-transform: uppercase;
-}
-@keyframes fadeUpDown {
-  0%,100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
-  50% { opacity: 1; transform: translateX(-50%) translateY(-6px); }
-}
-
-/* ── HOME FOOTER (SIDE-BY-SIDE LAYOUT) ── */
-.home-footer {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
-  display: flex; flex-direction: row; justify-content: space-between; align-items: center;
-  padding: 20px 48px; background: var(--outer-bg);
-  border-top: 1px solid var(--border);
-}
-.footer-copy { font-size: 14px; color: var(--navy); font-weight: 700; }
-.footer-socials { display: flex; gap: 24px; }
-.footer-socials a { transition: transform 0.2s; display: flex; align-items: center; }
-.footer-socials a:hover { transform: translateY(-2px); }
-.footer-socials svg { width: 24px; height: 24px; }
-
-/* ── COURSES OVERLAY MENU ── */
-#courses-menu {
-  position: fixed; inset: 0; z-index: 8000;
-  background: rgba(244, 246, 248, 0.95); backdrop-filter: blur(10px);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-}
-#courses-menu.open { opacity: 1; pointer-events: auto; }
-.courses-menu-inner {
-  width: 100%; max-width: 1200px; padding: 40px;
-}
-.courses-menu-title {
-  font-family: 'DM Sans', sans-serif; font-size: 36px; font-weight: 800; color: var(--navy);
-  margin-bottom: 40px; text-align: center;
-}
-.course-cards-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
-}
-.menu-card {
-  background: var(--box-bg); border: 1px solid var(--border); border-radius: 16px;
-  padding: 40px 32px; text-align: center; cursor: pointer; transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(3, 27, 78, 0.04); display: flex; flex-direction: column; align-items: center;
-}
-.menu-card:hover { border-color: var(--cyan); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0, 180, 216, 0.1); }
-.menu-card .c-icon { font-size: 40px; margin-bottom: 20px; }
-.menu-card h3 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 8px; line-height: 1.2;}
-.menu-card p { font-size: 15px; color: var(--muted); font-weight: 500; margin-bottom: 24px; }
-
-.card-tech-logos {
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: auto; margin-bottom: 24px;
-}
-.tech-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700;
-  padding: 6px 12px; border-radius: 6px; background: var(--box-bg2);
-  border: 1px solid var(--border2); color: var(--navy);
-}
-.tech-badge svg { width: 14px; height: 14px; flex-shrink: 0; }
-
-.badge.live-now {
-  display: inline-flex; align-items: center; justify-content: center;
-  font-size: 14px; font-family: 'DM Sans', sans-serif; font-weight: 700;
-  background: var(--navy); color: #fff; padding: 10px 20px; border-radius: 99px;
-}
-.badge.coming-soon {
-  display: inline-block; font-size: 11px; font-family: 'DM Mono', monospace;
-  background: var(--box-bg2); padding: 8px 16px; border-radius: 6px; color: var(--blue); font-weight: 700;
-}
-
-/* ── FULL WEBSITE COURSE DETAIL VIEW ── */
-#detail-view {
-  position: fixed; inset: 0; z-index: 5000;
-  background: var(--outer-bg); overflow-y: auto;
-  opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-  padding-top: 88px; 
-}
-#detail-view.open { opacity: 1; pointer-events: auto; }
-
-.detail-inner { 
-  max-width: 1200px; margin: 0 auto; background: var(--box-bg); 
-  min-height: 100vh; padding: 48px 64px 80px; 
-  box-shadow: 0 0 40px rgba(3, 27, 78, 0.03);
-}
-
-.course-container { display: none; }
-.course-container.active { display: block; }
-
-/* Fixed Single Line Back Button */
-.detail-back {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 14px; font-weight: 700; color: var(--navy); cursor: pointer;
-  background: var(--box-bg2); padding: 10px 20px; border-radius: 99px;
-  border: 1px solid var(--border); transition: all .2s; margin-bottom: 48px;
-  font-family: 'DM Sans', sans-serif; white-space: nowrap; width: max-content;
-}
-.detail-back:hover { background: var(--border); color: var(--cyan); }
-
-.detail-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: start; }
-.detail-left .eyebrow {
-  font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 700;
-  letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue); margin-bottom: 16px; display: flex; align-items: center;
-}
-.detail-left h1 {
-  font-family: 'DM Sans', sans-serif; font-size: clamp(40px, 5vw, 60px); 
-  font-weight: 800; line-height: 1.1; margin-bottom: 20px;
-}
-.detail-left p {
-  font-size: 17px; font-weight: 500; color: var(--muted); line-height: 1.7; max-width: 480px; margin-bottom: 24px;
-}
-.highlight-box {
-  background: rgba(0, 180, 216, 0.05); border: 1px solid rgba(0, 180, 216, 0.2);
-  padding: 16px 20px; border-radius: 8px; margin-top: 16px;
-  font-weight: 700; color: var(--blue); font-size: 16px; max-width: 480px; line-height: 1.5;
-}
-
-.pdf-viewer-wrap {
-  background: var(--box-bg2); border-radius: var(--radius-sm);
-  padding: 32px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center;
-}
-.pdf-viewer-wrap h3 {
-  font-family: 'DM Sans', sans-serif; font-size: 20px; font-weight: 800;
-  color: var(--navy); margin-bottom: 8px; width: 100%; text-align: left;
-}
-.pdf-viewer-wrap p {
-  font-size: 14px; color: var(--muted); font-weight: 500; margin-bottom: 16px; width: 100%; text-align: left;
-}
-.video-section {
-  width: 100%;
-  margin-bottom: 24px;
-}
-.video-wrapper {
-  position: relative;
-  width: 100%;
-  min-height: 180px;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: 8px;
-  border: 1px solid var(--border2);
-  background: #0f172a;
-}
-.video-wrapper iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
-}
-.preview-copy {
-  font-weight: 700 !important;
-  color: var(--navy) !important;
-  margin-bottom: 12px !important;
-}
-.conversion-callout {
-  width: 100%;
-  margin-bottom: 20px;
-  padding: 18px;
-  background: #fff;
-  border: 1px solid rgba(0, 180, 216, 0.3);
-  border-top: 5px solid var(--cyan);
-  border-radius: 10px;
-  box-shadow: 0 10px 28px rgba(3, 27, 78, 0.06);
-}
-.conversion-tag {
-  display: inline-flex;
-  align-items: center;
-  margin-bottom: 10px;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: var(--cyan);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.conversion-callout p {
-  margin: 0 !important;
-  color: var(--navy) !important;
-  font-size: 14px !important;
-  font-weight: 700 !important;
-  line-height: 1.55 !important;
-}
-.conversion-callout strong {
-  color: var(--blue);
-  font-weight: 900;
-}
-.conversion-callout p span {
-  display: block;
-  margin-top: 8px;
-  color: #fff;
-  background: var(--navy);
-  width: max-content;
-  max-width: 100%;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 900;
-}
-.pdf-top-bar { width: 100%; display: flex; justify-content: flex-end; margin-bottom: 8px; }
-.btn-fullscreen {
-  background: var(--box-bg); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px;
-  font-size: 12px; font-weight: 700; color: var(--navy); cursor: pointer; transition: all 0.2s;
-  display: inline-flex; align-items: center; gap: 6px; font-family: 'DM Sans', sans-serif;
-}
-.btn-fullscreen:hover { border-color: var(--cyan); color: var(--cyan); }
-
-.pdf-container {
-  width: 100%; height: 400px; background: #e5e7eb; border-radius: 8px;
-  margin-bottom: 24px; overflow: hidden; border: 1px solid var(--border2);
-  display: flex; align-items: center; justify-content: center;
-}
-/* ── FULLSCREEN PDF FIX ── */
-.pdf-container:fullscreen { 
-  width: 100vw !important; 
-  height: 100vh !important; 
-  max-width: 100% !important;
-  max-height: 100% !important;
-  background: #e5e7eb !important; 
-  padding: 0 !important; 
-  border: none !important; 
-  border-radius: 0 !important; 
-}
-.pdf-container:-webkit-full-screen { 
-  width: 100vw !important; 
-  height: 100vh !important; 
-  max-width: 100% !important;
-  max-height: 100% !important;
-  background: #e5e7eb !important; 
-  padding: 0 !important; 
-  border: none !important; 
-  border-radius: 0 !important; 
-}
-.pdf-container:fullscreen iframe,
-.pdf-container:-webkit-full-screen iframe {
-  width: 100% !important;
-  height: 100% !important;
-}
-.pdf-container iframe { width: 100%; height: 100%; border: none; }
-
-.form-submit-full {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 16px 24px; border-radius: 8px; width: 100%;
-  font-size: 16px; font-weight: 700; border: none; text-decoration: none;
-  background: var(--navy); color: #fff; cursor: pointer; transition: all .2s; font-family: 'DM Sans', sans-serif;
-}
-.form-submit-full:hover { background: var(--cyan); transform: translateY(-1px); }
-
-.download-success {
-  max-width: 760px;
-  min-height: 520px;
-  margin: 0 auto;
-  padding: 96px 32px;
-  text-align: center;
-  background: var(--box-bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.download-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 20px;
-  background: rgba(0, 180, 216, 0.1);
-  border: 1px solid rgba(0, 180, 216, 0.22);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 34px;
-  margin-bottom: 24px;
-}
-.download-success h1 {
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(36px, 5vw, 56px);
-  font-weight: 800;
-  line-height: 1.1;
-  color: var(--navy);
-  margin-bottom: 16px;
-}
-.download-success p {
-  max-width: 560px;
-  color: var(--muted);
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1.6;
-}
-.download-btn {
-  width: auto;
-  justify-content: center;
-  margin-top: 32px;
-  padding: 20px 40px;
-  font-size: 18px;
-}
-.download-help {
-  margin-top: 32px;
-  font-size: 15px !important;
-}
-.download-help a {
-  color: var(--blue);
-  font-weight: 800;
-  text-decoration: none;
-}
-.download-help a:hover {
-  color: var(--cyan);
-}
-
-.phases-wrap { margin-top: 80px; }
-.phases-title {
-  font-family: 'DM Sans', sans-serif; font-size: 40px; font-weight: 800;
-  color: var(--navy); margin-bottom: 32px; letter-spacing: -0.02em;
-}
-.phase-card {
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-  margin-bottom: 16px; overflow: hidden; transition: border-color .2s; background: var(--box-bg);
-}
-.phase-card:hover { border-color: var(--border2); box-shadow: 0 4px 12px rgba(3, 27, 78, 0.04); }
-.phase-header {
-  display: flex; align-items: center; gap: 20px; padding: 24px 28px; cursor: pointer; background: var(--box-bg2);
-}
-.phase-num { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 700; color: var(--cyan); min-width: 65px; }
-.phase-icon {
-  width: 48px; height: 48px; border-radius: 12px; background: rgba(0, 102, 204, 0.1); border: 1px solid rgba(0, 102, 204, 0.2);
-  display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; color: var(--blue);
-}
-.phase-header-text { flex: 1; }
-.phase-header-text h3 { font-size: 18px; font-weight: 800; margin-bottom: 4px; color: var(--navy); } 
-.phase-header-text p { font-size: 14px; font-weight: 500; color: var(--muted); } 
-.phase-chevron { font-size: 20px; color: var(--muted); transition: transform .3s; }
-.phase-card.open .phase-chevron { transform: rotate(180deg); }
-
-.phase-body { display: none; padding: 32px; border-top: 1px solid var(--border); }
-.phase-card.open .phase-body { display: block; }
-
-.phase-topics { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
-.topic-pill {
-  font-size: 14px; font-weight: 500; padding: 10px 18px; border-radius: 99px; 
-  background: var(--box-bg); border: 1px solid var(--border);
-  color: var(--text); display: flex; align-items: center; gap: 8px;
-  box-shadow: 0 2px 4px rgba(3, 27, 78, 0.02); transition: border-color .2s;
-}
-.topic-pill:hover { border-color: var(--cyan); }
-.topic-pill .dot-lvl { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.lvl-basic { background: var(--success); }
-.lvl-inter { background: var(--blue); }
-.lvl-adv { background: #e85d4a; }
-
-/* ── INTERVIEW LEVELS DESIGN ── */
-.interview-level {
-  background: var(--box-bg); border: 1px solid var(--border); border-radius: 12px;
-  padding: 24px; margin-bottom: 16px;
-}
-.interview-level h4 {
-  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 800; color: var(--navy); margin-bottom: 16px;
-}
-.level-stats {
-  display: flex; flex-wrap: wrap; gap: 12px;
-}
-.stat-item {
-  font-size: 13px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 8px;
-  background: var(--box-bg2); padding: 8px 14px; border-radius: 99px; border: 1px solid var(--border2);
-}
-.stat-item .dot-lvl { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-
-.unit-test {
-  background: linear-gradient(135deg, rgba(0, 180, 216, 0.05), rgba(0, 180, 216, 0.01));
-  border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 12px; padding: 24px; margin-top: 24px;
-}
-.unit-test-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-.unit-test-header .badge {
-  font-family: 'DM Mono', monospace; font-size: 12px; padding: 4px 12px; border-radius: 99px;
-  letter-spacing: 0.1em; background: var(--blue); color: #fff; font-weight: 700; text-transform: uppercase;
-}
-.unit-test-header h4 { font-size: 16px; font-weight: 800; color: var(--blue); } 
-.unit-test-grid { display: flex; gap: 48px; flex-wrap: wrap; align-items: center; }
-.test-item { text-align: center; }
-.test-item .count { font-family: 'DM Sans', sans-serif; font-size: 32px; font-weight: 800; color: var(--navy); line-height: 1; }
-.test-item .type { font-size: 14px; font-weight: 600; color: var(--muted); margin-top: 6px; } 
-
-/* ── PRICING CARDS ── */
-.detail-footer {
-  margin-top: 80px; text-align: center; padding: 64px 48px;
-  background: var(--box-bg2); border-radius: var(--radius-sm); border: 1px solid var(--border);
-}
-.detail-footer h2 { font-family: 'DM Sans', sans-serif; font-size: 36px; font-weight: 800; margin-bottom: 12px; color: var(--navy); }
-.detail-footer p { color: var(--muted); margin-bottom: 48px; font-size: 18px; font-weight: 500; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6; } 
-
-.price-block-container {
-  display: flex; gap: 24px; justify-content: center; align-items: stretch; flex-wrap: wrap; margin-bottom: 0;
-}
-.price-card {
-  background: var(--box-bg); border-radius: 16px; padding: 40px 24px;
-  width: 100%; max-width: 320px; box-shadow: 0 10px 30px rgba(3, 27, 78, 0.03);
-  display: flex; flex-direction: column; align-items: center; text-align: center; position: relative;
-  /* 299 Navy Border Applied Here */
-  border: 2px solid var(--navy);
-}
-.price-card.featured {
-  /* 499 Cyan Border Applied Here */
-  border: 2px solid var(--cyan); box-shadow: 0 16px 40px rgba(0, 180, 216, 0.12);
-  transform: translateY(-8px); position: relative;
-}
-.price-card.featured::before {
-  content: 'Best Value'; position: absolute; top: -12px; background: var(--cyan); color: #fff;
-  font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.1em;
-}
-
-.price-strike {
-  text-decoration: line-through; font-size: 22px; font-weight: 700; margin-bottom: 4px;
-  color: var(--navy); opacity: 0.6;
-}
-.discount-tag {
-  color: var(--success); font-weight: 800; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; background: rgba(16, 185, 129, 0.1); padding: 4px 10px; border-radius: 6px;
-}
-
-.price-card .amt { font-family: 'DM Sans', sans-serif; font-size: 48px; font-weight: 800; line-height: 1; margin-bottom: 16px; color: var(--navy); }
-.price-card .note { font-size: 15px; font-weight: 600; line-height: 1.5; margin-bottom: 32px; flex: 1; color: var(--navy); } 
-.price-card .note span { color: var(--navy); opacity: 0.85; }
-
-.price-card.featured .amt { color: var(--cyan); }
-.price-card.featured .note { color: var(--text); } 
-.price-card.featured .note span { color: var(--muted); opacity: 1; }
-
-/* ── MODAL ── */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 9999;
-  background: rgba(3, 27, 78, 0.6); backdrop-filter: blur(4px);
-  display: none; align-items: center; justify-content: center; padding: 24px;
-}
-.modal-overlay.open { display: flex; }
-.modal {
-  background: var(--box-bg); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 40px; width: 100%; max-width: 440px;
-  box-shadow: 0 20px 40px rgba(3, 27, 78, 0.15);
-}
-.modal h2 { font-family: 'DM Sans', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 8px; color: var(--navy); } 
-.modal .sub { font-size: 15px; color: var(--muted); margin-bottom: 32px; line-height: 1.6; } 
-.modal-field { margin-bottom: 20px; text-align: left; }
-.modal-field label { font-size: 12px; font-weight: 800; color: var(--muted); display: block; margin-bottom: 8px; letter-spacing: 0.05em; text-transform: uppercase; } 
-.modal-field input {
-  width: 100%; padding: 14px 16px; border-radius: 8px;
-  background: var(--box-bg2); border: 1px solid var(--border);
-  color: var(--navy); font-size: 15px; font-family: 'DM Sans', sans-serif; 
-  outline: none; transition: border-color .2s;
-}
-.modal-field input:focus { border-color: var(--cyan); }
-.modal-submit {
-  width: 100%; padding: 16px; border-radius: 8px; border: none;
-  background: var(--navy); color: #fff; font-size: 15px; font-weight: 700; 
-  cursor: pointer; transition: all .2s; margin-top: 12px; font-family: 'DM Sans', sans-serif;
-}
-.modal-submit:hover { background: var(--cyan); }
-.modal-privacy { font-size: 12px; color: var(--muted); text-align: center; margin-top: 16px; line-height: 1.5; } 
-.modal-close {
-  float: right; background: none; border: none; color: var(--muted);
-  cursor: pointer; font-size: 24px; line-height: 1; margin-top: -8px; margin-right: -8px;
-}
-.modal-close:hover { color: var(--navy); }
-
-.modal-success { display: none; text-align: center; padding: 12px 0; }
-.modal-success .check { font-size: 48px; color: var(--success); margin-bottom: 16px; }
-.modal-success h3 { font-family: 'DM Sans', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 8px; color: var(--navy); }
-.modal-success p { font-size: 15px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
-.modal-success .drive-link {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 16px 32px; border-radius: 8px;
-  background: var(--cyan); color: #fff; font-weight: 700; font-size: 15px;
-  text-decoration: none; transition: all .2s;
-}
-.modal-success .drive-link:hover { background: var(--navy); transform: translateY(-1px); }
-
-@media (max-width: 768px) {
-  .outer-nav { padding: 16px 24px; }
-  .outer-links .nav-link { display: none; }
-  #main-stage { padding: 80px 16px 64px; }
-  .central-box { max-height: none; border-radius: 14px; }
-  .slide-content { padding: 0 24px; max-width: 100%; }
-  .slide-orb { display: none; }
-  .slide-heading { font-size: 36px; }
-  .detail-inner { padding: 40px 24px 40px; }
-  .detail-grid { grid-template-columns: 1fr; gap: 40px; }
-  .phases-wrap { margin-top: 48px; }
-  .phases-title { font-size: 32px; }
-  .price-card.featured { transform: none; }
-  .course-cards-grid { grid-template-columns: 1fr; }
-  .dots { display: none; }
-  .home-footer { padding: 16px 24px; flex-direction: column-reverse; gap: 16px; }
-}
-
-/* ── REVIEWS SECTION ── */
-.reviews-section {
-  padding: 80px 48px;
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 10;
-  /* Adds space at the bottom so it doesn't hit the footer */
-  margin-bottom: 100px; 
-}
-.reviews-header { text-align: center; margin-bottom: 48px; }
-.reviews-header h2 { font-family: 'DM Sans', sans-serif; font-size: 36px; font-weight: 800; color: var(--navy); margin-bottom: 12px; }
-.reviews-header p { color: var(--muted); font-size: 16px; margin-bottom: 24px; font-weight: 500; }
-
-.reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
-}
-.review-card {
-  background: var(--box-bg);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 32px 24px;
-  box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03);
-  display: flex;
-  flex-direction: column;
-}
-.review-card .stars { color: #f59e0b; font-size: 20px; margin-bottom: 16px; letter-spacing: 2px; }
-.review-text { font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-weight: 500; flex: 1; }
-.review-author { font-weight: 800; color: var(--navy); font-size: 15px; }
-
-/* Textarea styling for the modal */
-textarea {
-  width: 100%; padding: 14px 16px; border-radius: 8px;
-  background: var(--box-bg2); border: 1px solid var(--border);
-  color: var(--navy); font-size: 15px; font-family: 'DM Sans', sans-serif; 
-  outline: none; transition: border-color .2s; resize: vertical;
-}
-textarea:focus { border-color: var(--cyan); }
-
-/* ── FIX FOR NAV BAR OVERLAP ── */
-#main-stage {
-  padding-top: 110px; /* Creates a bumper to push the box below the logo */
-  box-sizing: border-box; 
-}
-
-/* Extra adjustment for mobile phones */
-@media (max-width: 768px) {
-  #main-stage {
-    padding-top: 90px;
-  }
-  .central-box {
-    margin-top: 15px; /* Gives a little extra breathing room on small screens */
-  }
-}
-
-/* ── LAPTOP & SHORT SCREEN RESPONSIVENESS ── */
-@media (max-height: 850px), (max-width: 1366px) {
-  /* Forces a safe breathing space at the top so it never hits the ceiling */
-  .slide-content {
-    padding-top: 40px !important; 
-    padding-bottom: 40px !important;
-  }
+function submitModalForm() {
+  const name = document.getElementById('inp-name').value.trim();
+  const email = document.getElementById('inp-email').value.trim();
+  const wa = document.getElementById('inp-wa').value.trim();
   
-  /* Smoothly scales the giant text down a bit on smaller screens */
-  .slide-heading {
-    font-size: 44px !important; 
-    line-height: 1.1 !important;
-    margin-bottom: 16px !important;
+  if (!name || !email.includes('@') || wa.replace(/\D/g,'').length < 10) { 
+      alert('Please fill out all fields correctly.'); return; 
   }
+
+  const btn = document.querySelector('.modal-submit');
+  btn.innerText = "Processing...";
+
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxl9TB50_VHlU_H6r6yCs33NNuzWU0VBqhWG5yXBbe7jwR4jMyd9zWbSj8AMGPRKgMy/exec';
+
+  const formData = new URLSearchParams();
+  formData.append('name', name);
+  formData.append('email', email);
+  formData.append('phone', wa);
+  formData.append('fileLink', currentModalConfig.fileLink);
+  formData.append('subject', currentModalConfig.subject);
+  formData.append('emailTitle', currentModalConfig.emailTitle);
+
+  fetch(scriptURL, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('Server error');
+    document.getElementById('modal-form-content').style.display = 'none';
+    document.getElementById('modal-success').style.display = 'block';
+    btn.innerText = "Unlock My PDF"; 
+  })
+  .catch(error => {
+    alert('Error submitting form. Please try again.');
+    btn.innerText = "Unlock My PDF";
+  });
+}
+
+// ── REVIEW MODAL LOGIC ──
+function openReviewModal() {
+  document.getElementById('review-modal').classList.add('open');
+}
+
+function closeReviewModal() {
+  document.getElementById('review-modal').classList.remove('open');
+  setTimeout(() => {
+    document.getElementById('review-form-content').style.display = 'block';
+    document.getElementById('review-success').style.display = 'none';
+    document.getElementById('rev-name').value = '';
+    document.getElementById('rev-rating').value = '5';
+    document.getElementById('rev-text').value = '';
+  }, 300);
+}
+
+function submitReviewForm() {
+  const name = document.getElementById('rev-name').value.trim();
+  const rating = document.getElementById('rev-rating').value.trim();
+  const review = document.getElementById('rev-text').value.trim();
   
-  /* Pulls the description up slightly */
-  .slide-desc {
-    font-size: 15px !important;
-    margin-bottom: 24px !important;
+  if (!name || !review) { 
+      alert('Please fill out your name and your review.'); return; 
   }
-  
-  /* Tucks the buttons a little closer together */
-  .btn-stack {
-    gap: 12px !important;
-  }
-}
-/* ── FIX FOR DETAIL VIEW OVERLAP ── */
-#detail-view {
-  padding-top: 110px !important;
-  box-sizing: border-box;
-}
 
-/* Matches the mobile spacing for phones */
-@media (max-width: 768px) {
-  #detail-view {
-    padding-top: 90px !important;
-  }
-}
+  const btn = document.querySelector('#review-form-content .modal-submit');
+  btn.innerText = "Submitting...";
 
-/* ── RESPONSIVE LOGO FIX ── */
-.nav-logo {
-  height: 60px;        /* Your preferred large size */
-  width: auto;         /* Automatically calculates width so it never stretches */
-  max-width: 100%;     /* Prevents it from breaking the screen horizontally */
-  object-fit: contain; /* Keeps the image perfectly crisp */
-}
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxl9TB50_VHlU_H6r6yCs33NNuzWU0VBqhWG5yXBbe7jwR4jMyd9zWbSj8AMGPRKgMy/exec';
 
-/* ── INDESTRUCTIBLE BUMPER FOR ALL PAGES ── */
-#main-stage, #detail-view {
-  padding-top: 130px !important; /* A larger, safer gap for laptops and desktops */
+  const formData = new URLSearchParams();
+  formData.append('type', 'review'); 
+  formData.append('name', name);
+  formData.append('rating', rating);
+  formData.append('review', review);
+
+  fetch(scriptURL, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('Server error');
+    document.getElementById('review-form-content').style.display = 'none';
+    document.getElementById('review-success').style.display = 'block';
+    btn.innerText = "Submit Review"; 
+  })
+  .catch(error => {
+    alert('Error submitting review. Please try again.');
+    btn.innerText = "Submit Review";
+  });
 }
 
-/* ── SMART ADJUSTMENTS FOR PHONES ── */
-@media (max-width: 768px) {
-  .nav-logo {
-    height: 42px; /* Slightly shrinks the logo ONLY on phones so buttons still fit beautifully */
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (document.getElementById('modal').classList.contains('open')) {
+      closeModal();
+    } else if (document.getElementById('review-modal') && document.getElementById('review-modal').classList.contains('open')) {
+      closeReviewModal();
+    } else if (document.getElementById('courses-menu').classList.contains('open')) {
+      closeCoursesMenu();
+    } else if (detailView.classList.contains('open')) {
+      closeDetail();
+    }
   }
-  #main-stage, #detail-view {
-    padding-top: 100px !important; /* Perfect spacing for the slightly smaller phone logo */
-  }
-}
+  // FIX: added review-modal to guard — previously arrow keys could navigate slides while review modal was open
+  const reviewModal = document.getElementById('review-modal');
+  if (detailView.classList.contains('open') || document.getElementById('modal').classList.contains('open') || document.getElementById('courses-menu').classList.contains('open') || (reviewModal && reviewModal.classList.contains('open'))) return;
+  if (e.key === 'ArrowDown') goTo(current + 1);
+  if (e.key === 'ArrowUp') goTo(current - 1);
+});
 
-/* ── LAPTOP ASPECT RATIO FIX (Targets 1080p Laptops) ── */
-@media (max-height: 950px), (max-width: 1440px) {
-  :root {
-    --home-box-max: 940px;
-  }
-  .central-box {
-    max-width: 940px !important; /* Shrinks the box to restore perfect side margins */
-  }
-  .slide-orb {
-    width: 250px !important; 
-    height: 250px !important;
-    right: -10px !important; /* Tucks the circular graphic neatly into the smaller box */
-  }
-}
-
-/* Ensure it still looks good on smaller tablets/phones */
-@media (max-width: 768px) {
-  .central-box {
-    width: 92% !important; /* Gives back the space on mobile so text fits */
-  }
-}
-
-/* ── MOBILE HERO REPAIR ── */
-@media (max-width: 768px) {
-  /* Shrink the giant heading so it fits on 2-3 lines */
-  .slide-heading {
-    font-size: 30px !important; 
-    line-height: 1.15 !important;
-    margin-bottom: 12px !important;
-  }
-  
-  /* Tighten up the description text */
-  .slide-desc {
-    font-size: 14px !important;
-    line-height: 1.5 !important;
-    margin-bottom: 24px !important;
-  }
-
-  /* Make the buttons slightly more compact */
-  .btn-primary {
-    padding: 12px 20px !important;
-    font-size: 14px !important;
-  }
-  
-  /* Bring the buttons closer together */
-  .btn-stack {
-    gap: 12px !important;
-  }
-
-  /* Hide the overlapping 'SCROLL' arrow on mobile (users naturally swipe anyway) */
-  .scroll-hint {
-    display: none !important;
+// Function to detect location and swap currency + payment links
+async function localizePrices() {
+  try {
+    const response = await fetch('https://ipapi.co/json/');
+    const data = await response.json();
+    
+    // If they are NOT in India, swap everything to USD
+    if (data.country_code !== 'IN') {
+      
+      // 1. Update all Main Prices (in both the cards AND the top buttons)
+      document.querySelectorAll('.price-basic').forEach(el => el.innerHTML = '$19');
+      document.querySelectorAll('.price-bundle').forEach(el => el.innerHTML = '$29');
+      
+      // 2. Update the Crossed-Out (Strike) Prices in the cards
+      document.querySelectorAll('.strike-basic').forEach(el => el.innerHTML = '$39');
+      document.querySelectorAll('.strike-bundle').forEach(el => el.innerHTML = '$79');
+      
+      // 3. Swap the Checkout Links for Gumroad/Stripe (TODO: Enable after Razorpay international approval)
+      // document.querySelectorAll('.link-basic, .quick-notes, .quick-qa').forEach(el => {
+      //  el.href = 'https://your-global-link.com/basic'; 
+      // });
+      // document.querySelectorAll('.link-bundle, .quick-bundle').forEach(el => {
+      //  el.href = 'https://your-global-link.com/bundle';
+      // });
+    }
+  } catch (error) {
+    console.log("Location detection failed, defaulting to INR.", error);
   }
 }
 
-/* ── NAV BUTTON UPGRADES ── */
-.btn-courses {
-  display: inline-flex; align-items: center; justify-content: center;
-  padding: 10px 20px; border-radius: 99px; font-family: 'DM Sans', sans-serif;
-  font-size: 14px; font-weight: 700; background: var(--cyan); color: #fff;
-  text-decoration: none; transition: all 0.2s; cursor: pointer;
-}
-.btn-courses:hover { 
-  background: var(--navy); transform: translateY(-1px); 
-}
-
-/* ── FOOTER RESIZING (ALL VIEWS) ── */
-.footer-copy { 
-  font-size: 12px !important; 
-  font-weight: 600 !important; 
-}
-.footer-socials svg { 
-  width: 18px !important; 
-  height: 18px !important; 
-}
-
-/* ── MOBILE SPECIFIC UPGRADES (STACKED BUTTONS & TINY FOOTER) ── */
-@media (max-width: 768px) {
-  /* 1. Stacks the Nav Buttons Top & Bottom */
-  .outer-links {
-    flex-direction: column !important; /* Forces the top-and-bottom stack */
-    align-items: flex-end !important;  /* Aligns them cleanly to the right edge */
-    gap: 6px !important;               /* Space between the two buttons */
+// Combined initialization: deep-link routing + price localization
+window.addEventListener('DOMContentLoaded', () => {
+  // Make direct shared links work
+  if (window.location.hash) {
+    const hashId = window.location.hash.substring(1);
+    if (document.getElementById('course-' + hashId)) {
+      openDetail(hashId);
+    }
   }
-  
-  .btn-courses, .btn-help {
-    padding: 6px 14px !important;
-    font-size: 12px !important;
-    width: 100px !important;           /* Forces them to be exactly the same width for a clean look */
-    justify-content: center !important;
-  }
-
-  /* 2. Forces the Footer to be small on Mobile */
-  .footer-copy { 
-    font-size: 11px !important;        /* Extra small for mobile */
-    text-align: center !important;
-  }
-  
-  .footer-socials {
-    gap: 16px !important;              /* Brings icons closer together */
-    justify-content: center !important;
-  }
-  
-  .footer-socials svg { 
-    width: 16px !important;            /* Shrinks the social icons */
-    height: 16px !important; 
-  }
-}
-
-/* ── COURSES MENU SCROLL BUG FIX ── */
-#courses-menu {
-  overflow-y: auto !important;           /* Unlocks vertical scrolling */
-  justify-content: flex-start !important; /* Stops the top from getting cut off on small screens */
-  padding-top: 120px !important;         /* Pushes the content down safely below the Navigation Bar */
-  padding-bottom: 60px !important;       /* Gives some breathing room at the very bottom */
-}
-
-.courses-menu-inner {
-  margin: 0 auto auto auto !important;   /* Keeps it perfectly centered on desktop, but scrollable on mobile */
-}
-
-/* Slightly reduce the padding on mobile so it looks tighter */
-@media (max-width: 768px) {
-  #courses-menu {
-    padding-top: 100px !important;
-  }
-}
-
-/* ── MOBILE FOOTER HEIGHT FIX (SLIM CONTAINER) ── */
-@media (max-width: 768px) {
-  .home-footer {
-    padding: 12px 16px !important; /* Reduces the bulky top/bottom cushion */
-    gap: 8px !important;           /* Brings the social icons and text closer together */
-  }
-}
-
-/* ════════════════════════════════════════════════════════════
-   CROSS-DEVICE FIXES  (appended — do not edit above this line)
-   ════════════════════════════════════════════════════════════ */
-
-/* ── FIX 1: SCROLL HINT OVERLAP ON SHORT LAPTOP SCREENS ──────
-   Root cause: .scroll-hint is position:fixed; bottom:80px  
-   On 768-850px-tall laptops the box grows tall enough that  
-   bottom:80px lands inside the card, sitting on top of the  
-   second CTA button (visible in Friend 2 & Friend 3 laptops).
-   Solution: hide the hint below 780px viewport height.       
-   Users can still navigate with side dots or arrow keys.     */
-@media (max-height: 780px) {
-  .scroll-hint {
-    display: none !important;
-  }
-}
-
-/* ── FIX 2: NAV LOGO OVERFLOW ON ANDROID / SMALL PHONES ──────
-   Root cause: the logo <img> has an inline style="width:260px"
-   Inline styles beat normal CSS, so the .nav-logo class rules 
-   (width:auto) never apply. On a 375-400px Android screen:   
-     logo 260px + 48px padding + 2× button 100px = 508px      
-   → overflows the screen, clipping "Courses" and hiding      
-     "Need Help?" entirely (visible in Friend 1 Android shot). 
-   Solution: use !important to beat the inline style.         */
-@media (max-width: 520px) {
-  .outer-nav img {
-    max-width: 148px !important;   /* overrides inline width:260px */
-    width:     auto !important;
-    height:    40px !important;
-    object-fit: contain;
-  }
-  .outer-nav {
-    padding: 10px 14px !important; /* reclaim horizontal space    */
-  }
-  .btn-courses, .btn-help {
-    width: 90px !important;        /* slightly tighter pill width */
-    font-size: 11px !important;
-    padding: 5px 10px !important;
-  }
-}
-
-/* ── FIX 3: GIANT EMPTY SPACE AT TOP OF MOBILE SLIDES ────────
-   Root cause: .slide uses align-items:center which vertically  
-   centres content inside a full-viewport-height flex child.   
-   Slide 3 (one button, shorter text) leaves ~200px of dead    
-   space above the heading (visible in My Phone screenshot).   
-   The (max-width:1366px) rule also forces padding-top:40px    
-   with !important, compounding the empty gap on mobile.       
-   Solution: switch to flex-start on mobile so content reads   
-   naturally from the top, matching how images 2 & 4 look.    */
-@media (max-width: 768px) {
-  .slide {
-    align-items: flex-start !important;
-  }
-  .slide-content {
-    padding-top:    24px !important;  /* replaces the 40px !important */
-    padding-bottom: 24px !important;
-  }
-}
-
-/* ── QUICK BUY BUTTONS (UNDER HIGHLIGHT BOX) ── */
-.quick-buy-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 24px;
-  max-width: 480px; /* Matches the width of the highlight box above it */
-}
-
-.quick-buy-row {
-  display: flex;
-  gap: 12px;
-}
-
-.btn-quick {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 20px;
-  border-radius: 99px; /* Pill shape matching Nav buttons */
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: all 0.2s;
-  cursor: pointer;
-  text-align: center;
-}
-
-.btn-quick.btn-navy {
-  background: var(--navy);
-  color: #fff;
-  flex: 1; /* Forces both top buttons to be exactly 50% width */
-}
-
-.btn-quick.btn-navy:hover {
-  background: var(--cyan);
-  transform: translateY(-2px);
-}
-
-.btn-quick.btn-cyan {
-  background: var(--cyan);
-  color: #fff;
-  width: 100%; /* Forces the bottom button to span the whole width */
-}
-
-.btn-quick.btn-cyan:hover {
-  background: var(--navy);
-  transform: translateY(-2px);
-}
-
-/* ── MOBILE FIX FOR QUICK BUY ── */
-@media (max-width: 768px) {
-  .quick-buy-row {
-    flex-direction: column; /* Stacks the top two buttons neatly on small phone screens */
-  }
-}
-
-/* ── DETAIL PAGE (OTHER PAGES) RESPONSIVE UPGRADE ── */
-
-/* 1. Make the Detail View a Floating Premium Card on Desktop */
-.detail-inner {
-  width: 94% !important; /* Forces safe margins on the sides for laptops */
-  max-width: 1200px !important;
-  margin: 0 auto 80px auto !important; /* Centers it and adds breathing room at the bottom */
-  border-radius: 24px !important; /* Rounds the corners to perfectly match the Home Page */
-  border: 1px solid var(--border) !important; 
-  min-height: auto !important;
-}
-
-/* 2. Small Laptop & Tablet Failsafe (Prevents the PDF from getting squished) */
-@media (max-width: 1024px) {
-  .detail-inner {
-    padding: 48px 40px 80px !important;
-  }
-  .detail-grid {
-    grid-template-columns: 1fr !important; /* Stacks the text on top of the PDF viewer */
-    gap: 56px !important;
-  }
-  .pdf-viewer-wrap {
-    max-width: 700px; /* Keeps the PDF a nice readable size */
-    margin: 0 auto; /* Centers the PDF block under the text */
-  }
-}
-
-/* 3. Mobile Phone Perfection (Snaps to edges to maximize reading space) */
-@media (max-width: 768px) {
-  .detail-inner {
-    width: 100% !important; /* Goes full width on phones */
-    border-radius: 0 !important; /* Removes rounded corners to sit flush */
-    border-left: none !important;
-    border-right: none !important;
-    padding: 40px 24px 80px !important; /* Shrinks the inner padding */
-  }
-}
-
-/* ── DETAIL PAGE FONT SIZE FIX (LAPTOPS, TABLETS & MOBILE) ── */
-
-/* 1. Laptops and Smaller Monitors */
-@media (max-width: 1366px), (max-height: 850px) {
-  .detail-left h1 {
-    font-size: 38px !important; /* Overrides the massive 60px text */
-    line-height: 1.15 !important;
-    margin-bottom: 16px !important;
-  }
-  .detail-left p {
-    font-size: 15px !important; /* Shrinks the description */
-    max-width: 100% !important;
-  }
-  .phases-title {
-    font-size: 32px !important; /* Shrinks the 'Curriculum Breakdown' title */
-    margin-bottom: 24px !important;
-  }
-  .detail-footer h2 {
-    font-size: 28px !important; /* Shrinks the bottom footer title */
-  }
-  .detail-footer p {
-    font-size: 16px !important;
-  }
-}
-
-/* 2. Mobile Phones (Extra Shrink) */
-@media (max-width: 768px) {
-  .detail-left h1 {
-    font-size: 32px !important;
-  }
-  .phases-title {
-    font-size: 26px !important;
-    text-align: center !important;
-  }
-  .detail-footer h2 {
-    font-size: 24px !important;
-  }
-}
-/* ── FAQ & POLICIES ACCORDION UPGRADES ── */
-.faq-legal-section {
-  max-width: 800px;
-  margin: 64px auto 80px auto; /* Centers the block below pricing */
-  padding: 0 24px;
-}
-
-.faq-title {
-  text-align: center;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--navy);
-  margin-bottom: 32px;
-}
-
-.faq-item {
-  background: var(--box-bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  margin-bottom: 16px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(3, 27, 78, 0.02);
-  transition: all 0.3s ease;
-}
-
-.faq-item:hover {
-  border-color: var(--border2);
-}
-
-.faq-item[open] {
-  border-color: var(--cyan);
-  box-shadow: 0 4px 20px rgba(0, 180, 216, 0.08);
-}
-
-.faq-item summary {
-  padding: 20px 24px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--navy);
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  list-style: none; /* Hides default triangle */
-}
-
-/* Hide default marker for Safari/older browsers */
-.faq-item summary::-webkit-details-marker {
-  display: none;
-}
-
-/* Custom + / x Icon */
-.faq-item summary::after {
-  content: '+';
-  font-size: 24px;
-  font-weight: 400;
-  color: var(--cyan);
-  transition: transform 0.3s ease;
-  line-height: 1;
-}
-
-.faq-item[open] summary::after {
-  transform: rotate(45deg); /* Turns the + into an X */
-  color: var(--navy);
-}
-
-.faq-content {
-  padding: 0 24px 24px 24px;
-  color: var(--text);
-  line-height: 1.6;
-  font-size: 15px;
-  font-weight: 500;
-  border-top: 1px solid var(--border);
-  margin-top: 4px;
-  padding-top: 20px;
-}
-
-/* Mobile adjustment */
-@media (max-width: 768px) {
-  .faq-legal-section { margin-top: 48px; padding: 0 16px; }
-  .faq-title { font-size: 24px; margin-bottom: 24px; }
-  .faq-item summary { font-size: 15px; padding: 16px 20px; }
-  .faq-content { font-size: 14px; padding: 0 20px 20px 20px; }
-}
-
-/* ── DATA SCIENCE SUB-CHAPTER BOXES ── */
-.ds-sub-group {
-  margin-bottom: 20px;
-  padding: 24px;
-  background: var(--box-bg2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-}
-.ds-sub-group:last-child {
-  margin-bottom: 0;
-}
-.ds-sub-title {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--navy);
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.ds-sub-desc {
-  font-size: 14px;
-  color: var(--muted);
-  margin-bottom: 16px;
-  font-weight: 500;
-}
-
-/* ── PREVENT COURSES MENU FROM HANGING DOWN ── */
-#courses-menu {
-  max-height: 100vh !important; 
-  overflow-y: auto !important; /* Adds a scrollbar if the menu is taller than the screen */
-  box-sizing: border-box !important;
-  padding-bottom: 24px !important; /* Gives breathing room at the bottom */
-}
-
-.subject-brief-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 20px;
-  padding: 12px;
-  background: var(--box-bg2);
-  border-radius: 8px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--navy);
-  justify-content: center;
-}
-
-/* Course subject snapshot below quick-buy buttons */
-.preview-detail-grid {
-  align-items: stretch;
-}
-
-.preview-detail-grid .with-subject-map {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-}
-
-.subject-map {
-  width: 100%;
-  max-width: 480px;
-  min-height: 180px;
-  margin-top: 16px;
-  padding: 14px;
-  background: var(--box-bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03);
-  flex: 1;
-}
-
-.subject-map-title {
-  width: 100%;
-  margin-bottom: 10px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  line-height: 1.25;
-  font-weight: 900;
-  color: var(--navy);
-}
-
-.subject-map-grid {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.subject-chip {
-  min-width: 0;
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 7px 10px;
-  background: var(--box-bg);
-  border: 1px solid var(--border2);
-  border-radius: 8px;
-  color: var(--navy);
-  font-size: 13px;
-  font-weight: 800;
-  line-height: 1.2;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  user-select: none;
-}
-
-.subject-chip:hover {
-  background: rgba(0, 180, 216, 0.08);
-  border-color: var(--cyan);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 180, 216, 0.12);
-}
-
-.subject-chip:active {
-  transform: translateY(0);
-}
-
-.subject-chip span:last-child {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.subject-logo {
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  background: rgba(0, 180, 216, 0.1);
-  border: 1px solid rgba(0, 180, 216, 0.22);
-  color: var(--blue);
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  font-weight: 800;
-}
-
-.phase-mini-icon {
-  width: 19px;
-  flex-shrink: 0;
-  text-align: center;
-  font-size: 16px;
-  line-height: 1;
-}
-
-@media (max-width: 768px) {
-  .preview-detail-grid .with-subject-map {
-    min-height: auto;
-  }
-  .subject-map {
-    min-height: auto;
-    flex: none;
-  }
-}
-
-/* Home slider controls: mobile swipe cue and card-adjacent dots */
-@media (max-width: 768px) {
-  #main-stage {
-    padding: 100px 18px 70px !important;
-  }
-
-  .central-box {
-    width: 92% !important;
-    margin-top: 0 !important;
-    touch-action: pan-y;
-  }
-
-  .dots {
-    display: flex !important;
-    right: 5px !important;
-    top: 52% !important;
-    gap: 8px !important;
-    padding: 8px 5px;
-    border-radius: 999px;
-    background: rgba(244, 246, 248, 0.78);
-    backdrop-filter: blur(8px);
-    z-index: 2600;
-  }
-
-  .dot {
-    width: 8px !important;
-    height: 8px !important;
-  }
-
-  .scroll-hint {
-    display: none !important;
-    flex-direction: row !important;
-    left: 50% !important;
-    bottom: 96px !important;
-    padding: 7px 12px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.94);
-    border: 1px solid var(--border2);
-    box-shadow: 0 8px 24px rgba(3, 27, 78, 0.08);
-    color: var(--navy);
-    font-size: 10px !important;
-    gap: 6px !important;
-    z-index: 2700;
-    pointer-events: none;
-  }
-
-  .scroll-hint .arrow {
-    line-height: 1;
-  }
-}
-
-@media (max-width: 520px) {
-  #main-stage {
-    padding: 104px 10px 70px !important;
-  }
-
-  .dots {
-    right: 2px !important;
-  }
-
-  .scroll-hint {
-    bottom: 104px !important;
-  }
-}
-
-/* Mobile detail pages must never create sideways drag */
-@media (max-width: 768px) {
-  html,
-  body {
-    max-width: 100%;
-    overflow-x: hidden !important;
-  }
-
-  #detail-view {
-    overflow-x: hidden !important;
-  }
-
-  .detail-inner {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-    overflow-x: hidden !important;
-  }
-
-  .detail-grid,
-  .preview-detail-grid {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-
-  .detail-left,
-  .detail-right,
-  .detail-left > *,
-  .detail-right > *,
-  .quick-buy-stack,
-  .quick-buy-row,
-  .highlight-box,
-  .subject-map,
-  .pdf-viewer-wrap,
-  .price-block-container,
-  .price-card,
-  .reviews-section,
-  .faq-legal-section {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-  }
-
-  .detail-left h1,
-  .detail-left p,
-  .highlight-box,
-  .btn-quick,
-  .subject-chip,
-  .stat-item,
-  .topic-pill {
-    overflow-wrap: anywhere;
-  }
-
-  .detail-left .eyebrow {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .detail-back {
-    max-width: 100%;
-  }
-}
+  // Detect location and swap currency
+  localizePrices();
+});
