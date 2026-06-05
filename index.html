@@ -1,318 +1,2207 @@
-// ── SLIDER ──────────────────────────────
-const totalCourses = 3; 
-let current = 0, locked = false;
-const track = document.getElementById('track');
-const detailView = document.getElementById('detail-view');
-const homeFooter = document.getElementById('homeFooter');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 
-function buildDots() {
-  const dotsEl = document.getElementById('dots');
-  dotsEl.innerHTML = '';
-  for(let i=0; i<totalCourses; i++) {
-    const d = document.createElement('div');
-    d.className = 'dot' + (i === 0 ? ' active' : '');
-    d.onclick = () => goTo(i);
-    dotsEl.appendChild(d);
-  }
+<!-- SEO: Primary Meta Tags -->
+<title>Learnlytics.handbook — Premium Data Analyst & Data Science Handbooks | SQL, Python, Power BI, AI</title>
+<meta name="description" content="Become a job-ready Data & BI Analyst with 1800+ pages of structured handbooks and 2000+ interview questions. Master SQL, Python, Power BI, Tableau, Excel, Machine Learning, and AI-Era Analytics. Premium PDF handbooks for Data Analyst, Data Scientist & Gen AI Engineer career paths.">
+<meta name="keywords" content="data analyst handbook, data science handbook, SQL handbook, Python for data analysis, Power BI tutorial, Tableau guide, data analyst interview questions, data science interview questions, machine learning handbook, AI analytics, business intelligence, data engineering, job-ready data analyst, data analyst course, premium data handbook, Learnlytics, data analyst preparation, BI dashboards, Excel for analysts, Gen AI engineer">
+<meta name="author" content="Learnlytics.handbook">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<link rel="canonical" href="https://learnlyticshandbook.vercel.app/">
+
+<!-- SEO: Open Graph (Facebook, LinkedIn, WhatsApp) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://learnlyticshandbook.vercel.app/">
+<meta property="og:title" content="Learnlytics.handbook — Become Job-Ready Data & BI Analyst">
+<meta property="og:description" content="8 Subjects, 1800+ Pages, 2000+ Interview Questions. Master SQL, Python, Power BI, Tableau, Excel & AI. Premium structured handbooks for data careers.">
+<meta property="og:image" content="https://learnlyticshandbook.vercel.app/images/logo.png">
+<meta property="og:site_name" content="Learnlytics.handbook">
+<meta property="og:locale" content="en_IN">
+
+<!-- SEO: Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Learnlytics.handbook — Premium Data Analyst & Data Science Handbooks">
+<meta name="twitter:description" content="1800+ pages, 2000+ interview questions. Master SQL, Python, Power BI, AI. Get job-ready with structured premium handbooks.">
+<meta name="twitter:image" content="https://learnlyticshandbook.vercel.app/images/logo.png">
+
+<!-- Favicon -->
+<link rel="icon" href="images/Favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="images/Favicon.png">
+
+<!-- SEO: Structured Data — Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Learnlytics.handbook",
+  "url": "https://learnlyticshandbook.vercel.app",
+  "logo": "https://learnlyticshandbook.vercel.app/images/logo.png",
+  "email": "learnlytics.handbook@gmail.com",
+  "sameAs": [
+    "https://instagram.com/learnlytics.handbook",
+    "https://www.youtube.com/@Learnlyticshandbook",
+    "https://linkedin.com/company/learnlytics"
+  ],
+  "description": "Premium structured handbooks for Data Analyst, Data Scientist & Gen AI Engineer career paths."
 }
+</script>
 
-function goTo(n) {
-  if (locked) return;
-  if (detailView.classList.contains('open')) return;
-  locked = true;
-  current = Math.max(0, Math.min(totalCourses - 1, n));
-  track.style.transform = `translateY(-${current * 100}%)`;
-  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
-  const scrollHint = document.getElementById('scrollHint');
-  if(scrollHint) scrollHint.style.opacity = current === totalCourses - 1 ? '0' : '1';
-  setTimeout(() => locked = false, 800);
-}
-
-window.addEventListener('wheel', e => {
-  if (detailView.classList.contains('open') || document.getElementById('courses-menu').classList.contains('open')) return;
-  goTo(current + (e.deltaY > 0 ? 1 : -1));
-}, { passive: true });
-
-let touchStartY = 0;
-window.addEventListener('touchstart', e => touchStartY = e.touches[0].clientY, { passive: true });
-window.addEventListener('touchend', e => {
-  if (detailView.classList.contains('open') || document.getElementById('courses-menu').classList.contains('open')) return;
-  const dy = touchStartY - e.changedTouches[0].clientY;
-  if (Math.abs(dy) > 40) goTo(current + (dy > 0 ? 1 : -1));
-}, { passive: true });
-
-buildDots();
-
-// ── FULL WEBSITE MENU & DETAIL VIEWS ──
-function openCoursesMenu() {
-  document.getElementById('courses-menu').classList.add('open');
-}
-
-function closeCoursesMenu() {
-  document.getElementById('courses-menu').classList.remove('open');
-}
-
-function openDetail(courseId) {
-  document.querySelectorAll('.course-container').forEach(el => el.classList.remove('active'));
-  document.getElementById('course-' + courseId).classList.add('active');
-  detailView.classList.add('open');
-  homeFooter.style.display = 'none'; 
-  document.body.style.overflow = 'hidden'; 
-  detailView.scrollTop = 0; 
-  window.location.hash = courseId;
-}
-
-function closeDetail() {
-  detailView.classList.remove('open');
-  homeFooter.style.display = 'flex';
-  document.body.style.overflow = 'hidden'; // FIX: was 'auto', which broke the full-page slider after closing detail view
-  // NEW: Remove the hash from the URL when going back home
-  window.history.replaceState(null, null, window.location.pathname);
-}
-
-function togglePhase(id) {
-  const card = document.getElementById(id);
-  card.classList.toggle('open');
-}
-
-// Scroll to a phase card and open it (triggered from subject-map chips)
-function scrollToPhase(id) {
-  const card = document.getElementById(id);
-  if (!card) return;
-  if (!card.classList.contains('open')) {
-    card.classList.add('open');
-  }
-  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-// ── FREE HANDBOOK MODAL LOGIC ──
-let currentModalConfig = {
-  title: "Get Free SQL Handbook",
-  sub: "Enter your details below &mdash; we will send the handbook directly to your inbox. No spam, we promise.",
-  successMsg: "We just sent the free handbook directly to your inbox (check your spam folder just in case!).",
-  downloadText: "📄 Download Free SQL Handbook Now",
-  fileLink: "https://drive.google.com/file/d/1tg1D9w3WbXnH8scho_HbKwbqV6SG8tq0/view?usp=sharing",
-  subject: "📄 Your Free SQL Database Handbook — Learnlytics.handbook",
-  emailTitle: "Free SQL Database Handbook"
-};
-
-function openModal(type) {
-  const baseLink = window.location.origin;
-  
-  if (type === 'sql-questions') {
-    currentModalConfig = {
-      title: "Get Free SQL Questions Set",
-      sub: "Enter your details below &mdash; we will send the sample questions directly to your inbox. No spam, we promise.",
-      successMsg: "We just sent the free sample questions directly to your inbox (check your spam folder just in case!).",
-      downloadText: "📄 Download Free SQL Questions Now",
-      fileLink: "https://drive.google.com/file/d/1tg1D9w3WbXnH8scho_HbKwbqV6SG8tq0/view?usp=sharing",
-      subject: "📄 Your Free SQL Questions Set — Learnlytics.handbook",
-      emailTitle: "Free SQL Questions Set"
-    };
-  } else if (type === 'ds-handbook') {
-    currentModalConfig = {
-      title: "Get Free Machine Learning Handbook",
-      sub: "Enter your details below &mdash; we will send the handbook preview directly to your inbox.",
-      successMsg: "We just sent the free handbook preview directly to your inbox (check your spam folder just in case!).",
-      downloadText: "📄 Download ML Handbook Sample Now",
-      fileLink: baseLink + "/pdfs/ML-part01-handbook.pdf",
-      subject: "📄 Your Free Machine Learning Handbook Sample — Learnlytics.handbook",
-      emailTitle: "Free Machine Learning Handbook Sample"
-    };
-  } else if (type === 'ds-questions') {
-    currentModalConfig = {
-      title: "Get Free Machine Learning Questions Set",
-      sub: "Enter your details below &mdash; we will send the sample questions directly to your inbox.",
-      successMsg: "We just sent the free sample questions directly to your inbox (check your spam folder just in case!).",
-      downloadText: "📄 Download ML Questions Sample Now",
-      fileLink: baseLink + "/pdfs/ML-part01-que-handook.pdf",
-      subject: "📄 Your Free Machine Learning Questions Sample — Learnlytics.handbook",
-      emailTitle: "Free Machine Learning Questions Sample"
-    };
-  } else {
-    // Default: sql-handbook
-    currentModalConfig = {
-      title: "Get Free SQL Handbook",
-      sub: "Enter your details below &mdash; we will send the handbook directly to your inbox. No spam, we promise.",
-      successMsg: "We just sent the free handbook directly to your inbox (check your spam folder just in case!).",
-      downloadText: "📄 Download Free SQL Handbook Now",
-      fileLink: "https://drive.google.com/file/d/1tg1D9w3WbXnH8scho_HbKwbqV6SG8tq0/view?usp=sharing",
-      subject: "📄 Your Free SQL Database Handbook — Learnlytics.handbook",
-      emailTitle: "Free SQL Database Handbook"
-    };
-  }
-
-  // Swap modal DOM values
-  document.getElementById('modal-title').innerText = currentModalConfig.title;
-  document.getElementById('modal-sub').innerHTML = currentModalConfig.sub;
-  document.getElementById('modal-success-msg').innerText = currentModalConfig.successMsg;
-  
-  const dlBtn = document.getElementById('modal-download-btn');
-  dlBtn.href = currentModalConfig.fileLink;
-  dlBtn.innerText = currentModalConfig.downloadText;
-
-  document.getElementById('modal').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('modal').classList.remove('open');
-  setTimeout(() => {
-    document.getElementById('modal-form-content').style.display = 'block';
-    document.getElementById('modal-success').style.display = 'none';
-    document.getElementById('inp-name').value = '';
-    document.getElementById('inp-email').value = '';
-    document.getElementById('inp-wa').value = '';
-  }, 300);
-}
-
-function submitModalForm() {
-  const name = document.getElementById('inp-name').value.trim();
-  const email = document.getElementById('inp-email').value.trim();
-  const wa = document.getElementById('inp-wa').value.trim();
-  
-  if (!name || !email.includes('@') || wa.replace(/\D/g,'').length < 10) { 
-      alert('Please fill out all fields correctly.'); return; 
-  }
-
-  const btn = document.querySelector('.modal-submit');
-  btn.innerText = "Processing...";
-
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbxl9TB50_VHlU_H6r6yCs33NNuzWU0VBqhWG5yXBbe7jwR4jMyd9zWbSj8AMGPRKgMy/exec';
-
-  const formData = new URLSearchParams();
-  formData.append('name', name);
-  formData.append('email', email);
-  formData.append('phone', wa);
-  formData.append('fileLink', currentModalConfig.fileLink);
-  formData.append('subject', currentModalConfig.subject);
-  formData.append('emailTitle', currentModalConfig.emailTitle);
-
-  fetch(scriptURL, {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => {
-    if (!response.ok) throw new Error('Server error');
-    document.getElementById('modal-form-content').style.display = 'none';
-    document.getElementById('modal-success').style.display = 'block';
-    btn.innerText = "Unlock My PDF"; 
-  })
-  .catch(error => {
-    alert('Error submitting form. Please try again.');
-    btn.innerText = "Unlock My PDF";
-  });
-}
-
-// ── REVIEW MODAL LOGIC ──
-function openReviewModal() {
-  document.getElementById('review-modal').classList.add('open');
-}
-
-function closeReviewModal() {
-  document.getElementById('review-modal').classList.remove('open');
-  setTimeout(() => {
-    document.getElementById('review-form-content').style.display = 'block';
-    document.getElementById('review-success').style.display = 'none';
-    document.getElementById('rev-name').value = '';
-    document.getElementById('rev-rating').value = '5';
-    document.getElementById('rev-text').value = '';
-  }, 300);
-}
-
-function submitReviewForm() {
-  const name = document.getElementById('rev-name').value.trim();
-  const rating = document.getElementById('rev-rating').value.trim();
-  const review = document.getElementById('rev-text').value.trim();
-  
-  if (!name || !review) { 
-      alert('Please fill out your name and your review.'); return; 
-  }
-
-  const btn = document.querySelector('#review-form-content .modal-submit');
-  btn.innerText = "Submitting...";
-
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbxl9TB50_VHlU_H6r6yCs33NNuzWU0VBqhWG5yXBbe7jwR4jMyd9zWbSj8AMGPRKgMy/exec';
-
-  const formData = new URLSearchParams();
-  formData.append('type', 'review'); 
-  formData.append('name', name);
-  formData.append('rating', rating);
-  formData.append('review', review);
-
-  fetch(scriptURL, {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => {
-    if (!response.ok) throw new Error('Server error');
-    document.getElementById('review-form-content').style.display = 'none';
-    document.getElementById('review-success').style.display = 'block';
-    btn.innerText = "Submit Review"; 
-  })
-  .catch(error => {
-    alert('Error submitting review. Please try again.');
-    btn.innerText = "Submit Review";
-  });
-}
-
-window.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    if (document.getElementById('modal').classList.contains('open')) {
-      closeModal();
-    } else if (document.getElementById('review-modal') && document.getElementById('review-modal').classList.contains('open')) {
-      closeReviewModal();
-    } else if (document.getElementById('courses-menu').classList.contains('open')) {
-      closeCoursesMenu();
-    } else if (detailView.classList.contains('open')) {
-      closeDetail();
+<!-- SEO: Structured Data — Product (Data Analyst Handbook) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Become Job-Ready Data & BI Analyst — Premium Handbook",
+  "description": "1800+ pages covering 8 subjects: Mathematics & Statistics, Excel, SQL & Databases, Python Analytics, BI Dashboards, Data Engineering, Storytelling & Domain Knowledge, AI-Era Analytics. Includes 2000+ interview questions.",
+  "brand": {
+    "@type": "Brand",
+    "name": "Learnlytics.handbook"
+  },
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Premium Handbook Only",
+      "price": "399",
+      "priceCurrency": "INR",
+      "availability": "https://schema.org/InStock",
+      "url": "https://learnlyticshandbook.vercel.app/#data-analyst"
+    },
+    {
+      "@type": "Offer",
+      "name": "Complete Bundle (Handbook + Interview Questions)",
+      "price": "699",
+      "priceCurrency": "INR",
+      "availability": "https://schema.org/InStock",
+      "url": "https://learnlyticshandbook.vercel.app/#data-analyst"
     }
-  }
-  // FIX: added review-modal to guard — previously arrow keys could navigate slides while review modal was open
-  const reviewModal = document.getElementById('review-modal');
-  if (detailView.classList.contains('open') || document.getElementById('modal').classList.contains('open') || document.getElementById('courses-menu').classList.contains('open') || (reviewModal && reviewModal.classList.contains('open'))) return;
-  if (e.key === 'ArrowDown') goTo(current + 1);
-  if (e.key === 'ArrowUp') goTo(current - 1);
-});
-
-// Function to detect location and swap currency + payment links
-async function localizePrices() {
-  try {
-    const response = await fetch('https://ipapi.co/json/');
-    const data = await response.json();
-    
-    // If they are NOT in India, swap everything to USD
-    if (data.country_code !== 'IN') {
-      
-      // 1. Update all Main Prices (in both the cards AND the top buttons)
-      document.querySelectorAll('.price-basic').forEach(el => el.innerHTML = '$19');
-      document.querySelectorAll('.price-bundle').forEach(el => el.innerHTML = '$29');
-      
-      // 2. Update the Crossed-Out (Strike) Prices in the cards
-      document.querySelectorAll('.strike-basic').forEach(el => el.innerHTML = '$39');
-      document.querySelectorAll('.strike-bundle').forEach(el => el.innerHTML = '$79');
-      
-      // 3. Swap the Checkout Links for Gumroad/Stripe (TODO: Enable after Razorpay international approval)
-      // document.querySelectorAll('.link-basic, .quick-notes, .quick-qa').forEach(el => {
-      //  el.href = 'https://your-global-link.com/basic'; 
-      // });
-      // document.querySelectorAll('.link-bundle, .quick-bundle').forEach(el => {
-      //  el.href = 'https://your-global-link.com/bundle';
-      // });
-    }
-  } catch (error) {
-    console.log("Location detection failed, defaulting to INR.", error);
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "150",
+    "bestRating": "5"
   }
 }
+</script>
 
-// Combined initialization: deep-link routing + price localization
-window.addEventListener('DOMContentLoaded', () => {
-  // Make direct shared links work
-  if (window.location.hash) {
-    const hashId = window.location.hash.substring(1);
-    if (document.getElementById('course-' + hashId)) {
-      openDetail(hashId);
+<!-- SEO: Structured Data — Product (Data Science Handbook) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Become Job-Ready Data Scientist & Gen AI Engineer — Premium Handbook",
+  "description": "Comprehensive handbook covering Mathematics, Python, EDA & Feature Engineering, Classical ML, Model Evaluation, Deep Learning, MLOps, and Generative AI & LLMs. Structured for 2026 industry standards.",
+  "brand": {
+    "@type": "Brand",
+    "name": "Learnlytics.handbook"
+  },
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Pre-Order Premium Handbook",
+      "price": "499",
+      "priceCurrency": "INR",
+      "availability": "https://schema.org/PreOrder",
+      "url": "https://learnlyticshandbook.vercel.app/#data-science"
+    },
+    {
+      "@type": "Offer",
+      "name": "Pre-Order Complete Bundle",
+      "price": "849",
+      "priceCurrency": "INR",
+      "availability": "https://schema.org/PreOrder",
+      "url": "https://learnlyticshandbook.vercel.app/#data-science"
     }
-  }
-  // Detect location and swap currency
-  localizePrices();
-});
+  ]
+}
+</script>
+
+<!-- SEO: Structured Data — FAQ Page -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How will I receive the handbook after payment?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Immediately after your payment is successful, you will be redirected to a secure download page. Additionally, an automated email containing your unique download link will be sent to your registered email address instantly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "I am from a non-technical background. Is this suitable for me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, absolutely. The handbook and roadmap are specifically designed assuming you have zero prior coding or technical experience. It breaks down complex skills like SQL and Python into beginner-friendly, sequential steps."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this bundle include actual courses or just PDFs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "These are comprehensive, structured digital handbooks (PDF format) from Learnlytics.handbook. Instead of selling you an expensive, bloated video course, this bundle provides the exact curriculum, facts, and step-by-step interview strategies you need to succeed."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=2.9">
+</head>
+<body>
+<svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+  <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#fd5949" />
+    <stop offset="50%" stop-color="#d6249f" />
+    <stop offset="100%" stop-color="#285AEB" />
+  </linearGradient>
+</svg>
+
+<nav class="outer-nav">
+  <a href="index.html">
+    <img src="images/Logo.png" alt="Learnlytics" style="height: 78px; width: 230px;">
+  </a>
+  <div class="outer-links">
+    <a class="btn-courses" onclick="openCoursesMenu()">Courses</a>
+    <a class="btn-help" onclick="openDetail('help')" style="cursor: pointer;">
+      Help &amp; FAQ
+    </a>
+  </div>
+</nav>
+
+<div id="courses-menu">
+  <div class="courses-menu-inner">
+    <div class="courses-menu-title">Explore Paths</div>
+    <div class="course-cards-grid">
+      
+      <div class="menu-card" onclick="openDetail('data-analyst'); closeCoursesMenu();">
+        <div class="c-icon">&#x1F4CA;</div>
+        <h3>Become Job-Ready Data &amp; BI Analyst</h3>
+        <p>Premium Handbook</p>
+        <div class="card-tech-logos">
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg> 
+            SQL
+          </span>
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><rect x="14" y="2" width="6" height="20"/><rect x="8" y="8" width="6" height="14"/><rect x="2" y="14" width="6" height="8"/></svg>
+            PowerBI
+          </span>
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="4" r="2"/><circle cx="12" cy="20" r="2"/><circle cx="4" cy="12" r="2"/><circle cx="20" cy="12" r="2"/></svg>
+            Tableau
+          </span>
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2h12c1.1 0 2-.9 2-2V8l-6-6zm-2 14.5l-2-3-2 3H6.5l2.75-3.75L6.5 9H8l2 3 2-3h1.5l-2.75 3.75L13.5 16.5H12zM13 9V3.5L18.5 9H13z"/></svg>
+            Excel
+          </span>
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-5.5 0-5.5 2.5-5.5 2.5v2.5h5.5v1.5H6.5c-3 0-3 3-3 3s0 3 3 3h1v-2.5c0-3 2.5-3 5.5-3h3.5v-2.5c0-3.5-1.5-4-4.5-4z"/><path d="M12 22c5.5 0 5.5-2.5 5.5-2.5v-2.5h-5.5v-1.5h5.5c3 0 3-3 3-3s0-3-3-3h-1v2.5c0 3-2.5 3-5.5 3H8.5v2.5c0 3.5 1.5 4 4.5 4z"/></svg>
+            Python
+          </span>
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.5 17c-2 1.5-4.5 2-7 1.5-1.5-.5-3-1.5-4-3 1.5 1 3 1.5 4.5 1.5 2-.5 4-1.5 5.5-3 .5 1 .5 2 1 3z"/></svg>
+            AWS
+          </span>
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12L2.5 7M12 12l9.5-5"/></svg>
+            ChatGPT
+          </span>
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3" fill="#fff"/></svg>
+            Claude
+          </span>
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2z"/></svg>
+            Gemini
+          </span>
+        </div>
+        <span class="badge live-now">Live Now</span>
+      </div>
+      
+      <div class="menu-card" onclick="openDetail('data-science'); closeCoursesMenu();">
+        <div class="c-icon">&#x1F916;</div>
+        <h3>Become Job-Ready Data Scientist &amp; Gen AI Engineer</h3>
+        <p>Premium Handbook</p>
+        <div class="card-tech-logos">
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-5.5 0-5.5 2.5-5.5 2.5v2.5h5.5v1.5H6.5c-3 0-3 3-3 3s0 3 3 3h1v-2.5c0-3 2.5-3 5.5-3h3.5v-2.5c0-3.5-1.5-4-4.5-4z"/><path d="M12 22c5.5 0 5.5-2.5 5.5-2.5v-2.5h-5.5v-1.5h5.5c3 0 3-3 3-3s0-3-3-3h-1v2.5c0 3-2.5 3-5.5 3H8.5v2.5c0 3.5 1.5 4 4.5 4z"/></svg>
+            Python
+          </span>
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12L2.5 7M12 12l9.5-5"/></svg>
+            ChatGPT
+          </span>
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3" fill="#fff"/></svg>
+            Claude
+          </span>
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2z"/></svg>
+            Gemini
+          </span>
+        </div>
+        <span class="badge coming-soon">Coming Soon</span>
+      </div>
+      
+      <div class="menu-card" onclick="openDetail('data-engineering'); closeCoursesMenu();">
+        <div class="c-icon">&#x2699;&#xFE0F;</div>
+        <h3>Complete Data Engineer</h3>
+        <p>Premium Handbook</p>
+        <div class="card-tech-logos">
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.5 17c-2 1.5-4.5 2-7 1.5-1.5-.5-3-1.5-4-3 1.5 1 3 1.5 4.5 1.5 2-.5 4-1.5 5.5-3 .5 1 .5 2 1 3z"/></svg>
+            AWS
+          </span>
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg> 
+            SQL
+          </span>
+          <span class="tech-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-5.5 0-5.5 2.5-5.5 2.5v2.5h5.5v1.5H6.5c-3 0-3 3-3 3s0 3 3 3h1v-2.5c0-3 2.5-3 5.5-3h3.5v-2.5c0-3.5-1.5-4-4.5-4z"/><path d="M12 22c5.5 0 5.5-2.5 5.5-2.5v-2.5h-5.5v-1.5h5.5c3 0 3-3 3-3s0-3-3-3h-1v2.5c0 3-2.5 3-5.5 3H8.5v2.5c0 3.5 1.5 4 4.5 4z"/></svg>
+            Python
+          </span>
+        </div>
+        <span class="badge coming-soon">Coming Soon</span>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:32px;">
+      <a style="cursor:pointer; color:var(--muted); font-weight:700; text-decoration:none;" onclick="closeCoursesMenu()">&#x2715; Close Menu</a>
+    </div>
+  </div>
+</div>
+
+<div id="main-stage">
+  <div class="central-box" id="centralBox">
+    <div class="box-body" id="boxBody">
+      <div class="slides-track" id="track">
+
+        <div class="slide">
+          <div class="slide-orb"></div>
+          <div class="sparkle" style="top:15%;left:8%;"></div>
+          <div class="sparkle" style="top:25%;left:12%;"></div>
+          <div class="sparkle" style="top:65%;left:6%;"></div>
+          <div class="slide-content">
+            <div class="slide-eyebrow" style="align-items: center;">
+              Premium Comprehensive Handbook
+              <span style="background: var(--navy); color: #fff; padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-left: 8px;">Live Now</span>
+            </div>
+            
+            <div class="slide-heading">
+              <span style="color: var(--navy);">Become Job-Ready</span><br>
+              <span style="color: var(--cyan);">Data &amp; BI Analyst</span>
+            </div>
+
+            <div class="slide-desc conversion-copy">
+              <strong>Complete Industry-Ready Data Analyst Toolkit:</strong> 8 Subjects, 1800+ Pages, and 1500+ Interview Questions. Master the exact technical skills the industry demands&mdash;from Statistics and SQL to Power BI and AI. <span>Market Value: &#x20B9;2,500. Launch Price: &#x20B9;699.</span>
+            </div>
+            
+            <div class="btn-stack">
+              <button class="btn-primary" onclick="openDetail('data-analyst')">
+                Explore Premium Handbook
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+              <button class="btn-primary btn-navy" onclick="openDetail('data-analyst-questions')">
+                Interview Questions Structure
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="slide-orb" style="background:radial-gradient(circle at 35% 35%, rgba(0, 180, 216, 0.08), transparent 60%);"></div>
+          <div class="slide-content">
+            <div class="slide-eyebrow">Advanced Path &mdash; Coming Soon</div>
+            <div class="slide-heading">
+              <span style="color: var(--navy);">Become Job-Ready</span><br>
+              <span style="color: var(--cyan);">Data Scientist &amp; Gen AI Engineer</span>
+            </div>
+            <div class="slide-desc">
+              The blueprint to building intelligent systems. Master Machine Learning algorithms, Deep Learning architecture, and the latest in Generative AI prompting and modeling.
+            </div>
+            <div class="btn-stack">
+              <button class="btn-primary" onclick="openDetail('data-science')">
+                Explore Premium Handbook
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+              <button class="btn-primary btn-navy" onclick="openDetail('data-science-questions')">
+                Interview Questions Structure
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="slide-orb" style="background:radial-gradient(circle at 35% 35%, rgba(0, 102, 204, 0.08), transparent 60%);"></div>
+          <div class="slide-content">
+            <div class="slide-eyebrow">Infrastructure Path &mdash; Coming Soon</div>
+            <div class="slide-heading">
+              <span style="color: var(--navy);">Complete Data Engineer:</span><br>
+              <span style="color: var(--cyan);">Premium Handbook</span>
+            </div>
+            <div class="slide-desc">
+              Build the pipelines that power the modern data stack. Comprehensive architecture handbook covering Apache Spark, Airflow, dbt, Cloud Warehousing, and streaming data.
+            </div>
+            <div class="slide-buttons">
+              <button class="btn-primary" onclick="openDetail('data-engineering')">Preview Premium Handbook <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="dots" id="dots"></div>
+<div class="scroll-hint" id="scrollHint">
+  <span class="arrow">↓</span>
+  <span>scroll</span>
+</div>
+
+
+<div class="home-footer" id="homeFooter">
+  <div class="footer-copy">&copy; 2026 Learnlytics.handbook. All rights reserved.</div>
+  <div class="footer-socials">
+        <a href="https://instagram.com/learnlytics.handbook" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="url(#ig-grad)" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+    </a>
+        <a href="https://www.youtube.com/@Learnlyticshandbook" target="_blank" aria-label="YouTube">
+      <svg viewBox="0 0 24 24" fill="#FF0000" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#ffffff"></polygon></svg>
+    </a>
+    <a href="https://linkedin.com/company/learnlytics" target="_blank" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="#0A66C2" stroke="#0A66C2" stroke-width="0" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" stroke="#fff" stroke-width="1.5"></path><rect x="2" y="9" width="4" height="12" stroke="#fff" stroke-width="1.5"></rect><circle cx="4" cy="4" r="2" stroke="#fff" stroke-width="1.5"></circle></svg>
+    </a>
+  </div>
+</div>
+
+<div id="detail-view">
+  <div class="detail-inner">
+
+    <button class="detail-back" onclick="closeDetail()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3L5 8l5 5"/></svg>
+      Back to Home
+    </button>
+
+    <div id="course-data-analyst" class="course-container">
+      <div class="detail-grid preview-detail-grid">
+        <div class="detail-left with-subject-map">
+          <div class="eyebrow" style="align-items: center;">
+            Premium Comprehensive Handbook
+            <span style="background: var(--navy); color: #fff; padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-left: 8px;">Live Now</span>
+          </div>
+          <h1>
+            <span style="color: var(--navy);">Become Job-Ready</span><br>
+            <span style="color: var(--cyan);">Data &amp; BI Analyst</span>
+          </h1>
+          <p>Complete structured premium handbook designed for absolute beginners to transform into job-ready Data & BI Analysts. Skip the endless video tutorials and learn exactly what you need to clear technical interviews.</p>
+          <div class="highlight-box">
+            Contains over 2000+ Interview and Scenario based Questions, meticulously structured Unit-Wise for every single subject.
+          </div>
+		  
+          
+          <div class="quick-buy-stack">
+            <div class="quick-buy-row">
+              <a href="https://rzp.io/rzp/7gKjrQ1R" target="_blank" rel="noopener noreferrer" class="btn-quick btn-navy quick-notes">Get Premium Handbook &mdash; <span class="price-basic">&#x20B9;399</span></a>
+              <a href="https://rzp.io/rzp/BnUho1gl" target="_blank" rel="noopener noreferrer" class="btn-quick btn-navy quick-qa">Get Q&A Set &mdash; <span class="price-basic">&#x20B9;399</span></a>
+            </div>
+            <a href="https://rzp.io/rzp/S2y4eZ3" target="_blank" rel="noopener noreferrer" class="btn-quick btn-cyan quick-bundle">🚀 Unlock Complete Bundle &mdash; <span class="price-bundle">&#x20B9;699</span></a>
+         
+		  </div>
+          <div class="subject-map" aria-label="Data Analyst bundle subjects">
+            <h3 class="subject-map-title">Curriculum Breakdown &mdash; All 8 Phases</h3>
+            <div class="subject-map-grid">
+              <div class="subject-chip" onclick="scrollToPhase('ph1-n')"><span class="subject-logo">01</span><span class="phase-mini-icon">&#x1F4D0;</span><span>Math &amp; Stats</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph2-n')"><span class="subject-logo">02</span><span class="phase-mini-icon">&#x1F4CA;</span><span>Excel</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph3-n')"><span class="subject-logo">03</span><span class="phase-mini-icon">&#x1F5C3;</span><span>SQL &amp; DBs</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph4-n')"><span class="subject-logo">04</span><span class="phase-mini-icon">&#x1F40D;</span><span>Python Analytics</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph5-n')"><span class="subject-logo">05</span><span class="phase-mini-icon">&#x1F4C8;</span><span>BI Dashboards</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph6-n')" title="Data Engineering Fundamentals"><span class="subject-logo">06</span><span class="phase-mini-icon">&#x2699;&#xFE0F;</span><span>Data Engg.</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph7-n')" title="Storytelling &amp; Domain Knowledge"><span class="subject-logo">07</span><span class="phase-mini-icon">&#x1F3AF;</span><span>Story &amp; Domain</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph8-n')"><span class="subject-logo">08</span><span class="phase-mini-icon">&#x1F916;</span><span>AI-Era Analytics</span></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="detail-right">
+		
+<div class="pdf-viewer-wrap">
+  <div class="conversion-callout">
+    <span class="conversion-tag">Launch Offer</span>
+    <p><strong>Complete Industry-Ready Data Analyst Toolkit:</strong> 8 Subjects, 1800+ Pages, and 1500+ Interview Questions. Master the exact technical skills the industry demands&mdash;from Statistics and SQL to Power BI and AI. <span>Market Value: &#x20B9;2,500. Launch Price: &#x20B9;699.</span></p>
+  </div>
+  <h3>Try before you buy.</h3>
+  
+  <div class="video-section">
+    <div class="video-wrapper">
+      <iframe src="" 
+              title="How to use the Learnlytics handbook"
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+  <p class="preview-copy">View our SQL database premium handbook right here. No sign-up required.</p>
+  
+  <div class="pdf-top-bar"><a href="pdfs/sql-handbook.pdf" target="_blank" class="btn-fullscreen" style="text-decoration: none;">&#x26F6; Open Full Screen</a></div>
+  <div class="pdf-container" id="pdf-container-1">
+    <iframe src="pdfs/sql-handbook.pdf#toolbar=0" title="Free SQL Handbook Preview"></iframe>
+  </div>
+  <button class="form-submit-full" onclick="openModal('sql-handbook')">&#x2B07; Get Free Full SQL Database Handbook</button>
+</div>
+        </div>
+      </div>
+
+      <div class="phases-wrap">
+        <p class="phases-title">Curriculum Breakdown &mdash; All 8 Phases</p>
+
+        <div class="phase-card" id="ph1-n">
+          <div class="phase-header" onclick="togglePhase('ph1-n')">
+            <span class="phase-num">Phase 01</span>
+            <div class="phase-icon">&#x1F4D0;</div>
+            <div class="phase-header-text">
+              <h3>Mathematics &amp; Statistics</h3>
+              <p>The core logic required for analytical thinking and testing.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="phase-topics">
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Descriptive Statistics</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Probability Foundations</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Probability Distributions</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Normal Distribution</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Central Limit Theorem</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Hypothesis Testing</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Confidence Intervals</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> A/B Testing</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Correlation & Regression</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Analysis of Variance (ANOVA)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Time Series Statistics</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Bayes Theorem Basics</div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Comprehensive Set</span><h4>Phase 1 Comprehensive Handbook</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">400+</div><div class="type">Pages Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph2-n">
+          <div class="phase-header" onclick="togglePhase('ph2-n')">
+            <span class="phase-num">Phase 02</span>
+            <div class="phase-icon">&#x1F4CA;</div>
+            <div class="phase-header-text">
+              <h3>Excel &amp; Google Sheets</h3>
+              <p>Mastering the universal tool for data cleaning and initial analysis.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="phase-topics">
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> The Foundation (Data Cleaning & Validation)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Connecting Data (VLOOKUP, XLOOKUP)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Summarizing at Scale (Pivot Tables)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Modern Logic (Dynamic Arrays & SUMPRODUCT)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> The "Engine" (Power Query / ETL)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Visual Communication (Conditional Formatting)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Deep Analytics (Statistical Functions)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Output & UX (Dashboard Design)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Google Sheets Specialization</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> High-Level Automation (Excel VBA)</div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Comprehensive Set</span><h4>Phase 2 Comprehensive Handbook</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">250+</div><div class="type">Pages Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph3-n">
+          <div class="phase-header" onclick="togglePhase('ph3-n')">
+            <span class="phase-num">Phase 03</span>
+            <div class="phase-icon">&#x1F5C3;</div>
+            <div class="phase-header-text">
+              <h3>SQL &amp; Databases</h3>
+              <p>The single most-tested language in data interviews.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="phase-topics">
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> The Core Foundation (SELECT, WHERE, ORDER BY)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Reality Check (NULL Handling & Type Casting)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Summarizing Data (GROUP BY & Aggregations)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Combining Data Horizontally (JOINs)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Combining Data Vertically (Set Operations)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Advanced Logic (Subqueries & CTEs)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Professional Analysis (Window Functions)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Custom Logic & Cleaning (CASE, Dates, Strings)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Performance & Scale (Optimization & Cloud)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Building Systems (Procedures, Views & Design)</div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Comprehensive Set</span><h4>Phase 3 Comprehensive Handbook</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">300+</div><div class="type">Pages Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph4-n">
+          <div class="phase-header" onclick="togglePhase('ph4-n')">
+            <span class="phase-num">Phase 04</span>
+            <div class="phase-icon">&#x1F40D;</div>
+            <div class="phase-header-text">
+              <h3>Python for Analytics</h3>
+              <p>From data wrangling to complex predictive modelling.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="phase-topics">
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Python Fundamentals for Analytics</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Data Structures & Iteration (The Logic)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Functions & Error Handling</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> NumPy — The Foundation of Data</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> pandas — Core DataFrame Operations</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> pandas — Advanced Wrangling</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> The Data Cleaning Protocol</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Data Collection (APIs & Scraping)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Static Visualization (Matplotlib & Seaborn)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Interactive Viz & Dashboards (Plotly)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Exploratory Data Analysis (EDA) & Stats</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Predictive Modeling (Regression)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Time Series Analysis</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Unsupervised Learning (Clustering)</div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Comprehensive Set</span><h4>Phase 4 Comprehensive Handbook</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">300+</div><div class="type">Pages Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph5-n">
+          <div class="phase-header" onclick="togglePhase('ph5-n')">
+            <span class="phase-num">Phase 05</span>
+            <div class="phase-icon">&#x1F4C8;</div>
+            <div class="phase-header-text">
+              <h3>Business Intelligence &amp; Dashboards</h3>
+              <p>Translating complex data into actionable stakeholder tools.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="phase-topics">
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Dashboard Design & UX Strategy</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> BI Data Modeling (The Star Schema)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Power BI Desktop Fundamentals</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> DAX (Data Analysis Expressions)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Power BI Service & Governance</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Tableau Basics & Data Architecture</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Advanced Tableau (LODs & Interactivity)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Looker Studio (Lightweight BI)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Looker & LookML (Enterprise BI)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> KPI Tracking & The Metrics Layer</div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Comprehensive Set</span><h4>Phase 5 Comprehensive Handbook</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">300+</div><div class="type">Pages Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph6-n">
+          <div class="phase-header" onclick="togglePhase('ph6-n')">
+            <span class="phase-num">Phase 06</span>
+            <div class="phase-icon">&#x2699;&#xFE0F;</div>
+            <div class="phase-header-text">
+              <h3>Data Engineering Fundamentals</h3>
+              <p>Understand the pipelines to become 2x more effective as an analyst.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="phase-topics">
+              <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Data Integration (ELT & ETL)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Storage Architecture (Lakes & Warehouses)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Cloud Data Warehousing (The Big Four)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Analytics Engineering with dbt</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Orchestration & Automation (Airflow)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Schema Design & Data Modeling</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Data Quality, Reliability, & Observability</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Advanced Data Patterns</div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Comprehensive Set</span><h4>Phase 6 Comprehensive Handbook</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">200+</div><div class="type">Pages Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph7-n">
+          <div class="phase-header" onclick="togglePhase('ph7-n')">
+            <span class="phase-num">Phase 07</span>
+            <div class="phase-icon">&#x1F3AF;</div>
+            <div class="phase-header-text">
+              <h3>Storytelling &amp; Domain Knowledge</h3>
+              <p>Technical skills get you the interview &mdash; these get you promoted.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="phase-topics">
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Problem Framing & The Art of the Question</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Narrative Design (The Story Arc)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Visual Communication & Slide Design</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Stakeholder Management & Oral Delivery</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Written Reports & Technical Documentation</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Domain: E-Commerce & Retail</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Domain: SaaS & Subscription</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Domain: Marketing & Growth</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Domain: FinTech & BFSI</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Domain: Healthcare & BioTech</div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Comprehensive Set</span><h4>Phase 7 Comprehensive Handbook</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">200+</div><div class="type">Pages Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph8-n">
+          <div class="phase-header" onclick="togglePhase('ph8-n')">
+            <span class="phase-num">Phase 08</span>
+            <div class="phase-icon">&#x1F916;</div>
+            <div class="phase-header-text">
+              <h3>AI-Era Analytics</h3>
+              <p>Future-proof your career. AI won't replace analysts, but analysts who use AI will.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="phase-topics">
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Advanced Prompt Engineering for Analytics</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> AI-Assisted Development (SQL & Python)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> AI-Powered Exploratory Data Analysis</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> The AI-Ready Semantic Layer (NL2SQL)</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> AutoML & Low-Code Predictive Analytics</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> AI Ethics, Trust, & Governance</div>
+              <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Agentic Workflows</div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Comprehensive Set</span><h4>Phase 8 Comprehensive Handbook</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">200+</div><div class="type">Pages Included</div></div></div></div>
+          </div>
+        </div>
+
+      </div>
+	<div class="reviews-section" style="padding: 40px 0; border-top: 1px solid var(--border); margin-top: 40px;">
+        <div class="reviews-header" style="text-align: center; margin-bottom: 40px;">
+          <h2 style="font-family: 'DM Sans', sans-serif; font-size: 32px; font-weight: 800; color: var(--navy); margin-bottom: 12px;">What Students Say</h2>
+          <p style="color: var(--muted); font-size: 16px; font-weight: 500; margin-bottom: 24px;">Reviews from learners who upgraded their analytics and AI skills.</p>
+          <button class="btn-primary btn-navy" onclick="openReviewModal()">Post a Review</button>
+        </div>
+        <div class="reviews-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
+          <div class="review-card" style="background: var(--box-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03); display: flex; flex-direction: column;">
+            <div class="stars" style="color: #f59e0b; font-size: 20px; margin-bottom: 16px; letter-spacing: 2px;">★★★★★</div>
+            <p class="review-text" style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-weight: 500; flex: 1;">"The structured handbook for SQL and Power BI saved me hours of confusing tutorials. Directly to the point and highly practical. I cleared my first technical round easily."</p>
+            <div class="review-author" style="font-weight: 800; color: var(--navy); font-size: 15px;">Rahul S.</div>
+          </div>
+          <div class="review-card" style="background: var(--box-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03); display: flex; flex-direction: column;">
+            <div class="stars" style="color: #f59e0b; font-size: 20px; margin-bottom: 16px; letter-spacing: 2px;">★★★★★</div>
+            <p class="review-text" style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-weight: 500; flex: 1;">"The 2000+ interview questions are a goldmine. I faced exact scenario-based questions from Phase 3 in my final data analyst interview."</p>
+            <div class="review-author" style="font-weight: 800; color: var(--navy); font-size: 15px;">Priya K.</div>
+          </div>
+          <div class="review-card" style="background: var(--box-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03); display: flex; flex-direction: column;">
+            <div class="stars" style="color: #f59e0b; font-size: 20px; margin-bottom: 16px; letter-spacing: 2px;">★★★★☆</div>
+            <p class="review-text" style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-weight: 500; flex: 1;">"Excellent breakdown of data engineering concepts. The 3-level warmup tests helped me find my weak spots before applying for jobs."</p>
+            <div class="review-author" style="font-weight: 800; color: var(--navy); font-size: 15px;">Sneha R.</div>
+          </div>
+		  <div class="review-card" style="background: var(--box-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03); display: flex; flex-direction: column;">
+            <div class="stars" style="color: #f59e0b; font-size: 20px; margin-bottom: 16px; letter-spacing: 2px;">★★★★★</div>
+            <p class="review-text" style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-weight: 500; flex: 1;">"The Business Intelligence dashboard handbook gave me the exact vocabulary I needed to communicate effectively with stakeholders. A massive confidence booster."</p>
+            <div class="review-author" style="font-weight: 800; color: var(--navy); font-size: 15px;">Sarah L.</div>
+          </div>
+
+          <div class="review-card" style="background: var(--box-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03); display: flex; flex-direction: column;">
+            <div class="stars" style="color: #f59e0b; font-size: 20px; margin-bottom: 16px; letter-spacing: 2px;">★★★★★</div>
+            <p class="review-text" style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-weight: 500; flex: 1;">"I bought the complete bundle. Best investment for my career transition. The Math and Statistics handbook alone is completely worth the full price."</p>
+            <div class="review-author" style="font-weight: 800; color: var(--navy); font-size: 15px;">Amit V.</div>
+          </div>
+          <div class="review-card" style="background: var(--box-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 20px rgba(3, 27, 78, 0.03); display: flex; flex-direction: column;">
+            <div class="stars" style="color: #f59e0b; font-size: 20px; margin-bottom: 16px; letter-spacing: 2px;">★★★★★</div>
+            <p class="review-text" style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-weight: 500; flex: 1;">"Finally, a resource that doesn't waste time. The Python structure handbook is beautifully organized and very easy to reference while coding."</p>
+            <div class="review-author" style="font-weight: 800; color: var(--navy); font-size: 15px;">Arjun M.</div>
+       
+		  </div>
+        </div>
+      </div>
+	<div class="detail-footer">
+        <h2>Your Blueprint to a Data Career.</h2>
+        <p>Pick the path that works for you. Grab the structured handbook, test yourself with the interview question bundle, or lock down both to secure your dream offer.</p>
+        
+        <div class="price-block-container">
+          <div class="price-card" style="border: 2px solid var(--navy);">
+            <div class="discount-tag" style="visibility: hidden;">Placeholder</div>
+            <div class="price-strike strike-basic">₹999</div>
+            <div class="amt price-basic">&#x20B9;399/-</div>
+            <div class="note" style="color: var(--navy);">Only Premium Handbook<br><span style="font-size: 13px; font-weight: 500; color: var(--navy); opacity: 0.85; display: block; margin-top: 8px;">All 8 Phases in PDF Format. No fluff, just facts.</span></div>
+            <a href="https://rzp.io/rzp/7gKjrQ1R" class="btn-primary btn-navy link-basic" target="_blank" rel="noopener noreferrer" style="width: 100%; justify-content: center; margin-top: auto;">Buy Premium Handbook &rarr;</a>
+          </div>
+
+          <div class="price-card" style="border: 2px solid var(--navy);">
+            <div class="discount-tag" style="visibility: hidden;">Placeholder</div>
+            <div class="price-strike strike-basic">₹999</div>
+            <div class="amt price-basic">&#x20B9;399/-</div>
+            <div class="note" style="color: var(--navy);">2000+ Interview &amp; Scenario Based Questions<br><span style="font-size: 13px; font-weight: 500; color: var(--navy); opacity: 0.85; display: block; margin-top: 8px;">Structured Unit-Wise to test your gaps.</span></div>
+            <a href="https://rzp.io/rzp/BnUho1gl" class="btn-primary btn-navy link-basic" target="_blank" style="width: 100%; justify-content: center; margin-top: auto;">Buy Interview Set &rarr;</a>
+          </div>
+
+          <div class="price-card featured" style="border: 2px solid var(--cyan);">
+            <div class="discount-tag">65% OFF! Limited Time Offer</div>
+            <div class="price-strike strike-bundle">₹1999</div>
+            <div class="amt price-bundle">&#x20B9;699/-</div>
+            <div class="note">
+              Complete Course Bundle
+              <br><span style="font-size: 13px; font-weight: 500; color: var(--muted); display: block; margin-top: 8px;">Get the Premium Handbook AND the 2000+ Interview Bundle.</span>
+            </div>
+            <a href="https://rzp.io/rzp/S2y4eZ3" class="btn-primary link-bundle" target="_blank" rel="noopener noreferrer" style="width: 100%; justify-content: center; margin-top: auto;">Buy Complete Bundle &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="course-data-analyst-questions" class="course-container">
+      <div class="detail-grid preview-detail-grid">
+        <div class="detail-left with-subject-map">
+          <div class="eyebrow" style="align-items: center;">
+            Premium Comprehensive Questions
+            <span style="background: var(--navy); color: #fff; padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-left: 8px;">Live Now</span>
+          </div>
+          <h1>
+            <span style="color: var(--navy);">Become Job-Ready</span><br>
+            <span style="color: var(--cyan);">Data &amp; BI Analyst — Questions Set</span>
+          </h1>
+          <p>Complete structured Questions designed for absolute beginners to transform into job-ready Data & BI Analysts. Skip the endless video tutorials and learn and Solve exactly what you need to clear technical interviews.</p>
+		  <div class="quick-buy-stack">
+            <div class="quick-buy-row">
+              <a href="https://rzp.io/rzp/7gKjrQ1R" target="_blank" rel="noopener noreferrer" class="btn-quick btn-navy quick-notes">Get Premium Handbook &mdash; <span class="price-basic">&#x20B9;399</span></a>
+              <a href="https://rzp.io/rzp/BnUho1gl" target="_blank" rel="noopener noreferrer" class="btn-quick btn-navy quick-qa">Get Q&A Set &mdash; <span class="price-basic">&#x20B9;399</span></a>
+            </div>
+            <a href="https://rzp.io/rzp/S2y4eZ3" target="_blank" rel="noopener noreferrer" class="btn-quick btn-cyan quick-bundle">🚀 Unlock Complete Bundle &mdash; <span class="price-bundle">&#x20B9;699</span></a>
+			
+          </div>
+          <div class="subject-map" aria-label="Data Analyst interview question subjects">
+            <h3 class="subject-map-title">Curriculum Breakdown &mdash; All 8 Phases</h3>
+            <div class="subject-map-grid">
+              <div class="subject-chip" onclick="scrollToPhase('ph1-i')"><span class="subject-logo">01</span><span class="phase-mini-icon">&#x1F4D0;</span><span>Math &amp; Stats</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph2-i')"><span class="subject-logo">02</span><span class="phase-mini-icon">&#x1F4CA;</span><span>Excel</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph3-i')"><span class="subject-logo">03</span><span class="phase-mini-icon">&#x1F5C3;</span><span>SQL &amp; DBs</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph4-i')"><span class="subject-logo">04</span><span class="phase-mini-icon">&#x1F40D;</span><span>Python Analytics</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph5-i')"><span class="subject-logo">05</span><span class="phase-mini-icon">&#x1F4C8;</span><span>BI Dashboards</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph6-i')" title="Data Engineering Fundamentals"><span class="subject-logo">06</span><span class="phase-mini-icon">&#x2699;&#xFE0F;</span><span>Data Engg.</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph7-i')" title="Storytelling &amp; Domain Knowledge"><span class="subject-logo">07</span><span class="phase-mini-icon">&#x1F3AF;</span><span>Story &amp; Domain</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph8-i')"><span class="subject-logo">08</span><span class="phase-mini-icon">&#x1F916;</span><span>AI-Era Analytics</span></div>
+            </div>
+          </div>
+		</div>
+        
+        <div class="detail-right">
+          <div class="pdf-viewer-wrap">
+            <div class="conversion-callout">
+              <span class="conversion-tag">Launch Offer</span>
+              <p><strong>Complete Industry-Ready Data Analyst Toolkit:</strong> 8 Subjects, 1800+ Pages, and 1500+ Interview Questions. Master the exact technical skills the industry demands&mdash;from Statistics and SQL to Power BI and AI. <span>Market Value: &#x20B9;2,500. Launch Price: &#x20B9;699.</span></p>
+            </div>
+            <h3>Try before you buy.</h3>
+            <div class="video-section">
+              <div class="video-wrapper">
+                <iframe src=""
+                        title="How to use the Learnlytics handbook"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen>
+                </iframe>
+              </div>
+            </div>
+            <p class="preview-copy">View our SQL question set right here. No sign-up required.</p>
+            <div class="pdf-top-bar"><a href="pdfs/sql-questions.pdf" target="_blank" class="btn-fullscreen" style="text-decoration: none;">&#x26F6; Open Full Screen</a></div>
+            <div class="pdf-container" id="pdf-container-2">
+              <iframe src="pdfs/sql-questions.pdf#toolbar=0" title="Free SQL Questions Preview"></iframe>
+            </div>
+            <button class="form-submit-full" onclick="openModal('sql-questions')">&#x2B07; Get Free SQL Questions Sample</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="phases-wrap">
+        <p class="phases-title">Question Set Breakdown &mdash; All 8 Phases</p>
+
+        <div class="phase-card" id="ph1-i">
+          <div class="phase-header" onclick="togglePhase('ph1-i')">
+            <span class="phase-num">Phase 01</span>
+            <div class="phase-icon">&#x1F4D0;</div>
+            <div class="phase-header-text">
+              <h3>Mathematics &amp; Statistics</h3>
+              <p>The core logic required for analytical thinking and testing.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            
+            <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 1 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">350+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph2-i">
+          <div class="phase-header" onclick="togglePhase('ph2-i')">
+            <span class="phase-num">Phase 02</span>
+            <div class="phase-icon">&#x1F4CA;</div>
+            <div class="phase-header-text">
+              <h3>Excel &amp; Google Sheets</h3>
+              <p>Mastering the universal tool for data cleaning and initial analysis.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            
+            <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 2 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">300+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph3-i">
+          <div class="phase-header" onclick="togglePhase('ph3-i')">
+            <span class="phase-num">Phase 03</span>
+            <div class="phase-icon">&#x1F5C3;</div>
+            <div class="phase-header-text">
+              <h3>SQL &amp; Databases</h3>
+              <p>The single most-tested language in data interviews.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            
+            <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 3 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">300+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph4-i">
+          <div class="phase-header" onclick="togglePhase('ph4-i')">
+            <span class="phase-num">Phase 04</span>
+            <div class="phase-icon">&#x1F40D;</div>
+            <div class="phase-header-text">
+              <h3>Python for Analytics</h3>
+              <p>From data wrangling to complex predictive modelling.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            
+            <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 4 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">400+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph5-i">
+          <div class="phase-header" onclick="togglePhase('ph5-i')">
+            <span class="phase-num">Phase 05</span>
+            <div class="phase-icon">&#x1F4C8;</div>
+            <div class="phase-header-text">
+              <h3>Business Intelligence &amp; Dashboards</h3>
+              <p>Translating complex data into actionable stakeholder tools.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            
+            <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 5 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">350+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph6-i">
+          <div class="phase-header" onclick="togglePhase('ph6-i')">
+            <span class="phase-num">Phase 06</span>
+            <div class="phase-icon">&#x2699;&#xFE0F;</div>
+            <div class="phase-header-text">
+              <h3>Data Engineering Fundamentals</h3>
+              <p>Understand the pipelines to become 2x more effective as an analyst.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            
+            <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 6 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">240+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph7-i">
+          <div class="phase-header" onclick="togglePhase('ph7-i')">
+            <span class="phase-num">Phase 07</span>
+            <div class="phase-icon">&#x1F3AF;</div>
+            <div class="phase-header-text">
+              <h3>Storytelling &amp; Domain Knowledge</h3>
+              <p>Technical skills get you the interview &mdash; these get you promoted.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            
+            <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 7 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">150+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph8-i">
+          <div class="phase-header" onclick="togglePhase('ph8-i')">
+            <span class="phase-num">Phase 08</span>
+            <div class="phase-icon">&#x1F916;</div>
+            <div class="phase-header-text">
+              <h3>AI-Era Analytics</h3>
+              <p>Future-proof your career. AI won't replace analysts, but analysts who use AI will.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            
+            <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 8 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">200+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+      </div>
+	  	
+	
+		
+		
+      <div class="detail-footer">
+        <h2>Your Blueprint to a Data Career.</h2>
+        <p>Pick the path that works for you. Grab the structured handbook, test yourself with the interview question bundle, or lock down both to secure your dream offer.</p>
+        
+        <div class="price-block-container">
+          <div class="price-card" style="border: 2px solid var(--navy);">
+            <div class="discount-tag" style="visibility: hidden;">Placeholder</div>
+            <div class="price-strike strike-basic">₹999</div>
+            <div class="amt price-basic">&#x20B9;399/-</div>
+            <div class="note" style="color: var(--navy);">Only Premium Handbook<br><span style="font-size: 13px; font-weight: 500; color: var(--navy); opacity: 0.85; display: block; margin-top: 8px;">All 8 Phases in PDF Format. No fluff, just facts.</span></div>
+            <a href="https://rzp.io/rzp/7gKjrQ1R" class="btn-primary btn-navy link-basic" target="_blank" rel="noopener noreferrer" style="width: 100%; justify-content: center; margin-top: auto;">Buy Premium Handbook &rarr;</a>
+          </div>
+
+          <div class="price-card" style="border: 2px solid var(--navy);">
+            <div class="discount-tag" style="visibility: hidden;">Placeholder</div>
+            <div class="price-strike strike-basic">₹999</div>
+            <div class="amt price-basic">&#x20B9;399/-</div>
+            <div class="note" style="color: var(--navy);">2000+ Interview &amp; Scenario Based Questions<br><span style="font-size: 13px; font-weight: 500; color: var(--navy); opacity: 0.85; display: block; margin-top: 8px;">Structured Unit-Wise to test your gaps.</span></div>
+            <a href="https://rzp.io/rzp/BnUho1gl" class="btn-primary btn-navy link-basic" target="_blank" rel="noopener noreferrer" style="width: 100%; justify-content: center; margin-top: auto;">Buy Interview Set &rarr;</a>
+          </div>
+
+          <div class="price-card featured" style="border: 2px solid var(--cyan);">
+            <div class="discount-tag">65% OFF! Limited Time Offer</div>
+            <div class="price-strike strike-bundle">₹1999</div>
+            <div class="amt price-bundle">&#x20B9;699/-</div>
+            <div class="note">
+              Complete Course Bundle
+              <br><span style="font-size: 13px; font-weight: 500; color: var(--muted); display: block; margin-top: 8px;">Get the Premium Handbook AND the 2000+ Interview Bundle.</span>
+            </div>
+            <a href="https://rzp.io/rzp/S2y4eZ3" class="btn-primary link-bundle" target="_blank" rel="noopener noreferrer" style="width: 100%; justify-content: center; margin-top: auto;">Buy Complete Bundle &rarr;</a>
+          </div>
+        </div>
+      </div>
+	 </div>
+	<div id="course-data-science" class="course-container">
+      <div class="detail-grid preview-detail-grid">
+        <div class="detail-left with-subject-map">
+          <div class="eyebrow" style="align-items: center;">
+            Premium Comprehensive Handbook
+            <span style="background: var(--cyan); color: #fff; padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; margin-left: 8px;">Coming soon on 1 July 2026</span>
+          </div>
+          <h1>
+            <span style="color: var(--navy);">Become Job-Ready</span><br>
+            <span style="color: var(--cyan);">Data Scientist &amp; Gen AI Engineer</span>
+          </h1>
+          <p>The blueprint to building intelligent systems. Master Machine Learning algorithms, Deep Learning architecture, and the latest in Generative AI prompting and modeling. Pre-order now to secure early access.</p>
+          <div class="highlight-box">
+            Contains over 3000+ advanced concepts, mathematical proofs, and Python code blocks structured strictly for 2026 industry standards.
+          </div>
+          
+          <div class="quick-buy-stack">
+            <div class="quick-buy-row">
+              <a href="https://rzp.io/rzp/43PikTXQ" target="_blank" rel="noopener noreferrer" class="btn-quick btn-navy quick-notes">Pre-Order Premium Handbook &mdash; <span class="price-basic">&#x20B9;499</span></a>
+              <a href="https://rzp.io/rzp/43PikTXQ" target="_blank" rel="noopener noreferrer" class="btn-quick btn-navy quick-qa">Pre-Order Q&A &mdash; <span class="price-basic">&#x20B9;499</span></a>
+            </div>
+            <a href="https://rzp.io/rzp/43PikTXQ" target="_blank" rel="noopener noreferrer" class="btn-quick btn-cyan quick-bundle">🚀 Pre-Order Complete Bundle &mdash; <span class="price-bundle">&#x20B9;849</span></a>
+          </div>
+          <div class="subject-map" aria-label="Data Science bundle subjects">
+            <div class="subject-map-grid">
+              <div class="subject-chip" onclick="scrollToPhase('ph1-ds')" title="Mathematics &amp; Statistics"><span class="subject-logo">M</span><span>Math &amp; Stats</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph2-ds')"><span class="subject-logo">Py</span><span>Python</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph3-ds')" title="EDA &amp; Feature Engineering"><span class="subject-logo">EDA</span><span>EDA &amp; Features</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph4-ds')" title="Classical Machine Learning"><span class="subject-logo">ML</span><span>Classical ML</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph5-ds')" title="Model Evaluation, Selection &amp; Tuning"><span class="subject-logo">EV</span><span>Eval &amp; Tuning</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph6-ds')"><span class="subject-logo">DL</span><span>Deep Learning</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph7-ds')" title="MLOps &amp; Model Deployment"><span class="subject-logo">Ops</span><span>MLOps &amp; Deploy</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph8-ds')" title="Generative AI &amp; LLM Integration"><span class="subject-logo">LLM</span><span>Gen AI &amp; LLMs</span></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="detail-right">
+          <div class="pdf-viewer-wrap">
+            <h3>Try before you buy.</h3>
+            <div class="video-section">
+              <div class="video-wrapper">
+                <iframe src=""
+                        title="How to use the Learnlytics handbook"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen>
+                </iframe>
+              </div>
+            </div>
+            <p class="preview-copy">View our early draft Machine Learning premium handbook right here. No sign-up required.</p>
+            <div class="pdf-top-bar"><a href="pdfs/ML-part01-handbook.pdf" target="_blank" class="btn-fullscreen" style="text-decoration: none;">&#x26F6; Open Full Screen</a></div>
+            <div class="pdf-container" id="pdf-container-3">
+               <iframe src="pdfs/ML-part01-handbook.pdf#toolbar=0" title="Free Machine Learning Handbook Preview"></iframe>
+            </div>
+            <button class="form-submit-full" onclick="openModal('ds-handbook')">&#x2B07; Get Free Machine Learning Handbook Sample</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="phases-wrap">
+        <p class="phases-title">Curriculum Breakdown &mdash; All 8 Phases</p>
+
+        <div class="phase-card" id="ph1-ds">
+          <div class="phase-header" onclick="togglePhase('ph1-ds')">
+            <span class="phase-num">Phase 01</span>
+            <div class="phase-icon">&#x1F4D0;</div>
+            <div class="phase-header-text">
+              <h3>Mathematics &amp; Statistics</h3>
+              <p>The Language of Data Science.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Statistics for Data Scientists</div>
+              <p class="ds-sub-desc">Non-negotiable foundation — revisit the Math &amp; Statistics chapter roadmap for full detail.</p>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Descriptive Statistics</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Probability Distributions</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Hypothesis Testing</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Confidence Intervals</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Bayesian Statistics</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Information Theory</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Maximum Likelihood Estimation</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Resampling Methods</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Time Series Statistics</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Linear Algebra for Data Science</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Vectors, Matrices & Operations</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Matrix Inverse & Determinant</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Eigenvalues & Eigenvectors</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> SVD — Singular Value Decomp.</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Projections & Orthogonality</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Cosine Similarity</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Gradient Vectors & Hessian</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Calculus &amp; Optimisation</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Derivatives & Chain Rule</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Partial Derivatives & Gradient</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Gradient Descent & Variants</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Convexity & Loss Functions</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Backpropagation Intuition</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph2-ds">
+          <div class="phase-header" onclick="togglePhase('ph2-ds')">
+            <span class="phase-num">Phase 02</span>
+            <div class="phase-icon">&#x1F40D;</div>
+            <div class="phase-header-text">
+              <h3>Python for Data Science</h3>
+              <p>Your Primary Toolkit.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Scientific Python Stack</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Python Core (DS-relevant)</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> NumPy — Arrays & Broadcasting</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> pandas — Data Wrangling</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> pandas — Advanced Operations</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> SciPy — Scientific Computing</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Matplotlib & Seaborn</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Plotly & Interactive Viz</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Streamlit — ML App Demos</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> API Integration</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Data Storage & Retrieval</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> SQL in Python</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> NoSQL — MongoDB Basics</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Cloud Data — BigQuery</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Parquet & Arrow</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> DuckDB</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Data Versioning with DVC</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Code Quality & Engineering Practices</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Python Packaging</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Testing ML Code</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Logging & Error Handling</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Type Hints & Docstrings</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Pre-commit & Linting</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph3-ds">
+          <div class="phase-header" onclick="togglePhase('ph3-ds')">
+            <span class="phase-num">Phase 03</span>
+            <div class="phase-icon">&#x2699;&#xFE0F;</div>
+            <div class="phase-header-text">
+              <h3>EDA &amp; Feature Engineering</h3>
+              <p>Where Real DS Work Begins.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Exploratory Data Analysis</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Automated EDA Profiles</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Univariate Analysis</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Bivariate Analysis</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Multivariate Analysis</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Missing Data Analysis</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Outlier Detection</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Class Imbalance Analysis</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Target Leakage Detection</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Feature Engineering</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Numerical Transformations</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Encoding Categorical Variables</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Target Encoding</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Feature Scaling & Normalisation</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Date/Time Feature Extraction</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Interaction & Polynomial Features</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Binning & Discretisation</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Text Feature Extraction</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Embedding Features</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Aggregation Features</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Dimensionality Reduction</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Data Cleaning & Preprocessing</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Handling Missing Values</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Handling Outliers</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> sklearn Pipeline</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Data Validation</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Data Drift Detection</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph4-ds">
+          <div class="phase-header" onclick="togglePhase('ph4-ds')">
+            <span class="phase-num">Phase 04</span>
+            <div class="phase-icon">&#x1F9E0;</div>
+            <div class="phase-header-text">
+              <h3>Classical Machine Learning</h3>
+              <p>The Core of Data Science.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Supervised Learning — Regression</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Linear Regression (OLS)</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Ridge & Lasso Regression</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Polynomial Regression</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Decision Tree Regressor</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Random Forest Regressor</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Gradient Boosting — XGBoost</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Gradient Boosting — LightGBM</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> CatBoost</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> SVR — Support Vector Regression</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Supervised Learning — Classification</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Logistic Regression</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Naive Bayes</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> K-Nearest Neighbours (KNN)</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Decision Trees</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Random Forest Classifier</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> XGBoost Classifier</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> LightGBM Classifier</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> SVM — Support Vector Machine</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Stacking & Voting Ensembles</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Unsupervised Learning</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> K-Means Clustering</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Hierarchical Clustering</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> DBSCAN</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> PCA — Principal Component Analysis</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> t-SNE & UMAP</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Anomaly Detection</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Association Rules</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph5-ds">
+          <div class="phase-header" onclick="togglePhase('ph5-ds')">
+            <span class="phase-num">Phase 05</span>
+            <div class="phase-icon">&#x1F3AF;</div>
+            <div class="phase-header-text">
+              <h3>Model Evaluation, Selection &amp; Tuning</h3>
+              <p>Know If Your Model Actually Works.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Evaluation Metrics</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Regression Metrics</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Classification — Threshold</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> AUC-ROC Curve</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Precision-Recall Curve</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Log Loss (Cross-Entropy)</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Multi-class Metrics</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Business-Aligned Metrics</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Clustering Metrics</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Validation Strategies</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-basic"></span> Train / Validation / Test Split</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> k-Fold Cross-Validation</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Stratified k-Fold</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Time Series CV (Walk-Forward)</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Nested Cross-Validation</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Hold-out Set Best Practices</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Hyperparameter Tuning</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> GridSearchCV</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> RandomizedSearchCV</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Bayesian Optimisation (Optuna)</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Hyperopt</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Early Stopping</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Bias-Variance & Model Debugging</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Bias-Variance Tradeoff</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Learning Curves</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Residual Analysis</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Feature Importance Analysis</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> SHAP Values</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> LIME</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph6-ds">
+          <div class="phase-header" onclick="togglePhase('ph6-ds')">
+            <span class="phase-num">Phase 06</span>
+            <div class="phase-icon">&#x1F52C;</div>
+            <div class="phase-header-text">
+              <h3>Deep Learning Fundamentals</h3>
+              <p>Neural Networks &amp; Deep Learning.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Neural Network Foundations</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Perceptron & MLP Architecture</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Activation Functions</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Loss Functions</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Backpropagation</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Optimisers</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Regularisation in DL</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Learning Rate Schedules</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> PyTorch — Primary Framework</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> PyTorch Tensors & Autograd</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> nn.Module — Building Models</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> DataLoader & Dataset</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Training Loop (Manual)</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> PyTorch Lightning</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Model Saving & Loading</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> GPU Training</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Computer Vision Basics</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Convolutional Neural Networks</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Transfer Learning</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Image Augmentation</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Object Detection — YOLO Basics</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Natural Language Processing Basics</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Text Preprocessing</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> TF-IDF & Bag of Words</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Word Embeddings</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Transformer Architecture</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> HuggingFace Transformers</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Fine-Tuning Pre-trained Models</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> LLM APIs (GPT, Gemini, Claude)</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Retrieval-Augmented Generation</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph7-ds">
+          <div class="phase-header" onclick="togglePhase('ph7-ds')">
+            <span class="phase-num">Phase 07</span>
+            <div class="phase-icon">&#x1F680;</div>
+            <div class="phase-header-text">
+              <h3>MLOps &amp; Model Deployment</h3>
+              <p>Models in the Real World.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Experiment Tracking & Versioning</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> MLflow — Experiment Tracking</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> MLflow Model Registry</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> DVC — Data Version Control</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Weights & Biases (wandb)</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Model Serving & APIs</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> FastAPI — Model Serving</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Streamlit — Quick Demos</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Gradio</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> BentoML</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> ONNX — Model Portability</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Containerisation & Cloud Deployment</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Docker — Containerising Models</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Cloud Run / App Engine</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> AWS SageMaker Basics</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Google Vertex AI Basics</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> CI/CD for ML (GitHub Actions)</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Model Monitoring</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Data Drift Monitoring</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Model Performance Monitoring</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Logging Predictions</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Shadow Deployment</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> A/B Testing Models in Production</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph8-ds">
+          <div class="phase-header" onclick="togglePhase('ph8-ds')">
+            <span class="phase-num">Phase 08</span>
+            <div class="phase-icon">&#x1F916;</div>
+            <div class="phase-header-text">
+              <h3>Generative AI &amp; LLM Integration</h3>
+              <p>The 2026 Frontier.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> Working with LLMs</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> Prompt Engineering</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> LLM APIs</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> RAG — Retrieval Augmented Gen.</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Vector Databases</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> LLM Evaluation</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Fine-Tuning Small LLMs</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> LLM Observability</div>
+              </div>
+            </div>
+            <div class="ds-sub-group">
+              <div class="ds-sub-title"><span style="color:var(--cyan);">&#10142;</span> AI-Augmented Data Science Workflow</div>
+              <div class="phase-topics">
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> AI-Assisted Coding</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> AI for EDA</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> AutoML Tools</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-adv"></span> Synthetic Data Generation</div>
+                <div class="topic-pill"><span class="dot-lvl lvl-inter"></span> AI Code Review</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+      <div class="reviews-section" style="padding: 40px 0; border-top: 1px solid var(--border); margin-top: 40px;">
+        <div style="background: var(--box-bg2); border: 2px dashed var(--cyan); border-radius: 16px; padding: 32px 24px; text-align: center; margin-bottom: 48px;">
+          <h2 style="font-family: 'DM Sans', sans-serif; font-size: 28px; font-weight: 800; color: var(--navy); margin-bottom: 12px;">Are you interested in early access?</h2>
+          <p style="color: var(--muted); font-size: 16px; font-weight: 500; margin-bottom: 24px;">Join the exclusive waitlist to get notified the second this drops, plus get an early-bird discount!</p>
+          <a href="https://wa.me/919326778036?text=Hi%20Learnlytics,%20add%20me%20to%20the%20Data%20Science%20Waitlist!" target="_blank" class="btn-primary" style="background: var(--cyan); color: white; border: none; padding: 14px 32px; border-radius: 8px; text-decoration: none; display: inline-flex; justify-content: center; font-weight: bold; cursor: pointer;">
+            Join the Waitlist Now &rarr;
+          </a>
+        </div>
+      </div>
+
+      <div class="detail-footer">
+        <h2>Your Blueprint to a Data Career.</h2>
+        <p>Pick the path that works for you. Grab the structured handbook, test yourself with the interview question bundle, or lock down both to secure your dream offer.</p>
+        
+        <div class="price-block-container">
+          <div class="price-card" style="border: 2px solid var(--navy);">
+            <div class="discount-tag" style="visibility: hidden;">Placeholder</div>
+            <div class="price-strike strike-basic">₹1199</div>
+            <div class="amt price-basic">&#x20B9;499/-</div>
+            <div class="note" style="color: var(--navy);">Only Premium Handbook<br><span style="font-size: 13px; font-weight: 500; color: var(--navy); opacity: 0.85; display: block; margin-top: 8px;">All 8 Phases in PDF Format. No fluff, just facts.</span></div>
+            <a href="https://rzp.io/rzp/43PikTXQ" class="btn-primary btn-navy link-basic" target="_blank" rel="noopener noreferrer" style="width: 100%; justify-content: center; margin-top: auto;">Pre-Order Premium Handbook &rarr;</a>
+          </div>
+
+          <div class="price-card" style="border: 2px solid var(--navy);">
+            <div class="discount-tag" style="visibility: hidden;">Placeholder</div>
+            <div class="price-strike strike-basic">₹1199</div>
+            <div class="amt price-basic">&#x20B9;499/-</div>
+            <div class="note" style="color: var(--navy);">2000+ Interview &amp; Scenario Based Questions<br><span style="font-size: 13px; font-weight: 500; color: var(--navy); opacity: 0.85; display: block; margin-top: 8px;">Structured Unit-Wise to test your gaps.</span></div>
+            <a href="https://rzp.io/rzp/43PikTXQ" class="btn-primary btn-navy link-basic" target="_blank" style="width: 100%; justify-content: center; margin-top: auto;">Pre-Order Interview Set &rarr;</a>
+          </div>
+
+          <div class="price-card featured" style="border: 2px solid var(--cyan);">
+            <div class="discount-tag">65% OFF! Limited Time Offer</div>
+            <div class="price-strike strike-bundle">₹2199</div>
+            <div class="amt price-bundle">&#x20B9;849/-</div>
+            <div class="note">
+              Complete Course Bundle
+              <br><span style="font-size: 13px; font-weight: 500; color: var(--muted); display: block; margin-top: 8px;">Get the Premium Handbook AND the 2000+ Interview Bundle.</span>
+            </div>
+            <a href="https://rzp.io/rzp/43PikTXQ" class="btn-primary link-bundle" target="_blank" rel="noopener noreferrer" style="width: 100%; justify-content: center; margin-top: auto;">Pre-Order Complete Bundle &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="course-data-science-questions" class="course-container">
+      <div class="detail-grid preview-detail-grid">
+        <div class="detail-left with-subject-map">
+          <div class="eyebrow" style="align-items: center;">
+            Premium Comprehensive Questions
+            <span style="background: var(--cyan); color: #fff; padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; margin-left: 8px;">Coming soon on 1 July 2026</span>
+          </div>
+          <h1>
+            <span style="color: var(--navy);">Become Job-Ready</span><br>
+            <span style="color: var(--cyan);">Data Scientist &amp; Gen AI Engineer — Questions Set</span>
+          </h1>
+          <p>Complete structured Questions designed for absolute beginners to transform into job-ready Data Scientists. Skip the endless video tutorials and learn exactly what you need to clear advanced technical interviews.</p>
+          
+          <div class="quick-buy-stack">
+            <div class="quick-buy-row">
+              <a href="https://rzp.io/rzp/43PikTXQ" target="_blank" rel="noopener noreferrer" class="btn-quick btn-navy quick-notes">Pre-Order Premium Handbook &mdash; <span class="price-basic">&#x20B9;499</span></a>
+              <a href="https://rzp.io/rzp/43PikTXQ" target="_blank" rel="noopener noreferrer" class="btn-quick btn-navy quick-qa">Pre-Order Q&A &mdash; <span class="price-basic">&#x20B9;499</span></a>
+            </div>
+            <a href="https://rzp.io/rzp/43PikTXQ" target="_blank" rel="noopener noreferrer" class="btn-quick btn-cyan quick-bundle">🚀 Pre-Order Complete Bundle &mdash; <span class="price-bundle">&#x20B9;849</span></a>
+          </div>
+          <div class="subject-map" aria-label="Data Science interview question subjects">
+            <div class="subject-map-grid">
+              <div class="subject-chip" onclick="scrollToPhase('ph1-ds-q')" title="Mathematics &amp; Statistics"><span class="subject-logo">M</span><span>Math &amp; Stats</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph2-ds-q')"><span class="subject-logo">Py</span><span>Python</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph3-ds-q')" title="EDA &amp; Feature Engineering"><span class="subject-logo">EDA</span><span>EDA &amp; Features</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph4-ds-q')" title="Classical Machine Learning"><span class="subject-logo">ML</span><span>Classical ML</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph5-ds-q')" title="Model Evaluation, Selection &amp; Tuning"><span class="subject-logo">EV</span><span>Eval &amp; Tuning</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph6-ds-q')"><span class="subject-logo">DL</span><span>Deep Learning</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph7-ds-q')" title="MLOps &amp; Model Deployment"><span class="subject-logo">Ops</span><span>MLOps &amp; Deploy</span></div>
+              <div class="subject-chip" onclick="scrollToPhase('ph8-ds-q')" title="Generative AI &amp; LLM Integration"><span class="subject-logo">LLM</span><span>Gen AI &amp; LLMs</span></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="detail-right">
+          <div class="pdf-viewer-wrap">
+            <h3>Try before you buy.</h3>
+            <div class="video-section">
+              <div class="video-wrapper">
+                <iframe src=""
+                        title="How to use the Learnlytics handbook"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen>
+                </iframe>
+              </div>
+            </div>
+            <p class="preview-copy">View our early draft Machine Learning questions right here. No sign-up required.</p>
+            <div class="pdf-top-bar"><a href="pdfs/ML-part01-que-handook.pdf" target="_blank" class="btn-fullscreen" style="text-decoration: none;">&#x26F6; Open Full Screen</a></div>
+            <div class="pdf-container" id="pdf-container-4">
+               <iframe src="pdfs/ML-part01-que-handook.pdf#toolbar=0" title="Free Machine Learning Questions Preview"></iframe>
+            </div>
+            <button class="form-submit-full" onclick="openModal('ds-questions')">&#x2B07; Get Free Machine Learning Questions Sample</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="phases-wrap">
+        <p class="phases-title">Question Set Breakdown &mdash; All 8 Phases</p>
+
+        <div class="phase-card" id="ph1-ds-q">
+          <div class="phase-header" onclick="togglePhase('ph1-ds-q')">
+            <span class="phase-num">Phase 01</span>
+            <div class="phase-icon">&#x1F4D0;</div>
+            <div class="phase-header-text">
+              <h3>Mathematics &amp; Statistics</h3>
+              <p>The Language of Data Science.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+            <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 1 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">350+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph2-ds-q">
+          <div class="phase-header" onclick="togglePhase('ph2-ds-q')">
+            <span class="phase-num">Phase 02</span>
+            <div class="phase-icon">&#x1F40D;</div>
+            <div class="phase-header-text">
+              <h3>Python for Data Science</h3>
+              <p>Your Primary Toolkit.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+             <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 2 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">300+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph3-ds-q">
+          <div class="phase-header" onclick="togglePhase('ph3-ds-q')">
+            <span class="phase-num">Phase 03</span>
+            <div class="phase-icon">&#x2699;&#xFE0F;</div>
+            <div class="phase-header-text">
+              <h3>EDA &amp; Feature Engineering</h3>
+              <p>Where Real DS Work Begins.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+             <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 3 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">300+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph4-ds-q">
+          <div class="phase-header" onclick="togglePhase('ph4-ds-q')">
+            <span class="phase-num">Phase 04</span>
+            <div class="phase-icon">&#x1F9E0;</div>
+            <div class="phase-header-text">
+              <h3>Classical Machine Learning</h3>
+              <p>The Core of Data Science.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+             <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 4 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">400+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph5-ds-q">
+          <div class="phase-header" onclick="togglePhase('ph5-ds-q')">
+            <span class="phase-num">Phase 05</span>
+            <div class="phase-icon">&#x1F3AF;</div>
+            <div class="phase-header-text">
+              <h3>Model Evaluation, Selection &amp; Tuning</h3>
+              <p>Know If Your Model Actually Works.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+             <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 5 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">350+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph6-ds-q">
+          <div class="phase-header" onclick="togglePhase('ph6-ds-q')">
+            <span class="phase-num">Phase 06</span>
+            <div class="phase-icon">&#x1F52C;</div>
+            <div class="phase-header-text">
+              <h3>Deep Learning Fundamentals</h3>
+              <p>Neural Networks &amp; Deep Learning.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+             <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 6 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">240+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph7-ds-q">
+          <div class="phase-header" onclick="togglePhase('ph7-ds-q')">
+            <span class="phase-num">Phase 07</span>
+            <div class="phase-icon">&#x1F680;</div>
+            <div class="phase-header-text">
+              <h3>MLOps &amp; Model Deployment</h3>
+              <p>Models in the Real World.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+             <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 7 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">150+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+        <div class="phase-card" id="ph8-ds-q">
+          <div class="phase-header" onclick="togglePhase('ph8-ds-q')">
+            <span class="phase-num">Phase 08</span>
+            <div class="phase-icon">&#x1F916;</div>
+            <div class="phase-header-text">
+              <h3>Generative AI &amp; LLM Integration</h3>
+              <p>The 2026 Frontier.</p>
+            </div>
+            <span class="phase-chevron">&#x2304;</span>
+          </div>
+          <div class="phase-body">
+             <div class="interview-level">
+              <h4>Level 1: Warmup Test (5 Question)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-basic"></span> 5 MCQ Question</span>
+              </div>
+            </div>
+            <div class="interview-level">
+              <h4>Level 2: Interviewer Test (15 Intermediate Semi-Advance Questions)</h4>
+              <div class="level-stats">
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Scenario-Base Descriptive Question</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 4 Coding Questions</span>
+                <span class="stat-item"><span class="dot-lvl lvl-inter"></span> 3 Question on Database scenario base (Coding)</span>
+              </div>
+            </div>
+            <div class="unit-test"><div class="unit-test-header"><span class="badge">Interview Set</span><h4>Phase 8 Assessment</h4></div><div class="unit-test-grid"><div class="test-item"><div class="count">200+</div><div class="type">Questions Included</div></div></div></div>
+          </div>
+        </div>
+
+      </div>
+      
+      <div class="detail-footer">
+        <h2>Your Blueprint to a Data Career.</h2>
+        <p>Pick the path that works for you. Grab the structured handbook, test yourself with the interview question bundle, or lock down both to secure your dream offer.</p>
+        
+        <div class="price-block-container">
+          <div class="price-card" style="border: 2px solid var(--navy);">
+            <div class="discount-tag" style="visibility: hidden;">Placeholder</div>
+            <div class="price-strike strike-basic">₹1199</div>
+            <div class="amt price-basic">&#x20B9;499/-</div>
+            <div class="note" style="color: var(--navy);">Only Premium Handbook<br><span style="font-size: 13px; font-weight: 500; color: var(--navy); opacity: 0.85; display: block; margin-top: 8px;">All 8 Phases in PDF Format. No fluff, just facts.</span></div>
+            <a href="https://rzp.io/rzp/43PikTXQ" class="btn-primary btn-navy link-basic" target="_blank" rel="noopener noreferrer" style="width: 100%; justify-content: center; margin-top: auto;">Pre-Order Premium Handbook &rarr;</a>
+          </div>
+
+          <div class="price-card" style="border: 2px solid var(--navy);">
+            <div class="discount-tag" style="visibility: hidden;">Placeholder</div>
+            <div class="price-strike strike-basic">₹1199</div>
+            <div class="amt price-basic">&#x20B9;499/-</div>
+            <div class="note" style="color: var(--navy);">2000+ Interview &amp; Scenario Based Questions<br><span style="font-size: 13px; font-weight: 500; color: var(--navy); opacity: 0.85; display: block; margin-top: 8px;">Structured Unit-Wise to test your gaps.</span></div>
+            <a href="https://rzp.io/rzp/43PikTXQ" class="btn-primary btn-navy link-basic" target="_blank" style="width: 100%; justify-content: center; margin-top: auto;">Pre-Order Interview Set &rarr;</a>
+          </div>
+
+          <div class="price-card featured" style="border: 2px solid var(--cyan);">
+            <div class="discount-tag">62% OFF! Limited Time Offer</div>
+            <div class="price-strike strike-bundle">₹2199</div>
+            <div class="amt price-bundle">&#x20B9;849/-</div>
+            <div class="note">
+              Complete Course Bundle
+              <br><span style="font-size: 13px; font-weight: 500; color: var(--muted); display: block; margin-top: 8px;">Get the Premium Handbook AND the 2000+ Interview Bundle.</span>
+            </div>
+            <a href="https://rzp.io/rzp/43PikTXQ" class="btn-primary link-bundle" target="_blank" rel="noopener noreferrer" style="width: 100%; justify-content: center; margin-top: auto;">Pre-Order Complete Bundle &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="course-data-engineering" class="course-container">
+      <div class="detail-grid">
+        <div class="detail-left">
+          <div class="eyebrow">Infrastructure Path &middot; Coming Soon</div>
+          <h1>
+            <span style="color: var(--navy);">Complete Data Engineer:</span><br>
+            <span style="color: var(--cyan);">Premium Handbook</span>
+          </h1>
+          <p>Build the pipelines that power the modern data stack. Comprehensive architecture handbook covering Apache Spark, Airflow, dbt, Cloud Warehousing, and streaming data.</p>
+        </div>
+        <div class="detail-right">
+          <div class="pdf-viewer-wrap">
+            <h3>Sneak Peek</h3>
+            <p>We're laying the foundational code for this course right now.</p>
+            <div class="pdf-container">
+               <div style="color:var(--muted); font-weight:600;">PDF Preview Coming Soon...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="course-download" class="course-container">
+      <div class="download-success">
+        <div class="download-icon">&#127881;</div>
+        <h1>Payment Successful!</h1>
+        <p>Thank you for choosing Learnlytics. Your download is ready.</p>
+        <a href="https://drive.google.com/drive/folders/1-IhU-jDRzZo-WqUvXeI_UuskNwIwbkhf"
+           target="_blank"
+           class="btn-primary download-btn">
+          Download My Bundle Now
+        </a>
+        <p class="download-help">
+          Having trouble? Contact us on WhatsApp:
+          <a href="https://wa.me/919326778036" target="_blank">919326778036</a>
+        </p>
+      </div>
+    </div>
+	
+    <div id="course-help" class="course-container">
+      <div class="detail-grid" style="grid-template-columns: 1fr; text-align: center; margin-bottom: 48px;">
+        <div>
+          <div class="eyebrow" style="justify-content: center; margin-bottom: 16px;">Support & Policies</div>
+          <h1 style="font-family: 'DM Sans', sans-serif; font-size: clamp(36px, 5vw, 48px); font-weight: 800; color: var(--navy); margin-bottom: 16px;">Help &amp; FAQ</h1>
+          <p style="font-size: 18px; color: var(--muted); max-width: 600px; margin: 0 auto; line-height: 1.6;">Everything you need to know about our structured handbook, payment, and access. Can't find the answer? Reach out to us directly!</p>
+        </div>
+      </div>
+
+      <div class="faq-legal-section" style="margin-top: 0;">
+        <h3 class="faq-title">Frequently Asked Questions</h3>
+        
+        <details class="faq-item">
+          <summary>How will I receive the handbook after payment?</summary>
+          <div class="faq-content">Immediately after your payment is successful, you will be redirected to a secure download page. Additionally, an automated email containing your unique download link will be sent to your registered email address instantly.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>What exactly will I receive after making the payment?</summary>
+          <div class="faq-content">Depending on the tier you select, you will get instant digital access to a zipped file containing the 8-Phase Study Material, the Unit-Based Interview Tests, detailed Answer Sheets, and the Data Analyst Roadmap 2026.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>I am from a non-technical background. Is this guide suitable for me?</summary>
+          <div class="faq-content">Yes, absolutely. The handbook and roadmap are specifically designed assuming you have zero prior coding or technical experience. It breaks down complex skills like SQL and Python into beginner-friendly, sequential steps.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is this a one-time payment or a subscription?</summary>
+          <div class="faq-content">This is a strictly one-time payment. There are no hidden fees, recurring charges, or auto-renewals. Once you buy it, the entire bundle is yours forever.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Does this bundle include actual courses or just PDFs?</summary>
+          <div class="faq-content">These are comprehensive, structured digital handbooks (PDF format) from Learnlytics.handbook. Instead of selling you an expensive, bloated video course, this bundle provides the exact curriculum, facts, and step-by-step interview strategies you need to succeed.</div>
+        </details>
+
+        <h3 class="faq-title" style="margin-top: 48px;">Legal &amp; Policies</h3>
+
+        <details class="faq-item">
+          <summary>Refund Policy</summary>
+          <div class="faq-content">
+            <strong>All Sales are Final</strong><br>
+            Due to the digital nature of the Learnlytics.handbook Complete Data &amp; BI Analyst Bundle, all sales are final. Please ensure you read the product description carefully before making a purchase. We do not offer refunds once the product has been delivered or accessed.<br><br>
+            <strong>Exceptions (if applicable):</strong><br>
+            &bull; Duplicate payments.<br>
+            &bull; Technical issues preventing access (not resolved within a reasonable time).<br><br>
+            For support, please use the contact buttons below. By purchasing this product, you agree to this no-refund policy.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Privacy Policy</summary>
+          <div class="faq-content">
+            We value your privacy and are committed to protecting your personal information.<br><br>
+            <strong>1. Information We Collect:</strong> When you purchase, we may collect your name, email address, and payment details (processed securely via third-party providers).<br>
+            <strong>2. How We Use It:</strong> To deliver your product, provide customer support, send updates, and share relevant offers.<br>
+            <strong>3. Data Protection:</strong> We do not sell, rent, or share your personal data with third parties except as required for payment processing or legal compliance.<br>
+            <strong>4. Third-Party Services:</strong> Payments are handled securely by third-party providers. We do not store your credit card information.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Terms &amp; Conditions</summary>
+          <div class="faq-content">
+            By purchasing or accessing the Learnlytics.handbook bundle, you agree to the following terms:<br><br>
+            <strong>1. Digital Product Access:</strong> This is a digital product. Upon successful payment, you will receive access via email or download link.<br>
+            <strong>2. Personal Use Only:</strong> This product is for personal use only. You may not share, distribute, resell, reproduce, or redistribute the content in any form without prior written permission.<br>
+            <strong>3. Intellectual Property:</strong> All content, including text, design, and materials, is owned by Learnlytics.handbook and protected under applicable copyright laws.<br>
+            <strong>4. No Guarantees of Results:</strong> This guide is for educational purposes only. Results (such as job placement or income increase) may vary based on individual effort, skills, and market conditions.
+          </div>
+        </details>
+      </div>
+      <div style="text-align: center; margin-top: 64px; padding: 48px 24px; background: var(--box-bg2); border-radius: 16px; border: 1px solid var(--border); max-width: 800px; margin-left: auto; margin-right: auto;">
+        <h3 style="font-family: 'DM Sans', sans-serif; font-size: 24px; font-weight: 800; color: var(--navy); margin-bottom: 12px;">Still need help?</h3>
+        <p style="color: var(--muted); margin-bottom: 32px; font-weight: 500;">Our team is ready to assist you. We usually reply within a few hours.</p>
+        
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <a href="https://wa.me/919326778036" target="_blank" class="btn-primary" style="background: #25D366; border: none; color: white;">
+            Chat on WhatsApp &rarr;
+          </a>
+          <a href="mailto:learnlytics.handbook@gmail.com" class="btn-primary btn-navy">
+            Email Support &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div> </div> <div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div id="modal-form-content">
+      <h2 id="modal-title">Get Free SQL Handbook</h2>
+      <p class="sub" id="modal-sub">Enter your details below &mdash; we will send the handbook directly to your inbox. No spam, we promise.</p>
+      
+      <div class="modal-field">
+        <label>FULL NAME</label>
+        <input type="text" id="inp-name" placeholder="John Doe">
+      </div>
+
+      <div class="modal-field">
+        <label>EMAIL ADDRESS</label>
+        <input type="email" id="inp-email" placeholder="you@example.com">
+      </div>
+      
+      <div class="modal-field">
+        <label>WHATSAPP / PHONE NUMBER</label>
+        <input type="tel" id="inp-wa" placeholder="+91 98765 43210">
+      </div>
+
+      <button class="modal-submit" onclick="submitModalForm()">Unlock My PDF</button>
+      <p class="modal-privacy">Your info is securely stored and only used to send course updates.</p>
+    </div>
+
+    <div class="modal-success" id="modal-success" style="display: none; text-align: center;">
+      <div class="check" style="font-size: 56px; margin-bottom: 16px;">🎉</div>
+      <h3 style="font-size: 24px; color: var(--navy); margin-bottom: 8px;">Check Your Email!</h3>
+      <p id="modal-success-msg" style="font-size: 15px; color: var(--text);">We just sent the free handbook directly to your inbox (check your spam folder just in case!).</p>
+      
+      <a id="modal-download-btn" href="https://drive.google.com/file/d/1tg1D9w3WbXnH8scho_HbKwbqV6SG8tq0/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-primary" style="width: 100%; justify-content: center; padding: 14px 24px; border-radius: 8px; border: none; color: white; text-decoration: none; display: flex; margin-top: 16px; cursor: pointer;">📄 Download Free SQL Handbook Now</a>
+      
+      <div style="background: #f8fafc; border: 2px dashed #cbd5e1; padding: 20px; border-radius: 12px; margin-top: 24px; margin-bottom: 24px; text-align: left;">
+        <p style="font-weight: 800; color: var(--navy); margin-bottom: 8px; font-size: 16px;">🎁 WAIT! Claim Your Free Bonus</p>
+        <p style="font-size: 14px; color: var(--text); margin-bottom: 16px; line-height: 1.5;">Want our Top 50 Data Analyst Interview Cheatsheet? Message us on WhatsApp to get it instantly.</p>
+        
+        <a href="https://wa.me/919326778036?text=Hi%20Learnlytics,%20send%20me%20the%20bonus!" target="_blank" class="btn-primary" style="background: #25D366; color: white; border: none; padding: 14px 24px; border-radius: 8px; text-decoration: none; display: flex; justify-content: center; font-weight: bold; cursor: pointer;">
+          &#128242; Send me the bonus!
+        </a>
+      </div>
+
+      <button class="btn-primary btn-navy" style="width: 100%; justify-content: center; padding: 14px 24px; border-radius: 8px; border: none; color: white; background: var(--navy); cursor: pointer;" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="review-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeReviewModal()">&times;</button>
+    <div id="review-form-content">
+      <h2>Post Your Review</h2>
+      <p class="sub">Tell us how the handbook or interview questions helped you!</p>
+      
+      <div class="modal-field">
+        <label>FULL NAME</label>
+        <input type="text" id="rev-name" placeholder="Jane Doe">
+      </div>
+      
+      <div class="modal-field">
+        <label>RATING (1-5)</label>
+        <input type="number" id="rev-rating" min="1" max="5" value="5">
+      </div>
+
+      <div class="modal-field">
+        <label>YOUR REVIEW</label>
+        <textarea id="rev-text" rows="4" placeholder="Your experience..."></textarea>
+      </div>
+
+      <button class="modal-submit" onclick="submitReviewForm()">Submit Review</button>
+    </div>
+
+    <div class="modal-success" id="review-success">
+      <div class="check">&#x2713;</div>
+      <h3>Review Submitted!</h3>
+      <p>Thank you for sharing your experience. Your feedback helps us improve.</p>
+      <button class="btn-primary btn-navy" style="margin-top: 16px; width: 100%; justify-content: center; padding: 14px 24px; border-radius: 8px; border: none; color: white; background: var(--navy); cursor: pointer;" onclick="closeReviewModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
