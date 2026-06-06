@@ -46,10 +46,12 @@ buildDots();
 // ── FULL WEBSITE MENU & DETAIL VIEWS ──
 function openCoursesMenu() {
   document.getElementById('courses-menu').classList.add('open');
+  var sh = document.getElementById('sideHighlights'); if (sh) sh.style.display = 'none';
 }
 
 function closeCoursesMenu() {
   document.getElementById('courses-menu').classList.remove('open');
+  var sh = document.getElementById('sideHighlights'); if (sh) sh.style.display = '';
 }
 
 function openDetail(courseId) {
@@ -60,6 +62,7 @@ function openDetail(courseId) {
   document.body.style.overflow = 'hidden'; 
   detailView.scrollTop = 0; 
   window.location.hash = courseId;
+  var sh = document.getElementById('sideHighlights'); if (sh) sh.style.display = 'none';
 }
 
 function closeDetail() {
@@ -68,6 +71,7 @@ function closeDetail() {
   document.body.style.overflow = 'hidden'; // FIX: was 'auto', which broke the full-page slider after closing detail view
   // NEW: Remove the hash from the URL when going back home
   window.history.replaceState(null, null, window.location.pathname);
+  var sh = document.getElementById('sideHighlights'); if (sh) sh.style.display = '';
 }
 
 function togglePhase(id) {
