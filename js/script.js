@@ -278,34 +278,163 @@ window.addEventListener('keydown', e => {
   if (e.key === 'ArrowUp') goTo(current - 1);
 });
 
-// Function to detect location and swap currency + payment links
-async function localizePrices() {
-  try {
-    const response = await fetch('https://ipapi.co/json/');
-    const data = await response.json();
-    
-    // If they are NOT in India, swap everything to USD
-    if (data.country_code !== 'IN') {
-      
-      // 1. Update all Main Prices (in both the cards AND the top buttons)
-      document.querySelectorAll('.price-basic').forEach(el => el.innerHTML = '$19');
-      document.querySelectorAll('.price-bundle').forEach(el => el.innerHTML = '$29');
-      
-      // 2. Update the Crossed-Out (Strike) Prices in the cards
-      document.querySelectorAll('.strike-basic').forEach(el => el.innerHTML = '$39');
-      document.querySelectorAll('.strike-bundle').forEach(el => el.innerHTML = '$79');
-      
-      // 3. Swap the Checkout Links for Gumroad/Stripe (TODO: Enable after Razorpay international approval)
-      // document.querySelectorAll('.link-basic, .quick-notes, .quick-qa').forEach(el => {
-      //  el.href = 'https://your-global-link.com/basic'; 
-      // });
-      // document.querySelectorAll('.link-bundle, .quick-bundle').forEach(el => {
-      //  el.href = 'https://your-global-link.com/bundle';
-      // });
+const REGIONAL_CHECKOUT = {
+  dataAnalyst: {
+    asia: {
+      handbook: 'https://rzp.io/rzp/7gKjrQ1R',
+      interview: 'https://rzp.io/rzp/BnUho1gl',
+      bundle: 'https://rzp.io/rzp/S2y4eZ3'
+    },
+    international: {
+      handbook: 'https://rzp.io/rzp/D7r6WGq',
+      interview: 'https://rzp.io/rzp/kGokl24y',
+      bundle: 'https://rzp.io/rzp/ro1v8df'
     }
-  } catch (error) {
-    console.log("Location detection failed, defaulting to INR.", error);
+  },
+  dataScience: {
+    asia: 'https://rzp.io/rzp/43PikTXQ',
+    international: 'https://rzp.io/rzp/jJvaGhJy'
   }
+};
+
+const EUROPE_COUNTRY_CODES = new Set([
+  'AL', 'AD', 'AT', 'BY', 'BE', 'BA', 'BG', 'HR', 'CY', 'CZ', 'DK',
+  'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IS', 'IE', 'IT', 'XK', 'LV',
+  'LI', 'LT', 'LU', 'MT', 'MD', 'MC', 'ME', 'NL', 'MK', 'NO', 'PL',
+  'PT', 'RO', 'RU', 'SM', 'RS', 'SK', 'SI', 'ES', 'SE', 'CH', 'TR',
+  'UA', 'GB', 'VA'
+]);
+
+const ASIA_COUNTRY_CODES = new Set([
+  'AF', 'AM', 'AZ', 'BH', 'BD', 'BT', 'BN', 'KH', 'CN', 'GE', 'HK',
+  'IN', 'ID', 'IR', 'IQ', 'IL', 'JP', 'JO', 'KZ', 'KW', 'KG', 'LA',
+  'LB', 'MO', 'MY', 'MV', 'MN', 'MM', 'NP', 'KP', 'OM', 'PK', 'PS',
+  'PH', 'QA', 'SA', 'SG', 'KR', 'LK', 'SY', 'TW', 'TJ', 'TH', 'TL',
+  'TM', 'AE', 'UZ', 'VN', 'YE'
+]);
+
+function getCourseRoots(courseIds) {
+  return courseIds
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+}
+
+function updateWithin(roots, selector, update) {
+  roots.forEach(root => root.querySelectorAll(selector).forEach(update));
+}
+
+function replacePaymentLink(oldUrl, newUrl) {
+  document.querySelectorAll(`a[href="${oldUrl}"]`).forEach(link => {
+    link.href = newUrl;
+  });
+}
+
+function applyDataAnalystMarket(useInternationalCheckout) {
+  if (!useInternationalCheckout) return;
+
+  const analystRoots = getCourseRoots([
+    'course-data-analyst',
+    'course-data-analyst-questions'
+  ]);
+
+  updateWithin(analystRoots, '.price-basic', el => el.textContent = '$19');
+  updateWithin(analystRoots, '.price-bundle', el => el.textContent = '$29');
+  updateWithin(analystRoots, '.strike-basic', el => el.textContent = '$39');
+  updateWithin(analystRoots, '.strike-bundle', el => el.textContent = '$79');
+  updateWithin(analystRoots, '.conversion-callout span', el => {
+    el.textContent = 'Market Value: $79. Launch Price: $29.';
+  });
+
+  const heroOffer = document.querySelector('.conversion-copy span');
+  if (heroOffer) {
+    heroOffer.textContent = 'Market Value: $79. Launch Price: $29.';
+  }
+
+  replacePaymentLink(
+    REGIONAL_CHECKOUT.dataAnalyst.asia.handbook,
+    REGIONAL_CHECKOUT.dataAnalyst.international.handbook
+  );
+  replacePaymentLink(
+    REGIONAL_CHECKOUT.dataAnalyst.asia.interview,
+    REGIONAL_CHECKOUT.dataAnalyst.international.interview
+  );
+  replacePaymentLink(
+    REGIONAL_CHECKOUT.dataAnalyst.asia.bundle,
+    REGIONAL_CHECKOUT.dataAnalyst.international.bundle
+  );
+}
+
+function applyDataScienceMarket(useAsianCheckout) {
+  const scienceRoots = getCourseRoots([
+    'course-data-science',
+    'course-data-science-questions'
+  ]);
+  const price = useAsianCheckout ? '\u20B91' : '$1';
+
+  updateWithin(scienceRoots, '.price-basic, .price-bundle', el => {
+    el.textContent = price;
+  });
+
+  if (!useAsianCheckout) {
+    updateWithin(scienceRoots, '.strike-basic', el => el.textContent = '$19');
+    updateWithin(scienceRoots, '.strike-bundle', el => el.textContent = '$29');
+    replacePaymentLink(
+      REGIONAL_CHECKOUT.dataScience.asia,
+      REGIONAL_CHECKOUT.dataScience.international
+    );
+  }
+}
+
+async function detectCountryCode() {
+  const providers = [
+    {
+      url: 'https://ipapi.co/json/',
+      readCountry: data => data.country_code
+    },
+    {
+      url: 'https://api.country.is/',
+      readCountry: data => data.country
+    }
+  ];
+
+  for (const provider of providers) {
+    try {
+      const response = await fetch(provider.url);
+      if (!response.ok) continue;
+      const data = await response.json();
+      const countryCode = String(provider.readCountry(data) || '').toUpperCase();
+      if (/^[A-Z]{2}$/.test(countryCode)) return countryCode;
+    } catch (error) {
+      // Try the next provider.
+    }
+  }
+
+  return '';
+}
+
+function getLocalCountryOverride() {
+  const localHosts = new Set(['localhost', '127.0.0.1', '::1']);
+  if (!localHosts.has(window.location.hostname)) return '';
+
+  const countryCode = new URLSearchParams(window.location.search)
+    .get('test-country')
+    ?.toUpperCase();
+
+  return /^[A-Z]{2}$/.test(countryCode || '') ? countryCode : '';
+}
+
+async function localizePrices() {
+  const countryCode = getLocalCountryOverride() || await detectCountryCode();
+
+  // A failed lookup keeps the safer INR defaults and existing Asian links.
+  if (!countryCode) return;
+
+  const useInternationalAnalystCheckout =
+    countryCode === 'US' || EUROPE_COUNTRY_CODES.has(countryCode);
+  const useAsianScienceCheckout = ASIA_COUNTRY_CODES.has(countryCode);
+
+  applyDataAnalystMarket(useInternationalAnalystCheckout);
+  applyDataScienceMarket(useAsianScienceCheckout);
 }
 
 // Combined initialization: deep-link routing + price localization
