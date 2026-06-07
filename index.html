@@ -174,6 +174,19 @@
     <img src="images/Logo.png" alt="Learnlytics" style="height: 78px; width: 230px;">
   </a>
   <div class="outer-links">
+    <div class="handbook-dropdown-wrap">
+      <a class="btn-handbook" onclick="toggleHandbookDropdown(event)">FREE SQL,ML Handbook</a>
+      <div class="handbook-dropdown" id="handbookDropdown">
+        <a class="handbook-dropdown-item" onclick="goToFreeSQL(); closeHandbookDropdown();">
+          <span class="hd-icon">&#x1F4D6;</span>
+          <span>Get Free SQL Handbook</span>
+        </a>
+        <a class="handbook-dropdown-item" onclick="goToFreeML(); closeHandbookDropdown();">
+          <span class="hd-icon">&#x1F916;</span>
+          <span>Get Free Machine Learning (Part-01) Handbook</span>
+        </a>
+      </div>
+    </div>
     <a class="btn-courses" onclick="openCoursesMenu()">Courses</a>
     <a class="btn-help" onclick="openDetail('help')" style="cursor: pointer;">
       Help &amp; FAQ
@@ -2226,7 +2239,7 @@
       
       <div style="background: #f8fafc; border: 2px dashed #cbd5e1; padding: 20px; border-radius: 12px; margin-top: 24px; margin-bottom: 24px; text-align: left;">
         <p style="font-weight: 800; color: var(--navy); margin-bottom: 8px; font-size: 16px;">🎁 WAIT! Claim Your Free Bonus</p>
-        <p style="font-size: 14px; color: var(--text); margin-bottom: 16px; line-height: 1.5;">Want our Top 50 Data Analyst Interview Cheatsheet? Message us on WhatsApp to get it instantly.</p>
+        <p id="modal-bonus-msg" style="font-size: 14px; color: var(--text); margin-bottom: 16px; line-height: 1.5;">Want our SQL Interview Question Set? Message us on WhatsApp to get it instantly.</p>
         
         <a href="https://wa.me/919326778036?text=Hi%20Learnlytics,%20send%20me%20the%20bonus!" target="_blank" class="btn-primary" style="background: #25D366; color: white; border: none; padding: 14px 24px; border-radius: 8px; text-decoration: none; display: flex; justify-content: center; font-weight: bold; cursor: pointer;">
           &#128242; Send me the bonus!
