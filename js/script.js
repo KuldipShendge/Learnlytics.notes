@@ -54,6 +54,44 @@ function closeCoursesMenu() {
   var sh = document.getElementById('sideHighlights'); if (sh) sh.style.display = '';
 }
 
+// ── HANDBOOK DROPDOWN LOGIC ──
+function toggleHandbookDropdown(e) {
+  e.stopPropagation();
+  var dd = document.getElementById('handbookDropdown');
+  dd.classList.toggle('open');
+}
+
+function closeHandbookDropdown() {
+  var dd = document.getElementById('handbookDropdown');
+  if (dd) dd.classList.remove('open');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  var wrap = document.querySelector('.handbook-dropdown-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    closeHandbookDropdown();
+  }
+});
+
+function goToFreeSQL() {
+  openDetail('data-analyst');
+  // Scroll to the free SQL handbook button after the detail view opens
+  setTimeout(function() {
+    var btn = document.querySelector('#course-data-analyst .form-submit-full');
+    if (btn) btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 500);
+}
+
+function goToFreeML() {
+  openDetail('data-science');
+  // Scroll to the free ML handbook button after the detail view opens
+  setTimeout(function() {
+    var btn = document.querySelector('#course-data-science .form-submit-full');
+    if (btn) btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 500);
+}
+
 function openDetail(courseId) {
   document.querySelectorAll('.course-container').forEach(el => el.classList.remove('active'));
   document.getElementById('course-' + courseId).classList.add('active');
@@ -154,6 +192,16 @@ function openModal(type) {
   const dlBtn = document.getElementById('modal-download-btn');
   dlBtn.href = currentModalConfig.fileLink;
   dlBtn.innerText = currentModalConfig.downloadText;
+
+  // Update bonus message based on type (DA = SQL, DS = ML)
+  var bonusMsg = document.getElementById('modal-bonus-msg');
+  if (bonusMsg) {
+    if (type === 'ds-handbook' || type === 'ds-questions') {
+      bonusMsg.textContent = 'Want Machine Learning Part 01 Interview Question Set? Message us on WhatsApp to get it instantly.';
+    } else {
+      bonusMsg.textContent = 'Want our SQL Interview Question Set? Message us on WhatsApp to get it instantly.';
+    }
+  }
 
   document.getElementById('modal').classList.add('open');
 }
