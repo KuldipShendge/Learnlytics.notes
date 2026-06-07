@@ -744,6 +744,7 @@ html, body {
   .course-cards-grid { grid-template-columns: 1fr; }
   .dots { display: none; }
   .home-footer { padding: 16px 24px; flex-direction: column-reverse; gap: 16px; }
+  .side-highlights { display: none !important; }
 }
 
 /* â”€â”€ REVIEWS SECTION â”€â”€ */
@@ -943,14 +944,27 @@ textarea:focus { border-color: var(--cyan); }
 
 /* â”€â”€ MOBILE SPECIFIC UPGRADES (STACKED BUTTONS & TINY FOOTER) â”€â”€ */
 @media (max-width: 768px) {
-  /* 1. Stacks the Nav Buttons Top & Bottom */
+  /* 1. Grid layout for Nav Buttons on mobile */
   .outer-links {
-    flex-direction: column !important; /* Forces the top-and-bottom stack */
-    align-items: flex-end !important;  /* Aligns them cleanly to the right edge */
-    gap: 6px !important;               /* Space between the two buttons */
+    display: grid !important;
+    grid-template-areas: 
+      "handbook handbook"
+      "courses help" !important;
+    gap: 6px !important;
+    justify-content: end !important;
+    align-items: center !important;
   }
   
-  .btn-courses, .btn-help {
+  .btn-courses {
+    grid-area: courses;
+    padding: 6px 14px !important;
+    font-size: 12px !important;
+    width: 100px !important;           /* Forces them to be exactly the same width for a clean look */
+    justify-content: center !important;
+  }
+
+  .btn-help {
+    grid-area: help;
     padding: 6px 14px !important;
     font-size: 12px !important;
     width: 100px !important;           /* Forces them to be exactly the same width for a clean look */
@@ -958,7 +972,33 @@ textarea:focus { border-color: var(--cyan); }
   }
 
   .handbook-dropdown-wrap {
-    display: none !important;          /* Hide handbook button on mobile to prevent overcrowding */
+    grid-area: handbook;
+    display: inline-flex !important;
+    position: relative !important;
+  }
+
+  .btn-handbook {
+    padding: 6px 14px !important;
+    font-size: 11px !important;
+    justify-content: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+  }
+
+  .handbook-dropdown {
+    right: 0 !important;
+    left: auto !important;
+    transform: translateY(-8px) !important;
+    min-width: 260px !important;
+  }
+  .handbook-dropdown.open {
+    transform: translateY(0) !important;
+  }
+  .handbook-dropdown::before {
+    left: auto !important;
+    right: 24px !important;
+    transform: rotate(45deg) !important;
   }
 
   .central-box {
@@ -1047,6 +1087,10 @@ textarea:focus { border-color: var(--cyan); }
   .btn-courses, .btn-help {
     width: 90px !important;        /* slightly tighter pill width */
     font-size: 11px !important;
+    padding: 5px 10px !important;
+  }
+  .btn-handbook {
+    font-size: 10px !important;
     padding: 5px 10px !important;
   }
 }
