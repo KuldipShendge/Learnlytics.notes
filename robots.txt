@@ -1,0 +1,7 @@
+# Learnlytics.handbook Robots.txt
+User-agent: *
+Allow: /
+Disallow: /pdfs/
+
+# Sitemap
+Sitemap: https://learnlyticshandbook.shop/sitemap.xml
