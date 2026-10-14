@@ -1,0 +1,143 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const { chromium } = require('playwright');
+
+const origin = process.env.PREVIEW_URL || 'http://127.0.0.1:4173';
+const url = `${origin}/course-bundles/data-scientist-genai-engineer-bundle`;
+const output = path.resolve(__dirname, '../screenshots');
+const reportFile = path.join(output, 'product-verification.json');
+const widths = [360, 390, 430, 768, 1024, 1440];
+
+(async () => {
+  fs.mkdirSync(output, { recursive: true });
+  fs.writeFileSync(reportFile, JSON.stringify({ status: 'running' }));
+  const { curriculum } = await import('../js/ds-curriculum.js');
+  assert.equal(curriculum.length, 7);
+  assert.equal(curriculum.reduce((sum, module) => sum + module.parts.length, 0), 20);
+  assert.equal(curriculum.reduce((sum, module) => sum + module.questions, 0), 3280);
+  assert.deepEqual(curriculum.map(module => module.parts.length), [2, 3, 3, 3, 3, 4, 2]);
+  assert.deepEqual(curriculum.map(module => module.questions), [490, 510, 540, 500, 480, 500, 260]);
+  const browser = await chromium.launch({ executablePath: process.env.BROWSER_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
+  const context = await browser.newContext({ reducedMotion: 'reduce' });
+  const page = await context.newPage();
+  const errors = [], missing = [], external = [], viewports = [];
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('response', response => { if (response.status() >= 400) missing.push(response.url()); });
+  await context.route('**/*', route => {
+    if (new URL(route.request().url()).origin === origin) return route.continue();
+    external.push(route.request().url());
+    return route.abort();
+  });
+  async function noOverflow(label) {
+    const size = await page.evaluate(() => ({ width: innerWidth, scroll: document.documentElement.scrollWidth }));
+    assert(size.scroll <= size.width, `${label}: ${JSON.stringify(size)}`);
+  }
+  async function closeDialog(id) {
+    await page.keyboard.press('Escape');
+    await page.locator(id).waitFor({ state: 'hidden' });
+  }
+  try {
+    for (const width of widths) {
+      await page.setViewportSize({ width, height: width >= 980 ? 1000 : 844 });
+      const response = await page.goto(url);
+      assert.equal(response.status(), 200);
+      await page.evaluate(() => document.fonts.ready);
+      assert.equal(await page.locator('.curriculum-module').count(), 7);
+      assert.equal(await page.locator('.module-parts li').count(), 20);
+      assert.equal(await page.locator('[data-question-total]').first().textContent(), '3,680+');
+      const brand = await page.evaluate(() => {
+        const styles = getComputedStyle(document.documentElement);
+        return ['--ink', '--accent', '--paper'].map(token => styles.getPropertyValue(token).trim());
+      });
+      assert.deepEqual(brand, ['#241525', '#b40982', '#fcfafb']);
+      assert.match(await page.locator('.curriculum-total').textContent(), /20 parts\. 60 resources\. One complete kit\./);
+      const bodyText = await page.locator('body').innerText();
+      assert(!/frequently asked questions|\bPDF\b|\bDOCX\b|7.day refund/i.test(bodyText), 'Excluded product UI found');
+      const fonts = await page.locator('#product-title').evaluate(el => ({ family: getComputedStyle(el).fontFamily, available: document.fonts.check('800 20px Manrope') }));
+      assert(fonts.family.includes('Manrope') && fonts.available);
+      await noOverflow(`${width}px collapsed`);
+      for (const summary of await page.locator('.curriculum-module summary').all()) await summary.click();
+      assert.equal(await page.locator('.curriculum-module[open]').count(), 7);
+      await noOverflow(`${width}px all modules open`);
+      for (const summary of await page.locator('.curriculum-module summary').all()) await summary.click();
+      await page.locator('.purchase-button').click();
+      assert(await page.locator('#checkout-dialog').isVisible());
+      assert.match(await page.locator('#checkout-dialog-title').textContent(), /coming soon/);
+      await closeDialog('#checkout-dialog');
+      await page.locator('.product-sticky [data-checkout]').click();
+      assert(await page.locator('#checkout-dialog').isVisible());
+      await closeDialog('#checkout-dialog');
+      if (width < 900) {
+        await page.evaluate(() => scrollTo(0, 0));
+        await page.locator('.menu-toggle').click();
+        await page.locator('#main-nav a[href="#curriculum"]').click();
+        assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'), 'false');
+      }
+      await page.goto(url);
+      await page.evaluate(async () => {
+        document.querySelectorAll('img[src]').forEach(img => img.loading = 'eager');
+        await Promise.all([...document.querySelectorAll('img[src]')].map(img => img.decode()));
+        await document.fonts.ready;
+      });
+      await page.screenshot({ path: path.join(output, `product-${width}.png`), fullPage: true, style: '.product-sticky { visibility: hidden; }' });
+      if ([390, 1440].includes(width)) await page.screenshot({ path: path.join(output, `product-${width}-viewport.png`) });
+      viewports.push({ width, overflow: false, curriculum: 'pass', purchasePlaceholder: 'pass' });
+    }
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(url);
+    // Real source previews, sample pagination, and the clearly labelled workbook demo.
+    for (const type of ['handbook', 'workbook', 'solutions']) {
+      await page.locator(`[data-sample="${type}"]`).click();
+      assert.equal(await page.locator(`[data-sample="${type}"]`).getAttribute('aria-selected'), 'true');
+      for (let index = 0; index < 3; index++) {
+        await page.locator(`[data-sample-index="${index}"]`).click();
+        assert.equal(await page.locator('#sample-position').textContent(), `0${index + 1} / 03`);
+        if (type === 'workbook') {
+          assert(await page.locator('#workbook-preview').isVisible());
+          assert.match(await page.locator('#sample-note').textContent(), /Illustrative practice preview/);
+        } else {
+          await page.locator('#sample-image').evaluate(img => img.decode());
+          assert(await page.locator('#sample-image').evaluate(img => img.naturalWidth > 0));
+        }
+        await noOverflow(`390px ${type} ${index}`);
+      }
+    }
+    await page.locator('.sample-next').click();
+    assert.equal(await page.locator('#sample-position').textContent(), '01 / 03');
+    await page.locator('.sample-previous').click();
+    assert.equal(await page.locator('#sample-position').textContent(), '03 / 03');
+    await page.locator('#tab-solutions').focus();
+    await page.keyboard.press('ArrowRight');
+    assert.equal(await page.locator('#tab-handbook').getAttribute('aria-selected'), 'true');
+    await page.locator('.sample-image-button').click();
+    assert(await page.locator('#sample-dialog').isVisible());
+    await page.locator('#sample-enlarged').evaluate(img => img.decode());
+    await closeDialog('#sample-dialog');
+    for (const id of ['use', 'choose']) {
+      await page.locator(`[data-video="${id}"]`).click();
+      assert(await page.locator('#video-dialog').isVisible());
+      assert.equal(await page.locator('#video-player iframe').count(), 0);
+      await page.locator('#demo-next').click();
+      assert.equal(await page.locator('.demo-step-count').textContent(), 'STEP 2 OF 3');
+      await closeDialog('#video-dialog');
+      await page.waitForFunction(() => document.querySelector('#video-player').childElementCount === 0);
+    }
+    assert.equal(await page.locator('#support .whatsapp-link').getAttribute('href'), 'https://wa.me/919130631497');
+    await page.goto(origin);
+    await page.locator('[data-kit="scientist"]').click();
+    await page.waitForURL(url);
+    assert(await page.locator('#product-title').isVisible());
+    const badAnchors = await page.locator('a[href^="#"]').evaluateAll(links => links.filter(link => !document.getElementById(link.hash.slice(1))).map(link => link.hash));
+    assert.deepEqual(badAnchors, []);
+    assert.deepEqual(errors, []);
+    assert.deepEqual(missing, []);
+    assert.deepEqual(external, []);
+    fs.writeFileSync(reportFile, JSON.stringify({ status: 'pass', viewports, curriculum: { modules: 7, parts: 20, resources: 60, detailedPracticeQuestions: 3280, oldHeadlineQuestions: 3680 }, interactions: ['all curriculum accordions', 'mobile navigation', 'main and sticky purchase placeholders', 'sample tabs and keyboard control', 'sample pagination and zoom', 'both guide demos', 'homepage product link'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
+    console.log('PASS: product at 360, 390, 430, 768, 1024, 1440px; curriculum, samples, demos, navigation and placeholder checkout.');
+  } finally { await browser.close(); }
+})().catch(error => {
+  fs.writeFileSync(reportFile, JSON.stringify({ status: 'failed', error: error.message }, null, 2));
+  console.error(error);
+  process.exitCode = 1;
+});
