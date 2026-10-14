@@ -1,6 +1,6 @@
 import { setupVideos } from './videos.js';
 import { setupDialog } from './dialog.js';
-import { setupSampleGallery } from './sample-gallery.js';
+import { setupSampleGallery } from './sample-gallery.js?v=single-url-1';
 import { curriculum, productOverview } from './ds-curriculum.js';
 
 export function setupProduct() {

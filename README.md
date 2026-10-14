@@ -94,7 +94,11 @@ The product page omits FAQs, file-format badges and refund claims as requested. 
 
 GitHub Pages serves `index.html` at the repository URL, such as `https://kuldipshendge.github.io/Learnlytics.notes/`. DS and About Us switch content in place; section links scroll without changing the URL. Browser Back/Forward switches views, and refresh restores the active view using browser history state. Opening the base URL in a new tab starts on the homepage. Separate shareable page URLs are deferred to v2.
 
-All assets use relative paths, including generated sample images and SVG icons. No custom route rewrites or separate HTML entry points are required. To test the same project-folder layout locally:
+All assets use relative paths, including generated sample images and SVG icons. No custom route rewrites or separate HTML entry points are required.
+
+The JavaScript entry point and modules changed by the single-URL migration use the `single-url-1` asset version so returning visitors do not mix the new HTML with cached page-navigation code. Bump the version on the entry point and affected imports when changing this navigation again.
+
+To test the same project-folder layout locally:
 
 ```powershell
 $env:PREVIEW_BASE_PATH = '/Learnlytics.notes'
