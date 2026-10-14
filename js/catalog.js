@@ -2,7 +2,7 @@
 // and the existing product sections. This file does not configure checkout.
 export const kits = {
   scientist: {
-    href: '/course-bundles/data-scientist-genai-engineer-bundle',
+    view: 'scientist',
     title: 'Crack Data Scientist & Gen AI',
     subtitle: 'Data Scientist & Gen AI Interview Kit',
     category: 'DATA SCIENCE & GENERATIVE AI',

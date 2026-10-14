@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Standalone LearnLytics homepage. No framework or production dependencies.",
+  "description": "Single-URL LearnLytics site. No framework or production dependencies.",
   "scripts": {
     "dev": "node scripts/preview.mjs",
     "start": "node scripts/preview.mjs",
-    "test": "node tests/homepage.cjs && node tests/product.cjs",
+    "test": "node tests/homepage.cjs && node tests/product.cjs && node tests/navigation.cjs",
     "test:product": "node tests/product.cjs"
   }
 }

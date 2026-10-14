@@ -3,8 +3,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
 
-const origin = process.env.PREVIEW_URL || 'http://127.0.0.1:4173';
-const url = `${origin}/course-bundles/data-scientist-genai-engineer-bundle`;
+const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
+const origin = new URL(url).origin;
 const output = path.resolve(__dirname, '../screenshots');
 const reportFile = path.join(output, 'product-verification.json');
 const widths = [360, 390, 430, 768, 1024, 1440];
@@ -29,6 +29,15 @@ const widths = [360, 390, 430, 768, 1024, 1440];
     external.push(route.request().url());
     return route.abort();
   });
+  async function openProduct() {
+    const response = await page.goto(url);
+    if (!(await page.locator('body.product-page').count())) {
+      await page.locator('#kit-details').click();
+    }
+    await page.locator('#product-title').waitFor();
+    assert.equal(page.url(), url);
+    return response;
+  }
   async function noOverflow(label) {
     const size = await page.evaluate(() => ({ width: innerWidth, scroll: document.documentElement.scrollWidth }));
     assert(size.scroll <= size.width, `${label}: ${JSON.stringify(size)}`);
@@ -40,7 +49,7 @@ const widths = [360, 390, 430, 768, 1024, 1440];
   try {
     for (const width of widths) {
       await page.setViewportSize({ width, height: width >= 980 ? 1000 : 844 });
-      const response = await page.goto(url);
+      const response = await openProduct();
       assert.equal(response.status(), 200);
       await page.evaluate(() => document.fonts.ready);
       assert.equal(await page.locator('.curriculum-module').count(), 7);
@@ -74,18 +83,19 @@ const widths = [360, 390, 430, 768, 1024, 1440];
         await page.locator('#main-nav a[href="#curriculum"]').click();
         assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'), 'false');
       }
-      await page.goto(url);
+      await openProduct();
       await page.evaluate(async () => {
         document.querySelectorAll('img[src]').forEach(img => img.loading = 'eager');
         await Promise.all([...document.querySelectorAll('img[src]')].map(img => img.decode()));
         await document.fonts.ready;
       });
+      await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
       await page.screenshot({ path: path.join(output, `product-${width}.png`), fullPage: true, style: '.product-sticky { visibility: hidden; }' });
       if ([390, 1440].includes(width)) await page.screenshot({ path: path.join(output, `product-${width}-viewport.png`) });
       viewports.push({ width, overflow: false, curriculum: 'pass', purchasePlaceholder: 'pass' });
     }
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(url);
+    await openProduct();
     // Real source previews, sample pagination, and the clearly labelled workbook demo.
     for (const type of ['handbook', 'workbook', 'solutions']) {
       await page.locator(`[data-sample="${type}"]`).click();
@@ -124,11 +134,12 @@ const widths = [360, 390, 430, 768, 1024, 1440];
       await page.waitForFunction(() => document.querySelector('#video-player').childElementCount === 0);
     }
     assert.equal(await page.locator('#support .whatsapp-link').getAttribute('href'), 'https://wa.me/919130631497');
-    await page.goto(origin);
+    await page.locator('.breadcrumbs [data-view="home"]').first().click();
     await page.locator('[data-kit="scientist"]').click();
-    await page.waitForURL(url);
+    await page.locator('#product-title').waitFor();
+    assert.equal(page.url(), url);
     assert(await page.locator('#product-title').isVisible());
-    const badAnchors = await page.locator('a[href^="#"]').evaluateAll(links => links.filter(link => !document.getElementById(link.hash.slice(1))).map(link => link.hash));
+    const badAnchors = await page.locator('a[href^="#"]:not([data-view])').evaluateAll(links => links.filter(link => !document.getElementById(link.hash.slice(1))).map(link => link.hash));
     assert.deepEqual(badAnchors, []);
     assert.deepEqual(errors, []);
     assert.deepEqual(missing, []);

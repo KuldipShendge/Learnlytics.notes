@@ -1,14 +1,14 @@
-# LearnLytics V2 — Homepage, About Us and Data Scientist Product Page
+# LearnLytics — Single-URL Site
 
 A new standalone homepage inspired by the supplied mobile mockup, built with LearnLytics’ current plum, magenta and blush palette. The default recommendation is **Crack Data Scientist & Gen AI**.
 
-The Data Scientist & Gen AI product page uses the second reference for **structure and content only**. It shares the homepage's **plum, magenta and blush palette and Manrope font**, all defined in `css/tokens.css`. Both the featured “View kit details” link and the Data Scientist comparison card open `/course-bundles/data-scientist-genai-engineer-bundle`. The direct `/data-scientist-genai.html` URL also works. See `docs/product-page.md` for implementation and curriculum notes.
+The Data Scientist & Gen AI product page uses the second reference for **structure and content only**. It shares the homepage's **plum, magenta and blush palette and Manrope font**, all defined in `css/tokens.css`. Both the featured “View kit details” link and the Data Scientist comparison card open the full product view inside `index.html`, without changing the browser URL. Separate page URLs are deferred to v2. See `docs/product-page.md` for implementation and curriculum notes.
 
-The **About Us** page at `/about-us` preserves the complete About section structure and copy from `D:\website\index.html`. Only its relevant responsive styles were extracted from `css/light-theme.css`; the old dashboard scripts and hidden-section behavior are not needed. Its links open the current learning kits and actual sample pages. All pages share a compact header with 14px navigation text and the original logo without the separately added tagline.
+The **About Us** view in `index.html` preserves the complete About section structure and copy from `D:\website\index.html`. Only its relevant responsive styles were extracted from `css/light-theme.css`; the old dashboard scripts and hidden-section behavior are not needed. Its links open the current learning kits and actual sample pages. All pages share a compact header with 14px navigation text and the original logo without the separately added tagline.
 
 ## Run locally
 
-From `D:\learnlytics_v2`, run:
+From `D:\GitHub Repos\Learnlytics.notes`, run:
 
 ```powershell
 node scripts/preview.mjs
@@ -20,10 +20,8 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 
 | File | Responsibility |
 | --- | --- |
-| `index.html` | Semantic homepage sections, default recommendation, shared dialog shells and inline SVG icons |
-| `about.html` | Original About Us content, connected to the current homepage and samples |
+| `index.html` | Homepage and embedded templates for the DS and About Us views; dialog shells and inline SVG icons |
 | `css/about.css` | Selectively adapted About Us styles using the shared brand tokens |
-| `js/about.js` | Initializes the shared mobile navigation on About Us |
 | `css/tokens.css` | Brand tokens, local fonts, base styles and reusable UI primitives |
 | `css/home.css` | Homepage components and mobile, tablet and desktop layouts |
 | `css/navigation.css` | Shared header, logo treatment and navigation layout |
@@ -34,7 +32,7 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `js/video-config.js` | Guide titles, demo chapters and optional future YouTube IDs |
 | `js/videos.js` | Click-to-open guides, local demo playback and future video embed support |
 | `js/main.js` | Mobile navigation and component initialization |
-| `data-scientist-genai.html` | New Data Scientist & Gen AI product page |
+| `js/views.js` | In-page view switching, focus, titles, Back/Forward and refresh at the same URL |
 | `css/product.css` | Product book illustration and responsive sections using shared brand tokens |
 | `js/product.js` | Product curriculum rendering, shared guides and purchase placeholder |
 | `js/ds-curriculum.js` | Seven original modules, 20 parts and per-part question/page counts |
@@ -44,12 +42,13 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `assets/images/samples/` | Six actual handbook and solution preview images from the old site |
 | `assets/images/` | Ten selectively copied, existing WebP assets |
 | `assets/fonts/` | Self-hosted Manrope fonts and SIL Open Font License |
-| `scripts/preview.mjs` | Small local static server and explicit page routes; no backend integrations |
+| `scripts/preview.mjs` | Static preview server with optional project subfolder; no route rewrites or backend integrations |
 | `tests/homepage.cjs` | Browser acceptance checks and screenshot capture |
 | `tests/product.cjs` | Product interactions, curriculum totals, responsive checks and screenshots |
+| `tests/navigation.cjs` | Unchanged URL, view switching, Back/Forward, refresh and repeated visits |
 | `screenshots/` | Mobile, tablet and desktop captures plus verification results |
 
-No framework, production dependencies, legacy scripts, duplicate theme overrides or inline event handlers are required. The page content remains readable without JavaScript; kit selection and guide dialogs require it.
+No framework, production dependencies, legacy scripts, duplicate theme overrides or inline event handlers are required. The homepage remains readable without JavaScript; switching views, kit selection and guide dialogs require it. Inactive views remain in templates, so only one main landmark and one set of dialog IDs are active.
 
 ## Existing branding and assets reused
 
@@ -91,6 +90,19 @@ The featured Data Scientist “View kit details” button opens the new product 
 
 The product page omits FAQs, file-format badges and refund claims as requested. It does not reproduce the reference's unverified ratings or testimonials. The two guide videos are demos. Handbook and solution previews are real existing assets; the workbook preview is a clearly labelled illustrative placeholder. WhatsApp links use the existing support contact, `+91 91306 31497`.
 
+## Hosting and navigation
+
+GitHub Pages serves `index.html` at the repository URL, such as `https://kuldipshendge.github.io/Learnlytics.notes/`. DS and About Us switch content in place; section links scroll without changing the URL. Browser Back/Forward switches views, and refresh restores the active view using browser history state. Opening the base URL in a new tab starts on the homepage. Separate shareable page URLs are deferred to v2.
+
+All assets use relative paths, including generated sample images and SVG icons. No custom route rewrites or separate HTML entry points are required. To test the same project-folder layout locally:
+
+```powershell
+$env:PREVIEW_BASE_PATH = '/Learnlytics.notes'
+node scripts/preview.mjs
+```
+
+Open `http://127.0.0.1:4173/Learnlytics.notes/` and set `PREVIEW_URL` to that address when running the browser checks. The preview intentionally returns 404 for paths outside the configured project folder.
+
 ## Verification
 
 The browser checks cover 360, 390, 430, 768, 1024 and 1440px widths, every career choice, recommendation content/prices, dialog layout, dismissal and focus, mobile navigation, comparison cards, the sticky CTA, both guide demos, demo playback, FAQs, images and internal anchors. All nonlocal network requests are blocked during testing.
@@ -99,6 +111,6 @@ The latest results are in `screenshots/verification.json` and `screenshots/produ
 
 About Us was also checked at 360, 390, 430, 768, 900, 1024 and 1440px, including its header links, mobile menu, calls to action, content without JavaScript, and a comparison of its copy with the original section. Results are saved in `screenshots/about-verification.json`, with mobile and desktop captures in `about-390.png` and `about-1440.png`.
 
-To rerun, start the preview server and run `node tests/homepage.cjs` and `node tests/product.cjs` in another terminal with Playwright available. `NODE_PATH` can point to the bundled Playwright installation. `BROWSER_PATH` overrides the default local Chrome executable; `PREVIEW_URL` overrides the server URL.
+To rerun, start the preview server and run `node tests/homepage.cjs`, `node tests/product.cjs` and `node tests/navigation.cjs` in another terminal with Playwright available. `NODE_PATH` can point to the bundled Playwright installation. `BROWSER_PATH` overrides the default local Chrome executable; `PREVIEW_URL` overrides the server URL.
 
 Verified in desktop Chromium with emulated viewport sizes; physical-device and Safari testing have not been performed.

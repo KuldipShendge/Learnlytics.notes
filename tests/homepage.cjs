@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
 
-const url = process.env.PREVIEW_URL || 'http://127.0.0.1:4173';
+const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
 const output = path.resolve(__dirname, '../screenshots');
 const widths = [360, 390, 430, 768, 1024, 1440];
 const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scientist & Gen AI', engineer: 'Crack Machine Learning', complete: 'One Kit. More Possibilities.' };
@@ -20,10 +20,17 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
   page.on('pageerror', error => errors.push(error.message));
   page.on('response', response => { if (response.status() >= 400) missing.push(response.url()); });
   await context.route('**/*', route => {
-    if (new URL(route.request().url()).origin === url) return route.continue();
+    if (new URL(route.request().url()).origin === new URL(url).origin) return route.continue();
     external.push(route.request().url());
     return route.abort();
   });
+  async function openHome() {
+    const response = await page.goto(url);
+    if (!(await page.locator('body.home-page').count())) {
+      await page.locator('a[data-view="home"]').first().click();
+    }
+    return response;
+  }
   async function noOverflow(label) {
     const dimensions = await page.evaluate(() => ({ page: document.documentElement.scrollWidth, viewport: innerWidth }));
     assert(dimensions.page <= dimensions.viewport, `${label}: overflow ${JSON.stringify(dimensions)}`);
@@ -31,7 +38,7 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
   try {
     for (const width of widths) {
       await page.setViewportSize({ width, height: width >= 900 ? 1000 : 844 });
-      const response = await page.goto(url);
+      const response = await openHome();
       assert.equal(response.status(), 200);
       await page.evaluate(() => document.fonts.ready);
       assert.match(await page.locator('#recommended-title').innerText(), /Crack Data Scientist\s*& Gen AI/);
@@ -44,9 +51,10 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
         await noOverflow(`${width}px ${id}`);
         await page.locator('#kit-details').click();
         if (id === 'scientist') {
-          await page.waitForURL('**/course-bundles/data-scientist-genai-engineer-bundle');
+          await page.locator('#product-title').waitFor();
+          assert.equal(page.url(), url);
           assert(await page.locator('#product-title').isVisible());
-          await page.goto(url);
+          await openHome();
           continue;
         }
         assert(await page.locator('#kit-dialog').isVisible());
@@ -64,10 +72,11 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
         await page.locator('#main-nav a[href="#inside"]').click();
         assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'), 'false');
         await page.locator('.mobile-cta a').click();
-        assert.equal(new URL(page.url()).hash, '#career-goal');
+        assert.equal(page.url(), url);
+        assert(await page.locator('#career-goal').evaluate(el => el === document.activeElement));
       }
       // Capture the page in its default state, with lazy assets fully loaded.
-      await page.goto(url);
+      await openHome();
       await page.evaluate(async () => {
         document.querySelectorAll('img').forEach(img => img.loading = 'eager');
         await Promise.all([...document.images].map(img => img.decode()));
@@ -78,7 +87,7 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
       report.push({ width, overflow: false, allFourKits: 'pass', dialogs: 'pass', screenshot: `homepage-${width}.png` });
     }
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(url);
+    await openHome();
     // Keyboard radio selection and comparison navigation.
     await page.locator('input[value="scientist"]').focus();
     await page.keyboard.press('ArrowRight');
@@ -115,7 +124,7 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
     assert(await page.locator('.faq-list details').first().evaluate(el => el.open));
     await page.locator('.faq-list summary').first().click();
     assert(!(await page.locator('.faq-list details').first().evaluate(el => el.open)));
-    const invalidLinks = await page.locator('a[href^="#"]').evaluateAll(links => links.filter(link => link.hash && !document.getElementById(link.hash.slice(1))).map(link => link.getAttribute('href')));
+    const invalidLinks = await page.locator('a[href^="#"]:not([data-view])').evaluateAll(links => links.filter(link => link.hash && !document.getElementById(link.hash.slice(1))).map(link => link.getAttribute('href')));
     assert.deepEqual(invalidLinks, []);
     const brokenImages = await page.locator('img').evaluateAll(images => images.filter(img => !img.complete || !img.naturalWidth).map(img => img.src));
     assert.deepEqual(brokenImages, []);

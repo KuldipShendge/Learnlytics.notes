@@ -1,15 +1,14 @@
 export function setupNavigation() {
-  const toggle = document.querySelector('.menu-toggle');
-  const navigation = document.querySelector('#main-nav');
   function setMenu(open) {
+    const toggle = document.querySelector('.menu-toggle');
+    const navigation = document.querySelector('#main-nav');
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
     toggle.querySelector('use').setAttribute('href', open ? '#i-close' : '#i-menu');
     navigation.classList.toggle('is-open', open);
   }
-  toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
-  navigation.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
   document.addEventListener('keydown', (event) => {
+    const toggle = document.querySelector('.menu-toggle');
     if (
       event.key === 'Escape' &&
       !document.querySelector('dialog[open]') &&
@@ -20,7 +19,9 @@ export function setupNavigation() {
     }
   });
   document.addEventListener('click', (event) => {
-    if (!event.target.closest('.header-inner')) setMenu(false);
+    const toggle = event.target.closest('.menu-toggle');
+    if (toggle) setMenu(toggle.getAttribute('aria-expanded') !== 'true');
+    else if (event.target.closest('#main-nav a') || !event.target.closest('.header-inner')) setMenu(false);
   });
   matchMedia('(min-width: 900px)').addEventListener('change', () => setMenu(false));
 }

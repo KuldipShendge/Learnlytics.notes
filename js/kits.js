@@ -18,7 +18,9 @@ export function setupKits() {
     field('kit-category').textContent = kit.category;
     field('kit-badge').textContent = kit.badge;
     field('kit-price').textContent = kit.price;
-    field('kit-details').href = kit.href || '#kit-dialog';
+    field('kit-details').href = kit.view ? '#' : '#kit-dialog';
+    if (kit.view) field('kit-details').dataset.view = kit.view;
+    else delete field('kit-details').dataset.view;
     field('kit-image').src = `assets/images/${kit.image}`;
     field('kit-image').alt = `${kit.subtitle} cover`;
     field('kit-features').replaceChildren(
@@ -36,7 +38,7 @@ export function setupKits() {
   });
   document.querySelectorAll('[data-kit]').forEach((button) => {
     button.addEventListener('click', () => {
-      if (kits[button.dataset.kit]?.href) return;
+      if (kits[button.dataset.kit]?.view) return;
       selectKit(button.dataset.kit);
       field('career-goal').scrollIntoView({ block: 'start' });
       document.querySelector(`input[name="career"][value="${selected}"]`).focus({ preventScroll: true });
@@ -45,7 +47,7 @@ export function setupKits() {
 
   field('kit-details').addEventListener('click', (event) => {
     const kit = kits[selected];
-    if (kit.href) return;
+    if (kit.view) return;
     event.preventDefault();
     // All content is local, editorial catalog data, never user-supplied HTML.
     content.innerHTML = `

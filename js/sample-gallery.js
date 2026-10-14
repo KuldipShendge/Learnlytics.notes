@@ -45,7 +45,7 @@ export function setupSampleGallery() {
     if (isWorkbook) {
       workbook.innerHTML = `<p class="workbook-label">LEARNLYTICS · ILLUSTRATIVE PRACTICE PREVIEW</p><h3>Think it through.</h3><p class="workbook-chapter">${topic.title}</p><ol>${topic.questions.map((question) => `<li>${question}</li>`).join('')}</ol><p class="workbook-footer">Your approach matters. Explain your reasoning.</p>`;
     } else {
-      image.src = `/assets/images/samples/ds-${topic.id}-${type}-v2.webp`;
+      image.src = `assets/images/samples/ds-${topic.id}-${type}-v2.webp`;
       image.alt = `Actual LearnLytics ${topic.title} ${type === 'handbook' ? 'handbook' : 'solution manual'} sample page`;
     }
     document.querySelector('#sample-subject').textContent = topic.title;
