@@ -97,9 +97,6 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
         assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'), 'true');
         await page.locator('#main-nav a[href="#inside"]').click();
         assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'), 'false');
-        await page.locator('.mobile-cta a').click();
-        assert.equal(page.url(), url);
-        assert(await page.locator('#career-goal').evaluate(el => el === document.activeElement));
       }
       // Capture the page in its default state, with lazy assets fully loaded.
       await openHome();
@@ -108,7 +105,7 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
         await Promise.all([...document.images].map(img => img.decode()));
         await document.fonts.ready;
       });
-      await page.screenshot({ path: path.join(output, `homepage-${width}.png`), fullPage: true, style: '.mobile-cta { visibility: hidden; }' });
+      await page.screenshot({ path: path.join(output, `homepage-${width}.png`), fullPage: true });
       if (width === 390 || width === 1440) await page.screenshot({ path: path.join(output, `homepage-${width}-viewport.png`) });
       report.push({ width, overflow: false, allFourKits: 'pass', dialogs: 'pass', screenshot: `homepage-${width}.png` });
     }
@@ -156,7 +153,7 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
     assert.deepEqual(errors, []);
     assert.deepEqual(missing, []);
     assert.deepEqual(external, []);
-    fs.writeFileSync(path.join(output, 'verification.json'), JSON.stringify({ status: 'pass', viewports: report, interactions: ['keyboard career selection', 'comparison card navigation', 'mobile menu', 'mobile CTA', 'kit dialogs and focus restoration', 'resource navigation', 'inline guide layout, autoplay off, play buttons and focus', 'FAQ accordion'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
+    fs.writeFileSync(path.join(output, 'verification.json'), JSON.stringify({ status: 'pass', viewports: report, interactions: ['keyboard career selection', 'comparison card navigation', 'mobile menu', 'kit dialogs and focus restoration', 'resource navigation', 'inline guide layout, autoplay off, play buttons and focus', 'FAQ accordion'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
     console.log(`PASS: ${widths.join(', ')}px. All kit states, dialogs, menus, guides, FAQs, assets and overflow checks passed.`);
   } finally { await browser.close(); }
 })().catch(error => {

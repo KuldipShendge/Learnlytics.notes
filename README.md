@@ -73,7 +73,7 @@ Only the About Us section and its relevant styles were copied from the old appli
 
 ## Newly created
 
-- Responsive homepage with all requested sections and a mobile bottom CTA.
+- Responsive homepage with all requested sections.
 - Four-way career selector, live recommendation updates, and lightweight kit overview dialogs on the homepage.
 - Two branded homepage guide cards beside inline YouTube players, stacked on mobile.
 - Click-to-play for both homepage guides, compact cards and direct YouTube links.
@@ -117,9 +117,9 @@ Open `http://127.0.0.1:4173/Learnlytics.notes/` and set `PREVIEW_URL` to that ad
 
 ## Verification
 
-The browser checks cover 360, 390, 430, 768, 1024 and 1440px widths, every career choice, recommendation content/prices, dialog layout, dismissal and focus, mobile navigation, comparison cards, the sticky CTA, inline guide placement, autoplay-off parameters, play buttons, YouTube embed IDs, player cleanup on view changes, FAQs, images and internal anchors. Browser acceptance tests stub the two expected YouTube embeds and block other nonlocal requests. They verify integration and cleanup; actual YouTube playback is checked separately.
+The browser checks cover 360, 390, 430, 768, 1024 and 1440px widths, every career choice, recommendation content/prices, dialog layout, dismissal and focus, mobile navigation, comparison cards, inline guide placement, autoplay-off parameters, play buttons, YouTube embed IDs, player cleanup on view changes, FAQs, images and internal anchors. Browser acceptance tests stub the two expected YouTube embeds and block other nonlocal requests. They verify integration and cleanup; actual YouTube playback is checked separately.
 
-The latest results are in `screenshots/verification.json` and `screenshots/product-verification.json`. Full-page screenshots are named `homepage-{width}.png` and `product-{width}.png`, with additional viewport images for 390 and 1440px. Fixed bottom CTA bars are hidden only while taking the full-page captures so they do not obscure the middle of the page; viewport screenshots show the actual fixed bar.
+The latest results are in `screenshots/verification.json` and `screenshots/product-verification.json`. Full-page screenshots are named `homepage-{width}.png` and `product-{width}.png`, with additional viewport images for 390 and 1440px. The DS purchase bar is hidden only while taking its full-page captures so it does not obscure the middle of the page; viewport screenshots show the actual fixed bar.
 
 About Us was also checked at 360, 390, 430, 768, 900, 1024 and 1440px, including its header links, mobile menu, calls to action, content without JavaScript, and a comparison of its copy with the original section. Results are saved in `screenshots/about-verification.json`, with mobile and desktop captures in `about-390.png` and `about-1440.png`.
 
