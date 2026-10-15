@@ -105,7 +105,7 @@ GitHub Pages serves `index.html` at the repository URL, such as `https://kuldips
 
 All assets use relative paths, including generated sample images and SVG icons. No custom route rewrites or separate HTML entry points are required.
 
-Changed assets use versioned URLs so returning visitors receive compatible HTML, scripts and styles. The entry point, product module and product styles use `curriculum-cards-20261015`; unchanged modules retain their earlier versions. Bump the entry point, affected imports and styles when changing them again.
+Changed assets use versioned URLs so returning visitors receive compatible HTML, scripts and styles. The entry point and product module use `mobile-curriculum-order-20261015`; product styles use `sharp-book-20261015`. On mobile and tablet, the curriculum follows “What’s Inside This Kit?”; from 980px it returns to the desktop sidebar, preserving expanded modules. Bump the entry point, affected imports and styles when changing them again.
 
 To test the same project-folder layout locally:
 

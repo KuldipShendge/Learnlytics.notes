@@ -7,6 +7,17 @@ export function setupProduct() {
   setupInlineVideos();
   setupSampleGallery();
 
+  const curriculumSection = document.querySelector('#curriculum');
+  const includedSection = document.querySelector('.included-section');
+  const secondaryColumn = document.querySelector('.product-secondary');
+  const desktopLayout = window.matchMedia('(min-width: 980px)');
+  function placeCurriculum() {
+    if (desktopLayout.matches) secondaryColumn.prepend(curriculumSection);
+    else includedSection.after(curriculumSection);
+  }
+  placeCurriculum();
+  desktopLayout.addEventListener('change', placeCurriculum);
+
   document.querySelectorAll('[data-question-total]').forEach((element) => {
     element.textContent = `${productOverview.practiceQuestions.toLocaleString('en-IN')}+`;
   });

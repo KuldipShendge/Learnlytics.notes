@@ -60,6 +60,10 @@ const widths = [360, 390, 430, 768, 1024, 1440];
       assert.equal(response.status(), 200);
       await page.evaluate(() => document.fonts.ready);
       assert.equal(await page.locator('.curriculum-module').count(), 7);
+      assert(await page.locator('#curriculum').evaluate((el, desktop) => desktop
+        ? el.parentElement.classList.contains('product-secondary') && el === el.parentElement.firstElementChild
+        : el.previousElementSibling.classList.contains('included-section') && el.nextElementSibling.id === 'samples', width >= 980),
+        `${width}px: curriculum placement`);
       assert.equal(await page.locator('.module-parts li').count(), 20);
       assert.equal(await page.locator('[data-question-total]').first().textContent(), '3,680+');
       const brand = await page.evaluate(() => {
