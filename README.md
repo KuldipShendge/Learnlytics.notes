@@ -30,8 +30,7 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `js/kits.js` | Career selection, comparison-card navigation and kit overview dialog |
 | `js/dialog.js` | Shared dialog dismissal and focus restoration |
 | `js/video-config.js` | Published guide titles and YouTube IDs, plus fallback demo chapters |
-| `js/videos.js` | Click-to-open YouTube guides, direct viewing links and player cleanup |
-| `js/inline-videos.js` | Homepage inline players, click-to-play controls and view-change cleanup |
+| `js/inline-videos.js` | Homepage and DS inline players, click-to-play controls and view-change cleanup |
 | `js/main.js` | Mobile navigation and component initialization |
 | `js/views.js` | In-page view switching, focus, titles, Back/Forward and refresh at the same URL |
 | `css/product.css` | Product book illustration and responsive sections using shared brand tokens |
@@ -78,7 +77,7 @@ Only the About Us section and its relevant styles were copied from the old appli
 - Four-way career selector, live recommendation updates, and lightweight kit overview dialogs on the homepage.
 - Two branded homepage guide cards beside inline YouTube players, stacked on mobile.
 - Click-to-play for both homepage guides, compact cards and direct YouTube links.
-- Click-to-open guide dialogs in the Data Scientist view.
+- Inline guide videos inside the existing Data Scientist cards, with autoplay off.
 - Native FAQ accordions, keyboard navigation, dialog focus management, reduced-motion support and local font loading.
 - No invented testimonials, learner totals, endorsements, urgency, ratings or job guarantees.
 
@@ -91,7 +90,7 @@ Both supplied LearnLytics guides are configured in `js/video-config.js`:
 
 The homepage shows both videos directly beside compact guide cards. Both players load lazily and wait for Play; autoplay is off on arrival and when returning to the homepage. Native YouTube controls provide pause, sound and fullscreen, with direct YouTube links below. Clicking a card's play icon or the hero guide button starts that inline video with sound and stops the other player. Leaving the homepage removes its players; returning recreates both players in their idle state.
 
-DS guide buttons open the corresponding video in a dialog. Those players are created on click and removed on close. A direct “Watch on YouTube” link is available below the player. A local demo is retained only as a fallback if a DS guide ID is unset.
+The DS view embeds the same two guides directly inside its existing walkthrough and kit-selection cards. It reuses the homepage player setup: lazy loading, autoplay off, native YouTube controls, and cleanup on leaving the view. Returning to DS recreates both players in their idle state. The headings and comparison link remain beside the video cards.
 
 All product images are existing LearnLytics assets; no unrelated stock images or image placeholders were introduced. The hero illustration is reused, while the two guide poster compositions are new.
 
@@ -105,7 +104,7 @@ GitHub Pages serves `index.html` at the repository URL, such as `https://kuldips
 
 All assets use relative paths, including generated sample images and SVG icons. No custom route rewrites or separate HTML entry points are required.
 
-Changed assets use versioned URLs so returning visitors receive compatible HTML, scripts and styles. The homepage layout, entry point and inline player use `compact-guides-20261015`; unchanged modules retain their earlier versions. Bump the entry point, affected imports and styles when changing them again.
+Changed assets use versioned URLs so returning visitors receive compatible HTML, scripts and styles. The entry point, product module and product styles use `ds-inline-guides-20261015`; unchanged modules retain their earlier versions. Bump the entry point, affected imports and styles when changing them again.
 
 To test the same project-folder layout locally:
 

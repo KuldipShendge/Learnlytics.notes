@@ -73,6 +73,24 @@ const widths = [360, 390, 430, 768, 1024, 1440];
       const fonts = await page.locator('#product-title').evaluate(el => ({ family: getComputedStyle(el).fontFamily, available: document.fonts.check('800 20px Manrope') }));
       assert(fonts.family.includes('Manrope') && fonts.available);
       await noOverflow(`${width}px collapsed`);
+      assert.equal(await page.locator('#video-dialog').count(), 0, 'Guides play inside their cards');
+      for (const id of ['use', 'choose']) {
+        const card = page.locator(`#product-${id}-video`);
+        const iframe = card.locator('iframe');
+        assert.equal(await iframe.count(), 1);
+        const source = new URL(await iframe.getAttribute('src'));
+        assert.equal(source.origin, 'https://www.youtube-nocookie.com');
+        assert.equal(source.pathname, `/embed/${guideIds[id]}`);
+        assert.equal(source.searchParams.get('autoplay'), '0');
+        assert.equal(source.searchParams.get('mute'), '0');
+        assert.equal(await iframe.getAttribute('loading'), 'lazy');
+        assert(await iframe.getAttribute('title'));
+        const frameBox = await iframe.boundingBox();
+        const cardBox = await card.boundingBox();
+        assert(frameBox.width >= 200 && frameBox.height >= 200, `${width}px ${id}: player is usable`);
+        assert(Math.abs(frameBox.width - cardBox.width) <= 2 && Math.abs(frameBox.height - cardBox.height) <= 2,
+          `${width}px ${id}: video must fill the card`);
+      }
       for (const summary of await page.locator('.curriculum-module summary').all()) await summary.click();
       assert.equal(await page.locator('.curriculum-module[open]').count(), 7);
       await noOverflow(`${width}px all modules open`);
@@ -131,21 +149,9 @@ const widths = [360, 390, 430, 768, 1024, 1440];
     assert(await page.locator('#sample-dialog').isVisible());
     await page.locator('#sample-enlarged').evaluate(img => img.decode());
     await closeDialog('#sample-dialog');
-    for (const id of ['use', 'choose']) {
-      await page.locator(`[data-video="${id}"]`).click();
-      assert(await page.locator('#video-dialog').isVisible());
-      const iframe = page.locator('#video-player iframe');
-      assert.equal(await iframe.count(), 1);
-      assert.equal(await iframe.getAttribute('src'), `https://www.youtube-nocookie.com/embed/${guideIds[id]}?autoplay=1&rel=0`);
-      assert.equal(await page.locator('#video-disclaimer a').getAttribute('href'), `https://youtu.be/${guideIds[id]}`);
-      assert.equal(await page.locator('#video-mode').textContent(), 'LEARNLYTICS GUIDE');
-      assert.equal(await page.locator('.demo-stage').count(), 0);
-      await noOverflow(`390px ${id} guide`);
-      await closeDialog('#video-dialog');
-      await page.waitForFunction(() => document.querySelector('#video-player').childElementCount === 0);
-    }
     assert.equal(await page.locator('#support .whatsapp-link').getAttribute('href'), 'https://wa.me/919130631497');
-    await page.locator('.breadcrumbs [data-view="home"]').first().click();
+    await page.locator('.choose-section [data-view="home"]').click();
+    assert(await page.locator('#compare').evaluate(el => el === document.activeElement));
     await page.locator('[data-kit="scientist"]').click();
     await page.locator('#product-title').waitFor();
     assert.equal(page.url(), url);

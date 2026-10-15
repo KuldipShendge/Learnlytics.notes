@@ -16,9 +16,9 @@
     <link rel="stylesheet" href="css/navigation.css" />
     <link rel="stylesheet" href="css/home.css?v=compact-guides-20261015" />
     <link rel="stylesheet" href="css/dialogs.css" />
-    <link rel="stylesheet" href="css/product.css" />
+    <link rel="stylesheet" href="css/product.css?v=ds-inline-guides-20261015" />
     <link rel="stylesheet" href="css/about.css" />
-    <script type="module" src="js/main.js?v=compact-guides-20261015"></script>
+    <script type="module" src="js/main.js?v=ds-inline-guides-20261015"></script>
   </head>
   <body class="home-page">
     <div id="app">
@@ -650,27 +650,9 @@
               </div>
               <span class="small-note">Learn → Practise → Review</span>
             </div>
-            <button
-              class="product-video video-workflow"
-              type="button"
-              data-video="use"
-              aria-label="Play How to Use Your Kit video"
-            >
-              <span class="video-art" aria-hidden="true"
-                ><span class="desk-page"><i></i><i></i><i></i><i></i><i></i></span
-                ><span class="desk-notebook">MY NEXT<br />CHAPTER.<span>LEARNLYTICS</span></span
-                ><span class="desk-pencil"></span></span
-              ><span class="product-video-copy"
-                ><span class="video-kicker">THE LEARNLYTICS WORKFLOW</span
-                ><strong>One topic.<br />Three ways to master it.</strong
-                ><span class="video-watch"
-                  ><span class="video-play"
-                    ><svg class="icon"><use href="assets/icons/product.svg#play" /></svg
-                  ></span>
-                  Watch the walkthrough</span
-                ></span
-              ><span class="video-demo-tag">WATCH VIDEO</span>
-            </button>
+            <div class="product-video" id="product-use-video" data-inline-video="use">
+              <noscript><a href="https://youtu.be/gAV7onDGlNo">Watch How to Use Your Kit on YouTube ↗</a></noscript>
+            </div>
           </section>
 
           <section class="product-section included-section" aria-labelledby="included-title">
@@ -922,22 +904,10 @@
             <p class="eyebrow">FIND YOUR FIT</p>
             <h2 id="choose-title">Not sure if this kit<br />is right for you?</h2>
             <p>Start with your goal. Find the path that fits.</p>
-            <button
-              class="product-video video-choose"
-              type="button"
-              data-video="choose"
-              aria-label="Play Choose the Right Kit video"
-            >
-              <span class="choose-art" aria-hidden="true"
-                ><span>Data Analyst <i>↗</i></span
-                ><span class="chosen-path">Data Scientist <i>✓</i></span
-                ><span>ML Engineer <i>↗</i></span></span
-              ><span class="product-video-copy"
-                ><span class="video-play"
-                  ><svg class="icon"><use href="assets/icons/product.svg#play" /></svg></span
-                ><strong>Choose the<br />Right Kit</strong><span>Compare. Decide. Start.</span></span
-              ><span class="video-demo-tag">WATCH VIDEO</span></button
-            ><a class="text-button" href="#compare" data-view="home"
+            <div class="product-video" id="product-choose-video" data-inline-video="choose">
+              <noscript><a href="https://youtu.be/1hUTxkkk5jQ">Watch Choose the Right Kit on YouTube ↗</a></noscript>
+            </div>
+            <a class="text-button" href="#compare" data-view="home"
               >Compare all learning kits <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg
             ></a>
           </section>
@@ -996,21 +966,6 @@
       </button>
     </aside>
 
-    <dialog class="modal video-dialog" id="video-dialog" aria-labelledby="video-dialog-title">
-      <div class="modal-heading">
-        <div>
-          <p class="eyebrow" id="video-mode">LEARNLYTICS GUIDE</p>
-          <h2 id="video-dialog-title">How to use your kit</h2>
-        </div>
-        <button class="icon-button" type="button" data-close aria-label="Close guide">
-          <svg class="icon"><use href="assets/icons/product.svg#close" /></svg>
-        </button>
-      </div>
-      <div id="video-player"></div>
-      <p class="video-disclaimer" id="video-disclaimer">
-        Watch the full LearnLytics guide.
-      </p>
-    </dialog>
     <dialog class="modal sample-dialog" id="sample-dialog" aria-labelledby="sample-dialog-title">
       <div class="modal-heading">
         <div>

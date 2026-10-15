@@ -30,6 +30,12 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
         });
         assert.deepEqual(duplicates, [], 'Inactive views must not leave duplicate IDs');
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+        const players = page.locator('[data-inline-video] iframe');
+        assert.equal(await players.count(), selector === '#about-title' ? 0 : 2);
+        for (const player of await players.all()) {
+          assert.equal(new URL(await player.getAttribute('src')).searchParams.get('autoplay'), '0',
+            'Entering or returning to a view must leave its players idle');
+        }
       }
       async function openAbout() {
         if (width < 900) await page.locator('.menu-toggle').click();
@@ -40,12 +46,15 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
 
       assert.equal((await page.goto(url)).status(), 200);
       await page.locator('.poster-choose [data-video]').click();
+      const homeSlots = await page.locator('[data-inline-video]').elementHandles();
       await page.locator('#kit-details').click();
       await checkView('#product-title');
-      assert.equal(await page.locator('[data-inline-video] iframe').count(), 0);
+      for (const slot of homeSlots) assert.equal(await slot.evaluate(el => el.querySelectorAll('iframe').length), 0);
+      const productSlots = await page.locator('[data-inline-video]').elementHandles();
       assert.match(await page.title(), /Data Scientist/);
       await page.goBack();
       await checkView('#hero-title');
+      for (const slot of productSlots) assert.equal(await slot.evaluate(el => el.querySelectorAll('iframe').length), 0);
       assert.equal(await page.locator('[data-inline-video] iframe').count(), 2);
       const restoredGuide = new URL(await page.locator('#use-video iframe').getAttribute('src'));
       assert.equal(restoredGuide.searchParams.get('autoplay'), '0', 'Home return must not restart playback');

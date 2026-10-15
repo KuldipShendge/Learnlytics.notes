@@ -1,10 +1,10 @@
-import { setupVideos } from './videos.js?v=guides-20261015';
+import { setupInlineVideos } from './inline-videos.js?v=compact-guides-20261015';
 import { setupDialog } from './dialog.js';
 import { setupSampleGallery } from './sample-gallery.js?v=single-url-1';
 import { curriculum, productOverview } from './ds-curriculum.js';
 
 export function setupProduct() {
-  setupVideos();
+  setupInlineVideos();
   setupSampleGallery();
 
   document.querySelectorAll('[data-question-total]').forEach((element) => {
