@@ -4,13 +4,13 @@ export function setupInlineVideos() {
   const app = document.querySelector('#app');
   const slots = [...app.querySelectorAll('[data-inline-video]')];
 
-  function load(slot, autoplay = false, muted = false) {
+  function load(slot, play = false) {
     const video = videos[slot.dataset.inlineVideo];
     if (!video?.youtubeId) return;
     const iframe = document.createElement('iframe');
     const params = new URLSearchParams({
-      autoplay: autoplay ? '1' : '0',
-      mute: muted ? '1' : '0',
+      autoplay: play ? '1' : '0',
+      mute: '0',
       playsinline: '1',
       rel: '0',
     });
@@ -18,17 +18,14 @@ export function setupInlineVideos() {
     iframe.title = video.title;
     iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
     iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-    // The first guide must load immediately for autoplay on a fresh visit.
-    iframe.loading = autoplay ? 'eager' : 'lazy';
+    // Load immediately only after an explicit press of a guide's play button.
+    iframe.loading = play ? 'eager' : 'lazy';
     slot.replaceChildren(iframe);
     return iframe;
   }
 
   function mount() {
-    slots.filter(slot => slot.isConnected && !slot.querySelector('iframe')).forEach(slot => {
-      const autoplay = slot.hasAttribute('data-autoplay');
-      load(slot, autoplay, autoplay);
-    });
+    slots.filter(slot => slot.isConnected && !slot.querySelector('iframe')).forEach(slot => load(slot));
   }
 
   app.querySelectorAll('[data-video]').forEach(button => {
@@ -43,7 +40,7 @@ export function setupInlineVideos() {
     });
   });
 
-  // Remove browsing contexts on view changes; revisiting starts muted again.
+  // Remove browsing contexts on view changes; revisiting leaves both guides idle.
   app.addEventListener('learnlytics:view-leave', () => {
     slots.filter(slot => slot.isConnected).forEach(slot => slot.replaceChildren());
   });

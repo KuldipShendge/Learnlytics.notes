@@ -55,13 +55,15 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
         assert.equal(await frame.count(), 1);
         const source = new URL(await frame.getAttribute('src'));
         assert.equal(source.pathname, `/embed/${youtubeId}`);
-        assert.equal(source.searchParams.get('autoplay'), id === 'use' ? '1' : '0');
-        assert.equal(source.searchParams.get('mute'), id === 'use' ? '1' : '0');
+        assert.equal(source.searchParams.get('autoplay'), '0');
+        assert.equal(source.searchParams.get('mute'), '0');
         assert.equal(source.searchParams.get('playsinline'), '1');
-        assert.equal(await frame.getAttribute('loading'), id === 'use' ? 'eager' : 'lazy');
+        assert.equal(await frame.getAttribute('loading'), 'lazy');
         const card = await page.locator(`.guide-card:has([data-inline-video="${id}"]) .video-poster`).boundingBox();
         const player = await frame.boundingBox();
         assert(player.width >= 200 && player.height >= 200, 'Player controls need usable space');
+        assert(Math.abs(player.width - card.width) <= 1, 'Card and video must have matching widths');
+        assert(Math.abs(player.height - card.height) <= 1, 'Card and video must have matching heights');
         if (width >= 900) assert(player.x >= card.x + card.width, 'Video must be right of the card');
         else assert(player.y >= card.y + card.height, 'Video must stack below the card');
       }
@@ -154,7 +156,7 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
     assert.deepEqual(errors, []);
     assert.deepEqual(missing, []);
     assert.deepEqual(external, []);
-    fs.writeFileSync(path.join(output, 'verification.json'), JSON.stringify({ status: 'pass', viewports: report, interactions: ['keyboard career selection', 'comparison card navigation', 'mobile menu', 'mobile CTA', 'kit dialogs and focus restoration', 'resource navigation', 'inline guide layout, muted autoplay, play buttons and focus', 'FAQ accordion'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
+    fs.writeFileSync(path.join(output, 'verification.json'), JSON.stringify({ status: 'pass', viewports: report, interactions: ['keyboard career selection', 'comparison card navigation', 'mobile menu', 'mobile CTA', 'kit dialogs and focus restoration', 'resource navigation', 'inline guide layout, autoplay off, play buttons and focus', 'FAQ accordion'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
     console.log(`PASS: ${widths.join(', ')}px. All kit states, dialogs, menus, guides, FAQs, assets and overflow checks passed.`);
   } finally { await browser.close(); }
 })().catch(error => {
