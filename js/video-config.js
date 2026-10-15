@@ -1,9 +1,8 @@
-// Set youtubeId to the final 11-character video ID when each guide is ready.
-// Until then, the card opens a local, clearly labelled interactive demo.
+// Published LearnLytics guides. The local demo remains a fallback for an unset ID.
 export const videos = {
   choose: {
-    title: 'Choose the right kit',
-    youtubeId: null,
+    title: 'Which Data & AI Interview Kit Is Right for You? | Full Walkthrough',
+    youtubeId: '1hUTxkkk5jQ',
     steps: [
       {
         title: 'Start with the role you want.',
@@ -20,8 +19,8 @@ export const videos = {
     ],
   },
   use: {
-    title: 'How to use your kit',
-    youtubeId: null,
+    title: 'How to Use Your LearnLytics Interview Kit | Step-by-Step Guide (2026)',
+    youtubeId: 'gAV7onDGlNo',
     steps: [
       {
         title: '01. Learn the concept.',

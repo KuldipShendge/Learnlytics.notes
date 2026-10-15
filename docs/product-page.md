@@ -5,7 +5,7 @@
 - New mobile-first product page using the supplied second reference for structure and text only. Both pages share LearnLytics plum `#241525`, magenta `#b40982`, pale blush `#faf4f8` and Manrope from `css/tokens.css`; the product page does not override the brand tokens.
 - Manrope font and existing LearnLytics logo; a new CSS book illustration matches the product palette.
 - Main and sticky “Get This Kit Now” buttons, with the Razorpay label below the main button. These open a purchase-availability dialog; no transaction is initiated.
-- “How to Use Your Kit” and “Choose the Right Kit” open the shared interactive demo guide player. Final YouTube IDs remain unset.
+- “How to Use Your Kit” and “Choose the Right Kit” open the supplied YouTube guides in the shared player, with a direct YouTube link and cleanup when closed.
 - Resource inclusion cards, real sample images with tabs/carousel/enlargement, benefits, audience, generated SVG technology icons, seven expandable modules, and WhatsApp support.
 - No FAQ section, file-format badges, or 7-day refund claims on the product page.
 - No invented student ratings, testimonials or bestseller status. A sample-material confidence section occupies that portion of the reference instead.
@@ -35,13 +35,13 @@ The old Data Engineering & Code Quality part lists 180+ workbook questions but 2
 - The plum book and guide posters are new HTML/CSS illustrations using the existing LearnLytics palette.
 - `assets/images/samples/`: copied six existing `ds-python`, `ds-evaluation` and `ds-genai` handbook/solution preview images from `D:\website\images\ml-pdf-samples`.
 - No authentic workbook sample was available in the old preview assets. The workbook tab is explicitly labelled **Illustrative practice preview** and contains newly authored example questions. Replace it with actual previews when provided.
-- Actual guide videos are not supplied. Both guides remain clearly labelled demos.
+- Published guides: `gAV7onDGlNo` (how to use the kit) and `1hUTxkkk5jQ` (choose the right kit). Both homepage and DS guide buttons use these IDs.
 - Existing WhatsApp contact verified from the old Data Scientist product section: `https://wa.me/919130631497`. Links only open the user's WhatsApp conversation; the website does not send a message automatically.
 - Displayed price, struck price and discount match the old catalog: ₹499, ₹1,499, 67% off. No payment logic, credentials, tracking or delivery services were copied.
 
 ## Verification
 
-`tests/product.cjs` checks 360, 390, 430, 768, 1024 and 1440px, module/part/question totals, all accordions, excluded UI text, Manrope loading, mobile menu, purchase placeholders, sample types and topics, keyboard tab controls, image enlargement, both guides and the WhatsApp destination. All nonlocal requests are blocked during QA.
+`tests/product.cjs` checks 360, 390, 430, 768, 1024 and 1440px, module/part/question totals, all accordions, excluded UI text, Manrope loading, mobile menu, purchase placeholders, sample types and topics, keyboard tab controls, image enlargement, both guides and the WhatsApp destination. The expected YouTube embeds are stubbed during browser acceptance tests; other nonlocal requests are blocked. Real playback is verified separately.
 
 `tests/homepage.cjs` additionally verifies the shared navigation and the featured product entry. `tests/product.cjs` verifies the shared palette and the Data Scientist comparison-card link. Both entries switch to the embedded DS view at the same URL; JavaScript is required. `tests/navigation.cjs` covers About Us, sample links, repeated visits, browser Back/Forward, and refresh. Results and screenshots are in `screenshots/` (ignored by Git).
 

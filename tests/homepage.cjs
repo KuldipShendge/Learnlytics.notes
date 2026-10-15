@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
+const guideIds = { use: 'gAV7onDGlNo', choose: '1hUTxkkk5jQ' };
 
 const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
 const output = path.resolve(__dirname, '../screenshots');
@@ -20,6 +21,12 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
   page.on('pageerror', error => errors.push(error.message));
   page.on('response', response => { if (response.status() >= 400) missing.push(response.url()); });
   await context.route('**/*', route => {
+    const requestUrl = new URL(route.request().url());
+    if (requestUrl.origin === 'https://www.youtube-nocookie.com' &&
+        Object.values(guideIds).some(id => requestUrl.pathname === `/embed/${id}`)) {
+      // Test the integration offline; actual YouTube playback is checked separately.
+      return route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>Guide player test</title>' });
+    }
     if (new URL(route.request().url()).origin === new URL(url).origin) return route.continue();
     external.push(route.request().url());
     return route.abort();
@@ -98,22 +105,19 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
     await page.locator('#explore-materials').click();
     assert(!(await page.locator('#kit-dialog').isVisible()));
     assert(await page.locator('#inside-title').evaluate(el => el === document.activeElement));
-    for (const id of ['choose', 'use']) {
-      const trigger = page.locator(`.video-poster[data-video="${id}"]`);
+    assert.equal(await page.locator('#video-player iframe').count(), 0);
+    for (const trigger of await page.locator('[data-video]').all()) {
+      const id = await trigger.getAttribute('data-video');
       await trigger.click();
       assert(await page.locator('#video-dialog').isVisible());
-      assert.equal(await page.locator('.demo-step-count').textContent(), 'STEP 1 OF 3');
-      assert.equal(await page.locator('#video-player iframe').count(), 0);
-      await page.locator('#demo-next').click();
-      assert.equal(await page.locator('.demo-step-count').textContent(), 'STEP 2 OF 3');
-      await page.locator('#demo-prev').click();
-      await page.locator('#demo-play').click();
-      assert.equal(await page.locator('#demo-play').textContent(), 'Pause demo');
-      if (id === 'choose') {
-        await page.waitForFunction(() => document.querySelector('.demo-step-count').textContent === 'STEP 2 OF 3', null, { timeout: 8000 });
-      }
-      await page.locator('#demo-play').click();
-      assert.equal(await page.locator('#demo-play').textContent(), 'Play demo');
+      const iframe = page.locator('#video-player iframe');
+      assert.equal(await iframe.count(), 1);
+      assert.equal(await iframe.getAttribute('src'), `https://www.youtube-nocookie.com/embed/${guideIds[id]}?autoplay=1&rel=0`);
+      assert.equal(await iframe.getAttribute('referrerpolicy'), 'strict-origin-when-cross-origin');
+      assert.equal(await page.locator('#video-mode').textContent(), 'LEARNLYTICS GUIDE');
+      assert.equal(await page.locator('#video-disclaimer a').getAttribute('href'), `https://youtu.be/${guideIds[id]}`);
+      assert.equal(await page.locator('.demo-stage').count(), 0);
+      await noOverflow(`390px ${id} video dialog`);
       await page.screenshot({ path: path.join(output, `guide-${id}-390.png`) });
       await page.keyboard.press('Escape');
       await page.waitForFunction(() => document.querySelector('#video-player').childElementCount === 0);
@@ -131,7 +135,7 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
     assert.deepEqual(errors, []);
     assert.deepEqual(missing, []);
     assert.deepEqual(external, []);
-    fs.writeFileSync(path.join(output, 'verification.json'), JSON.stringify({ status: 'pass', viewports: report, interactions: ['keyboard career selection', 'comparison card navigation', 'mobile menu', 'mobile CTA', 'kit dialogs and focus restoration', 'resource navigation', 'both video demos and controls', 'FAQ accordion'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
+    fs.writeFileSync(path.join(output, 'verification.json'), JSON.stringify({ status: 'pass', viewports: report, interactions: ['keyboard career selection', 'comparison card navigation', 'mobile menu', 'mobile CTA', 'kit dialogs and focus restoration', 'resource navigation', 'all guide buttons, YouTube embeds and cleanup', 'FAQ accordion'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
     console.log(`PASS: ${widths.join(', ')}px. All kit states, dialogs, menus, guides, FAQs, assets and overflow checks passed.`);
   } finally { await browser.close(); }
 })().catch(error => {

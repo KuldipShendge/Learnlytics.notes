@@ -25,12 +25,12 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `css/tokens.css` | Brand tokens, local fonts, base styles and reusable UI primitives |
 | `css/home.css` | Homepage components and mobile, tablet and desktop layouts |
 | `css/navigation.css` | Shared header, logo treatment and navigation layout |
-| `css/dialogs.css` | Shared modal, kit overview and guide demo layouts |
+| `css/dialogs.css` | Shared modal, kit overview and guide player layouts |
 | `js/catalog.js` | Presentation-only kit names, prices, subjects, images and content |
 | `js/kits.js` | Career selection, comparison-card navigation and kit overview dialog |
 | `js/dialog.js` | Shared dialog dismissal and focus restoration |
-| `js/video-config.js` | Guide titles, demo chapters and optional future YouTube IDs |
-| `js/videos.js` | Click-to-open guides, local demo playback and future video embed support |
+| `js/video-config.js` | Published guide titles and YouTube IDs, plus fallback demo chapters |
+| `js/videos.js` | Click-to-open YouTube guides, direct viewing links and player cleanup |
 | `js/main.js` | Mobile navigation and component initialization |
 | `js/views.js` | In-page view switching, focus, titles, Back/Forward and refresh at the same URL |
 | `css/product.css` | Product book illustration and responsive sections using shared brand tokens |
@@ -76,19 +76,24 @@ Only the About Us section and its relevant styles were copied from the old appli
 - Responsive homepage with all requested sections and a mobile bottom CTA.
 - Four-way career selector, live recommendation updates, and lightweight kit overview dialogs on the homepage.
 - Two branded video posters made with HTML/CSS and a shared guide dialog.
-- Three-step, playable local guide demos with previous, next, play and pause controls.
+- Two published YouTube guides with click-to-load players and direct YouTube links.
 - Native FAQ accordions, keyboard navigation, dialog focus management, reduced-motion support and local font loading.
 - No invented testimonials, learner totals, endorsements, urgency, ratings or job guarantees.
 
 ## Temporary content and future integration
 
-Both guide videos are **explicitly labelled demos**. No real or final YouTube video is hardcoded. To replace a demo, set its `youtubeId` in `js/video-config.js` to the final 11-character ID. The video iframe is created only when the user opens the guide and is removed when the dialog closes.
+Both supplied LearnLytics guides are configured in `js/video-config.js`:
+
+- How to Use Your LearnLytics Interview Kit: https://youtu.be/gAV7onDGlNo
+- Which Data & AI Interview Kit Is Right for You?: https://youtu.be/1hUTxkkk5jQ
+
+All homepage and DS guide buttons open the corresponding YouTube player. The iframe is created only when opened and removed on close to stop playback. A direct “Watch on YouTube” link is available below the player. A local demo is retained only as a fallback if a guide ID is unset.
 
 All product images are existing LearnLytics assets; no unrelated stock images or image placeholders were introduced. The hero illustration is reused, while the two guide poster compositions are new.
 
 The featured Data Scientist “View kit details” button opens the new product page; the other three kits still use homepage overviews. The product page's “Get This Kit Now” buttons open an honest availability dialog, with the Razorpay label under the primary button. **Checkout, Razorpay integration, Google Sheets, free downloads, secure delivery and accounts remain unimplemented.** No old payment or delivery files were copied or edited. Only the Data Scientist & Gen AI product page has been added.
 
-The product page omits FAQs, file-format badges and refund claims as requested. It does not reproduce the reference's unverified ratings or testimonials. The two guide videos are demos. Handbook and solution previews are real existing assets; the workbook preview is a clearly labelled illustrative placeholder. WhatsApp links use the existing support contact, `+91 91306 31497`.
+The product page omits FAQs, file-format badges and refund claims as requested. It does not reproduce the reference's unverified ratings or testimonials. The two guide videos are the published LearnLytics walkthroughs. Handbook and solution previews are real existing assets; the workbook preview is a clearly labelled illustrative placeholder. WhatsApp links use the existing support contact, `+91 91306 31497`.
 
 ## Hosting and navigation
 
@@ -96,7 +101,7 @@ GitHub Pages serves `index.html` at the repository URL, such as `https://kuldips
 
 All assets use relative paths, including generated sample images and SVG icons. No custom route rewrites or separate HTML entry points are required.
 
-The JavaScript entry point and modules changed by the single-URL migration use the `single-url-1` asset version so returning visitors do not mix the new HTML with cached page-navigation code. Bump the version on the entry point and affected imports when changing this navigation again.
+The JavaScript entry point and modules changed by the single-URL migration use versioned asset URLs (`single-url-1` for navigation and `guides-20261015` for the published guides) so returning visitors do not mix the new HTML with cached page-navigation code. Bump the version on the entry point and affected imports when changing this navigation again.
 
 To test the same project-folder layout locally:
 
@@ -109,7 +114,7 @@ Open `http://127.0.0.1:4173/Learnlytics.notes/` and set `PREVIEW_URL` to that ad
 
 ## Verification
 
-The browser checks cover 360, 390, 430, 768, 1024 and 1440px widths, every career choice, recommendation content/prices, dialog layout, dismissal and focus, mobile navigation, comparison cards, the sticky CTA, both guide demos, demo playback, FAQs, images and internal anchors. All nonlocal network requests are blocked during testing.
+The browser checks cover 360, 390, 430, 768, 1024 and 1440px widths, every career choice, recommendation content/prices, dialog layout, dismissal and focus, mobile navigation, comparison cards, the sticky CTA, all guide buttons, YouTube embed IDs, player cleanup, FAQs, images and internal anchors. Browser acceptance tests stub the two expected YouTube embeds and block other nonlocal requests. They verify integration and cleanup; actual YouTube playback is checked separately.
 
 The latest results are in `screenshots/verification.json` and `screenshots/product-verification.json`. Full-page screenshots are named `homepage-{width}.png` and `product-{width}.png`, with additional viewport images for 390 and 1440px. Fixed bottom CTA bars are hidden only while taking the full-page captures so they do not obscure the middle of the page; viewport screenshots show the actual fixed bar.
 

@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
+const guideIds = { use: 'gAV7onDGlNo', choose: '1hUTxkkk5jQ' };
 
 const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
 const origin = new URL(url).origin;
@@ -25,6 +26,12 @@ const widths = [360, 390, 430, 768, 1024, 1440];
   page.on('pageerror', error => errors.push(error.message));
   page.on('response', response => { if (response.status() >= 400) missing.push(response.url()); });
   await context.route('**/*', route => {
+    const requestUrl = new URL(route.request().url());
+    if (requestUrl.origin === 'https://www.youtube-nocookie.com' &&
+        Object.values(guideIds).some(id => requestUrl.pathname === `/embed/${id}`)) {
+      // Test the integration offline; actual YouTube playback is checked separately.
+      return route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>Guide player test</title>' });
+    }
     if (new URL(route.request().url()).origin === origin) return route.continue();
     external.push(route.request().url());
     return route.abort();
@@ -127,9 +134,13 @@ const widths = [360, 390, 430, 768, 1024, 1440];
     for (const id of ['use', 'choose']) {
       await page.locator(`[data-video="${id}"]`).click();
       assert(await page.locator('#video-dialog').isVisible());
-      assert.equal(await page.locator('#video-player iframe').count(), 0);
-      await page.locator('#demo-next').click();
-      assert.equal(await page.locator('.demo-step-count').textContent(), 'STEP 2 OF 3');
+      const iframe = page.locator('#video-player iframe');
+      assert.equal(await iframe.count(), 1);
+      assert.equal(await iframe.getAttribute('src'), `https://www.youtube-nocookie.com/embed/${guideIds[id]}?autoplay=1&rel=0`);
+      assert.equal(await page.locator('#video-disclaimer a').getAttribute('href'), `https://youtu.be/${guideIds[id]}`);
+      assert.equal(await page.locator('#video-mode').textContent(), 'LEARNLYTICS GUIDE');
+      assert.equal(await page.locator('.demo-stage').count(), 0);
+      await noOverflow(`390px ${id} guide`);
       await closeDialog('#video-dialog');
       await page.waitForFunction(() => document.querySelector('#video-player').childElementCount === 0);
     }
@@ -144,8 +155,8 @@ const widths = [360, 390, 430, 768, 1024, 1440];
     assert.deepEqual(errors, []);
     assert.deepEqual(missing, []);
     assert.deepEqual(external, []);
-    fs.writeFileSync(reportFile, JSON.stringify({ status: 'pass', viewports, curriculum: { modules: 7, parts: 20, resources: 60, detailedPracticeQuestions: 3280, oldHeadlineQuestions: 3680 }, interactions: ['all curriculum accordions', 'mobile navigation', 'main and sticky purchase placeholders', 'sample tabs and keyboard control', 'sample pagination and zoom', 'both guide demos', 'homepage product link'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
-    console.log('PASS: product at 360, 390, 430, 768, 1024, 1440px; curriculum, samples, demos, navigation and placeholder checkout.');
+    fs.writeFileSync(reportFile, JSON.stringify({ status: 'pass', viewports, curriculum: { modules: 7, parts: 20, resources: 60, detailedPracticeQuestions: 3280, oldHeadlineQuestions: 3680 }, interactions: ['all curriculum accordions', 'mobile navigation', 'main and sticky purchase placeholders', 'sample tabs and keyboard control', 'sample pagination and zoom', 'both YouTube guides and cleanup', 'homepage product link'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
+    console.log('PASS: product at 360, 390, 430, 768, 1024, 1440px; curriculum, samples, YouTube guides, navigation and placeholder checkout.');
   } finally { await browser.close(); }
 })().catch(error => {
   fs.writeFileSync(reportFile, JSON.stringify({ status: 'failed', error: error.message }, null, 2));

@@ -1,5 +1,5 @@
 import { setupDialog } from './dialog.js';
-import { videos } from './video-config.js';
+import { videos } from './video-config.js?v=guides-20261015';
 
 export function setupVideos() {
   const dialog = document.querySelector('#video-dialog');
@@ -80,7 +80,6 @@ export function setupVideos() {
       document.querySelector('#video-dialog-title').textContent = video.title;
       const isVideoReady = /^[a-zA-Z0-9_-]{11}$/.test(video.youtubeId || '');
       mode.textContent = isVideoReady ? 'LEARNLYTICS GUIDE' : 'GUIDE DEMO';
-      disclaimer.hidden = isVideoReady;
       if (isVideoReady) {
         const iframe = document.createElement('iframe');
         iframe.className = 'youtube-player';
@@ -89,7 +88,17 @@ export function setupVideos() {
         iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
         iframe.referrerPolicy = 'strict-origin-when-cross-origin';
         player.replaceChildren(iframe);
-      } else loadDemo(video);
+        const youtubeLink = document.createElement('a');
+        youtubeLink.href = `https://youtu.be/${video.youtubeId}`;
+        youtubeLink.target = '_blank';
+        youtubeLink.rel = 'noopener noreferrer';
+        youtubeLink.className = 'text-button';
+        youtubeLink.textContent = 'Watch on YouTube ↗';
+        disclaimer.replaceChildren(youtubeLink);
+      } else {
+        disclaimer.textContent = 'A short interactive demo. The full guide video is coming soon.';
+        loadDemo(video);
+      }
       modal.open();
     });
   });
