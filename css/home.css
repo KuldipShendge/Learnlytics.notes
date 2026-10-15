@@ -119,8 +119,6 @@
 /* Branded guide cards sit beside their inline players. */
 .guide-card {
   display: grid;
-  max-width: 960px;
-  margin-inline: auto;
   grid-template-columns: 1fr;
   gap: 16px;
   padding: 14px;
