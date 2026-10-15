@@ -78,6 +78,7 @@ Only the About Us section and its relevant styles were copied from the old appli
 - Two branded homepage guide cards beside inline YouTube players, stacked on mobile.
 - Click-to-play for both homepage guides, compact cards and direct YouTube links.
 - Inline guide videos inside the existing Data Scientist cards, with autoplay off.
+- Branded curriculum panel with expandable module cards, highlighted open states, and part cards showing question/page counts and included resources.
 - Native FAQ accordions, keyboard navigation, dialog focus management, reduced-motion support and local font loading.
 - No invented testimonials, learner totals, endorsements, urgency, ratings or job guarantees.
 
@@ -104,7 +105,7 @@ GitHub Pages serves `index.html` at the repository URL, such as `https://kuldips
 
 All assets use relative paths, including generated sample images and SVG icons. No custom route rewrites or separate HTML entry points are required.
 
-Changed assets use versioned URLs so returning visitors receive compatible HTML, scripts and styles. The entry point, product module and product styles use `ds-inline-guides-20261015`; unchanged modules retain their earlier versions. Bump the entry point, affected imports and styles when changing them again.
+Changed assets use versioned URLs so returning visitors receive compatible HTML, scripts and styles. The entry point, product module and product styles use `curriculum-cards-20261015`; unchanged modules retain their earlier versions. Bump the entry point, affected imports and styles when changing them again.
 
 To test the same project-folder layout locally:
 

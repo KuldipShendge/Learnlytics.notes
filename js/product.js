@@ -16,8 +16,8 @@ export function setupProduct() {
     .map(
       (module) => `
     <details class="curriculum-module">
-      <summary><span class="module-number">${module.number}</span><span class="module-heading"><strong>${module.title}</strong><span>${module.parts.length} parts · ${module.questions.toLocaleString('en-IN')}+ practice questions</span></span><svg class="icon"><use href="assets/icons/product.svg#chevron"/></svg></summary>
-      <ol class="module-parts">${module.parts.map((part, index) => `<li><span class="part-label">PART ${index + 1}</span><strong>${part.title}</strong><p>${part.questions}+ practice questions · ${part.pages}+ handbook pages</p><p>Handbook + Practice workbook + Solution manual</p></li>`).join('')}</ol>
+      <summary><span class="module-number" aria-hidden="true">${String(module.number).padStart(2, '0')}</span><span class="module-heading"><span class="module-topic">MODULE ${String(module.number).padStart(2, '0')}</span><strong>${module.title}</strong><span class="module-meta"><span>${module.parts.length} parts</span><span>${module.questions.toLocaleString('en-IN')}+ practice questions</span></span></span><svg class="icon"><use href="assets/icons/product.svg#chevron"/></svg></summary>
+      <ol class="module-parts">${module.parts.map((part, index) => `<li><span class="part-label">PART ${String(index + 1).padStart(2, '0')}</span><strong>${part.title}</strong><div class="part-stats"><span><b>${part.questions}+</b> practice questions</span><span><b>${part.pages}+</b> handbook pages</span></div><div class="part-resources" aria-label="Resources included"><span>Handbook</span><span>Practice workbook</span><span>Solution manual</span></div></li>`).join('')}</ol>
     </details>
   `,
     )
