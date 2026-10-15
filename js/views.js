@@ -26,6 +26,7 @@ export function setupViews(initializers) {
     if (!views.has(view)) return;
     if (view !== current) {
       app.querySelectorAll('dialog[open]').forEach((dialog) => dialog.close());
+      app.dispatchEvent(new Event('learnlytics:view-leave'));
       views.get(current).content.append(...app.childNodes);
       const next = views.get(view);
       app.append(next.content);
@@ -37,6 +38,7 @@ export function setupViews(initializers) {
         initializers[view]?.();
         next.initialized = true;
       }
+      app.dispatchEvent(new Event('learnlytics:view-enter'));
     }
     const target = section ? document.getElementById(section) : app.querySelector('h1');
     if (target && moveFocus) {

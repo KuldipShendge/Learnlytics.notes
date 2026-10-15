@@ -50,6 +50,23 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
       await page.evaluate(() => document.fonts.ready);
       assert.match(await page.locator('#recommended-title').innerText(), /Crack Data Scientist\s*& Gen AI/);
       assert(await page.locator('input[value="scientist"]').isChecked());
+      for (const [id, youtubeId] of Object.entries(guideIds)) {
+        const frame = page.locator(`[data-inline-video="${id}"] iframe`);
+        assert.equal(await frame.count(), 1);
+        const source = new URL(await frame.getAttribute('src'));
+        assert.equal(source.pathname, `/embed/${youtubeId}`);
+        assert.equal(source.searchParams.get('autoplay'), id === 'use' ? '1' : '0');
+        assert.equal(source.searchParams.get('mute'), id === 'use' ? '1' : '0');
+        assert.equal(source.searchParams.get('playsinline'), '1');
+        assert.equal(await frame.getAttribute('loading'), id === 'use' ? 'eager' : 'lazy');
+        const card = await page.locator(`.guide-card:has([data-inline-video="${id}"]) .video-poster`).boundingBox();
+        const player = await frame.boundingBox();
+        assert(player.width >= 200 && player.height >= 200, 'Player controls need usable space');
+        if (width >= 900) assert(player.x >= card.x + card.width, 'Video must be right of the card');
+        else assert(player.y >= card.y + card.height, 'Video must stack below the card');
+      }
+      assert.equal(await page.locator('#use-title').innerText(), 'How to use\nyour kit');
+      assert.deepEqual(await page.locator('.poster-books span').allTextContents(), ['Learn', 'Practice', 'Improve']);
       await noOverflow(`${width}px initial`);
       for (const [id, title] of Object.entries(kits)) {
         await page.locator(`.goal-option:has(input[value="${id}"])`).click();
@@ -105,24 +122,26 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
     await page.locator('#explore-materials').click();
     assert(!(await page.locator('#kit-dialog').isVisible()));
     assert(await page.locator('#inside-title').evaluate(el => el === document.activeElement));
-    assert.equal(await page.locator('#video-player iframe').count(), 0);
+    assert.equal(await page.locator('#video-dialog').count(), 0);
     for (const trigger of await page.locator('[data-video]').all()) {
       const id = await trigger.getAttribute('data-video');
       await trigger.click();
-      assert(await page.locator('#video-dialog').isVisible());
-      const iframe = page.locator('#video-player iframe');
+      const iframe = page.locator(`[data-inline-video="${id}"] iframe`);
       assert.equal(await iframe.count(), 1);
-      assert.equal(await iframe.getAttribute('src'), `https://www.youtube-nocookie.com/embed/${guideIds[id]}?autoplay=1&rel=0`);
+      const source = new URL(await iframe.getAttribute('src'));
+      assert.equal(source.pathname, `/embed/${guideIds[id]}`);
+      assert.equal(source.searchParams.get('autoplay'), '1');
+      assert.equal(source.searchParams.get('mute'), '0');
       assert.equal(await iframe.getAttribute('referrerpolicy'), 'strict-origin-when-cross-origin');
-      assert.equal(await page.locator('#video-mode').textContent(), 'LEARNLYTICS GUIDE');
-      assert.equal(await page.locator('#video-disclaimer a').getAttribute('href'), `https://youtu.be/${guideIds[id]}`);
+      assert.equal(await page.locator(`.guide-card:has([data-inline-video="${id}"]) .guide-video-note a`).getAttribute('href'), `https://youtu.be/${guideIds[id]}`);
+      const otherId = id === 'use' ? 'choose' : 'use';
+      const otherSource = new URL(await page.locator(`[data-inline-video="${otherId}"] iframe`).getAttribute('src'));
+      assert.equal(otherSource.searchParams.get('autoplay'), '0', 'Other guide stops when a card starts playback');
       assert.equal(await page.locator('.demo-stage').count(), 0);
-      await noOverflow(`390px ${id} video dialog`);
+      assert(await iframe.evaluate(el => el === document.activeElement));
+      assert.equal(page.url(), url, 'Playing an inline guide must preserve the URL');
+      await noOverflow(`390px ${id} inline video`);
       await page.screenshot({ path: path.join(output, `guide-${id}-390.png`) });
-      await page.keyboard.press('Escape');
-      await page.waitForFunction(() => document.querySelector('#video-player').childElementCount === 0);
-      assert.equal(await page.locator('#video-player').innerHTML(), '');
-      assert(await trigger.evaluate(el => el === document.activeElement));
     }
     await page.locator('.faq-list summary').first().click();
     assert(await page.locator('.faq-list details').first().evaluate(el => el.open));
@@ -135,7 +154,7 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
     assert.deepEqual(errors, []);
     assert.deepEqual(missing, []);
     assert.deepEqual(external, []);
-    fs.writeFileSync(path.join(output, 'verification.json'), JSON.stringify({ status: 'pass', viewports: report, interactions: ['keyboard career selection', 'comparison card navigation', 'mobile menu', 'mobile CTA', 'kit dialogs and focus restoration', 'resource navigation', 'all guide buttons, YouTube embeds and cleanup', 'FAQ accordion'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
+    fs.writeFileSync(path.join(output, 'verification.json'), JSON.stringify({ status: 'pass', viewports: report, interactions: ['keyboard career selection', 'comparison card navigation', 'mobile menu', 'mobile CTA', 'kit dialogs and focus restoration', 'resource navigation', 'inline guide layout, muted autoplay, play buttons and focus', 'FAQ accordion'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
     console.log(`PASS: ${widths.join(', ')}px. All kit states, dialogs, menus, guides, FAQs, assets and overflow checks passed.`);
   } finally { await browser.close(); }
 })().catch(error => {

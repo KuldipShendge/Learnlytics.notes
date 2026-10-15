@@ -116,40 +116,28 @@
   color: var(--ink);
   font-size: 13px;
 }
-/* Both guides share one card and dialog. */
+/* Branded guide cards sit beside their inline players. */
 .guide-card {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
-  padding: 24px;
+  padding: 16px;
   background: white;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
-.guide-copy {
-  align-self: center;
-}
-.guide-copy h2 {
-  font-size: 26px;
-  margin-top: 9px;
-}
-.guide-copy > p:not(.eyebrow) {
-  font-size: 16px;
-  margin-top: 10px;
-  line-height: 1.8;
-}
-.guide-copy > .text-button {
-  margin-top: 11px;
-}
 .video-poster {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  min-height: 190px;
+  min-width: 0;
+  min-height: 230px;
   text-align: left;
-  padding: 23px 23px 38px;
+  padding: 26px 23px;
   border: 0;
   border-radius: 12px;
   color: white;
@@ -175,15 +163,17 @@
   letter-spacing: 2px;
   font-weight: 700;
   color: #e4b9d5;
+  text-transform: uppercase;
+  max-width: 340px;
 }
 .poster-title {
   display: block;
   max-width: calc(100% - 65px);
-  font-size: 25px;
+  font-size: 29px;
   font-weight: 800;
   letter-spacing: -0.8px;
   line-height: 1.25;
-  margin-top: 9px;
+  margin-top: 17px;
 }
 .play-disc {
   position: absolute;
@@ -195,6 +185,8 @@
   width: 48px;
   height: 48px;
   background: #fff;
+  border: 0;
+  padding: 0;
   border-radius: 50%;
   color: var(--accent-dark);
   box-shadow: 0 0 0 7px #ffffff16;
@@ -205,7 +197,7 @@
   width: 28px;
   stroke-width: 1.5;
 }
-.video-poster:hover .play-disc {
+.play-disc:hover {
   transform: translateY(-50%) scale(1.08);
 }
 .poster-paths {
@@ -221,21 +213,11 @@
   font-size: 12px;
   color: #f5ddef;
 }
-.demo-label {
-  position: absolute;
-  right: 13px;
-  bottom: 12px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: #e5cedf;
-}
 .poster-use {
   background: #eedde8;
   color: var(--ink);
 }
-.poster-use .poster-label,
-.poster-use .demo-label {
+.poster-use .poster-label {
   color: #713255;
 }
 .poster-use::after {
@@ -259,6 +241,48 @@
   border-radius: 2px;
   color: #713255;
   transform: rotate(-5deg);
+  text-transform: uppercase;
+}
+.guide-media {
+  min-width: 0;
+  align-self: center;
+}
+.inline-video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 200px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--ink);
+  color: white;
+}
+.inline-video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  border: 0;
+}
+.inline-video iframe:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+}
+.inline-video noscript a {
+  display: block;
+  padding: 24px;
+}
+.guide-video-note {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 5px 16px;
+  padding-top: 9px;
+  color: var(--copy);
+  font-size: 11px;
+}
+.guide-video-note a {
+  color: var(--accent-dark);
+  font-weight: 700;
 }
 /* Career selector and recommendation */
 .goal-selector {
@@ -883,9 +907,6 @@
     margin-top: 9px;
     font-size: 11px;
   }
-  .poster-title {
-    font-size: 23px;
-  }
   .section {
     margin-top: 43px;
   }
@@ -926,17 +947,7 @@
     font-size: 12px;
   }
   .guide-card {
-    grid-template-columns: 1fr 1fr;
-    gap: 25px;
-  }
-  .guide-copy h2 {
-    font-size: 25px;
-  }
-  .guide-copy .eyebrow {
-    font-size: 11px;
-  }
-  .video-poster {
-    min-height: 210px;
+    padding: 23px;
   }
   .recommended-body {
     grid-template-columns: 0.75fr 1fr;
@@ -1058,24 +1069,14 @@
     font-size: 13px;
   }
   .guide-card {
-    grid-template-columns: 1fr 0.94fr;
-    padding: 23px 25px 23px 36px;
-    gap: 40px;
-  }
-  .guide-copy h2 {
-    font-size: 29px;
-  }
-  .guide-copy .eyebrow {
-    font-size: 11px;
-  }
-  .guide-copy > p:not(.eyebrow) {
-    font-size: 16px;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 24px;
   }
   .video-poster {
-    min-height: 209px;
+    padding: 30px;
   }
   .poster-title {
-    font-size: 29px;
+    font-size: 34px;
   }
   .poster-label {
     font-size: 11px;

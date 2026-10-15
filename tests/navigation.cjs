@@ -15,7 +15,9 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
       const errors = [], missing = [], documents = [];
       page.on('pageerror', error => errors.push(error.message));
       page.on('response', response => { if (response.status() >= 400) missing.push(response.url()); });
-      page.on('request', request => { if (request.resourceType() === 'document') documents.push(request.url()); });
+      page.on('request', request => {
+        if (request.resourceType() === 'document' && request.frame() === page.mainFrame()) documents.push(request.url());
+      });
       await context.route('**/*', route => new URL(route.request().url()).origin === new URL(url).origin
         ? route.continue() : route.abort());
       async function checkView(selector) {
@@ -37,11 +39,18 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
       }
 
       assert.equal((await page.goto(url)).status(), 200);
+      await page.locator('.poster-choose [data-video]').click();
       await page.locator('#kit-details').click();
       await checkView('#product-title');
+      assert.equal(await page.locator('[data-inline-video] iframe').count(), 0);
       assert.match(await page.title(), /Data Scientist/);
       await page.goBack();
       await checkView('#hero-title');
+      assert.equal(await page.locator('[data-inline-video] iframe').count(), 2);
+      const restoredGuide = new URL(await page.locator('#use-video iframe').getAttribute('src'));
+      assert.equal(restoredGuide.searchParams.get('autoplay'), '1');
+      assert.equal(restoredGuide.searchParams.get('mute'), '1', 'Home return must not restart audible playback');
+      assert.equal(new URL(await page.locator('#choose-video iframe').getAttribute('src')).searchParams.get('autoplay'), '0');
       await page.goForward();
       await checkView('#product-title');
       await openAbout();

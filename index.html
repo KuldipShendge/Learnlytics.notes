@@ -14,11 +14,11 @@
     <link rel="preload" href="assets/fonts/Manrope-ExtraBold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="css/tokens.css" />
     <link rel="stylesheet" href="css/navigation.css" />
-    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/home.css?v=inline-guides-20261015" />
     <link rel="stylesheet" href="css/dialogs.css" />
     <link rel="stylesheet" href="css/product.css" />
     <link rel="stylesheet" href="css/about.css" />
-    <script type="module" src="js/main.js?v=guides-20261015"></script>
+    <script type="module" src="js/main.js?v=inline-guides-20261015"></script>
   </head>
   <body class="home-page">
     <div id="app">
@@ -130,59 +130,37 @@
 
       <div class="container page-sections">
         <section class="guide-card guide-how" aria-labelledby="use-title">
-          <div class="guide-copy">
-            <p class="eyebrow">A LITTLE STRUCTURE GOES A LONG WAY</p>
-            <h2 id="use-title">Make the most of your kit.</h2>
-            <p>
-              Learn a concept. Try it yourself. Understand the answer.<br class="desktop-only" />
-              See how the three resources work together.
-            </p>
-            <button class="text-button" type="button" data-video="use">
-              How to use your kit <svg class="icon"><use href="#i-arrow" /></svg>
+          <div class="video-poster poster-use">
+            <p class="poster-label">See how the three resources work together</p>
+            <h2 class="poster-title" id="use-title">How to use<br />your kit</h2>
+            <div class="poster-books"><span>Learn</span><span>Practice</span><span>Improve</span></div>
+            <button class="play-disc" type="button" data-video="use" aria-label="Play How to Use Your Kit video" aria-controls="use-video">
+              <svg class="icon"><use href="#i-play" /></svg>
             </button>
           </div>
-          <button
-            class="video-poster poster-use"
-            type="button"
-            data-video="use"
-            aria-label="Play How to Use Your Kit video"
-          >
-            <span class="poster-label">YOUR LEARNING ROUTINE</span
-            ><span class="poster-title">Read. Try.<br />Understand.</span
-            ><span class="poster-books" aria-hidden="true"
-              ><span>LEARN</span><span>PRACTISE</span><span>SOLVE</span></span
-            ><span class="play-disc"
-              ><svg class="icon"><use href="#i-play" /></svg></span
-            ><span class="demo-label">WATCH VIDEO</span>
-          </button>
+          <div class="guide-media">
+            <div class="inline-video" id="use-video" data-inline-video="use" data-autoplay>
+              <noscript><a href="https://youtu.be/gAV7onDGlNo">Watch How to Use Your Kit on YouTube ↗</a></noscript>
+            </div>
+            <div class="guide-video-note"><span>Starts muted · Turn on sound in the player</span><a href="https://youtu.be/gAV7onDGlNo" target="_blank" rel="noopener noreferrer">YouTube ↗</a></div>
+          </div>
         </section>
 
         <section class="guide-card" aria-labelledby="choose-title">
-          <div class="guide-copy">
-            <p class="eyebrow">A GOOD PLACE TO START</p>
-            <h2 id="choose-title">Choose the right kit.</h2>
-            <p>
-              Data Analyst, Data Scientist or ML Engineer?<br class="desktop-only" />
-              Find the path that fits your goal.
-            </p>
-            <button class="text-button" type="button" data-video="choose">
-              Watch the guide <svg class="icon"><use href="#i-arrow" /></svg>
+          <div class="video-poster poster-choose">
+            <p class="poster-label">Find the path that fits your goal</p>
+            <h2 class="poster-title" id="choose-title">Choose the<br />right kit</h2>
+            <div class="poster-paths"><span>DA</span><span>DS + AI</span><span>ML</span></div>
+            <button class="play-disc" type="button" data-video="choose" aria-label="Play Choose the Right Kit video" aria-controls="choose-video">
+              <svg class="icon"><use href="#i-play" /></svg>
             </button>
           </div>
-          <button
-            class="video-poster poster-choose"
-            type="button"
-            data-video="choose"
-            aria-label="Play Choose the Right Kit video"
-          >
-            <span class="poster-label">THE STARTER GUIDE</span
-            ><span class="poster-title">Big goals.<br />The right first step.</span
-            ><span class="poster-paths" aria-hidden="true"
-              ><span>DA</span><span>DS + AI</span><span>ML</span></span
-            ><span class="play-disc"
-              ><svg class="icon"><use href="#i-play" /></svg></span
-            ><span class="demo-label">WATCH VIDEO</span>
-          </button>
+          <div class="guide-media">
+            <div class="inline-video" id="choose-video" data-inline-video="choose">
+              <noscript><a href="https://youtu.be/1hUTxkkk5jQ">Watch Choose the Right Kit on YouTube ↗</a></noscript>
+            </div>
+            <div class="guide-video-note"><span>Compare the kits. Find your fit.</span><a href="https://youtu.be/1hUTxkkk5jQ" target="_blank" rel="noopener noreferrer">YouTube ↗</a></div>
+          </div>
         </section>
 
         <section class="career-section section" id="career-goal" aria-labelledby="career-title">
@@ -558,21 +536,6 @@
         <svg class="icon"><use href="#i-close" /></svg>
       </button>
       <div id="kit-dialog-content"></div>
-    </dialog>
-    <dialog class="modal video-dialog" id="video-dialog" aria-labelledby="video-dialog-title">
-      <div class="modal-heading">
-        <div>
-          <p class="eyebrow" id="video-mode">LEARNLYTICS GUIDE</p>
-          <h2 id="video-dialog-title">Choose the right kit</h2>
-        </div>
-        <button class="icon-button" type="button" data-close aria-label="Close guide">
-          <svg class="icon"><use href="#i-close" /></svg>
-        </button>
-      </div>
-      <div id="video-player"></div>
-      <p class="video-disclaimer" id="video-disclaimer">
-        Watch the full LearnLytics guide.
-      </p>
     </dialog>
     <noscript
       ><p class="noscript-note">

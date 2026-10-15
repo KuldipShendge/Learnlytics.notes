@@ -31,6 +31,7 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `js/dialog.js` | Shared dialog dismissal and focus restoration |
 | `js/video-config.js` | Published guide titles and YouTube IDs, plus fallback demo chapters |
 | `js/videos.js` | Click-to-open YouTube guides, direct viewing links and player cleanup |
+| `js/inline-videos.js` | Homepage inline players, muted first-guide autoplay and view-change cleanup |
 | `js/main.js` | Mobile navigation and component initialization |
 | `js/views.js` | In-page view switching, focus, titles, Back/Forward and refresh at the same URL |
 | `css/product.css` | Product book illustration and responsive sections using shared brand tokens |
@@ -75,8 +76,9 @@ Only the About Us section and its relevant styles were copied from the old appli
 
 - Responsive homepage with all requested sections and a mobile bottom CTA.
 - Four-way career selector, live recommendation updates, and lightweight kit overview dialogs on the homepage.
-- Two branded video posters made with HTML/CSS and a shared guide dialog.
-- Two published YouTube guides with click-to-load players and direct YouTube links.
+- Two branded homepage guide cards beside inline YouTube players, stacked on mobile.
+- Muted autoplay for the first homepage guide, click-to-play for the second, and direct YouTube links.
+- Click-to-open guide dialogs in the Data Scientist view.
 - Native FAQ accordions, keyboard navigation, dialog focus management, reduced-motion support and local font loading.
 - No invented testimonials, learner totals, endorsements, urgency, ratings or job guarantees.
 
@@ -87,7 +89,9 @@ Both supplied LearnLytics guides are configured in `js/video-config.js`:
 - How to Use Your LearnLytics Interview Kit: https://youtu.be/gAV7onDGlNo
 - Which Data & AI Interview Kit Is Right for You?: https://youtu.be/1hUTxkkk5jQ
 
-All homepage and DS guide buttons open the corresponding YouTube player. The iframe is created only when opened and removed on close to stop playback. A direct “Watch on YouTube” link is available below the player. A local demo is retained only as a fallback if a guide ID is unset.
+The homepage shows both videos directly beside their guide cards. The first guide loads eagerly and requests muted autoplay on each visit; the second loads lazily and waits for Play. Native YouTube controls provide pause, sound and fullscreen, with direct YouTube links below. Browser/device autoplay settings may still require a tap. Clicking a card's play icon or the hero guide button starts that inline video with sound and stops the other player. Leaving the homepage removes its players; returning recreates the first muted player and leaves the second idle.
+
+DS guide buttons open the corresponding video in a dialog. Those players are created on click and removed on close. A direct “Watch on YouTube” link is available below the player. A local demo is retained only as a fallback if a DS guide ID is unset.
 
 All product images are existing LearnLytics assets; no unrelated stock images or image placeholders were introduced. The hero illustration is reused, while the two guide poster compositions are new.
 
@@ -101,7 +105,7 @@ GitHub Pages serves `index.html` at the repository URL, such as `https://kuldips
 
 All assets use relative paths, including generated sample images and SVG icons. No custom route rewrites or separate HTML entry points are required.
 
-The JavaScript entry point and modules changed by the single-URL migration use versioned asset URLs (`single-url-1` for navigation and `guides-20261015` for the published guides) so returning visitors do not mix the new HTML with cached page-navigation code. Bump the version on the entry point and affected imports when changing this navigation again.
+Changed assets use versioned URLs so returning visitors receive compatible HTML, scripts and styles. The homepage layout, entry point, inline player and view lifecycle use `inline-guides-20261015`; unchanged modules retain their earlier versions. Bump the entry point, affected imports and styles when changing them again.
 
 To test the same project-folder layout locally:
 
@@ -114,7 +118,7 @@ Open `http://127.0.0.1:4173/Learnlytics.notes/` and set `PREVIEW_URL` to that ad
 
 ## Verification
 
-The browser checks cover 360, 390, 430, 768, 1024 and 1440px widths, every career choice, recommendation content/prices, dialog layout, dismissal and focus, mobile navigation, comparison cards, the sticky CTA, all guide buttons, YouTube embed IDs, player cleanup, FAQs, images and internal anchors. Browser acceptance tests stub the two expected YouTube embeds and block other nonlocal requests. They verify integration and cleanup; actual YouTube playback is checked separately.
+The browser checks cover 360, 390, 430, 768, 1024 and 1440px widths, every career choice, recommendation content/prices, dialog layout, dismissal and focus, mobile navigation, comparison cards, the sticky CTA, inline guide placement, muted autoplay parameters, play buttons, YouTube embed IDs, player cleanup on view changes, FAQs, images and internal anchors. Browser acceptance tests stub the two expected YouTube embeds and block other nonlocal requests. They verify integration and cleanup; actual YouTube playback is checked separately.
 
 The latest results are in `screenshots/verification.json` and `screenshots/product-verification.json`. Full-page screenshots are named `homepage-{width}.png` and `product-{width}.png`, with additional viewport images for 390 and 1440px. Fixed bottom CTA bars are hidden only while taking the full-page captures so they do not obscure the middle of the page; viewport screenshots show the actual fixed bar.
 
