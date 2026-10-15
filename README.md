@@ -93,7 +93,7 @@ The homepage shows both videos directly beside compact guide cards. Both players
 
 The DS view embeds the same two guides directly inside its existing walkthrough and kit-selection cards. It reuses the homepage player setup: lazy loading, autoplay off, native YouTube controls, and cleanup on leaving the view. Returning to DS recreates both players in their idle state. The headings and comparison link remain beside the video cards.
 
-All product images are existing LearnLytics assets; no unrelated stock images or image placeholders were introduced. The hero illustration is reused, while the two guide poster compositions are new.
+The DS hero uses a newly generated high-resolution transparent book mockup (`assets/images/ds-complete-kit-sharp.png`) matching the original LearnLytics cover. Other product and resource images reuse the existing LearnLytics assets. The homepage hero illustration is reused, while the two guide poster compositions are new.
 
 The featured Data Scientist “View kit details” button opens the new product page; the other three kits still use homepage overviews. The product page's “Get This Kit Now” buttons open an honest availability dialog, with the Razorpay label under the primary button. **Checkout, Razorpay integration, Google Sheets, free downloads, secure delivery and accounts remain unimplemented.** No old payment or delivery files were copied or edited. Only the Data Scientist & Gen AI product page has been added.
 
