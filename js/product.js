@@ -1,9 +1,11 @@
 import { setupInlineVideos } from './inline-videos.js?v=compact-guides-20261015';
 import { setupDialog } from './dialog.js';
+import { setupSampleGallery } from './sample-gallery.js?v=inline-pdf-samples-20261016';
 import { curriculum, productOverview } from './ds-curriculum.js';
 
 export function setupProduct() {
   setupInlineVideos();
+  setupSampleGallery();
 
   const curriculumSection = document.querySelector('#curriculum');
   const includedSection = document.querySelector('.included-section');

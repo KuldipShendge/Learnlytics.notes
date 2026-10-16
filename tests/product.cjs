@@ -125,27 +125,50 @@ const widths = [360, 390, 430, 768, 1024, 1440];
     }
     await page.setViewportSize({ width: 390, height: 844 });
     await openProduct();
-    // Actual EDA files must be reachable under the GitHub Pages project folder.
-    assert.equal(await page.locator('#samples .sample-pdf-card').count(), 3);
-    for (const filename of ['eda-handbook.pdf', 'eda-practice-workbook.pdf', 'eda-solution-manual.pdf']) {
-      const link = page.locator(`#samples .sample-pdf-open[href="pdfs/${filename}"]`);
-      assert.equal(await link.getAttribute('target'), '_blank');
-      assert.match(await link.getAttribute('rel'), /noopener/);
-      const resource = await context.request.get(new URL(`pdfs/${filename}`, url).href);
-      assert.equal(resource.status(), 200);
-      assert.match(resource.headers()['content-type'], /application\/pdf/);
-      const bytes = await resource.body();
-      assert.equal(bytes.subarray(0, 5).toString(), '%PDF-');
-      assert.equal(bytes.length, fs.statSync(path.resolve(__dirname, '../pdfs', filename)).size);
-      assert.equal(await page.locator(`#samples a[download][href="pdfs/${filename}"]`).count(), 1);
+    const pdfResources = { handbook: ['eda-handbook.pdf', 32], workbook: ['eda-practice-workbook.pdf', 6], solutions: ['eda-solution-manual.pdf', 11] };
+    async function readyPdf(filename, number) {
+      await page.waitForFunction(({ filename, number }) => {
+        const slot = document.querySelector('#sample-pdf-page');
+        return slot.dataset.pdf === filename && slot.dataset.page === String(number) &&
+          slot.querySelector('canvas')?.width > 0 && document.querySelector('.sample-frame').getAttribute('aria-busy') === 'false';
+      }, {filename, number});
     }
-    const [download] = await Promise.all([
-      page.waitForEvent('download'),
-      page.locator('#samples a[download]').first().click(),
-    ]);
-    assert.equal(download.suggestedFilename(), 'eda-handbook.pdf');
-    assert.equal(await download.failure(), null);
-    await noOverflow('390px EDA PDF list');
+    for (const [type, [filename, count]] of Object.entries(pdfResources)) {
+      await page.locator(`[data-sample="${type}"]`).click();
+      await readyPdf(filename, 1);
+      assert.equal(await page.locator(`[data-sample="${type}"]`).getAttribute('aria-selected'), 'true');
+      assert.equal(await page.locator('#sample-panel').getAttribute('aria-labelledby'), `tab-${type}`);
+      assert.equal(await page.locator('#sample-position').textContent(), `01 / ${String(count).padStart(2, '0')}`);
+      await page.locator('.sample-next').click();
+      await readyPdf(filename, 2);
+      await page.locator('[data-sample-index="2"]').click();
+      await readyPdf(filename, 3);
+      await page.locator('.sample-previous').click();
+      await readyPdf(filename, 2);
+      await page.locator('.sample-image-button').click();
+      await page.locator('#sample-enlarged canvas').waitFor();
+      assert(await page.locator('#sample-dialog').isVisible());
+      assert.match(await page.locator('#sample-open-pdf').getAttribute('href'), new RegExp(`${filename}#page=2$`));
+      assert.equal(await page.locator('#sample-open-pdf').getAttribute('target'), '_blank');
+      await closeDialog('#sample-dialog');
+      assert.equal(await page.locator('#sample-enlarged canvas').count(), 0);
+      const response = await context.request.get(new URL(`pdfs/${filename}`, url).href);
+      assert.equal(response.status(), 200);
+      assert.match(response.headers()['content-type'], /application\/pdf/);
+      assert.equal((await response.body()).subarray(0, 5).toString(), '%PDF-');
+      await noOverflow(`390px ${type} PDF`);
+    }
+    await page.locator('#tab-solutions').focus();
+    await page.keyboard.press('ArrowRight');
+    await readyPdf('eda-handbook.pdf', 1);
+    assert.equal(await page.locator('#tab-handbook').getAttribute('aria-selected'), 'true');
+    // A rapid tab change must not let an older render replace the selected PDF.
+    await page.locator('#tab-workbook').click();
+    await page.locator('#tab-solutions').click();
+    await readyPdf('eda-solution-manual.pdf', 1);
+    await page.setViewportSize({width:1440,height:1000});
+    await readyPdf('eda-solution-manual.pdf', 1);
+    await noOverflow('1440px inline PDF');
     assert.equal(await page.locator('#support .whatsapp-link').getAttribute('href'), 'https://wa.me/919130631497');
     await page.locator('.choose-section [data-view="home"]').click();
     assert(await page.locator('#compare').evaluate(el => el === document.activeElement));
@@ -158,7 +181,7 @@ const widths = [360, 390, 430, 768, 1024, 1440];
     assert.deepEqual(errors, []);
     assert.deepEqual(missing, []);
     assert.deepEqual(external, []);
-    fs.writeFileSync(reportFile, JSON.stringify({ status: 'pass', viewports, curriculum: { modules: 7, parts: 20, resources: 60, detailedPracticeQuestions: 3280, oldHeadlineQuestions: 3680 }, interactions: ['all curriculum accordions', 'mobile navigation', 'main and sticky purchase placeholders', 'three EDA PDF links and download', 'both YouTube guides and cleanup', 'homepage product link'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
+    fs.writeFileSync(reportFile, JSON.stringify({ status: 'pass', viewports, curriculum: { modules: 7, parts: 20, resources: 60, detailedPracticeQuestions: 3280, oldHeadlineQuestions: 3680 }, interactions: ['all curriculum accordions', 'mobile navigation', 'main and sticky purchase placeholders', 'inline PDFs, all resource tabs, page navigation, keyboard control and zoom', 'both YouTube guides and cleanup', 'homepage product link'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
     console.log('PASS: product at 360, 390, 430, 768, 1024, 1440px; curriculum, samples, YouTube guides, navigation and placeholder checkout.');
   } finally { await browser.close(); }
 })().catch(error => {

@@ -36,7 +36,9 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `css/product.css` | Product book illustration and responsive sections using shared brand tokens |
 | `js/product.js` | Product curriculum rendering, shared guides and purchase placeholder |
 | `js/ds-curriculum.js` | Seven original modules, 20 parts and per-part question/page counts |
-| `pdfs/eda-*.pdf` | Supplied EDA handbook, practice workbook and solution manual linked in Sample Pages |
+| `js/sample-gallery.js` | Inline PDF rendering, resource tabs, pagination, keyboard navigation and enlarged reading view |
+| `pdfs/eda-*.pdf` | Supplied EDA handbook, practice workbook and solution manual |
+| `assets/vendor/pdfjs/` | Bundled PDF.js 5.6.205, Apache-2.0 licensed, with local worker, fonts, CMaps and decoders |
 | `js/navigation.js` | Shared mobile navigation behavior |
 | `assets/icons/product.svg` | Newly drawn SVG technology and product UI icons |
 | `assets/images/samples/` | Six actual handbook and solution preview images from the old site |
@@ -44,11 +46,11 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `assets/fonts/` | Self-hosted Manrope fonts and SIL Open Font License |
 | `scripts/preview.mjs` | Static preview server with optional project subfolder; no route rewrites or backend integrations |
 | `tests/homepage.cjs` | Browser acceptance checks and screenshot capture |
-| `tests/product.cjs` | Product interactions, curriculum totals, EDA PDF links/downloads, responsive checks and screenshots |
+| `tests/product.cjs` | Product interactions, curriculum totals, inline EDA PDF previews, responsive checks and screenshots |
 | `tests/navigation.cjs` | Unchanged URL, view switching, Back/Forward, refresh and repeated visits |
 | `screenshots/` | Mobile, tablet and desktop captures plus verification results |
 
-No framework, production dependencies, legacy scripts, duplicate theme overrides or inline event handlers are required. The homepage remains readable without JavaScript; switching views, kit selection and guide dialogs require it. Inactive views remain in templates, so only one main landmark and one set of dialog IDs are active.
+No framework, package installation, legacy scripts, duplicate theme overrides or inline event handlers are required. The homepage remains readable without JavaScript; switching views, kit selection and guide dialogs require it. Inactive views remain in templates, so only one main landmark and one set of dialog IDs are active.
 
 ## Existing branding and assets reused
 
@@ -97,7 +99,7 @@ The DS hero uses a newly generated high-resolution transparent book mockup (`ass
 
 The featured Data Scientist “View kit details” button opens the new product page; the other three kits still use homepage overviews. The product page's “Get This Kit Now” buttons open an honest availability dialog, with the Razorpay label under the primary button. **Checkout, Razorpay integration, Google Sheets, purchased-kit delivery and accounts remain unimplemented.** Sample PDF downloads are available in the DS view. No old payment or delivery files were copied or edited. Only the Data Scientist & Gen AI product page has been added.
 
-The product page omits FAQs, file-format badges and refund claims as requested. It does not reproduce the reference's unverified ratings or testimonials. The two guide videos are the published LearnLytics walkthroughs. Sample Pages lists the supplied EDA handbook, practice workbook and solution manual, with links to open each PDF in a new tab or download it. WhatsApp links use the existing support contact, `+91 91306 31497`.
+The product page omits FAQs, file-format badges and refund claims as requested. It does not reproduce the reference's unverified ratings or testimonials. The two guide videos are the published LearnLytics walkthroughs. Sample Pages keeps the original Handbook / Workbook / Solutions tabs and viewer design. PDF.js renders pages directly from the supplied EDA PDFs in the former image area. Arrows and the three-dot page selector navigate the selected PDF; Click to read opens a larger rendered page and a direct PDF link. The PDFs contain 32, 6 and 11 pages respectively. Rendering is lazy and adapts to mobile and desktop sizes. WhatsApp links use the existing support contact, `+91 91306 31497`.
 
 ## Hosting and navigation
 
@@ -105,7 +107,7 @@ GitHub Pages serves `index.html` at the repository URL, such as `https://kuldips
 
 All assets use relative paths, including generated sample images and SVG icons. No custom route rewrites or separate HTML entry points are required.
 
-Changed assets use versioned URLs so returning visitors receive compatible HTML, scripts and styles. The entry point, product module and product styles use `eda-pdfs-20261016`. On mobile and tablet, the curriculum follows “What’s Inside This Kit?”; from 980px it returns to the desktop sidebar, preserving expanded modules. Bump the entry point, affected imports and styles when changing them again.
+Changed assets use versioned URLs so returning visitors receive compatible HTML, scripts and styles. The entry point, product module and product styles use `inline-pdf-samples-20261016`. On mobile and tablet, the curriculum follows “What’s Inside This Kit?”; from 980px it returns to the desktop sidebar, preserving expanded modules. Bump the entry point, affected imports and styles when changing them again.
 
 To test the same project-folder layout locally:
 
