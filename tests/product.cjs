@@ -73,7 +73,7 @@ const widths = [360, 390, 430, 768, 1024, 1440];
       assert.deepEqual(brand, ['#241525', '#b40982', '#fcfafb']);
       assert.match(await page.locator('.curriculum-total').textContent(), /20 parts\. 60 resources\. One complete kit\./);
       const bodyText = await page.locator('body').innerText();
-      assert(!/frequently asked questions|\bPDF\b|\bDOCX\b|7.day refund/i.test(bodyText), 'Excluded product UI found');
+      assert(!/frequently asked questions|\bDOCX\b|7.day refund/i.test(bodyText), 'Excluded product UI found');
       const fonts = await page.locator('#product-title').evaluate(el => ({ family: getComputedStyle(el).fontFamily, available: document.fonts.check('800 20px Manrope') }));
       assert(fonts.family.includes('Manrope') && fonts.available);
       await noOverflow(`${width}px collapsed`);
@@ -125,34 +125,27 @@ const widths = [360, 390, 430, 768, 1024, 1440];
     }
     await page.setViewportSize({ width: 390, height: 844 });
     await openProduct();
-    // Real source previews, sample pagination, and the clearly labelled workbook demo.
-    for (const type of ['handbook', 'workbook', 'solutions']) {
-      await page.locator(`[data-sample="${type}"]`).click();
-      assert.equal(await page.locator(`[data-sample="${type}"]`).getAttribute('aria-selected'), 'true');
-      for (let index = 0; index < 3; index++) {
-        await page.locator(`[data-sample-index="${index}"]`).click();
-        assert.equal(await page.locator('#sample-position').textContent(), `0${index + 1} / 03`);
-        if (type === 'workbook') {
-          assert(await page.locator('#workbook-preview').isVisible());
-          assert.match(await page.locator('#sample-note').textContent(), /Illustrative practice preview/);
-        } else {
-          await page.locator('#sample-image').evaluate(img => img.decode());
-          assert(await page.locator('#sample-image').evaluate(img => img.naturalWidth > 0));
-        }
-        await noOverflow(`390px ${type} ${index}`);
-      }
+    // Actual EDA files must be reachable under the GitHub Pages project folder.
+    assert.equal(await page.locator('#samples .sample-pdf-card').count(), 3);
+    for (const filename of ['eda-handbook.pdf', 'eda-practice-workbook.pdf', 'eda-solution-manual.pdf']) {
+      const link = page.locator(`#samples .sample-pdf-open[href="pdfs/${filename}"]`);
+      assert.equal(await link.getAttribute('target'), '_blank');
+      assert.match(await link.getAttribute('rel'), /noopener/);
+      const resource = await context.request.get(new URL(`pdfs/${filename}`, url).href);
+      assert.equal(resource.status(), 200);
+      assert.match(resource.headers()['content-type'], /application\/pdf/);
+      const bytes = await resource.body();
+      assert.equal(bytes.subarray(0, 5).toString(), '%PDF-');
+      assert.equal(bytes.length, fs.statSync(path.resolve(__dirname, '../pdfs', filename)).size);
+      assert.equal(await page.locator(`#samples a[download][href="pdfs/${filename}"]`).count(), 1);
     }
-    await page.locator('.sample-next').click();
-    assert.equal(await page.locator('#sample-position').textContent(), '01 / 03');
-    await page.locator('.sample-previous').click();
-    assert.equal(await page.locator('#sample-position').textContent(), '03 / 03');
-    await page.locator('#tab-solutions').focus();
-    await page.keyboard.press('ArrowRight');
-    assert.equal(await page.locator('#tab-handbook').getAttribute('aria-selected'), 'true');
-    await page.locator('.sample-image-button').click();
-    assert(await page.locator('#sample-dialog').isVisible());
-    await page.locator('#sample-enlarged').evaluate(img => img.decode());
-    await closeDialog('#sample-dialog');
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      page.locator('#samples a[download]').first().click(),
+    ]);
+    assert.equal(download.suggestedFilename(), 'eda-handbook.pdf');
+    assert.equal(await download.failure(), null);
+    await noOverflow('390px EDA PDF list');
     assert.equal(await page.locator('#support .whatsapp-link').getAttribute('href'), 'https://wa.me/919130631497');
     await page.locator('.choose-section [data-view="home"]').click();
     assert(await page.locator('#compare').evaluate(el => el === document.activeElement));
@@ -165,7 +158,7 @@ const widths = [360, 390, 430, 768, 1024, 1440];
     assert.deepEqual(errors, []);
     assert.deepEqual(missing, []);
     assert.deepEqual(external, []);
-    fs.writeFileSync(reportFile, JSON.stringify({ status: 'pass', viewports, curriculum: { modules: 7, parts: 20, resources: 60, detailedPracticeQuestions: 3280, oldHeadlineQuestions: 3680 }, interactions: ['all curriculum accordions', 'mobile navigation', 'main and sticky purchase placeholders', 'sample tabs and keyboard control', 'sample pagination and zoom', 'both YouTube guides and cleanup', 'homepage product link'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
+    fs.writeFileSync(reportFile, JSON.stringify({ status: 'pass', viewports, curriculum: { modules: 7, parts: 20, resources: 60, detailedPracticeQuestions: 3280, oldHeadlineQuestions: 3680 }, interactions: ['all curriculum accordions', 'mobile navigation', 'main and sticky purchase placeholders', 'three EDA PDF links and download', 'both YouTube guides and cleanup', 'homepage product link'], consoleErrors: errors, missingAssets: missing, externalRequests: external }, null, 2));
     console.log('PASS: product at 360, 390, 430, 768, 1024, 1440px; curriculum, samples, YouTube guides, navigation and placeholder checkout.');
   } finally { await browser.close(); }
 })().catch(error => {

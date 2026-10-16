@@ -36,7 +36,7 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `css/product.css` | Product book illustration and responsive sections using shared brand tokens |
 | `js/product.js` | Product curriculum rendering, shared guides and purchase placeholder |
 | `js/ds-curriculum.js` | Seven original modules, 20 parts and per-part question/page counts |
-| `js/sample-gallery.js` | Resource tabs, topic carousel, sample enlargement and workbook demo |
+| `pdfs/eda-*.pdf` | Supplied EDA handbook, practice workbook and solution manual linked in Sample Pages |
 | `js/navigation.js` | Shared mobile navigation behavior |
 | `assets/icons/product.svg` | Newly drawn SVG technology and product UI icons |
 | `assets/images/samples/` | Six actual handbook and solution preview images from the old site |
@@ -44,7 +44,7 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `assets/fonts/` | Self-hosted Manrope fonts and SIL Open Font License |
 | `scripts/preview.mjs` | Static preview server with optional project subfolder; no route rewrites or backend integrations |
 | `tests/homepage.cjs` | Browser acceptance checks and screenshot capture |
-| `tests/product.cjs` | Product interactions, curriculum totals, responsive checks and screenshots |
+| `tests/product.cjs` | Product interactions, curriculum totals, EDA PDF links/downloads, responsive checks and screenshots |
 | `tests/navigation.cjs` | Unchanged URL, view switching, Back/Forward, refresh and repeated visits |
 | `screenshots/` | Mobile, tablet and desktop captures plus verification results |
 
@@ -95,9 +95,9 @@ The DS view embeds the same two guides directly inside its existing walkthrough 
 
 The DS hero uses a newly generated high-resolution transparent book mockup (`assets/images/ds-complete-kit-sharp.png`) matching the original LearnLytics cover. Other product and resource images reuse the existing LearnLytics assets. The homepage hero illustration is reused, while the two guide poster compositions are new.
 
-The featured Data Scientist “View kit details” button opens the new product page; the other three kits still use homepage overviews. The product page's “Get This Kit Now” buttons open an honest availability dialog, with the Razorpay label under the primary button. **Checkout, Razorpay integration, Google Sheets, free downloads, secure delivery and accounts remain unimplemented.** No old payment or delivery files were copied or edited. Only the Data Scientist & Gen AI product page has been added.
+The featured Data Scientist “View kit details” button opens the new product page; the other three kits still use homepage overviews. The product page's “Get This Kit Now” buttons open an honest availability dialog, with the Razorpay label under the primary button. **Checkout, Razorpay integration, Google Sheets, purchased-kit delivery and accounts remain unimplemented.** Sample PDF downloads are available in the DS view. No old payment or delivery files were copied or edited. Only the Data Scientist & Gen AI product page has been added.
 
-The product page omits FAQs, file-format badges and refund claims as requested. It does not reproduce the reference's unverified ratings or testimonials. The two guide videos are the published LearnLytics walkthroughs. Handbook and solution previews are real existing assets; the workbook preview is a clearly labelled illustrative placeholder. WhatsApp links use the existing support contact, `+91 91306 31497`.
+The product page omits FAQs, file-format badges and refund claims as requested. It does not reproduce the reference's unverified ratings or testimonials. The two guide videos are the published LearnLytics walkthroughs. Sample Pages lists the supplied EDA handbook, practice workbook and solution manual, with links to open each PDF in a new tab or download it. WhatsApp links use the existing support contact, `+91 91306 31497`.
 
 ## Hosting and navigation
 
@@ -105,7 +105,7 @@ GitHub Pages serves `index.html` at the repository URL, such as `https://kuldips
 
 All assets use relative paths, including generated sample images and SVG icons. No custom route rewrites or separate HTML entry points are required.
 
-Changed assets use versioned URLs so returning visitors receive compatible HTML, scripts and styles. The entry point and product module use `mobile-curriculum-order-20261015`; product styles use `sharp-book-20261015`. On mobile and tablet, the curriculum follows “What’s Inside This Kit?”; from 980px it returns to the desktop sidebar, preserving expanded modules. Bump the entry point, affected imports and styles when changing them again.
+Changed assets use versioned URLs so returning visitors receive compatible HTML, scripts and styles. The entry point, product module and product styles use `eda-pdfs-20261016`. On mobile and tablet, the curriculum follows “What’s Inside This Kit?”; from 980px it returns to the desktop sidebar, preserving expanded modules. Bump the entry point, affected imports and styles when changing them again.
 
 To test the same project-folder layout locally:
 

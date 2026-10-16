@@ -16,9 +16,9 @@
     <link rel="stylesheet" href="css/navigation.css" />
     <link rel="stylesheet" href="css/home.css?v=no-mobile-bar-20261015" />
     <link rel="stylesheet" href="css/dialogs.css" />
-    <link rel="stylesheet" href="css/product.css?v=sharp-book-20261015" />
+    <link rel="stylesheet" href="css/product.css?v=eda-pdfs-20261016" />
     <link rel="stylesheet" href="css/about.css" />
-    <script type="module" src="js/main.js?v=mobile-curriculum-order-20261015"></script>
+    <script type="module" src="js/main.js?v=eda-pdfs-20261016"></script>
   </head>
   <body class="home-page">
     <div id="app">
@@ -676,97 +676,45 @@
                 <p class="eyebrow">TAKE A CLOSER LOOK</p>
                 <h2 id="samples-title">Sample Pages</h2>
               </div>
-              <span class="small-note">See the learning style</span>
+              <span class="small-note">Explore the EDA resources</span>
             </div>
-            <div class="sample-tabs" role="tablist" aria-label="Sample resource type">
-              <button
-                id="tab-handbook"
-                role="tab"
-                aria-selected="true"
-                aria-controls="sample-panel"
-                data-sample="handbook"
-                type="button"
-              >
-                Handbook</button
-              ><button
-                id="tab-workbook"
-                role="tab"
-                aria-selected="false"
-                aria-controls="sample-panel"
-                data-sample="workbook"
-                tabindex="-1"
-                type="button"
-              >
-                Workbook</button
-              ><button
-                id="tab-solutions"
-                role="tab"
-                aria-selected="false"
-                aria-controls="sample-panel"
-                data-sample="solutions"
-                tabindex="-1"
-                type="button"
-              >
-                Solutions
-              </button>
-            </div>
-            <div id="sample-panel" role="tabpanel" aria-labelledby="tab-handbook" tabindex="0">
-              <div class="sample-caption">
-                <span id="sample-subject">Advanced Python for Data Science</span
-                ><span id="sample-position">01 / 03</span>
-              </div>
-              <div class="sample-frame">
-                <button class="sample-image-button" type="button" aria-label="Enlarge the sample page">
-                  <img
-                    id="sample-image"
-                    src="assets/images/samples/ds-python-handbook-v2.webp"
-                    alt="Actual LearnLytics Advanced Python handbook sample page"
-                    width="778"
-                    height="1100"
-                    loading="lazy"
-                  /><span class="sample-zoom"
-                    ><svg class="icon"><use href="assets/icons/product.svg#zoom" /></svg> Click to read</span
-                  >
-                </button>
-                <article class="workbook-preview" id="workbook-preview" hidden></article>
-                <button
-                  class="sample-arrow sample-previous icon-button"
-                  type="button"
-                  aria-label="Previous sample page"
-                >
-                  ←</button
-                ><button
-                  class="sample-arrow sample-next icon-button"
-                  type="button"
-                  aria-label="Next sample page"
-                >
-                  →
-                </button>
-              </div>
-              <div class="sample-pagination" aria-label="Choose sample topic">
-                <button
-                  type="button"
-                  aria-label="Show Python sample"
-                  aria-current="true"
-                  data-sample-index="0"
-                ></button
-                ><button
-                  type="button"
-                  aria-label="Show evaluation sample"
-                  aria-current="false"
-                  data-sample-index="1"
-                ></button
-                ><button
-                  type="button"
-                  aria-label="Show Gen AI sample"
-                  aria-current="false"
-                  data-sample-index="2"
-                ></button>
-              </div>
-              <p class="sample-note" id="sample-note">
-                An actual page from the existing LearnLytics handbook.
-              </p>
-              <p class="sr-only" id="sample-status" role="status"></p>
+            <div class="sample-pdf-list">
+              <article class="sample-pdf-card">
+                <span class="sample-pdf-icon" aria-hidden="true"><svg class="icon"><use href="assets/icons/product.svg#document" /></svg></span>
+                <div class="sample-pdf-content">
+                  <p class="sample-pdf-type">01 / LEARN</p>
+                  <h3>EDA Handbook</h3>
+                  <p>Exploratory Data Analysis · PDF</p>
+                  <div class="sample-pdf-actions">
+                    <a class="sample-pdf-open" href="pdfs/eda-handbook.pdf" target="_blank" rel="noopener noreferrer">Open handbook ↗</a>
+                    <a class="sample-pdf-download" href="pdfs/eda-handbook.pdf" download>Download PDF ↓</a>
+                  </div>
+                </div>
+              </article>
+              <article class="sample-pdf-card">
+                <span class="sample-pdf-icon" aria-hidden="true"><svg class="icon"><use href="assets/icons/product.svg#workbook" /></svg></span>
+                <div class="sample-pdf-content">
+                  <p class="sample-pdf-type">02 / PRACTISE</p>
+                  <h3>EDA Practice Workbook</h3>
+                  <p>Exploratory Data Analysis · PDF</p>
+                  <div class="sample-pdf-actions">
+                    <a class="sample-pdf-open" href="pdfs/eda-practice-workbook.pdf" target="_blank" rel="noopener noreferrer">Open workbook ↗</a>
+                    <a class="sample-pdf-download" href="pdfs/eda-practice-workbook.pdf" download>Download PDF ↓</a>
+                  </div>
+                </div>
+              </article>
+              <article class="sample-pdf-card">
+                <span class="sample-pdf-icon" aria-hidden="true"><svg class="icon"><use href="assets/icons/product.svg#solution" /></svg></span>
+                <div class="sample-pdf-content">
+                  <p class="sample-pdf-type">03 / REVIEW</p>
+                  <h3>EDA Solution Manual</h3>
+                  <p>Exploratory Data Analysis · PDF</p>
+                  <div class="sample-pdf-actions">
+                    <a class="sample-pdf-open" href="pdfs/eda-solution-manual.pdf" target="_blank" rel="noopener noreferrer">Open solutions ↗</a>
+                    <a class="sample-pdf-download" href="pdfs/eda-solution-manual.pdf" download>Download PDF ↓</a>
+                  </div>
+                </div>
+              </article>
             </div>
           </section>
 
@@ -953,18 +901,6 @@
       </button>
     </aside>
 
-    <dialog class="modal sample-dialog" id="sample-dialog" aria-labelledby="sample-dialog-title">
-      <div class="modal-heading">
-        <div>
-          <p class="eyebrow">LEARNLYTICS SAMPLE</p>
-          <h2 id="sample-dialog-title">Handbook sample</h2>
-        </div>
-        <button class="icon-button" type="button" data-close aria-label="Close sample">
-          <svg class="icon"><use href="assets/icons/product.svg#close" /></svg>
-        </button>
-      </div>
-      <img id="sample-enlarged" alt="" width="778" height="1100" />
-    </dialog>
     <dialog class="modal checkout-dialog" id="checkout-dialog" aria-labelledby="checkout-dialog-title">
       <button
         class="icon-button modal-close"

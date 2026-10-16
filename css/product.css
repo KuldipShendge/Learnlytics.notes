@@ -456,190 +456,76 @@
   line-height: 1.7;
   margin-top: 6px;
 }
-.sample-tabs {
+.sample-pdf-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 7px;
-}
-.sample-tabs > button {
-  background: #faf4f8;
-  color: var(--ink);
-  font-size: 11px;
-  font-weight: 600;
-  min-height: 41px;
-  padding: 9px;
-  border: 1px solid #e9e1e7;
-  border-radius: 7px;
-}
-.sample-tabs > button[aria-selected='true'] {
-  background: var(--accent);
-  color: white;
-  border-color: var(--accent);
-}
-.sample-caption {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   gap: 12px;
-  font-size: 9px;
-  color: var(--copy);
-  padding: 15px 2px 11px;
 }
-.sample-caption span:first-child {
-  font-weight: 600;
-  color: var(--ink);
+.sample-pdf-card {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 15px;
+  padding: 20px 18px;
+  border: 1px solid #e7d9e3;
+  border-radius: 14px;
+  background: linear-gradient(120deg, #fff, #faf4f8);
 }
-.sample-caption span:last-child {
-  white-space: nowrap;
-  font-size: 8px;
-  letter-spacing: 1px;
-}
-.sample-frame {
-  position: relative;
-  background: #f3e6ef;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 17px 33px;
-  min-height: 320px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.sample-image-button {
-  position: relative;
-  display: block;
-  max-width: 100%;
-  border: 0;
-  padding: 0;
-  background: white;
-  box-shadow: 0 4px 15px #24152518;
-  border-radius: 2px;
-  overflow: hidden;
-}
-.sample-image-button img {
-  width: 100%;
-  max-height: 365px;
-  object-fit: contain;
-}
-.sample-zoom {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  white-space: nowrap;
-  color: var(--accent-dark);
-  background: #ffffffec;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  font-size: 8px;
-  font-weight: 600;
-  padding: 5px 8px;
-}
-.sample-zoom .icon {
-  width: 13px;
-  height: 13px;
-}
-.sample-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
-  background: #ffffffed;
-  box-shadow: 0 3px 7px #2415250a;
-}
-.sample-previous {
-  left: -9px;
-}
-.sample-next {
-  right: -9px;
-}
-.sample-pagination {
-  display: flex;
-  justify-content: center;
-  gap: 0;
-  margin-top: 6px;
-}
-.sample-pagination > button {
+.sample-pdf-icon {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
-  background: none;
-  border: 0;
-  padding: 0;
-}
-.sample-pagination > button::after {
-  content: '';
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #ddc3d4;
-}
-.sample-pagination > button[aria-current='true']::after {
-  background: var(--accent);
-  width: 7px;
-  height: 7px;
-}
-.sample-note {
-  font-size: 9px;
-  line-height: 1.7;
-  text-align: center;
-  margin-top: 1px;
-  color: #665866;
-}
-.workbook-preview {
-  width: 100%;
-  min-height: 340px;
-  background: white;
-  box-shadow: 0 4px 15px #24152518;
-  padding: 21px 18px;
-  color: var(--ink);
-}
-.workbook-preview .workbook-label {
-  font-size: 6px;
-  letter-spacing: 1px;
+  width: 42px;
+  height: 48px;
+  border-radius: 10px;
+  background: #f3e6ef;
   color: var(--accent);
-  font-weight: 800;
 }
-.workbook-preview h3 {
-  font-size: 17px;
-  margin-top: 16px;
-  line-height: 1.4;
+.sample-pdf-icon .icon {
+  width: 24px;
+  height: 24px;
 }
-.workbook-preview .workbook-chapter {
-  font-size: 8px;
-  margin-top: 6px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--line);
+.sample-pdf-content {
+  min-width: 0;
 }
-.workbook-preview ol {
-  padding-left: 15px;
+.product-page .sample-pdf-type {
   font-size: 9px;
-  line-height: 1.8;
-  margin-top: 17px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  color: var(--accent-dark);
 }
-.workbook-preview li {
-  margin-bottom: 17px;
-  padding-left: 4px;
+.sample-pdf-card h3 {
+  margin-top: 5px;
+  font-size: 17px;
+  line-height: 1.5;
+  letter-spacing: -0.3px;
 }
-.workbook-preview li::after {
-  content: '';
-  display: block;
-  margin-top: 8px;
-  height: 30px;
-  background: repeating-linear-gradient(0deg, #e9e1e7 0 1px, transparent 1px 15px);
+.sample-pdf-content > p:not(.sample-pdf-type) {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.7;
 }
-.workbook-preview .workbook-footer {
-  font-size: 6px;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  color: #9d8899;
-  margin-top: 15px;
+.sample-pdf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin-top: 14px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.sample-pdf-open {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 9px 13px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: #fff;
+}
+.sample-pdf-open:hover {
+  background: var(--accent-dark);
+}
+.sample-pdf-download {
+  padding-block: 8px;
+  color: var(--accent-dark);
 }
 [hidden] {
   display: none !important;
@@ -1244,26 +1130,6 @@
 .product-page .demo-stage p {
   color: #ddc3d4;
 }
-.sample-dialog {
-  width: min(860px, calc(100% - 22px));
-  padding: 22px;
-}
-.sample-dialog > .modal-heading {
-  position: sticky;
-  top: -22px;
-  background: white;
-  padding: 14px 0;
-  z-index: 2;
-  border-bottom: 1px solid var(--line);
-  margin: 0 0 15px;
-}
-.sample-dialog h2 {
-  font-size: 19px;
-}
-.sample-dialog > img {
-  width: 100%;
-  height: auto;
-}
 .checkout-dialog {
   text-align: center;
   max-width: 490px;
@@ -1361,15 +1227,6 @@
     width: 29px;
     height: 29px;
   }
-  .sample-frame {
-    min-height: 400px;
-  }
-  .sample-image-button img {
-    max-height: 430px;
-  }
-  .sample-caption {
-    font-size: 11px;
-  }
   .benefit-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1409,23 +1266,6 @@
   }
   .product-sticky .button {
     min-width: 220px;
-  }
-  .workbook-preview {
-    max-width: 345px;
-    min-height: 430px;
-    padding: 28px;
-  }
-  .workbook-preview h3 {
-    font-size: 23px;
-  }
-  .workbook-preview ol {
-    font-size: 12px;
-  }
-  .workbook-preview .workbook-label {
-    font-size: 8px;
-  }
-  .workbook-preview .workbook-chapter {
-    font-size: 10px;
   }
 }
 @media (min-width: 980px) {
@@ -1536,38 +1376,6 @@
   }
   .included-count {
     font-size: 7px;
-  }
-  .sample-caption {
-    font-size: 10px;
-    padding: 17px 2px 12px;
-  }
-  .sample-frame {
-    min-height: 443px;
-    padding: 22px 40px;
-  }
-  .sample-image-button img {
-    max-height: 445px;
-  }
-  .sample-tabs > button {
-    font-size: 12px;
-    min-height: 43px;
-  }
-  .sample-arrow {
-    width: 42px;
-    height: 42px;
-  }
-  .sample-previous {
-    left: -14px;
-  }
-  .sample-next {
-    right: -14px;
-  }
-  .sample-note {
-    font-size: 10px;
-  }
-  .sample-zoom {
-    font-size: 10px;
-    padding: 7px 12px;
   }
   .benefit-grid {
     gap: 27px;
