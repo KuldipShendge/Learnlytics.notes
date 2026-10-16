@@ -6,6 +6,12 @@
 }
 @font-face {
   font-family: Manrope;
+  src: url('../assets/fonts/Manrope-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: Manrope;
   src: url('../assets/fonts/Manrope-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-display: swap;
@@ -95,11 +101,11 @@ h1,
 h2,
 h3 {
   line-height: 1.22;
-  font-weight: 800;
-  letter-spacing: -0.035em;
+  font-weight: 600;
+  letter-spacing: -0.4px;
 }
 h2 {
-  font-size: clamp(25px, 3vw, 33px);
+  font-size: clamp(23px, 2.5vw, 30px);
 }
 h3 {
   font-size: 18px;
@@ -184,7 +190,7 @@ button:disabled {
   background: var(--ink);
   color: white;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.45;
   transition:
     background 0.2s,
@@ -224,7 +230,7 @@ button:disabled {
   background: transparent;
   border: 0;
   color: var(--accent-dark);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 12px;
 }
 .text-button:hover {

@@ -95,8 +95,8 @@
 }
 .product-intro h1 {
   font-size: 23px;
-  line-height: 1.25;
-  letter-spacing: -0.055em;
+  line-height: 1.3;
+  letter-spacing: -0.6px;
   margin-top: 9px;
 }
 .product-intro h1 > span {
@@ -229,7 +229,7 @@
 .product-section h2 {
   font-size: 21px;
   line-height: 1.35;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.25px;
 }
 .product-section .eyebrow + h2 {
   margin-top: 7px;
@@ -655,7 +655,7 @@
 }
 .benefit-grid h3 {
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: -0.2px;
   line-height: 1.5;
 }
@@ -904,6 +904,7 @@
   display: block;
   font-size: 14px;
   line-height: 1.5;
+  font-weight: 600;
   letter-spacing: -0.2px;
 }
 .module-meta {
@@ -952,7 +953,7 @@
   display: block;
   font-size: 14px;
   line-height: 1.5;
-  font-weight: 800;
+  font-weight: 600;
 }
 .part-label {
   font-size: 9px;
@@ -1664,7 +1665,7 @@
 .testimonials-heading h2 {
   font-size: clamp(23px, 2.5vw, 29px);
   font-weight: 600;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.4px;
 }
 .testimonial-grid {
   display: grid;

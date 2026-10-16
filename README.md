@@ -59,7 +59,7 @@ No framework, package installation, legacy scripts or inline event handlers are 
 
 ## Existing branding and assets reused
 
-Brand colors came from `D:\website\css\light-theme.css` and `homepage.css`: plum `#241525`, muted copy `#665866`, magenta `#b40982`, accent `#930b6b`, blush `#faf4f8` and borders `#e9e1e7`. The supplied `logo.png` replaces the old WebP logo; the blue theme preserves its navy/cyan artwork. Manrope matches the old site's typography and is served locally.
+Brand colors came from `D:\website\css\light-theme.css` and `homepage.css`: plum `#241525`, muted copy `#665866`, magenta `#b40982`, accent `#930b6b`, blush `#faf4f8` and borders `#e9e1e7`. The supplied `logo.png` replaces the old WebP logo; the blue theme preserves its navy/cyan artwork. Manrope is served locally at 400/500/600/700/800 weights. Navigation and headings follow the old dashboard's lighter typography; see `docs/typography.md`.
 
 | Current asset | Original source |
 | --- | --- |
