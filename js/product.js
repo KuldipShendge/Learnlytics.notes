@@ -2,7 +2,8 @@ import { setupInlineVideos } from './inline-videos.js?v=compact-guides-20261015'
 import { setupDialog } from './dialog.js';
 import { setupSampleGallery } from './sample-gallery.js?v=da-page-20261016';
 import { curriculum as dsCurriculum, productOverview as dsOverview } from './ds-curriculum.js';
-import { productReviews } from './product-reviews.js?v=da-page-20261016';
+import { productReviews } from './product-reviews.js?v=reviews-carousel-20261016';
+import { setupProductTestimonials } from './product-testimonials.js?v=reviews-carousel-20261016';
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char]));
 const resources = '<div class="part-resources"><span>Handbook</span><span>Practice workbook</span><span>Solution manual</span></div>';
@@ -26,12 +27,7 @@ export function setupProduct({ curriculum = dsCurriculum, productOverview = dsOv
     element.textContent = `${productOverview.practiceQuestions.toLocaleString('en-IN')}+`;
   });
 
-  document.querySelector('#testimonial-list').innerHTML = productReviews[kit].map(review => `
-    <article class="testimonial-card">
-      <span class="testimonial-mark" aria-hidden="true">“</span>
-      <blockquote>${escapeHtml(review.quote)}</blockquote>
-      <div class="testimonial-person"><span class="testimonial-avatar" aria-hidden="true">${escapeHtml(review.initials)}</span><div><strong>${escapeHtml(review.name)}</strong><p>${escapeHtml(review.role)}</p></div></div>
-    </article>`).join('');
+  setupProductTestimonials(productReviews[kit]);
 
   // All content comes from the local editorial curriculum, never user input.
   document.querySelector('#curriculum-list').innerHTML = curriculum

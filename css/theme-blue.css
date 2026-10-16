@@ -394,15 +394,11 @@ html[data-theme="blue"] .product-page .demo-stage p {
   }
 }
 html[data-theme="blue"] .product-testimonials {
-  background: linear-gradient(120deg, #f2f5ff, #fbfcff);
+  background: transparent;
 }
 html[data-theme="blue"] .testimonial-card {
   border-color: #dfe6f5;
   box-shadow: 0 5px 18px #0b123f05;
-}
-html[data-theme="blue"] .testimonial-avatar {
-  background: #e9edff;
-  color: #30478e;
 }
 
 /* about.css: colour replacements, preserving existing effects. */
@@ -467,4 +463,14 @@ html[data-theme="blue"] .discount {
   background: #19cf96;
   border-color: #0db884;
   color: #073a2c;
+}
+
+html[data-theme="blue"] .product-page .button.whatsapp-link {
+  background: #15803d;
+  border-color: #15803d;
+  color: white;
+}
+html[data-theme="blue"] .product-page .button.whatsapp-link:hover {
+  background: #166534;
+  border-color: #166534;
 }

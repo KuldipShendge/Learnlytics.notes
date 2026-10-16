@@ -46,3 +46,18 @@ The old Data Engineering & Code Quality part lists 180+ workbook questions but 2
 `tests/homepage.cjs` additionally verifies the shared navigation and the featured product entry. `tests/product.cjs` verifies the shared palette and the Data Scientist comparison-card link. Both entries switch to the embedded DS view at the same URL; JavaScript is required. `tests/navigation.cjs` covers About Us, sample links, repeated visits, browser Back/Forward, and refresh. Results and screenshots are in `screenshots/` (ignored by Git).
 
 The DS and About Us markup now lives in templates inside `index.html`. Separate URLs are deferred to v2. GitHub Pages needs only the static entry point, with relative assets that also work under `/Learnlytics.notes/`; no route rewrites are needed.
+
+## Product artwork and aspirant stories
+
+DS and DA use larger covers: up to 205px on phones, 280px on tablets and 340px
+on desktop, limited by their responsive columns. WhatsApp actions remain green
+in the blue theme, including the purchase dialog contact link.
+
+Both product pages preserve the old quotes and channel icons. The centered
+heading has green divider lines; four cards share a desktop row, two columns
+fit tablets, and phones use a native horizontal swipe track. Slides advance
+every 4.5 seconds only while the section is visible. Touch interaction, keyboard
+focus, hovering, hidden tabs, leaving the view and reduced-motion preferences
+stop automatic movement. Dots and a pause/resume control support manual use.
+`tests/testimonials.cjs` checks real touch input, automatic movement, controls,
+repeat visits, larger cover widths, desktop card placement and WhatsApp colours.
