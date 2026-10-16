@@ -603,15 +603,61 @@
 .sample-dialog {
   width: min(980px, calc(100% - 24px));
   padding: 18px;
+  max-height: 94dvh;
 }
 .sample-dialog .modal-heading {
   margin-bottom: 14px;
 }
+.sample-reader-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.sample-reader-toolbar label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+.sample-reader-toolbar select {
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+}
+.sample-reader-toolbar button:disabled { opacity: 0.35; cursor: default; }
+.sample-reader-status { font-size: 11px; text-align: center; margin-bottom: 12px; }
+#sample-enlarged {
+  position: relative;
+  height: min(62dvh, 900px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--blush);
+}
+.pdf-reader-page { margin: 0 auto 22px; max-width: 850px; }
+.pdf-reader-page:last-child { margin-bottom: 0; }
+.pdf-reader-canvas {
+  display: grid;
+  place-items: center;
+  background: white;
+  color: var(--copy);
+  font-size: 12px;
+}
+.pdf-reader-page figcaption { padding-top: 8px; text-align: center; font-size: 10px; }
 #sample-enlarged canvas {
   display: block;
   max-width: 100%;
   height: auto;
-  margin: 0 auto 12px;
+  margin: 0 auto;
   box-shadow: 0 4px 15px #24152518;
 }
 @media (min-width: 560px) {
@@ -694,8 +740,8 @@
 }
 .technology-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 9px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px 12px;
   margin-top: 22px;
   padding-bottom: 24px;
   border-bottom: 1px solid var(--line);
@@ -710,8 +756,8 @@
   color: var(--ink);
 }
 .technology-icon {
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   fill: none;
   color: #930b6b;
 }
@@ -719,10 +765,15 @@
   color: #930b6b;
 }
 .technology-grid strong {
-  font-size: 7px;
+  font-size: 10px;
   line-height: 1.5;
   font-weight: 700;
   letter-spacing: -0.1px;
+}
+.technology-icon-pair { display: flex; align-items: center; gap: 4px; }
+.technology-icon-pair .technology-icon { width: 30px; height: 36px; }
+@media (min-width: 560px) {
+  .technology-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
 /* Curriculum: a connected pathway with expandable module cards. */
 .curriculum-section {
@@ -1090,29 +1141,6 @@
 .video-choose .video-play {
   width: 35px;
   height: 35px;
-}
-.material-confidence {
-  padding: 24px 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-.material-confidence > .icon {
-  color: var(--accent);
-  width: 28px;
-  height: 28px;
-  margin-bottom: 13px;
-}
-.material-confidence h2 {
-  font-size: 23px;
-}
-.material-confidence > p {
-  font-size: 11px;
-  line-height: 1.85;
-  margin-top: 12px;
-}
-.material-confidence .text-button {
-  font-size: 11px;
-  margin-top: 8px;
 }
 .support-section {
   padding: 27px 20px;
@@ -1578,15 +1606,6 @@
   }
   .choose-section > .text-button {
     font-size: 11px;
-  }
-  .material-confidence {
-    padding: 28px 0;
-  }
-  .material-confidence h2 {
-    font-size: 26px;
-  }
-  .material-confidence > p {
-    font-size: 12px;
   }
   .support-section {
     padding: 29px 22px;

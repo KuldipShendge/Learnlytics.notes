@@ -16,10 +16,10 @@
     <link rel="stylesheet" href="css/navigation.css?v=dashboard-type-20261016" />
     <link rel="stylesheet" href="css/home.css?v=dashboard-type-20261016" />
     <link rel="stylesheet" href="css/dialogs.css" />
-    <link rel="stylesheet" href="css/product.css?v=dashboard-type-20261016" />
+    <link rel="stylesheet" href="css/product.css?v=pdf-tools-20261016" />
     <link rel="stylesheet" href="css/about.css?v=dashboard-type-20261016" />
-    <link rel="stylesheet" href="css/theme-blue.css?v=single-kit-card-20261016" />
-    <script type="module" src="js/main.js?v=guide-covers-logo-20261016"></script>
+    <link rel="stylesheet" href="css/theme-blue.css?v=pdf-tools-20261016" />
+    <script type="module" src="js/main.js?v=pdf-tools-20261016"></script>
   </head>
   <body class="home-page">
     <div id="app">
@@ -785,6 +785,12 @@
                 <svg class="technology-icon"><use href="assets/icons/product.svg#llm" /></svg
                 ><strong>LLMs</strong>
               </div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#statistics" /></svg><strong>Statistics</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#numpy" /></svg><strong>NumPy</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#pandas" /></svg><strong>pandas</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#matplotlib" /></svg><strong>Matplotlib</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#scikit-learn" /></svg><strong>scikit-learn</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#pytorch" /></svg><strong>PyTorch</strong></div>
             </div>
           </section>
         </div>
@@ -830,18 +836,6 @@
             </div>
             <a class="text-button" href="#career-goal" data-view="home"
               >Compare all learning kits <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg
-            ></a>
-          </section>
-
-          <section class="product-section material-confidence">
-            <svg class="icon"><use href="assets/icons/product.svg#book" /></svg>
-            <h2>See the material.<br />Decide for yourself.</h2>
-            <p>
-              Your preparation deserves a closer look. Explore the real sample pages and curriculum before
-              choosing your kit.
-            </p>
-            <a class="text-button" href="#samples"
-              >Explore sample pages <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg
             ></a>
           </section>
 
@@ -906,7 +900,13 @@
           <svg class="icon"><use href="assets/icons/product.svg#close" /></svg>
         </button>
       </div>
-      <div id="sample-enlarged"></div>
+      <div class="sample-reader-toolbar" aria-label="PDF page controls">
+        <button class="icon-button" type="button" data-reader-previous aria-label="Previous PDF page">←</button>
+        <label>Page <select data-reader-page aria-label="Go to PDF page"></select></label>
+        <button class="icon-button" type="button" data-reader-next aria-label="Next PDF page">→</button>
+      </div>
+      <p class="sample-reader-status" data-reader-status role="status"></p>
+      <div id="sample-enlarged" role="region" aria-label="Full PDF preview" tabindex="0"></div>
       <a id="sample-open-pdf" class="text-button" href="pdfs/eda-handbook.pdf" target="_blank" rel="noopener noreferrer">Open PDF ↗</a>
     </dialog>
     <dialog class="modal checkout-dialog" id="checkout-dialog" aria-labelledby="checkout-dialog-title">
@@ -1218,12 +1218,18 @@
             <p class="eyebrow">BUILD YOUR TECHNICAL TOOLKIT</p>
             <h2 id="tools-title">Tools & Technologies Covered</h2>
             <div class="technology-grid">
-              <div><svg class="technology-icon"><use href="assets/icons/product.svg#stats" /></svg><strong>Statistics</strong></div>
-              <div><svg class="technology-icon"><use href="assets/icons/product.svg#excel" /></svg><strong>Excel &amp;<br />Sheets</strong></div>
+              <div><svg class="technology-icon"><use href="assets/icons/technologies.svg?v=tech-20261016#statistics" /></svg><strong>Statistics</strong></div>
+              <div><svg class="technology-icon"><use href="assets/icons/technologies.svg?v=tech-20261016#excel" /></svg><strong>Excel &amp;<br />Sheets</strong></div>
               <div><svg class="technology-icon"><use href="assets/icons/product.svg#sql" /></svg><strong>SQL</strong></div>
               <div><svg class="technology-icon"><use href="assets/icons/product.svg#python" /></svg><strong>Python</strong></div>
-              <div><svg class="technology-icon"><use href="assets/icons/product.svg#bi" /></svg><strong>Power BI &amp;<br />Tableau</strong></div>
+              <div><span class="technology-icon-pair" aria-hidden="true"><svg class="technology-icon"><use href="assets/icons/technologies.svg?v=tech-20261016#power-bi" /></svg><svg class="technology-icon"><use href="assets/icons/technologies.svg?v=tech-20261016#tableau" /></svg></span><strong>Power BI &amp;<br />Tableau</strong></div>
               <div><svg class="technology-icon"><use href="assets/icons/product.svg#genai" /></svg><strong>Gen AI</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#numpy" /></svg><strong>NumPy</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#pandas" /></svg><strong>pandas</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#matplotlib" /></svg><strong>Matplotlib</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#seaborn" /></svg><strong>Seaborn</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#plotly" /></svg><strong>Plotly</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#dbt" /></svg><strong>dbt</strong></div>
             </div>
           </section>
         </div>
@@ -1268,18 +1274,6 @@
             </div>
             <a class="text-button" href="#career-goal" data-view="home"
               >Compare all learning kits <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg
-            ></a>
-          </section>
-
-          <section class="product-section material-confidence">
-            <svg class="icon"><use href="assets/icons/product.svg#book" /></svg>
-            <h2>See the material.<br />Decide for yourself.</h2>
-            <p>
-              Your preparation deserves a closer look. Explore the real sample pages and curriculum before
-              choosing your kit.
-            </p>
-            <a class="text-button" href="#samples"
-              >Explore sample pages <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg
             ></a>
           </section>
 
@@ -1344,7 +1338,13 @@
           <svg class="icon"><use href="assets/icons/product.svg#close" /></svg>
         </button>
       </div>
-      <div id="sample-enlarged"></div>
+      <div class="sample-reader-toolbar" aria-label="PDF page controls">
+        <button class="icon-button" type="button" data-reader-previous aria-label="Previous PDF page">←</button>
+        <label>Page <select data-reader-page aria-label="Go to PDF page"></select></label>
+        <button class="icon-button" type="button" data-reader-next aria-label="Next PDF page">→</button>
+      </div>
+      <p class="sample-reader-status" data-reader-status role="status"></p>
+      <div id="sample-enlarged" role="region" aria-label="Full PDF preview" tabindex="0"></div>
       <a id="sample-open-pdf" class="text-button" href="pdfs/eda-handbook.pdf" target="_blank" rel="noopener noreferrer">Open PDF ↗</a>
     </dialog>
     <dialog class="modal checkout-dialog" id="checkout-dialog" aria-labelledby="checkout-dialog-title">

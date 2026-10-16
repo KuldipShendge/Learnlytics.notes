@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
+const checkPdfReader = require('./pdf-reader-check.cjs');
 const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
 const origin = new URL(url).origin;
 const output = path.resolve(__dirname, '../screenshots');
@@ -40,6 +41,8 @@ const output = path.resolve(__dirname, '../screenshots');
       assert.equal(await page.locator('.product-sticky strong').textContent(),'₹399');
       assert.equal(await page.locator('[data-question-total]').first().textContent(),'2,200+');
       assert.equal(await page.locator('.curriculum-module').count(),8);
+      assert.equal(await page.locator('.technology-grid > div').count(),12);
+      assert.equal(await page.locator('.material-confidence').count(),0);
       assert.equal(await page.locator('.curriculum-unit').count(),77);
       assert.equal(await page.locator('.curriculum-topics > li').count(),637);
       assert(await page.locator('#curriculum').evaluate((el,desktop)=>desktop
@@ -71,6 +74,7 @@ const output = path.resolve(__dirname, '../screenshots');
       }
       assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
       await page.locator('.book-model').evaluate(img=>img.decode());
+      if ([390,1440].includes(width)) await checkPdfReader(page, { filename:'eda-solution-manual.pdf', count:11 });
       await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
       await page.screenshot({path:path.join(output,`analyst-${width}.png`),fullPage:true,style:'.product-sticky {visibility:hidden}'});
       if([390,1440].includes(width)) await page.screenshot({path:path.join(output,`analyst-${width}-viewport.png`)});

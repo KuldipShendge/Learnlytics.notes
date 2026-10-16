@@ -1,6 +1,6 @@
 import { setupInlineVideos } from './inline-videos.js?v=guide-covers-logo-20261016';
 import { setupDialog } from './dialog.js';
-import { setupSampleGallery } from './sample-gallery.js?v=da-page-20261016';
+import { setupSampleGallery } from './sample-gallery.js?v=pdf-tools-20261016';
 import { curriculum as dsCurriculum, productOverview as dsOverview } from './ds-curriculum.js';
 import { productReviews } from './product-reviews.js?v=reviews-carousel-20261016';
 import { setupProductTestimonials } from './product-testimonials.js?v=reviews-carousel-20261016';

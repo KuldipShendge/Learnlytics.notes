@@ -61,3 +61,27 @@ focus, hovering, hidden tabs, leaving the view and reduced-motion preferences
 stop automatic movement. Dots and a pause/resume control support manual use.
 `tests/testimonials.cjs` checks real touch input, automatic movement, controls,
 repeat visits, larger cover widths, desktop card placement and WhatsApp colours.
+
+## Full sample reader and technology coverage
+
+Both DS and DA keep the existing sample tabs and single-page carousel. Clicking
+the preview opens the entire selected PDF in a scrollable reader, starting at
+the selected page. Previous/next buttons and a page selector provide direct
+navigation. The original EDA PDFs contain 32 handbook pages, 6 workbook pages
+and 11 solution pages. A direct Open PDF link follows the current reading page.
+Only pages near the viewport are rasterized; distant canvases are released, and
+closing the dialog clears its canvases. `js/pdf-reader.js` owns this lifecycle.
+The blue theme explicitly styles selected resource tabs and active page dots.
+
+The redundant “See the material. Decide for yourself.” section has been removed
+from both product pages. Each technology grid now contains 12 entries. DS adds
+Statistics, NumPy, pandas, Matplotlib, scikit-learn and PyTorch to cover numerical
+work, Python/EDA, classical ML and the named deep-learning framework. DA adds
+NumPy, pandas, Matplotlib, Seaborn, Plotly and dbt, all named in its curriculum.
+New local SVG illustrations in `assets/icons/technologies.svg` also replace the
+invisible DA Statistics/Excel/BI marks; Power BI and Tableau have separate marks
+within their shared entry. Mobile uses three columns, larger screens six.
+
+`tests/pdf-reader-check.cjs` is shared by the product/analyst browser tests to
+verify all page placeholders, rendering the final page by scrolling, page jumps,
+button boundaries, canvas cleanup, focus restoration and horizontal fit.

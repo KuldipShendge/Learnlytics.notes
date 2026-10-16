@@ -1,4 +1,4 @@
-import { setupDialog } from './dialog.js';
+import { setupPdfReader } from './pdf-reader.js?v=full-pdf-20261016';
 
 const defaultResources = {
   handbook: { title: 'EDA Handbook', file: 'eda-handbook.pdf', label: 'handbook' },
@@ -26,13 +26,11 @@ export function setupSampleGallery({ resources = defaultResources } = {}) {
   const dialog = document.querySelector('#sample-dialog');
   const enlarged = document.querySelector('#sample-enlarged');
   const openLink = document.querySelector('#sample-open-pdf');
-  const modal = setupDialog(dialog);
   const documents = new Map();
   let type = 'handbook';
   let pageNumber = 1;
   let totalPages = 32;
   let sequence = 0;
-  let modalSequence = 0;
   let started = false;
 
   function documentFor(selected) {
@@ -164,22 +162,8 @@ export function setupSampleGallery({ resources = defaultResources } = {}) {
     pageNumber = Number(dot.dataset.sampleIndex) + 1;
     render();
   }));
-  imageButton.addEventListener('click', async () => {
-    const request = ++modalSequence;
-    const selected = type;
-    const number = pageNumber;
-    document.querySelector('#sample-dialog-title').textContent = resources[selected].title;
-    enlarged.textContent = 'Loading PDF…';
-    modal.open();
-    try {
-      const pdf = await documentFor(selected);
-      const canvas = await pageCanvas(pdf, number, Math.min(dialog.clientWidth - 40, 850), Math.max(320, innerHeight * 0.72), resources[selected].title);
-      if (request === modalSequence && dialog.open) enlarged.replaceChildren(canvas);
-    } catch {
-      if (request === modalSequence) enlarged.textContent = 'Use Open PDF to read this document.';
-    }
-  });
-  dialog.addEventListener('close', () => { modalSequence++; enlarged.replaceChildren(); });
+  const reader = setupPdfReader({ dialog, container: enlarged, openLink, documentFor, pageCanvas, resources });
+  imageButton.addEventListener('click', () => reader.open(type, pageNumber));
 
   const observer = new IntersectionObserver(entries => {
     if (entries.some(entry => entry.isIntersecting)) {
@@ -195,7 +179,7 @@ export function setupSampleGallery({ resources = defaultResources } = {}) {
     if (width && width !== lastWidth) { lastWidth = width; render(); }
   }).observe(frame);
   const app = document.querySelector('#app');
-  app.addEventListener('learnlytics:view-leave', () => { sequence++; });
+  app.addEventListener('learnlytics:view-leave', () => { sequence++; reader.close(); });
   app.addEventListener('learnlytics:view-enter', () => { if (section.isConnected) render(); });
   updateControls();
 }

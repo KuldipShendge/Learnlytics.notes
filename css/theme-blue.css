@@ -237,6 +237,11 @@ html[data-theme="blue"] .sample-tabs > button {
   background: #f2f5ff;
   border-color: #dfe5f3;
 }
+html[data-theme="blue"] .sample-tabs > button[aria-selected='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
 html[data-theme="blue"] .sample-frame {
   background: #e9edff;
 }
@@ -248,6 +253,9 @@ html[data-theme="blue"] .sample-arrow {
 }
 html[data-theme="blue"] .sample-pagination > button::after {
   background: #bdcbed;
+}
+html[data-theme="blue"] .sample-pagination > button[aria-current='true']::after {
+  background: var(--accent);
 }
 html[data-theme="blue"] .sample-note {
   color: #4e5b7d;
