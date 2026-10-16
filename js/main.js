@@ -1,4 +1,4 @@
-import { setupKits } from './kits.js?v=da-page-20261016';
+import { setupKits } from './kits.js?v=blue-images-20261016';
 import { setupInlineVideos } from './inline-videos.js?v=compact-guides-20261015';
 import { setupProduct } from './product.js?v=da-page-20261016';
 import { curriculum as daCurriculum, productOverview as daOverview } from './da-curriculum.js';

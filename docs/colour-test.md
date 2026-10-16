@@ -2,7 +2,12 @@
 
 The blue experiment uses navy text, royal-blue actions, cool blue/lilac surfaces
 and mint discount badges from the supplied reference. Layout, fonts, content,
-images, videos and PDFs are unchanged.
+videos and PDFs are unchanged. After the blue palette was accepted, the eight
+book mockups were regenerated in blue/mint and replaced in place; the logo's
+existing navy/teal artwork is revealed by removing its black CSS filter in this theme.
+The original image files are no longer retained in the working folder. The palette
+switch restores the original UI colours, while the new book artwork remains.
+Generation prompts are recorded in `docs/blue-image-prompts.json`.
 
 All experiment rules are in `css/theme-blue.css`, scoped to
 `html[data-theme="blue"]`. The original stylesheets remain untouched.

@@ -8,7 +8,7 @@ export const kits = {
     category: 'DATA SCIENCE & GENERATIVE AI',
     badge: 'From foundations to Gen AI',
     price: '₹499',
-    image: 'kit-data-science.webp',
+    image: 'kit-data-science.webp?v=blue-images-20261016',
     description: 'Prepare for data science interviews, from core foundations to Generative AI and LLMs.',
     features: [
       'Python, statistics, ML, deep learning & LLMs',
@@ -32,7 +32,7 @@ export const kits = {
     category: 'DATA ANALYTICS & BUSINESS INTELLIGENCE',
     badge: 'Turn data into decisions',
     price: '₹399',
-    image: 'kit-data-analyst.webp',
+    image: 'kit-data-analyst.webp?v=blue-images-20261016',
     description: 'Prepare for analytics interviews with technical questions, scenarios and detailed answers.',
     features: [
       'SQL, Excel, Python, Power BI & analytics',
@@ -56,7 +56,7 @@ export const kits = {
     category: 'MACHINE LEARNING ENGINEERING',
     badge: 'From models to deployment',
     price: '₹499',
-    image: 'kit-machine-learning.webp',
+    image: 'kit-machine-learning.webp?v=blue-images-20261016',
     description:
       'Learn, practise and prepare for machine learning interviews with structured handbooks, workbooks and solution manuals.',
     features: [
@@ -80,7 +80,7 @@ export const kits = {
     category: 'ALL-IN-ONE COMPLETE KIT',
     badge: 'A broader learning journey',
     price: '₹899',
-    image: 'kit-complete.webp',
+    image: 'kit-complete.webp?v=blue-images-20261016',
     description: 'Explore data science, Generative AI and machine learning engineering in one complete kit.',
     features: [
       'Data Science, Gen AI & ML Engineering together',

@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-16",
+  "tool": "Built-in image_gen",
+  "palette": {
+    "navy": "#0b123f",
+    "blue": "#0758e8",
+    "mint": "#19cf96",
+    "paper": "#fbfcff",
+    "tint": "#e9edff"
+  },
+  "assets": [
+    {
+      "file": "assets/images/ds-complete-kit-sharp.png",
+      "prompt": "Use case: precise-object-edit / product-mockup. Regenerate this exact book product mockup at crisp high resolution for LearnLytics' new website. Change ONLY the colour treatment: replace plum/dark-magenta with deep navy #0b123f, pink/magenta accents with royal blue #0758e8, soft pink surfaces/background with icy white #fbfcff and pale periwinkle #e9edff. Use restrained mint #19cf96 highlights. Keep every word, number, logo wording, cover graphic, object count, perspective, relative book size, margins and composition unchanged. All text must be razor-sharp and spelled exactly as in the reference; no new claims or labels. No pink, purple or burgundy. Do not crop the product. Input is the edit target: single dark hardcover book. Keep its dark cover now deep navy, white title DATA SCIENTIST, mint '& GEN AI', royal-blue/mint network icon. Preserve exact other cover text: LearnLytics / MEDIA / YOUR NEXT CHAPTER / COMPLETE KIT / LEARN. PRACTISE. GROW. Same portrait framing, white page edge, genuine transparent background.",
+      "transparentBackground": true
+    },
+    {
+      "file": "assets/images/handbook.webp",
+      "prompt": "Use case: precise-object-edit / product-mockup. Regenerate this exact book product mockup at crisp high resolution for LearnLytics' new website. Change ONLY the colour treatment: replace plum/dark-magenta with deep navy #0b123f, pink/magenta accents with royal blue #0758e8, soft pink surfaces/background with icy white #fbfcff and pale periwinkle #e9edff. Use restrained mint #19cf96 highlights. Keep every word, number, logo wording, cover graphic, object count, perspective, relative book size, margins and composition unchanged. All text must be razor-sharp and spelled exactly as in the reference; no new claims or labels. No pink, purple or burgundy. Do not crop the product. Input is the edit target: upright white book. Preserve text 'LearnLytics', '20', 'Comprehensive Handbooks', 'Data Science & Generative AI'. Preserve the laptop, charts, network graphic and database stack. Pale icy blue studio background, white cover, navy text, large royal-blue 20, blue and mint diagram details. Same portrait aspect ratio.",
+      "transparentBackground": false
+    },
+    {
+      "file": "assets/images/kit-complete.webp",
+      "prompt": "Use case: precise-object-edit / product-mockup. Regenerate this exact book product mockup at crisp high resolution for LearnLytics' new website. Change ONLY the colour treatment: replace plum/dark-magenta with deep navy #0b123f, pink/magenta accents with royal blue #0758e8, soft pink surfaces/background with icy white #fbfcff and pale periwinkle #e9edff. Use restrained mint #19cf96 highlights. Keep every word, number, logo wording, cover graphic, object count, perspective, relative book size, margins and composition unchanged. All text must be razor-sharp and spelled exactly as in the reference; no new claims or labels. No pink, purple or burgundy. Do not crop the product. Input is the edit target: standing white all-in-one book on THREE horizontal books. Preserve exact titles 'LearnLytics', 'Data Science + Gen AI + ML Engineer', 'Complete Kit', '2026 EDITION', '01. Comprehensive Handbooks', '02. Interview Practice Workbooks', '03. Solution Manual'. Navy text, royal-blue title accents and network graphic, pale-blue stack with tiny mint highlights. Same portrait aspect ratio.",
+      "transparentBackground": false
+    },
+    {
+      "file": "assets/images/kit-data-analyst.webp",
+      "prompt": "Use case: precise-object-edit / product-mockup. Regenerate this exact book product mockup at crisp high resolution for LearnLytics' new website. Change ONLY the colour treatment: replace plum/dark-magenta with deep navy #0b123f, pink/magenta accents with royal blue #0758e8, soft pink surfaces/background with icy white #fbfcff and pale periwinkle #e9edff. Use restrained mint #19cf96 highlights. Keep every word, number, logo wording, cover graphic, object count, perspective, relative book size, margins and composition unchanged. All text must be razor-sharp and spelled exactly as in the reference; no new claims or labels. No pink, purple or burgundy. Do not crop the product. Input is the edit target: white upright book on THREE horizontal books. Preserve exact text 'LearnLytics', 'DATA ANALYST', 'COMPLETE KIT', 'WITH GEN AI', '2026 EDITION', '01. Comprehensive Handbooks', '02. Interview Practice Workbooks', '03. Solution Manual'. Navy title, royal-blue COMPLETE KIT and chart bars in mint/lightblue/royalblue. Pale-blue stack. Same portrait aspect ratio.",
+      "transparentBackground": false
+    },
+    {
+      "file": "assets/images/kit-data-science.webp",
+      "prompt": "Use case: precise-object-edit / product-mockup. Regenerate this exact book product mockup at crisp high resolution for LearnLytics' new website. Change ONLY the colour treatment: replace plum/dark-magenta with deep navy #0b123f, pink/magenta accents with royal blue #0758e8, soft pink surfaces/background with icy white #fbfcff and pale periwinkle #e9edff. Use restrained mint #19cf96 highlights. Keep every word, number, logo wording, cover graphic, object count, perspective, relative book size, margins and composition unchanged. All text must be razor-sharp and spelled exactly as in the reference; no new claims or labels. No pink, purple or burgundy. Do not crop the product. Input is the edit target: standing white DS book on ONE horizontal closed notebook. Preserve exact text 'LearnLytics', 'DATA SCIENTIST', '& GEN AI', 'COMPLETE KIT', '2026 EDITION'. Navy main title, royal-blue & GEN AI, pale-blue waves and notebook, restrained mint/blue network nodes and stars. Same portrait aspect ratio.",
+      "transparentBackground": false
+    },
+    {
+      "file": "assets/images/kit-machine-learning.webp",
+      "prompt": "Use case: precise-object-edit / product-mockup. Regenerate this exact book product mockup at crisp high resolution for LearnLytics' new website. Change ONLY the colour treatment: replace plum/dark-magenta with deep navy #0b123f, pink/magenta accents with royal blue #0758e8, soft pink surfaces/background with icy white #fbfcff and pale periwinkle #e9edff. Use restrained mint #19cf96 highlights. Keep every word, number, logo wording, cover graphic, object count, perspective, relative book size, margins and composition unchanged. All text must be razor-sharp and spelled exactly as in the reference; no new claims or labels. No pink, purple or burgundy. Do not crop the product. Input is the edit target: white upright book on THREE horizontal books. Preserve exact text 'LearnLytics', 'MACHINE LEARNING ENGINEER', 'COMPLETE KIT', '2026 EDITION', '01. Comprehensive Handbooks', '02. Interview Practice Workbooks', '03. Solution Manual'. Navy title, blue/mint network, pale-blue stack. Same portrait aspect ratio.",
+      "transparentBackground": false
+    },
+    {
+      "file": "assets/images/solutions.webp",
+      "prompt": "Use case: precise-object-edit / product-mockup. Regenerate this exact book product mockup at crisp high resolution for LearnLytics' new website. Change ONLY the colour treatment: replace plum/dark-magenta with deep navy #0b123f, pink/magenta accents with royal blue #0758e8, soft pink surfaces/background with icy white #fbfcff and pale periwinkle #e9edff. Use restrained mint #19cf96 highlights. Keep every word, number, logo wording, cover graphic, object count, perspective, relative book size, margins and composition unchanged. All text must be razor-sharp and spelled exactly as in the reference; no new claims or labels. No pink, purple or burgundy. Do not crop the product. Input is the edit target: single upright white book with checklist and lightbulb. Preserve exact text 'LearnLytics', '20', 'Detailed Solution Manuals', 'Step-by-Step Explanations'. Navy text, royal-blue 20, mint/blue checklist ticks and lightbulb, pale-blue curved waves and icy-white studio background. Same portrait aspect ratio.",
+      "transparentBackground": false
+    },
+    {
+      "file": "assets/images/workbook.webp",
+      "prompt": "Use case: precise-object-edit / product-mockup. Regenerate this exact book product mockup at crisp high resolution for LearnLytics' new website. Change ONLY the colour treatment: replace plum/dark-magenta with deep navy #0b123f, pink/magenta accents with royal blue #0758e8, soft pink surfaces/background with icy white #fbfcff and pale periwinkle #e9edff. Use restrained mint #19cf96 highlights. Keep every word, number, logo wording, cover graphic, object count, perspective, relative book size, margins and composition unchanged. All text must be razor-sharp and spelled exactly as in the reference; no new claims or labels. No pink, purple or burgundy. Do not crop the product. Input is the edit target: single upright white book with Q and A speech bubbles. Preserve exact text 'LearnLytics', '20', 'Interview Practice Workbooks', '3,680+ Practice Questions', 'Q', 'A'. Navy text, royal-blue 20, royal-blue Q bubble and mint A bubble, pale-blue waves and icy-white studio background. Same portrait aspect ratio.",
+      "transparentBackground": false
+    }
+  ]
+}

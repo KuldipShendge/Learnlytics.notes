@@ -1,4 +1,4 @@
-import { kits } from './catalog.js?v=da-page-20261016';
+import { kits } from './catalog.js?v=blue-images-20261016';
 import { setupDialog } from './dialog.js';
 
 export function setupKits() {

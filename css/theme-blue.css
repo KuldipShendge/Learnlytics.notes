@@ -13,6 +13,11 @@ html[data-theme="blue"] {
   --shadow: 0 8px 24px #0b123f06;
 }
 
+/* Reveal the existing navy/teal brand artwork instead of the black filter. */
+html[data-theme="blue"] .brand img {
+  filter: none;
+}
+
 
 /* tokens.css: colour replacements, preserving existing effects. */
 html[data-theme="blue"] .button:hover {
