@@ -20,7 +20,7 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 
 | File | Responsibility |
 | --- | --- |
-| `index.html` | Homepage and embedded templates for the DS and About Us views; dialog shells and inline SVG icons |
+| `index.html` | Homepage and embedded templates for the DS, DA and About Us views; dialog shells and inline SVG icons |
 | `css/about.css` | Selectively adapted About Us styles using the shared brand tokens |
 | `css/tokens.css` | Brand tokens, local fonts, base styles and reusable UI primitives |
 | `css/home.css` | Homepage components and mobile, tablet and desktop layouts |
@@ -30,12 +30,14 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `js/kits.js` | Career selection, comparison-card navigation and kit overview dialog |
 | `js/dialog.js` | Shared dialog dismissal and focus restoration |
 | `js/video-config.js` | Published guide titles and YouTube IDs, plus fallback demo chapters |
-| `js/inline-videos.js` | Homepage and DS inline players, click-to-play controls and view-change cleanup |
+| `js/inline-videos.js` | Homepage, DS and DA inline players, click-to-play controls and view-change cleanup |
 | `js/main.js` | Mobile navigation and component initialization |
 | `js/views.js` | In-page view switching, focus, titles, Back/Forward and refresh at the same URL |
 | `css/product.css` | Product book illustration and responsive sections using shared brand tokens |
 | `js/product.js` | Product curriculum rendering, shared guides and purchase placeholder |
-| `js/ds-curriculum.js` | Seven original modules, 20 parts and per-part question/page counts |
+| `js/ds-curriculum.js` | Seven original DS modules, 20 parts and per-part question/page counts |
+| `js/da-curriculum.js` | Eight DA modules, 77 units and 637 source topics from the old structured curriculum |
+| `js/product-reviews.js` | Original DA and DS aspirant reviews copied from the old product sections |
 | `js/sample-gallery.js` | Inline PDF rendering, resource tabs, pagination, keyboard navigation and enlarged reading view |
 | `pdfs/eda-*.pdf` | Supplied EDA handbook, practice workbook and solution manual |
 | `assets/vendor/pdfjs/` | Bundled PDF.js 5.6.205, Apache-2.0 licensed, with local worker, fonts, CMaps and decoders |
@@ -47,6 +49,7 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `scripts/preview.mjs` | Static preview server with optional project subfolder; no route rewrites or backend integrations |
 | `tests/homepage.cjs` | Browser acceptance checks and screenshot capture |
 | `tests/product.cjs` | Product interactions, curriculum totals, inline EDA PDF previews, responsive checks and screenshots |
+| `tests/analyst.cjs` | DA source curriculum, responsive layout, shared PDFs/videos, reviews placement and DS/DA switching |
 | `tests/navigation.cjs` | Unchanged URL, view switching, Back/Forward, refresh and repeated visits |
 | `screenshots/` | Mobile, tablet and desktop captures plus verification results |
 
@@ -71,7 +74,7 @@ Brand colors came from `D:\website\css\light-theme.css` and `homepage.css`: plum
 
 Product positioning, resource counts and displayed prices were transcribed selectively from the existing catalog and product content. Prices are presentation values, not a checkout source of truth; review them before a future commerce launch. The Combined kit covers Data Science + Gen AI + ML Engineering, as in the existing catalog. The materials section identifies its images as Data Scientist & Gen AI artwork and clarifies that the products are digital.
 
-Only the About Us section and its relevant styles were copied from the old application. No old application controllers, payment code or dashboard dependencies were copied. No files in `D:\website` were modified.
+About Us content and styles, DA curriculum data, and the requested DS/DA aspirant reviews were selectively reused from the old application. No old application controllers, payment code or dashboard dependencies were copied. No files in `D:\website` were modified.
 
 ## Newly created
 
@@ -82,7 +85,7 @@ Only the About Us section and its relevant styles were copied from the old appli
 - Inline guide videos inside the existing Data Scientist cards, with autoplay off.
 - Branded curriculum panel with expandable module cards, highlighted open states, and part cards showing question/page counts and included resources.
 - Native FAQ accordions, keyboard navigation, dialog focus management, reduced-motion support and local font loading.
-- No invented testimonials, learner totals, endorsements, urgency, ratings or job guarantees.
+- The original DS and DA aspirant reviews, placed before each product closing section; no new testimonial copy or rating claims were invented.
 
 ## Temporary content and future integration
 
@@ -97,17 +100,17 @@ The DS view embeds the same two guides directly inside its existing walkthrough 
 
 The DS hero uses a newly generated high-resolution transparent book mockup (`assets/images/ds-complete-kit-sharp.png`) matching the original LearnLytics cover. Other product and resource images reuse the existing LearnLytics assets. The homepage hero illustration is reused, while the two guide poster compositions are new.
 
-The featured Data Scientist “View kit details” button opens the new product page; the other three kits still use homepage overviews. The product page's “Get This Kit Now” buttons open an honest availability dialog, with the Razorpay label under the primary button. **Checkout, Razorpay integration, Google Sheets, purchased-kit delivery and accounts remain unimplemented.** Sample PDF downloads are available in the DS view. No old payment or delivery files were copied or edited. Only the Data Scientist & Gen AI product page has been added.
+The Data Scientist and Data Analyst “View kit details” links and comparison cards open their complete product views. ML Engineer and All-in-One still use homepage overviews. The product page's “Get This Kit Now” buttons open an honest availability dialog, with the Razorpay label under the primary button. **Checkout, Razorpay integration, Google Sheets, purchased-kit delivery and accounts remain unimplemented.** Sample PDF downloads are available in the DS view. No old payment or delivery files were copied or edited. Both Data Scientist & Gen AI and Data & BI Analyst with Gen AI product pages are available.
 
-The product page omits FAQs, file-format badges and refund claims as requested. It does not reproduce the reference's unverified ratings or testimonials. The two guide videos are the published LearnLytics walkthroughs. Sample Pages keeps the original Handbook / Workbook / Solutions tabs and viewer design. PDF.js renders pages directly from the supplied EDA PDFs in the former image area. Arrows and the three-dot page selector navigate the selected PDF; Click to read opens a larger rendered page and a direct PDF link. The PDFs contain 32, 6 and 11 pages respectively. Rendering is lazy and adapts to mobile and desktop sizes. WhatsApp links use the existing support contact, `+91 91306 31497`.
+The product page omits FAQs, file-format badges and refund claims as requested. The requested Loved by Aspirants sections reuse the four original reviews from each old product page verbatim, immediately before Your next chapter is waiting. No ratings or verification badges were added. The two guide videos are the published LearnLytics walkthroughs. Sample Pages keeps the original Handbook / Workbook / Solutions tabs and viewer design. PDF.js renders pages directly from the supplied EDA PDFs in the former image area. Arrows and the three-dot page selector navigate the selected PDF; Click to read opens a larger rendered page and a direct PDF link. The PDFs contain 32, 6 and 11 pages respectively. Rendering is lazy and adapts to mobile and desktop sizes. WhatsApp links use the existing support contact, `+91 91306 31497`.
 
 ## Hosting and navigation
 
-GitHub Pages serves `index.html` at the repository URL, such as `https://kuldipshendge.github.io/Learnlytics.notes/`. DS and About Us switch content in place; section links scroll without changing the URL. Browser Back/Forward switches views, and refresh restores the active view using browser history state. Opening the base URL in a new tab starts on the homepage. Separate shareable page URLs are deferred to v2.
+GitHub Pages serves `index.html` at the repository URL, such as `https://kuldipshendge.github.io/Learnlytics.notes/`. DS, DA and About Us switch content in place; section links scroll without changing the URL. Browser Back/Forward switches views, and refresh restores the active view using browser history state. Opening the base URL in a new tab starts on the homepage. Separate shareable page URLs are deferred to v2.
 
 All assets use relative paths, including generated sample images and SVG icons. No custom route rewrites or separate HTML entry points are required.
 
-Changed assets use versioned URLs so returning visitors receive compatible HTML, scripts and styles. The entry point, product module and product styles use `inline-pdf-samples-20261016`. On mobile and tablet, the curriculum follows “What’s Inside This Kit?”; from 980px it returns to the desktop sidebar, preserving expanded modules. Bump the entry point, affected imports and styles when changing them again.
+Changed assets use versioned URLs so returning visitors receive compatible HTML, scripts and styles. The entry point, product module and product styles use `da-page-20261016`. On mobile and tablet, the curriculum follows “What’s Inside This Kit?”; from 980px it returns to the desktop sidebar, preserving expanded modules. Bump the entry point, affected imports and styles when changing them again.
 
 To test the same project-folder layout locally:
 
@@ -129,3 +132,11 @@ About Us was also checked at 360, 390, 430, 768, 900, 1024 and 1440px, including
 To rerun, start the preview server and run `node tests/homepage.cjs`, `node tests/product.cjs` and `node tests/navigation.cjs` in another terminal with Playwright available. `NODE_PATH` can point to the bundled Playwright installation. `BROWSER_PATH` overrides the default local Chrome executable; `PREVIEW_URL` overrides the server URL.
 
 Verified in desktop Chromium with emulated viewport sizes; physical-device and Safari testing have not been performed.
+
+## Data Analyst page
+
+The DA product view follows the DS structure, including mobile curriculum placement after What's Inside This Kit, sample tabs, two inline videos, support and closing CTA. Its content comes from `D:/website/js/script.js` (eight structured curriculum arrays) and the old Data Analyst section/catalog. The old catalog price is ₹399, with 2,200+ interview questions (1,300+ technical and 900+ scenarios). Eight modules provide 24 handbook/workbook/solution resources; unit and topic totals are computed from the detailed source data. The old DA cover is reused from `assets/images/kit-data-analyst.webp`.
+
+DA intentionally uses the existing EDA PDFs and the same guide videos for now. Replace the DA sample configuration when the final DA PDFs are supplied. The source code under `D:/website` remains unchanged.
+
+Run `node tests/analyst.cjs` for DA checks. The main test command also includes the DA suite.

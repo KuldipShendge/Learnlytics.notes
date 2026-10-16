@@ -16,9 +16,9 @@
     <link rel="stylesheet" href="css/navigation.css" />
     <link rel="stylesheet" href="css/home.css?v=no-mobile-bar-20261015" />
     <link rel="stylesheet" href="css/dialogs.css" />
-    <link rel="stylesheet" href="css/product.css?v=inline-pdf-samples-20261016" />
+    <link rel="stylesheet" href="css/product.css?v=da-page-20261016" />
     <link rel="stylesheet" href="css/about.css" />
-    <script type="module" src="js/main.js?v=inline-pdf-samples-20261016"></script>
+    <script type="module" src="js/main.js?v=da-page-20261016"></script>
   </head>
   <body class="home-page">
     <div id="app">
@@ -213,7 +213,7 @@
               </div>
               <div class="kit-copy">
                 <p class="eyebrow" id="kit-category">DATA SCIENCE & GENERATIVE AI</p>
-                <h3 id="recommended-title">Crack Data Scientist<br />& Gen AI</h3>
+                <h3 id="recommended-title">Crack Data Scientist <br />& Gen AI</h3>
                 <p class="kit-subtitle" id="kit-subtitle">Data Scientist & Gen AI Interview Kit</p>
                 <ul class="check-list" id="kit-features">
                   <li>Python, statistics, ML, deep learning & LLMs</li>
@@ -245,7 +245,7 @@
             <span class="section-aside">Compare the learning kits</span>
           </div>
           <div class="compare-grid">
-            <button class="path-card" type="button" data-kit="analyst">
+            <a class="path-card" href="#" data-view="analyst" data-kit="analyst">
               <span class="path-icon"
                 ><svg class="icon"><use href="#i-chart" /></svg
               ></span>
@@ -255,7 +255,7 @@
               ><span class="path-footer"
                 >Explore kit <svg class="icon"><use href="#i-arrow" /></svg
               ></span>
-            </button>
+            </a>
             <a
               class="path-card"
               href="#" data-view="scientist"
@@ -923,6 +923,13 @@
         </div>
       </div>
 
+      <section class="product-section product-testimonials" id="testimonials" aria-labelledby="reviews-title">
+        <div class="product-section-heading">
+          <div><p class="eyebrow">LEARNER STORIES</p><h2 id="reviews-title">Loved by Aspirants</h2></div>
+        </div>
+        <div class="testimonial-grid" id="testimonial-list"></div>
+      </section>
+
       <section class="product-closing">
         <svg class="icon"><use href="assets/icons/product.svg#book" /></svg>
         <div>
@@ -941,6 +948,442 @@
     </footer>
     <aside class="product-sticky" aria-label="Get the Data Scientist and Gen AI kit">
       <div><strong>₹499</strong><del>₹1,499</del><span class="discount">67% OFF</span></div>
+      <button class="button" type="button" data-checkout>
+        Get This Kit Now <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg>
+      </button>
+    </aside>
+
+    <dialog class="modal sample-dialog" id="sample-dialog" aria-labelledby="sample-dialog-title">
+      <div class="modal-heading">
+        <div>
+          <p class="eyebrow">LEARNLYTICS SAMPLE</p>
+          <h2 id="sample-dialog-title">EDA Handbook</h2>
+        </div>
+        <button class="icon-button" type="button" data-close aria-label="Close sample">
+          <svg class="icon"><use href="assets/icons/product.svg#close" /></svg>
+        </button>
+      </div>
+      <div id="sample-enlarged"></div>
+      <a id="sample-open-pdf" class="text-button" href="pdfs/eda-handbook.pdf" target="_blank" rel="noopener noreferrer">Open PDF ↗</a>
+    </dialog>
+    <dialog class="modal checkout-dialog" id="checkout-dialog" aria-labelledby="checkout-dialog-title">
+      <button
+        class="icon-button modal-close"
+        type="button"
+        data-close
+        aria-label="Close purchase information"
+      >
+        <svg class="icon"><use href="assets/icons/product.svg#close" /></svg></button
+      ><span class="support-icon"
+        ><svg class="icon"><use href="assets/icons/product.svg#book" /></svg
+      ></span>
+      <p class="eyebrow">YOUR NEXT CHAPTER</p>
+      <h2 id="checkout-dialog-title">Checkout is coming soon.</h2>
+      <p>
+        The kit is ready to explore here. Online purchasing is not enabled on this version yet. The
+        LearnLytics team can help with any questions.
+      </p>
+      <a
+        class="button whatsapp-link"
+        href="https://wa.me/919130631497"
+        target="_blank"
+        rel="noopener noreferrer"
+        ><svg class="icon"><use href="assets/icons/product.svg#whatsapp" /></svg> Ask us about this kit</a
+      >
+    </dialog>
+      </template>
+
+    <template id="view-analyst" data-body-class="product-page analyst-page" data-title="Data &amp; BI Analyst with Gen AI Complete Kit — LearnLytics Media" data-description="Explore the LearnLytics Data &amp; BI Analyst with Gen AI Complete Kit: 8 modules, 77 units and 24 resources, with handbooks, practice workbooks and detailed solutions.">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <svg class="icon-library" aria-hidden="true">
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" /></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6" /></symbol>
+    </svg>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#" data-view="home" aria-label="LearnLytics Media home"
+          ><img src="assets/images/logo.webp" width="500" height="200" alt="LearnLytics Handbook"
+        /></a>
+        <button
+          class="menu-toggle icon-button"
+          type="button"
+          aria-label="Open navigation"
+          aria-controls="main-nav"
+          aria-expanded="false"
+        >
+          <svg class="icon"><use href="#i-menu" /></svg>
+        </button>
+        <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+          <a href="#samples">Sample pages</a><a href="#curriculum">Curriculum</a
+          ><a href="#support">Need help?</a><a href="#" data-view="about">About Us</a
+          ><button class="button button-small" type="button" data-checkout>
+            Get this kit <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="container product-main">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="#" data-view="home">Home</a><span aria-hidden="true">›</span><a href="#compare" data-view="home">Learning kits</a
+        ><span aria-hidden="true">›</span><span aria-current="page">Data &amp; BI Analyst with Gen AI</span>
+      </nav>
+
+      <section class="product-hero" aria-labelledby="product-title">
+        <div class="book-stage">
+          <img
+            class="book-model"
+            src="assets/images/kit-data-analyst.webp"
+            alt="LearnLytics Data Scientist and Gen AI Complete Kit, complete kit cover"
+            width="1024"
+            height="1536"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <p class="book-caption">A complete preparation system.</p>
+        </div>
+        <div class="product-intro">
+          <p class="eyebrow"><span class="intro-dot"></span> BUILT FOR YOUR NEXT CHAPTER</p>
+          <h1 id="product-title">Data &amp; BI Analyst<br /><span>with Gen AI</span> Complete Kit</h1>
+          <p class="product-description">
+            Build your analytics foundations. Prepare with 1,300+ technical and 900+ scenario-based interview questions,
+            supported by connected handbooks, practice workbooks and detailed solutions.
+          </p>
+          <a class="hero-curriculum-link" href="#curriculum"
+            >Explore all 8 modules <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg
+          ></a>
+        </div>
+        <div class="product-purchase">
+          <div class="product-stats" aria-label="Kit at a glance">
+            <div><strong>8</strong><span>Modules</span></div>
+            <div><strong>77</strong><span>Units</span></div>
+            <div><strong>24</strong><span>Resources</span></div>
+            <div><strong data-question-total>2,200+</strong><span>Interview questions</span></div>
+          </div>
+          <div class="price-row">
+            <strong>₹399</strong><del>₹1,499</del><span class="discount">73% OFF</span
+            ><span class="price-description">One complete learning kit</span>
+          </div>
+          <button class="button purchase-button" type="button" data-checkout>
+            Get This Kit Now <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg>
+          </button>
+          <p class="razorpay-tag">
+            <svg class="icon"><use href="assets/icons/product.svg#lock" /></svg><b>Razorpay</b>
+          </p>
+          <div class="product-assurances">
+            <span
+              ><svg class="icon"><use href="assets/icons/product.svg#clock" /></svg> Learn at your own
+              pace</span
+            ><span
+              ><svg class="icon"><use href="assets/icons/product.svg#layers" /></svg> Structured, topic by
+              topic</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <div class="product-grid">
+        <div class="product-primary">
+          <section class="product-section" aria-labelledby="how-title">
+            <div class="product-section-heading">
+              <div>
+                <p class="eyebrow">START HERE</p>
+                <h2 id="how-title">How to Use Your Kit</h2>
+              </div>
+              <span class="small-note">Learn → Practise → Review</span>
+            </div>
+            <div class="product-video" id="product-use-video" data-inline-video="use">
+              <noscript><a href="https://youtu.be/gAV7onDGlNo">Watch How to Use Your Kit on YouTube ↗</a></noscript>
+            </div>
+          </section>
+
+          <section class="product-section included-section" aria-labelledby="included-title">
+            <p class="eyebrow">A CONNECTED LEARNING SYSTEM</p>
+            <h2 id="included-title">What’s Inside This Kit?</h2>
+            <div class="included-grid">
+              <article>
+                <span class="included-icon"
+                  ><svg class="icon"><use href="assets/icons/product.svg#document" /></svg></span
+                ><span class="included-count">01 / LEARN</span>
+                <h3>Comprehensive<br />Handbooks</h3>
+                <p>8 handbooks to build<br />your understanding</p>
+              </article>
+              <article>
+                <span class="included-icon"
+                  ><svg class="icon"><use href="assets/icons/product.svg#workbook" /></svg></span
+                ><span class="included-count">02 / PRACTISE</span>
+                <h3>Practice<br />Workbooks</h3>
+                <p><span data-question-total>2,200+</span> questions<br />to put it into practice</p>
+              </article>
+              <article>
+                <span class="included-icon"
+                  ><svg class="icon"><use href="assets/icons/product.svg#solution" /></svg></span
+                ><span class="included-count">03 / REVIEW</span>
+                <h3>Solution<br />Manuals</h3>
+                <p>8 manuals with<br />detailed explanations</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="product-section" id="samples" aria-labelledby="samples-title">
+            <div class="product-section-heading">
+              <div>
+                <p class="eyebrow">TAKE A CLOSER LOOK</p>
+                <h2 id="samples-title">Sample Pages</h2>
+              </div>
+              <span class="small-note">See the learning style</span>
+            </div>
+            <div class="sample-tabs" role="tablist" aria-label="Sample resource type">
+              <button
+                id="tab-handbook"
+                role="tab"
+                aria-selected="true"
+                aria-controls="sample-panel"
+                data-sample="handbook"
+                type="button"
+              >
+                Handbook</button
+              ><button
+                id="tab-workbook"
+                role="tab"
+                aria-selected="false"
+                aria-controls="sample-panel"
+                data-sample="workbook"
+                tabindex="-1"
+                type="button"
+              >
+                Workbook</button
+              ><button
+                id="tab-solutions"
+                role="tab"
+                aria-selected="false"
+                aria-controls="sample-panel"
+                data-sample="solutions"
+                tabindex="-1"
+                type="button"
+              >
+                Solutions
+              </button>
+            </div>
+            <div id="sample-panel" role="tabpanel" aria-labelledby="tab-handbook" tabindex="0">
+              <div class="sample-caption">
+                <span id="sample-subject">Exploratory Data Analysis</span
+                ><span id="sample-position">01 / 32</span>
+              </div>
+              <div class="sample-frame">
+                <button class="sample-image-button" type="button" aria-label="Enlarge the sample page">
+                  <span id="sample-pdf-page"></span><span class="sample-zoom"
+                    ><svg class="icon"><use href="assets/icons/product.svg#zoom" /></svg> Click to read</span
+                  >
+                </button>
+
+                <button
+                  class="sample-arrow sample-previous icon-button"
+                  type="button"
+                  aria-label="Previous sample page"
+                >
+                  ←</button
+                ><button
+                  class="sample-arrow sample-next icon-button"
+                  type="button"
+                  aria-label="Next sample page"
+                >
+                  →
+                </button>
+              </div>
+              <div class="sample-pagination" aria-label="Choose PDF page">
+                <button
+                  type="button"
+                  aria-label="Show PDF page 1"
+                  aria-current="true"
+                  data-sample-index="0"
+                ></button
+                ><button
+                  type="button"
+                  aria-label="Show PDF page 2"
+                  aria-current="false"
+                  data-sample-index="1"
+                ></button
+                ><button
+                  type="button"
+                  aria-label="Show PDF page 3"
+                  aria-current="false"
+                  data-sample-index="2"
+                ></button>
+              </div>
+              <p class="sample-note" id="sample-note">
+                An actual page from the LearnLytics EDA handbook.
+              </p>
+              <p class="sr-only" id="sample-status" role="status"></p>
+            </div>
+          </section>
+
+          <section class="product-section difference-section" aria-labelledby="difference-title">
+            <p class="eyebrow">PREPARATION WITH A PURPOSE</p>
+            <h2 id="difference-title">Why This Kit Is Different</h2>
+            <div class="benefit-grid">
+              <article>
+                <span class="benefit-icon"
+                  ><svg class="icon"><use href="assets/icons/product.svg#target" /></svg
+                ></span>
+                <div>
+                  <h3>Interview focused</h3>
+                  <p>Practise explaining your reasoning, not just recalling a definition.</p>
+                </div>
+              </article>
+              <article>
+                <span class="benefit-icon"
+                  ><svg class="icon"><use href="assets/icons/product.svg#solution" /></svg
+                ></span>
+                <div>
+                  <h3>Detailed solutions</h3>
+                  <p>Understand the approach behind an answer and revisit your gaps.</p>
+                </div>
+              </article>
+              <article>
+                <span class="benefit-icon"
+                  ><svg class="icon"><use href="assets/icons/product.svg#spark" /></svg
+                ></span>
+                <div>
+                  <h3>Analytics to Gen AI</h3>
+                  <p>Connect SQL, spreadsheets and dashboards with AI-assisted analytics.</p>
+                </div>
+              </article>
+              <article>
+                <span class="benefit-icon"
+                  ><svg class="icon"><use href="assets/icons/product.svg#layers" /></svg
+                ></span>
+                <div>
+                  <h3>A structured path</h3>
+                  <p>Follow matching handbooks, practice questions and solutions.</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="product-section audience-section" aria-labelledby="audience-title">
+            <h2 id="audience-title">Who Is This For?</h2>
+            <ul class="audience-list">
+              <li>Students and fresh graduates building their foundations</li>
+              <li>Working professionals preparing for a career switch</li>
+              <li>Learners building practical SQL, spreadsheet and dashboard skills</li>
+              <li>Anyone preparing for Data Analyst or BI Analyst interviews</li>
+            </ul>
+          </section>
+
+          <section class="product-section tools-section" aria-labelledby="tools-title">
+            <p class="eyebrow">BUILD YOUR TECHNICAL TOOLKIT</p>
+            <h2 id="tools-title">Tools & Technologies Covered</h2>
+            <div class="technology-grid">
+              <div><svg class="technology-icon"><use href="assets/icons/product.svg#stats" /></svg><strong>Statistics</strong></div>
+              <div><svg class="technology-icon"><use href="assets/icons/product.svg#excel" /></svg><strong>Excel &amp;<br />Sheets</strong></div>
+              <div><svg class="technology-icon"><use href="assets/icons/product.svg#sql" /></svg><strong>SQL</strong></div>
+              <div><svg class="technology-icon"><use href="assets/icons/product.svg#python" /></svg><strong>Python</strong></div>
+              <div><svg class="technology-icon"><use href="assets/icons/product.svg#bi" /></svg><strong>Power BI &amp;<br />Tableau</strong></div>
+              <div><svg class="technology-icon"><use href="assets/icons/product.svg#genai" /></svg><strong>Gen AI</strong></div>
+            </div>
+          </section>
+        </div>
+
+        <div class="product-secondary">
+          <section
+            class="curriculum-section product-section"
+            id="curriculum"
+            aria-labelledby="curriculum-title"
+          >
+            <div class="product-section-heading curriculum-banner">
+              <div>
+                <p class="eyebrow">YOUR LEARNING PATHWAY</p>
+                <h2 id="curriculum-title">Complete Curriculum <span>8 Modules</span></h2>
+              </div>
+            </div>
+            <p class="curriculum-intro">
+              From statistical foundations to dashboards and AI-era analytics. Open a module to explore its units and topics.
+            </p>
+            <div id="curriculum-list" class="curriculum-list"></div>
+            <div class="curriculum-total">
+              <svg class="icon"><use href="assets/icons/product.svg#layers" /></svg>
+              <div>
+                <strong>77 units. 24 resources. One complete kit.</strong>
+                <p>Each module includes a handbook, practice workbook and solution manual.</p>
+              </div>
+            </div>
+            <noscript
+              ><p>
+                Enable JavaScript to explore the detailed curriculum: Mathematics &amp; Statistics, Excel &amp; Google Sheets, SQL &amp; Databases, Python for Analytics,
+                Business Intelligence, Data Engineering, Storytelling, and AI-Era Analytics.
+              </p></noscript
+            >
+          </section>
+
+          <section class="product-section choose-section" aria-labelledby="choose-title">
+            <p class="eyebrow">FIND YOUR FIT</p>
+            <h2 id="choose-title">Not sure if this kit<br />is right for you?</h2>
+            <p>Start with your goal. Find the path that fits.</p>
+            <div class="product-video" id="product-choose-video" data-inline-video="choose">
+              <noscript><a href="https://youtu.be/1hUTxkkk5jQ">Watch Choose the Right Kit on YouTube ↗</a></noscript>
+            </div>
+            <a class="text-button" href="#compare" data-view="home"
+              >Compare all learning kits <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg
+            ></a>
+          </section>
+
+          <section class="product-section material-confidence">
+            <svg class="icon"><use href="assets/icons/product.svg#book" /></svg>
+            <h2>See the material.<br />Decide for yourself.</h2>
+            <p>
+              Your preparation deserves a closer look. Explore the real sample pages and curriculum before
+              choosing your kit.
+            </p>
+            <a class="text-button" href="#samples"
+              >Explore sample pages <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg
+            ></a>
+          </section>
+
+          <section class="product-section support-section" id="support" aria-labelledby="support-title">
+            <span class="support-icon"
+              ><svg class="icon"><use href="assets/icons/product.svg#headset" /></svg
+            ></span>
+            <p class="eyebrow">LET’S TALK IT THROUGH</p>
+            <h2 id="support-title">Need Help?</h2>
+            <p>Questions about the kit or your learning path?<br />Reach out to the LearnLytics team.</p>
+            <a
+              class="button button-secondary whatsapp-link"
+              href="https://wa.me/919130631497"
+              target="_blank"
+              rel="noopener noreferrer"
+              ><svg class="icon"><use href="assets/icons/product.svg#whatsapp" /></svg> Chat on WhatsApp
+              <span aria-hidden="true">↗</span></a
+            ><a class="support-email" href="mailto:learnlytics.handbook@gmail.com">Or send us an email</a>
+          </section>
+        </div>
+      </div>
+
+      <section class="product-section product-testimonials" id="testimonials" aria-labelledby="reviews-title">
+        <div class="product-section-heading">
+          <div><p class="eyebrow">LEARNER STORIES</p><h2 id="reviews-title">Loved by Aspirants</h2></div>
+        </div>
+        <div class="testimonial-grid" id="testimonial-list"></div>
+      </section>
+
+      <section class="product-closing">
+        <svg class="icon"><use href="assets/icons/product.svg#book" /></svg>
+        <div>
+          <h2>Your next chapter is waiting.</h2>
+          <p>8 modules. One structured path towards Data Analytics &amp; BI.</p>
+        </div>
+        <button class="button" type="button" data-checkout>
+          Get This Kit Now <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg>
+        </button>
+      </section>
+    </main>
+    <footer class="product-footer container">
+      <a href="#" data-view="home">LearnLytics Media</a>
+      <p>Learn. Practise. Grow.</p>
+      <span>© 2026 LearnLytics Media</span>
+    </footer>
+    <aside class="product-sticky" aria-label="Get the Data Scientist and Gen AI kit">
+      <div><strong>₹399</strong><del>₹1,499</del><span class="discount">73% OFF</span></div>
       <button class="button" type="button" data-checkout>
         Get This Kit Now <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg>
       </button>

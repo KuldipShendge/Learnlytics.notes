@@ -73,13 +73,14 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
       for (const [id, title] of Object.entries(kits)) {
         await page.locator(`.goal-option:has(input[value="${id}"])`).click();
         assert.equal(await page.locator('#recommended-title').textContent(), title);
-        assert.equal(await page.locator('#kit-price').textContent(), id === 'complete' ? '₹899' : '₹499');
+        assert.equal(await page.locator('#kit-price').textContent(), id === 'complete' ? '₹899' : id === 'analyst' ? '₹399' : '₹499');
         await noOverflow(`${width}px ${id}`);
         await page.locator('#kit-details').click();
-        if (id === 'scientist') {
+        if (id === 'scientist' || id === 'analyst') {
           await page.locator('#product-title').waitFor();
           assert.equal(page.url(), url);
           assert(await page.locator('#product-title').isVisible());
+          assert.equal(await page.locator('body.analyst-page').count(), id === 'analyst' ? 1 : 0);
           await openHome();
           continue;
         }

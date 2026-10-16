@@ -772,6 +772,61 @@
   color: #f3d4e8;
   background: #ffffff09;
 }
+.curriculum-unit > summary {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+  list-style: none;
+  cursor: pointer;
+}
+.curriculum-unit > summary::-webkit-details-marker {
+  display: none;
+}
+.curriculum-unit > summary strong {
+  flex: 1;
+}
+.curriculum-unit > summary > span {
+  padding-top: 3px;
+  font-size: 10px;
+  color: var(--accent-dark);
+  white-space: nowrap;
+}
+.curriculum-unit > summary::after {
+  content: '+';
+  color: var(--accent);
+  font-weight: 700;
+}
+.curriculum-unit[open] > summary::after {
+  content: '−';
+}
+.curriculum-unit-focus {
+  font-size: 12px;
+  margin-top: 8px;
+  color: var(--copy);
+}
+.module-parts .curriculum-topics {
+  display: grid;
+  gap: 7px;
+  padding-left: 18px;
+  margin-top: 12px;
+  list-style: disc;
+}
+.module-parts .curriculum-topics > li {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--copy);
+  overflow-wrap: anywhere;
+}
+.module-resource-pills {
+  padding: 0 12px 12px;
+}
+.module-resource-pills .part-resources {
+  margin-top: 0;
+}
 .curriculum-intro {
   font-size: 13px;
   line-height: 1.8;
@@ -795,7 +850,7 @@
   border-color: #cda5bf;
   box-shadow: 0 5px 18px #7132550a;
 }
-.curriculum-module summary {
+.curriculum-module > summary {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -803,15 +858,15 @@
   cursor: pointer;
   padding: 16px 12px;
 }
-.curriculum-module summary::-webkit-details-marker {
+.curriculum-module > summary::-webkit-details-marker {
   display: none;
 }
-.curriculum-module summary:focus-visible {
+.curriculum-module > summary:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: -3px;
   border-radius: 12px;
 }
-.curriculum-module[open] summary {
+.curriculum-module[open] > summary {
   background: #faf3f8;
   border-bottom: 1px solid #eee0e9;
 }
@@ -864,7 +919,7 @@
   color: var(--accent-dark);
   font-weight: 700;
 }
-.curriculum-module summary > .icon {
+.curriculum-module > summary > .icon {
   width: 24px;
   height: 24px;
   flex: 0 0 auto;
@@ -874,7 +929,7 @@
   color: #713255;
   transition: transform 0.2s;
 }
-.curriculum-module[open] summary > .icon {
+.curriculum-module[open] > summary > .icon {
   transform: rotate(180deg);
   border-color: #d7a3c3;
   background: #fff;
@@ -1582,5 +1637,89 @@
   .product-sticky .button {
     min-height: 42px;
     font-size: 12px;
+  }
+}
+
+/* Aspirant stories reused from the old product pages. */
+.product-testimonials {
+  margin-top: 40px;
+  padding: 26px 22px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: linear-gradient(120deg, #faf4f8, #fcfafb);
+}
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  min-width: 0;
+}
+.testimonial-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid #eadfe6;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 5px 18px #24152505;
+}
+.testimonial-mark {
+  height: 35px;
+  font-size: 48px;
+  line-height: 1;
+  font-weight: 800;
+  color: var(--accent);
+}
+.testimonial-card blockquote {
+  margin: 12px 0 20px;
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--ink);
+}
+.testimonial-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  margin-top: auto;
+}
+.testimonial-avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f3e6ef;
+  color: #713255;
+  font-size: 12px;
+  font-weight: 800;
+}
+.testimonial-person strong {
+  font-size: 13px;
+}
+.testimonial-person p {
+  margin-top: 3px;
+  font-size: 11px;
+  line-height: 1.6;
+}
+@media (max-width: 559px) {
+  .product-testimonials {
+    padding: 22px 16px;
+  }
+  .testimonial-grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: calc(100% - 24px);
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 12px;
+  }
+  .testimonial-card {
+    padding: 18px;
+    scroll-snap-align: start;
   }
 }

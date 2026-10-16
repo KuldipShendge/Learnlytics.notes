@@ -60,6 +60,8 @@ const widths = [360, 390, 430, 768, 1024, 1440];
       assert.equal(response.status(), 200);
       await page.evaluate(() => document.fonts.ready);
       assert.equal(await page.locator('.curriculum-module').count(), 7);
+      assert.equal(await page.locator('#testimonial-list .testimonial-card').count(), 4);
+      assert(await page.locator('.product-testimonials').evaluate(el => el.nextElementSibling.classList.contains('product-closing')));
       assert(await page.locator('#curriculum').evaluate((el, desktop) => desktop
         ? el.parentElement.classList.contains('product-secondary') && el === el.parentElement.firstElementChild
         : el.previousElementSibling.classList.contains('included-section') && el.nextElementSibling.id === 'samples', width >= 980),
@@ -151,7 +153,7 @@ const widths = [360, 390, 430, 768, 1024, 1440];
       assert.match(await page.locator('#sample-open-pdf').getAttribute('href'), new RegExp(`${filename}#page=2$`));
       assert.equal(await page.locator('#sample-open-pdf').getAttribute('target'), '_blank');
       await closeDialog('#sample-dialog');
-      assert.equal(await page.locator('#sample-enlarged canvas').count(), 0);
+      await page.waitForFunction(() => document.querySelector('#sample-enlarged').childElementCount === 0);
       const response = await context.request.get(new URL(`pdfs/${filename}`, url).href);
       assert.equal(response.status(), 200);
       assert.match(response.headers()['content-type'], /application\/pdf/);

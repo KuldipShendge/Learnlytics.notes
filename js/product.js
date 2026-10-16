@@ -1,11 +1,15 @@
 import { setupInlineVideos } from './inline-videos.js?v=compact-guides-20261015';
 import { setupDialog } from './dialog.js';
-import { setupSampleGallery } from './sample-gallery.js?v=inline-pdf-samples-20261016';
-import { curriculum, productOverview } from './ds-curriculum.js';
+import { setupSampleGallery } from './sample-gallery.js?v=da-page-20261016';
+import { curriculum as dsCurriculum, productOverview as dsOverview } from './ds-curriculum.js';
+import { productReviews } from './product-reviews.js?v=da-page-20261016';
 
-export function setupProduct() {
+const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char]));
+const resources = '<div class="part-resources"><span>Handbook</span><span>Practice workbook</span><span>Solution manual</span></div>';
+
+export function setupProduct({ curriculum = dsCurriculum, productOverview = dsOverview, kit = 'scientist' } = {}) {
   setupInlineVideos();
-  setupSampleGallery();
+  setupSampleGallery({ resources: productOverview.samples });
 
   const curriculumSection = document.querySelector('#curriculum');
   const includedSection = document.querySelector('.included-section');
@@ -22,13 +26,21 @@ export function setupProduct() {
     element.textContent = `${productOverview.practiceQuestions.toLocaleString('en-IN')}+`;
   });
 
+  document.querySelector('#testimonial-list').innerHTML = productReviews[kit].map(review => `
+    <article class="testimonial-card">
+      <span class="testimonial-mark" aria-hidden="true">“</span>
+      <blockquote>${escapeHtml(review.quote)}</blockquote>
+      <div class="testimonial-person"><span class="testimonial-avatar" aria-hidden="true">${escapeHtml(review.initials)}</span><div><strong>${escapeHtml(review.name)}</strong><p>${escapeHtml(review.role)}</p></div></div>
+    </article>`).join('');
+
   // All content comes from the local editorial curriculum, never user input.
   document.querySelector('#curriculum-list').innerHTML = curriculum
     .map(
       (module) => `
     <details class="curriculum-module">
-      <summary><span class="module-number" aria-hidden="true">${String(module.number).padStart(2, '0')}</span><span class="module-heading"><span class="module-topic">MODULE ${String(module.number).padStart(2, '0')}</span><strong>${module.title}</strong><span class="module-meta"><span>${module.parts.length} parts</span><span>${module.questions.toLocaleString('en-IN')}+ practice questions</span></span></span><svg class="icon"><use href="assets/icons/product.svg#chevron"/></svg></summary>
-      <ol class="module-parts">${module.parts.map((part, index) => `<li><span class="part-label">PART ${String(index + 1).padStart(2, '0')}</span><strong>${part.title}</strong><div class="part-stats"><span><b>${part.questions}+</b> practice questions</span><span><b>${part.pages}+</b> handbook pages</span></div><div class="part-resources" aria-label="Resources included"><span>Handbook</span><span>Practice workbook</span><span>Solution manual</span></div></li>`).join('')}</ol>
+      <summary><span class="module-number" aria-hidden="true">${String(module.number).padStart(2, '0')}</span><span class="module-heading"><span class="module-topic">MODULE ${String(module.number).padStart(2, '0')}</span><strong>${escapeHtml(module.title)}</strong><span class="module-meta"><span>${module.units ? `${module.units.length} units` : `${module.parts.length} parts`}</span><span>${module.units ? `${module.topics} topics` : `${module.questions.toLocaleString('en-IN')}+ practice questions`}</span></span></span><svg class="icon"><use href="assets/icons/product.svg#chevron"/></svg></summary>
+      <ol class="module-parts">${module.units ? module.units.map((unit, index) => `<li><span class="part-label">UNIT ${String(index + 1).padStart(2, '0')}</span><details class="curriculum-unit"><summary><strong>${escapeHtml(unit.title)}</strong><span>${unit.topics.length} topics</span></summary>${unit.subtitle ? `<p class="curriculum-unit-focus">${escapeHtml(unit.subtitle)}</p>` : ''}<ul class="curriculum-topics">${unit.topics.map(topic => `<li>${escapeHtml(topic)}</li>`).join('')}</ul></details></li>`).join('') : module.parts.map((part, index) => `<li><span class="part-label">PART ${String(index + 1).padStart(2, '0')}</span><strong>${escapeHtml(part.title)}</strong><div class="part-stats"><span><b>${part.questions}+</b> practice questions</span><span><b>${part.pages}+</b> handbook pages</span></div>${resources}</li>`).join('')}</ol>
+      ${module.units ? `<div class="module-resource-pills">${resources}</div>` : ''}
     </details>
   `,
     )

@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "node scripts/preview.mjs",
     "start": "node scripts/preview.mjs",
-    "test": "node tests/homepage.cjs && node tests/product.cjs && node tests/navigation.cjs",
+    "test": "node tests/homepage.cjs && node tests/product.cjs && node tests/analyst.cjs && node tests/navigation.cjs",
+    "test:analyst": "node tests/analyst.cjs",
     "test:product": "node tests/product.cjs"
   }
 }

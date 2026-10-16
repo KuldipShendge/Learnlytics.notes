@@ -86,16 +86,26 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
         await checkView('#hero-title');
         assert(await page.locator('#career-goal').evaluate(el => el === document.activeElement));
       }
-      // Other kit dialogs still work after the DS navigation handler is removed.
-      await page.locator('.goal-option:has(input[value="analyst"])').click();
+      // The remaining kit dialogs still work after visits to product pages.
+      await page.locator('.goal-option:has(input[value="engineer"])').click();
       await page.locator('#kit-details').click();
       assert(await page.locator('#kit-dialog').isVisible());
       await page.keyboard.press('Escape');
       await page.locator('#kit-dialog').waitFor({ state: 'hidden' });
+      await page.locator('.goal-option:has(input[value="analyst"])').click();
+      await page.locator('#kit-details').click();
+      await checkView('#product-title');
+      assert.equal(await page.locator('body.analyst-page').count(), 1);
+      assert.equal(await page.locator('.curriculum-module').count(), 8);
+      await page.reload();
+      await checkView('#product-title');
+      assert.equal(await page.locator('body.analyst-page').count(), 1);
+      await page.locator('.breadcrumbs [data-view="home"]').first().click();
+      await checkView('#hero-title');
       await page.locator('.goal-option:has(input[value="scientist"])').click();
       await page.locator('#kit-details').click();
       await checkView('#product-title');
-      assert.equal(documents.length, 2);
+      assert.equal(documents.length, 3);
       assert.deepEqual(errors, []);
       assert.deepEqual(missing, []);
       await context.close();

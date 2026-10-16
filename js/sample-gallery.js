@@ -1,6 +1,6 @@
 import { setupDialog } from './dialog.js';
 
-const resources = {
+const defaultResources = {
   handbook: { title: 'EDA Handbook', file: 'eda-handbook.pdf', label: 'handbook' },
   workbook: { title: 'EDA Practice Workbook', file: 'eda-practice-workbook.pdf', label: 'practice workbook' },
   solutions: { title: 'EDA Solution Manual', file: 'eda-solution-manual.pdf', label: 'solution manual' },
@@ -14,7 +14,7 @@ function loadLibrary() {
   return library;
 }
 
-export function setupSampleGallery() {
+export function setupSampleGallery({ resources = defaultResources } = {}) {
   const section = document.querySelector('#samples');
   const frame = section.querySelector('.sample-frame');
   const slot = section.querySelector('#sample-pdf-page');
@@ -68,6 +68,7 @@ export function setupSampleGallery() {
   }
 
   function updateControls() {
+    section.querySelector('#sample-subject').textContent = resources[type].subject || 'Exploratory Data Analysis';
     tabs.forEach(tab => {
       const selected = tab.dataset.sample === type;
       tab.setAttribute('aria-selected', String(selected));
