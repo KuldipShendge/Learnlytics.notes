@@ -16,10 +16,10 @@
     <link rel="stylesheet" href="css/navigation.css?v=dashboard-type-20261016" />
     <link rel="stylesheet" href="css/home.css?v=dashboard-type-20261016" />
     <link rel="stylesheet" href="css/dialogs.css" />
-    <link rel="stylesheet" href="css/product.css?v=pdf-tools-20261016" />
+    <link rel="stylesheet" href="css/product.css?v=reviews-layout-20261016" />
     <link rel="stylesheet" href="css/about.css?v=dashboard-type-20261016" />
     <link rel="stylesheet" href="css/theme-blue.css?v=pdf-tools-20261016" />
-    <script type="module" src="js/main.js?v=pdf-tools-20261016"></script>
+    <script type="module" src="js/main.js?v=reviews-layout-20261016"></script>
   </head>
   <body class="home-page">
     <div id="app">
@@ -69,7 +69,7 @@
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="#" aria-label="LearnLytics Media home"
-          ><img src="assets/images/logo.png?v=guide-covers-logo-20261016" alt="LearnLytics Handbook" width="2172" height="724"
+          ><img src="assets/images/logo.webp?v=updated-logo-20261016" alt="LearnLytics Handbook" width="1933" height="814"
         /></a>
         <button
           class="menu-toggle icon-button"
@@ -451,7 +451,7 @@
     <footer class="site-footer container">
       <div class="footer-top">
         <a class="brand" href="#" aria-label="LearnLytics Media home"
-          ><img src="assets/images/logo.png?v=guide-covers-logo-20261016" alt="LearnLytics Handbook" width="2172" height="724"
+          ><img src="assets/images/logo.webp?v=updated-logo-20261016" alt="LearnLytics Handbook" width="1933" height="814"
         /></a>
         <p>Thoughtful preparation for<br />your future in Data & AI.</p>
         <nav aria-label="Footer navigation">
@@ -488,7 +488,7 @@
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="#" data-view="home" aria-label="LearnLytics Media home"
-          ><img src="assets/images/logo.png?v=guide-covers-logo-20261016" width="2172" height="724" alt="LearnLytics Handbook"
+          ><img src="assets/images/logo.webp?v=updated-logo-20261016" width="1933" height="814" alt="LearnLytics Handbook"
         /></a>
         <button
           class="menu-toggle icon-button"
@@ -757,40 +757,14 @@
             </ul>
           </section>
 
-          <section class="product-section tools-section" aria-labelledby="tools-title">
-            <p class="eyebrow">BUILD YOUR TECHNICAL TOOLKIT</p>
-            <h2 id="tools-title">Tools & Technologies Covered</h2>
-            <div class="technology-grid">
-              <div>
-                <svg class="technology-icon"><use href="assets/icons/product.svg#python" /></svg
-                ><strong>Python</strong>
-              </div>
-              <div>
-                <svg class="technology-icon"><use href="assets/icons/product.svg#sql" /></svg
-                ><strong>SQL</strong>
-              </div>
-              <div>
-                <svg class="technology-icon"><use href="assets/icons/product.svg#network" /></svg
-                ><strong>Machine<br />Learning</strong>
-              </div>
-              <div>
-                <svg class="technology-icon"><use href="assets/icons/product.svg#deep" /></svg
-                ><strong>Deep<br />Learning</strong>
-              </div>
-              <div>
-                <svg class="technology-icon"><use href="assets/icons/product.svg#genai" /></svg
-                ><strong>Generative<br />AI</strong>
-              </div>
-              <div>
-                <svg class="technology-icon"><use href="assets/icons/product.svg#llm" /></svg
-                ><strong>LLMs</strong>
-              </div>
-              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#statistics" /></svg><strong>Statistics</strong></div>
-              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#numpy" /></svg><strong>NumPy</strong></div>
-              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#pandas" /></svg><strong>pandas</strong></div>
-              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#matplotlib" /></svg><strong>Matplotlib</strong></div>
-              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#scikit-learn" /></svg><strong>scikit-learn</strong></div>
-              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#pytorch" /></svg><strong>PyTorch</strong></div>
+          <section class="product-section product-testimonials" id="testimonials" aria-labelledby="reviews-title">
+            <div class="testimonials-heading"><h2 id="reviews-title">Loved by Aspirants</h2></div>
+            <div class="testimonial-grid" id="testimonial-list" role="region" aria-label="Aspirant reviews" tabindex="0"></div>
+            <div class="testimonial-controls">
+              <button class="icon-button testimonial-previous" type="button" aria-label="Previous reviews" aria-controls="testimonial-list">←</button>
+              <div class="testimonial-dots" aria-label="Choose a review"></div>
+              <button class="icon-button testimonial-next" type="button" aria-label="Next reviews" aria-controls="testimonial-list">→</button>
+              <button class="testimonial-autoplay" type="button" aria-label="Pause automatic review slides">Pause slides</button>
             </div>
           </section>
         </div>
@@ -855,17 +829,45 @@
               <span aria-hidden="true">↗</span></a
             ><a class="support-email" href="mailto:learnlytics.handbook@gmail.com">Or send us an email</a>
           </section>
+
+          <section class="product-section tools-section" aria-labelledby="tools-title">
+            <p class="eyebrow">BUILD YOUR TECHNICAL TOOLKIT</p>
+            <h2 id="tools-title">Tools & Technologies Covered</h2>
+            <div class="technology-grid">
+              <div>
+                <svg class="technology-icon"><use href="assets/icons/product.svg#python" /></svg
+                ><strong>Python</strong>
+              </div>
+              <div>
+                <svg class="technology-icon"><use href="assets/icons/product.svg#sql" /></svg
+                ><strong>SQL</strong>
+              </div>
+              <div>
+                <svg class="technology-icon"><use href="assets/icons/product.svg#network" /></svg
+                ><strong>Machine<br />Learning</strong>
+              </div>
+              <div>
+                <svg class="technology-icon"><use href="assets/icons/product.svg#deep" /></svg
+                ><strong>Deep<br />Learning</strong>
+              </div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#statistics" /></svg><strong>Statistics</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#numpy" /></svg><strong>NumPy</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#pandas" /></svg><strong>pandas</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#matplotlib" /></svg><strong>Matplotlib</strong></div>
+              <div>
+                <svg class="technology-icon"><use href="assets/icons/product.svg#llm" /></svg
+                ><strong>LLMs</strong>
+              </div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#pytorch" /></svg><strong>PyTorch</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#scikit-learn" /></svg><strong>scikit-learn</strong></div>
+              <div>
+                <svg class="technology-icon"><use href="assets/icons/product.svg#genai" /></svg
+                ><strong>Generative<br />AI</strong>
+              </div>
+            </div>
+          </section>
         </div>
       </div>
-
-      <section class="product-section product-testimonials" id="testimonials" aria-labelledby="reviews-title">
-        <div class="testimonials-heading"><h2 id="reviews-title">Loved by Aspirants</h2></div>
-        <div class="testimonial-grid" id="testimonial-list" role="region" aria-label="Aspirant reviews" tabindex="0"></div>
-        <div class="testimonial-controls">
-          <div class="testimonial-dots" aria-label="Choose a review"></div>
-          <button class="testimonial-autoplay" type="button" aria-label="Pause automatic review slides">Pause slides</button>
-        </div>
-      </section>
 
       <section class="product-closing">
         <svg class="icon"><use href="assets/icons/product.svg#book" /></svg>
@@ -945,7 +947,7 @@
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="#" data-view="home" aria-label="LearnLytics Media home"
-          ><img src="assets/images/logo.png?v=guide-covers-logo-20261016" width="2172" height="724" alt="LearnLytics Handbook"
+          ><img src="assets/images/logo.webp?v=updated-logo-20261016" width="1933" height="814" alt="LearnLytics Handbook"
         /></a>
         <button
           class="menu-toggle icon-button"
@@ -1214,22 +1216,14 @@
             </ul>
           </section>
 
-          <section class="product-section tools-section" aria-labelledby="tools-title">
-            <p class="eyebrow">BUILD YOUR TECHNICAL TOOLKIT</p>
-            <h2 id="tools-title">Tools & Technologies Covered</h2>
-            <div class="technology-grid">
-              <div><svg class="technology-icon"><use href="assets/icons/technologies.svg?v=tech-20261016#statistics" /></svg><strong>Statistics</strong></div>
-              <div><svg class="technology-icon"><use href="assets/icons/technologies.svg?v=tech-20261016#excel" /></svg><strong>Excel &amp;<br />Sheets</strong></div>
-              <div><svg class="technology-icon"><use href="assets/icons/product.svg#sql" /></svg><strong>SQL</strong></div>
-              <div><svg class="technology-icon"><use href="assets/icons/product.svg#python" /></svg><strong>Python</strong></div>
-              <div><span class="technology-icon-pair" aria-hidden="true"><svg class="technology-icon"><use href="assets/icons/technologies.svg?v=tech-20261016#power-bi" /></svg><svg class="technology-icon"><use href="assets/icons/technologies.svg?v=tech-20261016#tableau" /></svg></span><strong>Power BI &amp;<br />Tableau</strong></div>
-              <div><svg class="technology-icon"><use href="assets/icons/product.svg#genai" /></svg><strong>Gen AI</strong></div>
-              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#numpy" /></svg><strong>NumPy</strong></div>
-              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#pandas" /></svg><strong>pandas</strong></div>
-              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#matplotlib" /></svg><strong>Matplotlib</strong></div>
-              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#seaborn" /></svg><strong>Seaborn</strong></div>
-              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#plotly" /></svg><strong>Plotly</strong></div>
-              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#dbt" /></svg><strong>dbt</strong></div>
+          <section class="product-section product-testimonials" id="testimonials" aria-labelledby="reviews-title">
+            <div class="testimonials-heading"><h2 id="reviews-title">Loved by Aspirants</h2></div>
+            <div class="testimonial-grid" id="testimonial-list" role="region" aria-label="Aspirant reviews" tabindex="0"></div>
+            <div class="testimonial-controls">
+              <button class="icon-button testimonial-previous" type="button" aria-label="Previous reviews" aria-controls="testimonial-list">←</button>
+              <div class="testimonial-dots" aria-label="Choose a review"></div>
+              <button class="icon-button testimonial-next" type="button" aria-label="Next reviews" aria-controls="testimonial-list">→</button>
+              <button class="testimonial-autoplay" type="button" aria-label="Pause automatic review slides">Pause slides</button>
             </div>
           </section>
         </div>
@@ -1293,17 +1287,27 @@
               <span aria-hidden="true">↗</span></a
             ><a class="support-email" href="mailto:learnlytics.handbook@gmail.com">Or send us an email</a>
           </section>
+
+          <section class="product-section tools-section" aria-labelledby="tools-title">
+            <p class="eyebrow">BUILD YOUR TECHNICAL TOOLKIT</p>
+            <h2 id="tools-title">Tools & Technologies Covered</h2>
+            <div class="technology-grid">
+              <div><svg class="technology-icon"><use href="assets/icons/technologies.svg?v=tech-20261016#statistics" /></svg><strong>Statistics</strong></div>
+              <div><svg class="technology-icon"><use href="assets/icons/technologies.svg?v=tech-20261016#excel" /></svg><strong>Excel &amp;<br />Sheets</strong></div>
+              <div><svg class="technology-icon"><use href="assets/icons/product.svg#sql" /></svg><strong>SQL</strong></div>
+              <div><svg class="technology-icon"><use href="assets/icons/product.svg#python" /></svg><strong>Python</strong></div>
+              <div><span class="technology-icon-pair" aria-hidden="true"><svg class="technology-icon"><use href="assets/icons/technologies.svg?v=tech-20261016#power-bi" /></svg><svg class="technology-icon"><use href="assets/icons/technologies.svg?v=tech-20261016#tableau" /></svg></span><strong>Power BI &amp;<br />Tableau</strong></div>
+              <div><svg class="technology-icon"><use href="assets/icons/product.svg#genai" /></svg><strong>Gen AI</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#numpy" /></svg><strong>NumPy</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#pandas" /></svg><strong>pandas</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#matplotlib" /></svg><strong>Matplotlib</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#seaborn" /></svg><strong>Seaborn</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#plotly" /></svg><strong>Plotly</strong></div>
+              <div><svg class="technology-icon" aria-hidden="true"><use href="assets/icons/technologies.svg?v=tech-20261016#dbt" /></svg><strong>dbt</strong></div>
+            </div>
+          </section>
         </div>
       </div>
-
-      <section class="product-section product-testimonials" id="testimonials" aria-labelledby="reviews-title">
-        <div class="testimonials-heading"><h2 id="reviews-title">Loved by Aspirants</h2></div>
-        <div class="testimonial-grid" id="testimonial-list" role="region" aria-label="Aspirant reviews" tabindex="0"></div>
-        <div class="testimonial-controls">
-          <div class="testimonial-dots" aria-label="Choose a review"></div>
-          <button class="testimonial-autoplay" type="button" aria-label="Pause automatic review slides">Pause slides</button>
-        </div>
-      </section>
 
       <section class="product-closing">
         <svg class="icon"><use href="assets/icons/product.svg#book" /></svg>
@@ -1384,7 +1388,7 @@
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="#" data-view="home" aria-label="LearnLytics Media home"
-          ><img src="assets/images/logo.png?v=guide-covers-logo-20261016" alt="LearnLytics Handbook" width="2172" height="724"
+          ><img src="assets/images/logo.webp?v=updated-logo-20261016" alt="LearnLytics Handbook" width="1933" height="814"
         /></a>
         <button
           class="menu-toggle icon-button"
@@ -1613,7 +1617,7 @@
     </main>
     <footer class="container about-footer">
       <a class="brand" href="#" data-view="home" aria-label="LearnLytics Media home"
-        ><img src="assets/images/logo.png?v=guide-covers-logo-20261016" alt="LearnLytics Handbook" width="2172" height="724"
+        ><img src="assets/images/logo.webp?v=updated-logo-20261016" alt="LearnLytics Handbook" width="1933" height="814"
       /></a>
       <span>© 2026 LearnLytics Media</span>
       <a href="mailto:learnlytics.handbook@gmail.com">Contact us ↗</a>

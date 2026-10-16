@@ -226,6 +226,8 @@
 .product-section {
   margin-top: 32px;
 }
+.product-primary,
+.product-secondary { min-width: 0; }
 .product-section h2 {
   font-size: 21px;
   line-height: 1.35;
@@ -1660,10 +1662,27 @@
   }
 }
 
-/* Aspirant stories: original four-card layout with a mobile swipe track. */
+/* Compact sidebar toolkit and two-card review carousel. */
+.tools-section {
+  padding: 27px 20px;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: linear-gradient(140deg, var(--tint), var(--blush));
+}
+.tools-section .eyebrow { justify-content: center; }
+.tools-section .technology-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px 10px;
+  padding-bottom: 0;
+  border: 0;
+}
+@media (min-width: 560px) {
+  .tools-section .technology-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
 .product-testimonials {
-  margin-top: 40px;
-  padding: 26px 0;
+  margin-top: 32px;
+  padding: 0;
 }
 .testimonials-heading {
   display: flex;
@@ -1688,9 +1707,20 @@
 }
 .testimonial-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 20px) / 2);
+  gap: 20px;
   min-width: 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.testimonial-grid::-webkit-scrollbar { display: none; }
+.testimonial-grid:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 14px;
 }
 .testimonial-card {
   display: flex;
@@ -1700,6 +1730,7 @@
   border: 1px solid var(--line);
   border-radius: 14px;
   background: var(--white);
+  scroll-snap-align: start;
 }
 .testimonial-channel {
   width: 28px;
@@ -1746,61 +1777,49 @@
   font-size: 11px;
   line-height: 1.6;
 }
-.testimonial-controls { display: none; }
-@media (min-width: 980px) {
-  .testimonial-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.testimonial-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
 }
+.testimonial-controls .icon-button { width: 36px; height: 36px; }
+.testimonial-dots { display: flex; }
+.testimonial-dot {
+  width: 24px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.testimonial-dot::before {
+  content: '';
+  display: block;
+  width: 7px;
+  height: 7px;
+  margin: auto;
+  border-radius: 50%;
+  background: var(--rose);
+}
+.testimonial-dot[aria-current='true']::before { background: var(--accent); }
+.testimonial-autoplay {
+  min-height: 44px;
+  padding: 0 6px;
+  border: 0;
+  background: transparent;
+  color: var(--accent-dark);
+  font-size: 11px;
+  font-weight: 600;
+}
+.testimonial-autoplay[hidden] { display: none; }
 @media (max-width: 559px) {
   .testimonials-heading { gap: 10px; }
   .testimonials-heading::before,
   .testimonials-heading::after { flex-basis: 26px; }
   .testimonial-grid {
-    grid-template-columns: none;
-    grid-auto-flow: column;
     grid-auto-columns: calc(100% - 24px);
     gap: 14px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    overscroll-behavior-x: contain;
   }
-  .testimonial-grid::-webkit-scrollbar { display: none; }
-  .testimonial-card {
-    scroll-snap-align: start;
-  }
-  .testimonial-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    margin-top: 10px;
-  }
-  .testimonial-dots { display: flex; }
-  .testimonial-dot {
-    width: 28px;
-    height: 44px;
-    padding: 0;
-    border: 0;
-    background: transparent;
-  }
-  .testimonial-dot::before {
-    content: '';
-    display: block;
-    width: 7px;
-    height: 7px;
-    margin: auto;
-    border-radius: 50%;
-    background: var(--rose);
-  }
-  .testimonial-dot[aria-current="true"]::before { background: var(--accent); }
-  .testimonial-autoplay {
-    min-height: 44px;
-    padding: 0 10px;
-    border: 0;
-    background: transparent;
-    color: var(--accent-dark);
-    font-size: 11px;
-    font-weight: 600;
-  }
-  .testimonial-autoplay[hidden] { display: none; }
 }

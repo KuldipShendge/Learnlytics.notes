@@ -53,12 +53,14 @@ DS and DA use larger covers: up to 205px on phones, 280px on tablets and 340px
 on desktop, limited by their responsive columns. WhatsApp actions remain green
 in the blue theme, including the purchase dialog contact link.
 
-Both product pages preserve the old quotes and channel icons. The centered
-heading has green divider lines; four cards share a desktop row, two columns
-fit tablets, and phones use a native horizontal swipe track. Slides advance
-every 4.5 seconds only while the section is visible. Touch interaction, keyboard
-focus, hovering, hidden tabs, leaving the view and reduced-motion preferences
-stop automatic movement. Dots and a pause/resume control support manual use.
+Both product pages preserve the old quotes and channel icons. Reviews sit in
+the main column immediately after “Who Is This For?”, with green divider lines
+beside the heading. A horizontal slider shows two cards on desktop/tablet and
+one card with a preview of the next on phones. Previous/next buttons, keyboard
+arrows, responsive page dots, pause/resume and native touch swipe work together.
+Slides advance every 4.5 seconds only while the section is visible. Touch
+interaction, keyboard focus, hovering, hidden tabs, leaving the view and
+reduced-motion preferences stop automatic movement.
 `tests/testimonials.cjs` checks real touch input, automatic movement, controls,
 repeat visits, larger cover widths, desktop card placement and WhatsApp colours.
 
@@ -80,8 +82,15 @@ work, Python/EDA, classical ML and the named deep-learning framework. DA adds
 NumPy, pandas, Matplotlib, Seaborn, Plotly and dbt, all named in its curriculum.
 New local SVG illustrations in `assets/icons/technologies.svg` also replace the
 invisible DA Statistics/Excel/BI marks; Power BI and Tableau have separate marks
-within their shared entry. Mobile uses three columns, larger screens six.
+within their shared entry. The tools grid sits in a tinted, bordered sidebar
+card directly below WhatsApp support, with three columns on phones and four on
+larger screens. Its width and card treatment match the support card.
 
 `tests/pdf-reader-check.cjs` is shared by the product/analyst browser tests to
 verify all page placeholders, rendering the final page by scrolling, page jumps,
 button boundaries, canvas cleanup, focus restoration and horizontal fit.
+
+The updated supplied `assets/images/logo.png` is kept as the source; every
+header/footer displays its lossless WebP conversion, `assets/images/logo.webp`.
+Both are 1933 × 814 with identical RGBA pixels. The deployed WebP is 258,724
+bytes versus 421,101 bytes for the source PNG.

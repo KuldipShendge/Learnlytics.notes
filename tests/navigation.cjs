@@ -31,8 +31,8 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
         assert.deepEqual(duplicates, [], 'Inactive views must not leave duplicate IDs');
         for (const logo of await page.locator('.brand img').all()) {
           await logo.evaluate(img => img.decode());
-          assert((await logo.getAttribute('src')).includes('logo.png'));
-          assert.equal(await logo.evaluate(img => img.naturalWidth), 2172);
+          assert((await logo.getAttribute('src')).includes('logo.webp'));
+          assert.equal(await logo.evaluate(img => img.naturalWidth), 1933);
         }
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         const players = page.locator('[data-inline-video] iframe');

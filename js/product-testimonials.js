@@ -8,7 +8,6 @@ export function setupProductTestimonials(reviews) {
   const track = section.querySelector('.testimonial-grid');
   const dots = section.querySelector('.testimonial-dots');
   const toggle = section.querySelector('.testimonial-autoplay');
-  const mobile = matchMedia('(max-width: 559px)');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
   track.innerHTML = reviews.map((review, index) => `
@@ -17,14 +16,30 @@ export function setupProductTestimonials(reviews) {
       <blockquote>${escapeHtml(review.quote)}</blockquote>
       <div class="testimonial-person"><span class="testimonial-avatar" aria-hidden="true">${escapeHtml(review.initials)}</span><div><strong>${escapeHtml(review.name)}</strong><p>${escapeHtml(review.role)}</p></div></div>
     </article>`).join('');
-  dots.innerHTML = reviews.map((review, index) => `<button class="testimonial-dot" type="button" aria-label="Show review by ${escapeHtml(review.name)}" aria-current="${index === 0}" data-index="${index}"></button>`).join('');
   const cards = [...track.children];
   let timer, scrollTimer;
   let inView = false, touching = false, hovering = false, paused = false;
+  let slides = [];
 
   function positions() {
-    const max = track.scrollWidth - track.clientWidth;
-    return cards.map(card => Math.min(card.offsetLeft - cards[0].offsetLeft, max));
+    return slides.map(slide => slide.offset);
+  }
+  function resize() {
+    if (!section.isConnected || !track.clientWidth) return;
+    const gap = parseFloat(getComputedStyle(track).columnGap);
+    const perSlide = Math.max(1, Math.floor((track.clientWidth + gap + 1) / (cards[0].getBoundingClientRect().width + gap)));
+    const max = Math.max(0, track.scrollWidth - track.clientWidth);
+    slides = cards.flatMap((card, index) => index % perSlide ? [] : [{
+      offset: Math.min(card.offsetLeft - cards[0].offsetLeft, max),
+      label: perSlide === 1 ? `Show review by ${reviews[index].name}` : `Show reviews ${index + 1} to ${Math.min(index + perSlide, cards.length)}`,
+    }]);
+    // Preserve focused controls when only their pixel positions change.
+    if (dots.children.length !== slides.length) {
+      dots.innerHTML = slides.map((slide, index) => `<button class="testimonial-dot" type="button" aria-label="${escapeHtml(slide.label)}" aria-controls="testimonial-list" aria-current="false" data-index="${index}"></button>`).join('');
+    }
+    track.scrollTo({ left: positions()[currentIndex()], behavior: 'instant' });
+    updateDots();
+    schedule();
   }
   function currentIndex() {
     const offsets = positions();
@@ -36,18 +51,22 @@ export function setupProductTestimonials(reviews) {
   }
   function schedule() {
     clearTimeout(timer);
-    const canSlide = section.isConnected && mobile.matches && !reducedMotion.matches &&
+    const canSlide = section.isConnected && slides.length > 1 && !reducedMotion.matches &&
       inView && !document.hidden && !paused && !touching && !hovering &&
       (!section.contains(document.activeElement) || document.activeElement === toggle);
     track.dataset.autoSliding = String(canSlide);
     if (canSlide) timer = setTimeout(() => {
-      show((currentIndex() + 1) % cards.length);
+      show((currentIndex() + 1) % slides.length);
       schedule();
     }, 4500);
   }
   function show(index) {
-    track.scrollTo({ left: positions()[index], behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+    if (!slides.length) return;
+    const next = (index + slides.length) % slides.length;
+    track.scrollTo({ left: positions()[next], behavior: reducedMotion.matches ? 'instant' : 'smooth' });
   }
+  section.querySelector('.testimonial-previous').addEventListener('click', () => show(currentIndex() - 1));
+  section.querySelector('.testimonial-next').addEventListener('click', () => show(currentIndex() + 1));
   const observer = new IntersectionObserver(entries => {
     inView = entries[0].isIntersecting && entries[0].intersectionRatio >= 0.25;
     schedule();
@@ -63,10 +82,10 @@ export function setupProductTestimonials(reviews) {
   window.addEventListener('pointerup', () => { if (touching) { touching = false; schedule(); } });
   window.addEventListener('pointercancel', () => { touching = false; schedule(); });
   track.addEventListener('keydown', event => {
-    if (!mobile.matches || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+    if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
     event.preventDefault();
     const direction = event.key === 'ArrowRight' ? 1 : -1;
-    show((currentIndex() + direction + cards.length) % cards.length);
+    show(currentIndex() + direction);
   });
   dots.addEventListener('click', event => {
     const button = event.target.closest('[data-index]');
@@ -87,7 +106,7 @@ export function setupProductTestimonials(reviews) {
   section.addEventListener('focusin', schedule);
   section.addEventListener('focusout', () => queueMicrotask(schedule));
   document.addEventListener('visibilitychange', schedule);
-  mobile.addEventListener('change', () => { updateDots(); schedule(); });
+  new ResizeObserver(resize).observe(track);
   reducedMotion.addEventListener('change', () => { toggle.hidden = reducedMotion.matches; schedule(); });
   app.addEventListener('learnlytics:view-leave', () => {
     if (!section.isConnected) return;
@@ -102,7 +121,7 @@ export function setupProductTestimonials(reviews) {
     touching = false;
     toggle.hidden = reducedMotion.matches;
     observer.observe(section);
-    updateDots();
+    resize();
   }
   app.addEventListener('learnlytics:view-enter', mount);
   mount();
