@@ -21,6 +21,7 @@ export const videos = {
   use: {
     title: 'How to Use Your LearnLytics Interview Kit | Step-by-Step Guide (2026)',
     youtubeId: 'gAV7onDGlNo',
+    cover: 'assets/images/Choose the Right Kit.png?v=custom-cover-20261016',
     steps: [
       {
         title: '01. Learn the concept.',

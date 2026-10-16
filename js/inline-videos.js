@@ -1,4 +1,4 @@
-import { videos } from './video-config.js?v=guides-20261015';
+import { videos } from './video-config.js?v=custom-cover-20261016';
 
 export function setupInlineVideos() {
   const app = document.querySelector('#app');
@@ -21,7 +21,32 @@ export function setupInlineVideos() {
     // Load immediately only after an explicit press of a guide's play button.
     iframe.loading = play ? 'eager' : 'lazy';
     slot.replaceChildren(iframe);
+    if (!play && video.cover) {
+      iframe.tabIndex = -1;
+      iframe.setAttribute('aria-hidden', 'true');
+      const cover = document.createElement('button');
+      cover.type = 'button';
+      cover.className = 'video-cover';
+      cover.setAttribute('aria-label', `Play ${video.title}`);
+      const image = document.createElement('img');
+      image.src = video.cover;
+      image.alt = '';
+      image.width = 1672;
+      image.height = 941;
+      image.loading = 'lazy';
+      cover.append(image);
+      cover.addEventListener('click', () => playVideo(slot));
+      slot.append(cover);
+    }
     return iframe;
+  }
+
+  function playVideo(slot) {
+    // Starting a guide stops the other player and restores its idle cover.
+    slots.filter(item => item !== slot).forEach(item => load(item));
+    const iframe = load(slot, true);
+    slot.scrollIntoView({ block: 'center', behavior: 'instant' });
+    iframe?.focus({ preventScroll: true });
   }
 
   function mount() {
@@ -32,11 +57,7 @@ export function setupInlineVideos() {
     button.addEventListener('click', () => {
       const slot = slots.find(item => item.dataset.inlineVideo === button.dataset.video);
       if (!slot) return;
-      // Starting a guide from its card stops the other player first.
-      slots.filter(item => item !== slot).forEach(item => load(item));
-      const iframe = load(slot, true);
-      slot.scrollIntoView({ block: 'center', behavior: 'instant' });
-      iframe?.focus({ preventScroll: true });
+      playVideo(slot);
     });
   });
 

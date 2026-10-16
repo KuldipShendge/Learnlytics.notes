@@ -1,6 +1,6 @@
 import { setupKits } from './kits.js?v=single-kit-card-20261016';
-import { setupInlineVideos } from './inline-videos.js?v=compact-guides-20261015';
-import { setupProduct } from './product.js?v=reviews-carousel-20261016';
+import { setupInlineVideos } from './inline-videos.js?v=custom-cover-20261016';
+import { setupProduct } from './product.js?v=custom-cover-20261016';
 import { curriculum as daCurriculum, productOverview as daOverview } from './da-curriculum.js';
 import { setupNavigation } from './navigation.js?v=single-url-1';
 import { setupViews } from './views.js?v=inline-guides-20261015';

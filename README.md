@@ -31,7 +31,7 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `js/catalog.js` | Presentation-only kit names, prices, subjects, images and content |
 | `js/kits.js` | Career selection, featured-card navigation and kit overview dialog |
 | `js/dialog.js` | Shared dialog dismissal and focus restoration |
-| `js/video-config.js` | Published guide titles and YouTube IDs, plus fallback demo chapters |
+| `js/video-config.js` | Published guide titles, YouTube IDs and optional custom covers, plus fallback demo chapters |
 | `js/inline-videos.js` | Homepage, DS and DA inline players, click-to-play controls and view-change cleanup |
 | `js/main.js` | Mobile navigation and component initialization |
 | `js/views.js` | In-page view switching, focus, titles, Back/Forward and refresh at the same URL |

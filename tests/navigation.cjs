@@ -32,6 +32,8 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         const players = page.locator('[data-inline-video] iframe');
         assert.equal(await players.count(), selector === '#about-title' ? 0 : 2);
+        assert.equal(await page.locator('[data-inline-video="use"] .video-cover').count(), selector === '#about-title' ? 0 : 1,
+          'Entering or returning to a view restores the custom use-kit cover');
         for (const player of await players.all()) {
           assert.equal(new URL(await player.getAttribute('src')).searchParams.get('autoplay'), '0',
             'Entering or returning to a view must leave its players idle');

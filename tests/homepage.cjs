@@ -112,6 +112,17 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
     }
     await page.setViewportSize({ width: 390, height: 844 });
     await openHome();
+    const cover = page.locator('#use-video .video-cover');
+    await cover.locator('img').evaluate(img => img.decode());
+    await cover.click();
+    assert.equal(await cover.count(), 0, 'Cover disappears when playback starts');
+    assert.equal(new URL(await page.locator('#use-video iframe').getAttribute('src')).searchParams.get('autoplay'), '1');
+    assert(await page.locator('#use-video iframe').evaluate(el => el === document.activeElement));
+    await page.locator('.poster-choose [data-video]').click();
+    assert(await cover.isVisible(), 'Starting the other guide restores the cover');
+    await cover.focus();
+    await page.keyboard.press('Enter');
+    assert.equal(await cover.count(), 0, 'Cover supports keyboard activation');
     // Keyboard radio selection and featured-card navigation.
     await page.locator('input[value="scientist"]').focus();
     await page.keyboard.press('ArrowRight');
@@ -149,7 +160,11 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
     assert(!(await page.locator('.faq-list details').first().evaluate(el => el.open)));
     const invalidLinks = await page.locator('a[href^="#"]:not([data-view])').evaluateAll(links => links.filter(link => link.hash && !document.getElementById(link.hash.slice(1))).map(link => link.getAttribute('href')));
     assert.deepEqual(invalidLinks, []);
-    const brokenImages = await page.locator('img').evaluateAll(images => images.filter(img => !img.complete || !img.naturalWidth).map(img => img.src));
+    const brokenImages = await page.locator('img').evaluateAll(async images => {
+      images.forEach(img => { img.loading = 'eager'; });
+      await Promise.all(images.map(img => img.decode().catch(() => {})));
+      return images.filter(img => !img.complete || !img.naturalWidth).map(img => img.src);
+    });
     assert.deepEqual(brokenImages, []);
     assert.deepEqual(errors, []);
     assert.deepEqual(missing, []);
