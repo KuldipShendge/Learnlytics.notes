@@ -1,8 +1,8 @@
 # LearnLytics — Single-URL Site
 
-A new standalone homepage inspired by the supplied mobile mockup, built with LearnLytics’ current plum, magenta and blush palette. The default recommendation is **Crack Data Scientist & Gen AI**.
+A standalone homepage inspired by the supplied mobile mockup. A reversible navy, blue and mint colour test is currently enabled; the original plum palette is preserved. Run `node scripts/set-theme.mjs plum` to restore it, or `node scripts/set-theme.mjs blue` to reapply the experiment. See [colour test instructions](docs/colour-test.md) for publishing the switch. The default recommendation is **Crack Data Scientist & Gen AI**.
 
-The Data Scientist & Gen AI product page uses the second reference for **structure and content only**. It shares the homepage's **plum, magenta and blush palette and Manrope font**, all defined in `css/tokens.css`. Both the featured “View kit details” link and the Data Scientist comparison card open the full product view inside `index.html`, without changing the browser URL. Separate page URLs are deferred to v2. See `docs/product-page.md` for implementation and curriculum notes.
+The Data Scientist & Gen AI product page uses the second reference for **structure and content only**. It shares the homepage's Manrope font and base palette from `css/tokens.css`; `css/theme-blue.css` applies the optional colour experiment across all views. Both the featured “View kit details” link and the Data Scientist comparison card open the full product view inside `index.html`, without changing the browser URL. Separate page URLs are deferred to v2. See `docs/product-page.md` for implementation and curriculum notes.
 
 The **About Us** view in `index.html` preserves the complete About section structure and copy from `D:\website\index.html`. Only its relevant responsive styles were extracted from `css/light-theme.css`; the old dashboard scripts and hidden-section behavior are not needed. Its links open the current learning kits and actual sample pages. All pages share a compact header with 14px navigation text and the original logo without the separately added tagline.
 
@@ -23,6 +23,8 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `index.html` | Homepage and embedded templates for the DS, DA and About Us views; dialog shells and inline SVG icons |
 | `css/about.css` | Selectively adapted About Us styles using the shared brand tokens |
 | `css/tokens.css` | Brand tokens, local fonts, base styles and reusable UI primitives |
+| `css/theme-blue.css` | Scoped colour experiment; inactive when the original plum theme is selected |
+| `scripts/set-theme.mjs` | Reversible palette selector, with no dependencies |
 | `css/home.css` | Homepage components and mobile, tablet and desktop layouts |
 | `css/navigation.css` | Shared header, logo treatment and navigation layout |
 | `css/dialogs.css` | Shared modal, kit overview and guide player layouts |
@@ -53,7 +55,7 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `tests/navigation.cjs` | Unchanged URL, view switching, Back/Forward, refresh and repeated visits |
 | `screenshots/` | Mobile, tablet and desktop captures plus verification results |
 
-No framework, package installation, legacy scripts, duplicate theme overrides or inline event handlers are required. The homepage remains readable without JavaScript; switching views, kit selection and guide dialogs require it. Inactive views remain in templates, so only one main landmark and one set of dialog IDs are active.
+No framework, package installation, legacy scripts or inline event handlers are required. The homepage remains readable without JavaScript; switching views, kit selection and guide dialogs require it. Inactive views remain in templates, so only one main landmark and one set of dialog IDs are active.
 
 ## Existing branding and assets reused
 

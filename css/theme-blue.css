@@ -1,0 +1,465 @@
+/* Reversible colour experiment. Original styles remain in their own files.
+   Every rule is scoped to the blue theme; no layout or typography overrides. */
+html[data-theme="blue"] {
+  --ink: #0b123f;
+  --copy: #4e5b7d;
+  --accent: #0758e8;
+  --accent-dark: #0648bd;
+  --line: #dfe5f3;
+  --tint: #f2f5ff;
+  --blush: #e9edff;
+  --rose: #a8b9f5;
+  --paper: #fbfcff;
+  --shadow: 0 8px 24px #0b123f06;
+}
+
+
+/* tokens.css: colour replacements, preserving existing effects. */
+html[data-theme="blue"] .button:hover {
+  background: #0648bd;
+}
+html[data-theme="blue"] .pill {
+  border-color: #d6dff5;
+  background: #f5f7ff;
+  color: #30478e;
+}
+
+/* navigation.css: colour replacements, preserving existing effects. */
+html[data-theme="blue"] .site-header {
+  background: #fbfcfff5;
+}
+html[data-theme="blue"] .main-nav {
+  box-shadow: 0 15px 20px #0b123f08;
+}
+
+/* home.css: colour replacements, preserving existing effects. */
+html[data-theme="blue"] .hero-orbit {
+  background: radial-gradient(ellipse, #dce7ff 0%, #f1f5ff 53%, transparent 70%);
+}
+html[data-theme="blue"] .visual-note {
+  color: #30478e;
+}
+html[data-theme="blue"] .poster-label {
+  color: #bdceff;
+}
+html[data-theme="blue"] .poster-paths span {
+  color: #e0e8ff;
+}
+html[data-theme="blue"] .poster-use {
+  background: #e5eaff;
+}
+html[data-theme="blue"] .poster-use .poster-label {
+  color: #30478e;
+}
+html[data-theme="blue"] .poster-use::after {
+  border-color: #30478e20;
+  box-shadow: 0 0 0 40px #30478e05, 0 0 0 80px #30478e03;
+}
+html[data-theme="blue"] .poster-books span {
+  background: #f8faff;
+  box-shadow: 2px 3px 0 #adbef1;
+  color: #30478e;
+}
+html[data-theme="blue"] .goal-option input:checked + span .icon {
+  color: #bdceff;
+}
+html[data-theme="blue"] .recommended-card {
+  border-color: #d6dff5;
+}
+html[data-theme="blue"] .recommended-top {
+  border-bottom-color: #d6dff5;
+}
+html[data-theme="blue"] .recommended-top > span:first-child {
+  color: #30478e;
+}
+html[data-theme="blue"] .kit-art {
+  background: #e7edff;
+  border-color: #d9e2f8;
+}
+html[data-theme="blue"] .check-list li::before {
+  background: #dce5ff;
+  color: #30478e;
+}
+html[data-theme="blue"] .kit-bottom {
+  border-top-color: #d6dff5;
+}
+html[data-theme="blue"] .path-icon {
+  color: #30478e;
+}
+html[data-theme="blue"] .path-tag {
+  color: #30478e;
+}
+html[data-theme="blue"] .guide-how {
+  background: #f1f5ff;
+}
+html[data-theme="blue"] .resource-art {
+  background: #eaf0ff;
+}
+html[data-theme="blue"] .resource-number {
+  background: #fafcffdd;
+  color: #30478e;
+}
+html[data-theme="blue"] .step-icon {
+  background: #e1eaff;
+  color: #30478e;
+}
+html[data-theme="blue"] .confidence-section {
+  background: #eaf0ff;
+}
+html[data-theme="blue"] .confidence-items .icon {
+  color: #30478e;
+}
+html[data-theme="blue"] .closing-banner p {
+  color: #c6d2ef;
+}
+html[data-theme="blue"] .closing-icon {
+  color: #bed0ff;
+}
+@media (min-width: 900px) {
+  html[data-theme="blue"] .steps li:not(:last-child)::after {
+    color: #a5b4d8;
+  }
+}
+
+/* dialogs.css: colour replacements, preserving existing effects. */
+html[data-theme="blue"] .modal {
+  box-shadow: 0 25px 100px #0b123f33;
+}
+html[data-theme="blue"] .modal::backdrop {
+  background: #0b123fb3;
+}
+html[data-theme="blue"] .demo-step-count {
+  color: #bdceff;
+}
+html[data-theme="blue"] .demo-stage p {
+  color: #d1daf0;
+}
+
+/* product.css: colour replacements, preserving existing effects. */
+html[data-theme="blue"] .product-page .site-header {
+  background: #fbfcfff5;
+}
+html[data-theme="blue"] .product-page .button:hover {
+  background: #0648bd;
+}
+html[data-theme="blue"] .product-page .button-secondary {
+  border-color: #a8b9f5;
+}
+html[data-theme="blue"] .product-page .button-secondary:hover {
+  background: #e9edff;
+}
+html[data-theme="blue"] .breadcrumbs > span[aria-hidden] {
+  color: #8391b2;
+}
+html[data-theme="blue"] .book-stage::before {
+  background: radial-gradient(ellipse, #e9edff, transparent 70%);
+}
+html[data-theme="blue"] .book-model {
+  filter: drop-shadow(4px 8px 8px #0b123f1a);
+}
+html[data-theme="blue"] .product-stats > div {
+  background: #f2f5ff;
+}
+html[data-theme="blue"] .price-row del {
+  color: #4e5b7d;
+}
+html[data-theme="blue"] .discount {
+  color: #30478e;
+  background: #e9edff;
+  border-color: #d6dff5;
+}
+html[data-theme="blue"] .purchase-button {
+  box-shadow: 0 6px 16px #0758e816;
+}
+html[data-theme="blue"] .razorpay-tag {
+  color: #4e5b7d;
+}
+html[data-theme="blue"] .razorpay-tag b {
+  color: #172451;
+}
+html[data-theme="blue"] .product-video {
+  border-color: #172451;
+  background: #0b123f;
+}
+html[data-theme="blue"] .video-art {
+  background: linear-gradient(120deg, #0b123fe6 25%, #17245155 100%), repeating-linear-gradient(10deg, #4e5b7d 0px, #4e5b7d 5px, #4e5b7d 5px, #4e5b7d 9px);
+}
+html[data-theme="blue"] .desk-page {
+  background: #e9edff;
+  box-shadow: 2px 8px 20px #0b123f4a;
+}
+html[data-theme="blue"] .desk-page i {
+  background: #8391b2;
+}
+html[data-theme="blue"] .desk-page i:nth-child(2n) {
+  background: #bdcbed;
+}
+html[data-theme="blue"] .desk-notebook {
+  background: #172451;
+  border-left-color: #0b123f;
+  color: #f2f5ff;
+}
+html[data-theme="blue"] .desk-pencil {
+  background: #bdcbed;
+  border-top-color: #172451;
+}
+html[data-theme="blue"] .video-kicker {
+  color: #bdcbed;
+}
+html[data-theme="blue"] .video-play {
+  border-color: #a8b9f5;
+  box-shadow: 0 0 0 5px #0758e81a;
+}
+html[data-theme="blue"] .video-demo-tag {
+  background: #0b123fbf;
+}
+html[data-theme="blue"] .included-section {
+  background: linear-gradient(120deg, #f2f5ff, #e9edff);
+  border-color: #dfe5f3;
+}
+html[data-theme="blue"] .included-icon {
+  background: #e9edff;
+  border-color: #dfe5f3;
+  color: #0758e8;
+  box-shadow: inset 0 0 0 4px #f2f5ff;
+}
+html[data-theme="blue"] .included-grid article:nth-child(2) .included-icon {
+  background: #e9edff;
+  color: #0648bd;
+}
+html[data-theme="blue"] .included-grid article:nth-child(3) .included-icon {
+  background: #e9edff;
+  color: #0648bd;
+}
+html[data-theme="blue"] .included-count {
+  color: #4e5b7d;
+}
+html[data-theme="blue"] .sample-tabs > button {
+  background: #f2f5ff;
+  border-color: #dfe5f3;
+}
+html[data-theme="blue"] .sample-frame {
+  background: #e9edff;
+}
+html[data-theme="blue"] .sample-image-button {
+  box-shadow: 0 4px 15px #0b123f18;
+}
+html[data-theme="blue"] .sample-arrow {
+  box-shadow: 0 3px 7px #0b123f0a;
+}
+html[data-theme="blue"] .sample-pagination > button::after {
+  background: #bdcbed;
+}
+html[data-theme="blue"] .sample-note {
+  color: #4e5b7d;
+}
+html[data-theme="blue"] #sample-enlarged canvas {
+  box-shadow: 0 4px 15px #0b123f18;
+}
+html[data-theme="blue"] .benefit-icon {
+  background: #e9edff;
+}
+html[data-theme="blue"] .audience-list li::before {
+  color: #30478e;
+}
+html[data-theme="blue"] .technology-icon {
+  color: #0648bd;
+}
+html[data-theme="blue"] .technology-grid > div:nth-child(4) .technology-icon {
+  color: #0648bd;
+}
+html[data-theme="blue"] .curriculum-section {
+  border-color: #dce3f5;
+  background: linear-gradient(160deg, #f2f5ff, #fbfcff);
+}
+html[data-theme="blue"] .curriculum-banner {
+  background: linear-gradient(120deg, #0b123f, #243d82);
+}
+html[data-theme="blue"] .curriculum-banner::after {
+  border-color: #a8b9f533;
+}
+html[data-theme="blue"] .curriculum-banner .eyebrow {
+  color: #bed0ff;
+}
+html[data-theme="blue"] #curriculum-title > span {
+  border-color: #bed0ff44;
+  color: #dbe6ff;
+}
+html[data-theme="blue"] .curriculum-module {
+  border-color: #e1e6f4;
+}
+html[data-theme="blue"] .curriculum-module:hover {
+  border-color: #adbef1;
+}
+html[data-theme="blue"] .curriculum-module[open] {
+  border-color: #adbef1;
+  box-shadow: 0 5px 18px #30478e0a;
+}
+html[data-theme="blue"] .curriculum-module[open] > summary {
+  background: #f1f5ff;
+  border-bottom-color: #e0e7f8;
+}
+html[data-theme="blue"] .module-number {
+  background: #e5ebff;
+  color: #30478e;
+}
+html[data-theme="blue"] .curriculum-module[open] .module-number {
+  box-shadow: 0 3px 10px #0758e820;
+}
+html[data-theme="blue"] .module-topic {
+  color: #5d70a5;
+}
+html[data-theme="blue"] .curriculum-module > summary > .icon {
+  border-color: #dfe6f5;
+  color: #30478e;
+}
+html[data-theme="blue"] .curriculum-module[open] > summary > .icon {
+  border-color: #a8b9f5;
+}
+html[data-theme="blue"] .module-parts li {
+  border-color: #e6eaf6;
+  border-left-color: #adbef1;
+  background: linear-gradient(120deg, #fff, #f8faff);
+}
+html[data-theme="blue"] .part-stats {
+  border-bottom-color: #e6eaf6;
+}
+html[data-theme="blue"] .part-resources span {
+  background: #edf1ff;
+  color: #30478e;
+}
+html[data-theme="blue"] .choose-section {
+  background: linear-gradient(130deg, #e9edff, #e9edff);
+  border-color: #dfe5f3;
+}
+html[data-theme="blue"] .video-choose {
+  background: linear-gradient(120deg, #0b123f, #172451);
+}
+html[data-theme="blue"] .choose-art {
+  border-color: #30478e;
+  background: #172451;
+}
+html[data-theme="blue"] .choose-art > span {
+  color: #bdcbed;
+}
+html[data-theme="blue"] .choose-art > span.chosen-path {
+  color: #a8b9f5;
+}
+html[data-theme="blue"] .video-choose .product-video-copy > span:last-child {
+  color: #bdcbed;
+}
+html[data-theme="blue"] .support-section {
+  border-color: #dfe5f3;
+  background: linear-gradient(140deg, #f2f5ff, #e9edff);
+}
+html[data-theme="blue"] .support-icon {
+  background: #e9edff;
+}
+html[data-theme="blue"] .product-closing > .icon {
+  color: #a8b9f5;
+}
+html[data-theme="blue"] .product-closing p {
+  color: #bdcbed;
+}
+html[data-theme="blue"] .product-sticky {
+  border-top-color: #dfe5f3;
+  box-shadow: 0 -3px 18px #0b123f08;
+}
+html[data-theme="blue"] .product-sticky del {
+  color: #4e5b7d;
+}
+html[data-theme="blue"] .product-page .modal::backdrop {
+  background: #0b123fc4;
+}
+html[data-theme="blue"] .product-page .modal {
+  box-shadow: 0 25px 100px #0b123f33;
+}
+html[data-theme="blue"] .product-page .demo-step-count {
+  color: #a8b9f5;
+}
+html[data-theme="blue"] .product-page .demo-stage p {
+  color: #bdcbed;
+}
+@media (min-width: 980px) {
+  html[data-theme="blue"] .product-hero {
+    background: linear-gradient(120deg, #f2f5ff, #fff 62%);
+  }
+  html[data-theme="blue"] .book-caption {
+    color: #4e5b7d;
+  }
+}
+html[data-theme="blue"] .product-testimonials {
+  background: linear-gradient(120deg, #f2f5ff, #fbfcff);
+}
+html[data-theme="blue"] .testimonial-card {
+  border-color: #dfe6f5;
+  box-shadow: 0 5px 18px #0b123f05;
+}
+html[data-theme="blue"] .testimonial-avatar {
+  background: #e9edff;
+  color: #30478e;
+}
+
+/* about.css: colour replacements, preserving existing effects. */
+html[data-theme="blue"] .about-hero {
+  background: linear-gradient(125deg, #fff, #eef3ff);
+}
+html[data-theme="blue"] .about-goal {
+  border-color: #dce4f6;
+  box-shadow: 0 12px 28px rgba(11, 18, 63, 0.04);
+}
+html[data-theme="blue"] .about-start {
+  background: #f3f6ff;
+  color: #65718f;
+}
+html[data-theme="blue"] .about-philosophy {
+  border-block-color: #dce3f3;
+}
+html[data-theme="blue"] .about-process span {
+  background: #e0e8ff;
+}
+html[data-theme="blue"] .about-answer {
+  background: #ecf1ff;
+}
+html[data-theme="blue"] .about-answer li {
+  border-bottom-color: #d6e0f6;
+}
+html[data-theme="blue"] .about-roadmap li {
+  background: #f0f4ff;
+}
+html[data-theme="blue"] .about-mission {
+  background: #e5ecff;
+  border-color: #d4def4;
+}
+
+/* Royal-blue actions and mint offer badges from the reference. */
+html[data-theme="blue"] .button,
+html[data-theme="blue"] .product-page .button {
+  background: var(--accent);
+}
+html[data-theme="blue"] .button:hover,
+html[data-theme="blue"] .product-page .button:hover {
+  background: var(--accent-dark);
+}
+html[data-theme="blue"] .button-secondary,
+html[data-theme="blue"] .product-page .button-secondary {
+  background: var(--white);
+  border-color: var(--rose);
+  color: var(--accent-dark);
+}
+html[data-theme="blue"] .button-light,
+html[data-theme="blue"] .product-closing .button {
+  background: var(--white);
+  color: var(--accent-dark);
+}
+html[data-theme="blue"] .button-secondary:hover,
+html[data-theme="blue"] .product-page .button-secondary:hover,
+html[data-theme="blue"] .button-light:hover,
+html[data-theme="blue"] .product-closing .button:hover {
+  background: var(--blush);
+}
+html[data-theme="blue"] .discount {
+  background: #19cf96;
+  border-color: #0db884;
+  color: #073a2c;
+}

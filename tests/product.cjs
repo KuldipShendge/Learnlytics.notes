@@ -72,7 +72,10 @@ const widths = [360, 390, 430, 768, 1024, 1440];
         const styles = getComputedStyle(document.documentElement);
         return ['--ink', '--accent', '--paper'].map(token => styles.getPropertyValue(token).trim());
       });
-      assert.deepEqual(brand, ['#241525', '#b40982', '#fcfafb']);
+      const selectedTheme = await page.locator('html').getAttribute('data-theme');
+      assert.deepEqual(brand, selectedTheme === 'blue'
+        ? ['#0b123f', '#0758e8', '#fbfcff']
+        : ['#241525', '#b40982', '#fcfafb']);
       assert.match(await page.locator('.curriculum-total').textContent(), /20 parts\. 60 resources\. One complete kit\./);
       const bodyText = await page.locator('body').innerText();
       assert(!/frequently asked questions|\bDOCX\b|7.day refund/i.test(bodyText), 'Excluded product UI found');
