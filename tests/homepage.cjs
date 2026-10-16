@@ -51,6 +51,8 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
       assert.match(await page.locator('#recommended-title').innerText(), /Crack Data Scientist\s*& Gen AI/);
       assert(await page.locator('input[value="scientist"]').isChecked());
       for (const [id, youtubeId] of Object.entries(guideIds)) {
+        const coverSource = await page.locator(`[data-inline-video="${id}"] .video-cover img`).getAttribute('src');
+        assert(coverSource.includes(id === 'use' ? 'How to Use Your Kit.png' : 'Choose the Right Kit.png'));
         const frame = page.locator(`[data-inline-video="${id}"] iframe`);
         assert.equal(await frame.count(), 1);
         const source = new URL(await frame.getAttribute('src'));
@@ -112,6 +114,9 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
     }
     await page.setViewportSize({ width: 390, height: 844 });
     await openHome();
+    await page.locator('#choose-video .video-cover').click();
+    assert.equal(new URL(await page.locator('#choose-video iframe').getAttribute('src')).pathname, `/embed/${guideIds.choose}`);
+    assert.equal(new URL(await page.locator('#choose-video iframe').getAttribute('src')).searchParams.get('autoplay'), '1');
     const cover = page.locator('#use-video .video-cover');
     await cover.locator('img').evaluate(img => img.decode());
     await cover.click();

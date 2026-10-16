@@ -1,4 +1,4 @@
-import { setupInlineVideos } from './inline-videos.js?v=custom-cover-20261016';
+import { setupInlineVideos } from './inline-videos.js?v=guide-covers-logo-20261016';
 import { setupDialog } from './dialog.js';
 import { setupSampleGallery } from './sample-gallery.js?v=da-page-20261016';
 import { curriculum as dsCurriculum, productOverview as dsOverview } from './ds-curriculum.js';

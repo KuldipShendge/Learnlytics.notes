@@ -1,4 +1,4 @@
-import { videos } from './video-config.js?v=custom-cover-20261016';
+import { videos } from './video-config.js?v=guide-covers-logo-20261016';
 
 export function setupInlineVideos() {
   const app = document.querySelector('#app');

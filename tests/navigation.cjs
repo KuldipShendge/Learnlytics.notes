@@ -29,11 +29,16 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
           return ids.filter((id, index) => ids.indexOf(id) !== index);
         });
         assert.deepEqual(duplicates, [], 'Inactive views must not leave duplicate IDs');
+        for (const logo of await page.locator('.brand img').all()) {
+          await logo.evaluate(img => img.decode());
+          assert((await logo.getAttribute('src')).includes('logo.png'));
+          assert.equal(await logo.evaluate(img => img.naturalWidth), 2172);
+        }
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         const players = page.locator('[data-inline-video] iframe');
         assert.equal(await players.count(), selector === '#about-title' ? 0 : 2);
-        assert.equal(await page.locator('[data-inline-video="use"] .video-cover').count(), selector === '#about-title' ? 0 : 1,
-          'Entering or returning to a view restores the custom use-kit cover');
+        assert.equal(await page.locator('[data-inline-video] .video-cover').count(), selector === '#about-title' ? 0 : 2,
+          'Entering or returning to a view restores both custom guide covers');
         for (const player of await players.all()) {
           assert.equal(new URL(await player.getAttribute('src')).searchParams.get('autoplay'), '0',
             'Entering or returning to a view must leave its players idle');

@@ -3,6 +3,7 @@ export const videos = {
   choose: {
     title: 'Which Data & AI Interview Kit Is Right for You? | Full Walkthrough',
     youtubeId: '1hUTxkkk5jQ',
+    cover: 'assets/images/Choose the Right Kit.png?v=guide-covers-logo-20261016',
     steps: [
       {
         title: 'Start with the role you want.',
@@ -21,7 +22,7 @@ export const videos = {
   use: {
     title: 'How to Use Your LearnLytics Interview Kit | Step-by-Step Guide (2026)',
     youtubeId: 'gAV7onDGlNo',
-    cover: 'assets/images/Choose the Right Kit.png?v=custom-cover-20261016',
+    cover: 'assets/images/How to Use Your Kit.png?v=guide-covers-logo-20261016',
     steps: [
       {
         title: '01. Learn the concept.',

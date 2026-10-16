@@ -4,7 +4,7 @@ A standalone homepage inspired by the supplied mobile mockup. A reversible navy,
 
 The Data Scientist & Gen AI product page uses the second reference for **structure and content only**. It shares the homepage's Manrope font and base palette from `css/tokens.css`; `css/theme-blue.css` applies the optional colour experiment across all views. The career tabs select a kit in the single featured image card. Its “View kit details” link opens the full product view inside `index.html`, without changing the browser URL. The duplicate lower comparison cards have been removed. Separate page URLs are deferred to v2. See `docs/product-page.md` for implementation and curriculum notes.
 
-The **About Us** view in `index.html` preserves the complete About section structure and copy from `D:\website\index.html`. Only its relevant responsive styles were extracted from `css/light-theme.css`; the old dashboard scripts and hidden-section behavior are not needed. Its links open the current learning kits and actual sample pages. All pages share a compact header with 14px navigation text and the original logo without the separately added tagline.
+The **About Us** view in `index.html` preserves the complete About section structure and copy from `D:\website\index.html`. Only its relevant responsive styles were extracted from `css/light-theme.css`; the old dashboard scripts and hidden-section behavior are not needed. Its links open the current learning kits and actual sample pages. All pages share a compact header with 14px navigation text and the supplied transparent PNG logo.
 
 ## Run locally
 
@@ -59,13 +59,13 @@ No framework, package installation, legacy scripts or inline event handlers are 
 
 ## Existing branding and assets reused
 
-Brand colors came from `D:\website\css\light-theme.css` and `homepage.css`: plum `#241525`, muted copy `#665866`, magenta `#b40982`, accent `#930b6b`, blush `#faf4f8` and borders `#e9e1e7`. The original logo is preserved with the monochrome CSS treatment already used by the existing site. Manrope matches the old site's typography and is served locally.
+Brand colors came from `D:\website\css\light-theme.css` and `homepage.css`: plum `#241525`, muted copy `#665866`, magenta `#b40982`, accent `#930b6b`, blush `#faf4f8` and borders `#e9e1e7`. The supplied `logo.png` replaces the old WebP logo; the blue theme preserves its navy/cyan artwork. Manrope matches the old site's typography and is served locally.
 
-| New asset | Original under `D:\website\images` |
+| Current asset | Original source |
 | --- | --- |
-| `logo.webp` | `Logo.webp` |
+| `logo.png` | User-supplied transparent PNG replacement |
 | `favicon.webp` | `Favicon.webp` |
-| `hero-learning.webp` | `light-theme/da-interview-kit-card-v2.webp` |
+| `hero-learning.png` | User-supplied blue-theme illustration |
 | `kit-data-science.webp` | `light-theme/ds-complete-hero-v2.webp` |
 | `kit-data-analyst.webp` | `light-theme/da-complete-genai-slide-01-v3.webp` |
 | `kit-machine-learning.webp` | `light-theme/ml-complete-kit-slide-01-v4.webp` |
