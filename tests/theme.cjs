@@ -37,7 +37,10 @@ const origin = new URL(url).origin;
           await page.locator('[data-view="home"]').first().click();
         }
         if (view === 'scientist') await page.locator('#kit-details').click();
-        if (view === 'analyst') await page.locator('[data-kit="analyst"]').click();
+        if (view === 'analyst') {
+          await page.locator('.goal-option:has(input[value="analyst"])').click();
+          await page.locator('#kit-details').click();
+        }
         if (view === 'about') {
           if (width < 768) await page.locator('.menu-toggle').click();
           await page.locator('[data-view="about"]').first().click();

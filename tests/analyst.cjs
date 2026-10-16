@@ -25,7 +25,8 @@ const output = path.resolve(__dirname, '../screenshots');
   async function openAnalyst() {
     await page.goto(url);
     if(!await page.locator('body.home-page').count()) await page.locator('[data-view="home"]').first().click();
-    await page.locator('[data-kit="analyst"]').click();
+    await page.locator('.goal-option:has(input[value="analyst"])').click();
+    await page.locator('#kit-details').click();
     await page.locator('body.analyst-page').waitFor();
     assert.equal(page.url(),url);
   }
@@ -74,7 +75,8 @@ const output = path.resolve(__dirname, '../screenshots');
       await page.screenshot({path:path.join(output,`analyst-${width}.png`),fullPage:true,style:'.product-sticky {visibility:hidden}'});
       if([390,1440].includes(width)) await page.screenshot({path:path.join(output,`analyst-${width}-viewport.png`)});
       await page.locator('.breadcrumbs [data-view="home"]').first().click();
-      await page.locator('[data-kit="scientist"]').click();
+      await page.locator('.goal-option:has(input[value="scientist"])').click();
+      await page.locator('#kit-details').click();
       assert.equal(await page.locator('.curriculum-module').count(),7);
       assert.equal(await page.locator('.testimonial-card').count(),4);
       assert.match(await page.locator('.testimonial-card blockquote').first().textContent(),/machine learning scenario questions/);

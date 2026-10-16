@@ -112,11 +112,11 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
     }
     await page.setViewportSize({ width: 390, height: 844 });
     await openHome();
-    // Keyboard radio selection and comparison navigation.
+    // Keyboard radio selection and featured-card navigation.
     await page.locator('input[value="scientist"]').focus();
     await page.keyboard.press('ArrowRight');
     assert(await page.locator('input[value="engineer"]').isChecked());
-    await page.locator('[data-kit="complete"]').click();
+    await page.locator('.goal-option:has(input[value="complete"])').click();
     assert(await page.locator('input[value="complete"]').isChecked());
     await page.locator('#kit-details').click();
     await page.locator('#explore-materials').click();

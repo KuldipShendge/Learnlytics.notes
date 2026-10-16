@@ -43,7 +43,7 @@ The old Data Engineering & Code Quality part lists 180+ workbook questions but 2
 
 `tests/product.cjs` checks 360, 390, 430, 768, 1024 and 1440px, module/part/question totals, all accordions, excluded UI text, Manrope loading, mobile menu, purchase placeholders, sample types and topics, keyboard tab controls, image enlargement, both guides and the WhatsApp destination. The expected YouTube embeds are stubbed during browser acceptance tests; other nonlocal requests are blocked. Real playback is verified separately.
 
-`tests/homepage.cjs` additionally verifies the shared navigation and the featured product entry. `tests/product.cjs` verifies the shared palette and the Data Scientist comparison-card link. Both entries switch to the embedded DS view at the same URL; JavaScript is required. `tests/navigation.cjs` covers About Us, sample links, repeated visits, browser Back/Forward, and refresh. Results and screenshots are in `screenshots/` (ignored by Git).
+`tests/homepage.cjs` additionally verifies the shared navigation and the featured product entry. `tests/product.cjs` verifies the shared palette and the Data Scientist career tab and featured-card link. These switch to the embedded DS view at the same URL; JavaScript is required. `tests/navigation.cjs` covers About Us, sample links, repeated visits, browser Back/Forward, and refresh. Results and screenshots are in `screenshots/` (ignored by Git).
 
 The DS and About Us markup now lives in templates inside `index.html`. Separate URLs are deferred to v2. GitHub Pages needs only the static entry point, with relative assets that also work under `/Learnlytics.notes/`; no route rewrites are needed.
 

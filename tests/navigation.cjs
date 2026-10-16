@@ -75,7 +75,8 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
       await page.locator('.breadcrumbs [data-view="home"]').first().click();
       await checkView('#hero-title');
       for (let repeat = 0; repeat < 3; repeat++) {
-        await page.locator('[data-kit="scientist"]').click();
+        await page.locator('.goal-option:has(input[value="scientist"])').click();
+        await page.locator('#kit-details').click();
         await checkView('#product-title');
         await page.locator('.purchase-button').click();
         assert(await page.locator('#checkout-dialog').isVisible());

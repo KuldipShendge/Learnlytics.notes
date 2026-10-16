@@ -16,7 +16,8 @@ const origin = new URL(url).origin;
   async function open(view) {
     await page.goto(url);
     if (!await page.locator('body.home-page').count()) await page.locator('[data-view="home"]').first().click();
-    await page.locator(view === 'scientist' ? '#kit-details' : '[data-kit="analyst"]').click();
+    if (view === 'analyst') await page.locator('.goal-option:has(input[value="analyst"])').click();
+    await page.locator('#kit-details').click();
     await page.evaluate(() => document.fonts.ready);
     await page.mouse.move(0, 0);
   }

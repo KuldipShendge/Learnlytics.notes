@@ -2,7 +2,7 @@
 
 A standalone homepage inspired by the supplied mobile mockup. A reversible navy, blue and mint colour test is currently enabled; the original plum palette is preserved. Run `node scripts/set-theme.mjs plum` to restore it, or `node scripts/set-theme.mjs blue` to reapply the experiment. See [colour test instructions](docs/colour-test.md) for publishing the switch. The default recommendation is **Crack Data Scientist & Gen AI**.
 
-The Data Scientist & Gen AI product page uses the second reference for **structure and content only**. It shares the homepage's Manrope font and base palette from `css/tokens.css`; `css/theme-blue.css` applies the optional colour experiment across all views. Both the featured “View kit details” link and the Data Scientist comparison card open the full product view inside `index.html`, without changing the browser URL. Separate page URLs are deferred to v2. See `docs/product-page.md` for implementation and curriculum notes.
+The Data Scientist & Gen AI product page uses the second reference for **structure and content only**. It shares the homepage's Manrope font and base palette from `css/tokens.css`; `css/theme-blue.css` applies the optional colour experiment across all views. The career tabs select a kit in the single featured image card. Its “View kit details” link opens the full product view inside `index.html`, without changing the browser URL. The duplicate lower comparison cards have been removed. Separate page URLs are deferred to v2. See `docs/product-page.md` for implementation and curriculum notes.
 
 The **About Us** view in `index.html` preserves the complete About section structure and copy from `D:\website\index.html`. Only its relevant responsive styles were extracted from `css/light-theme.css`; the old dashboard scripts and hidden-section behavior are not needed. Its links open the current learning kits and actual sample pages. All pages share a compact header with 14px navigation text and the original logo without the separately added tagline.
 
@@ -29,7 +29,7 @@ Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port
 | `css/navigation.css` | Shared header, logo treatment and navigation layout |
 | `css/dialogs.css` | Shared modal, kit overview and guide player layouts |
 | `js/catalog.js` | Presentation-only kit names, prices, subjects, images and content |
-| `js/kits.js` | Career selection, comparison-card navigation and kit overview dialog |
+| `js/kits.js` | Career selection, featured-card navigation and kit overview dialog |
 | `js/dialog.js` | Shared dialog dismissal and focus restoration |
 | `js/video-config.js` | Published guide titles and YouTube IDs, plus fallback demo chapters |
 | `js/inline-videos.js` | Homepage, DS and DA inline players, click-to-play controls and view-change cleanup |
@@ -102,7 +102,7 @@ The DS view embeds the same two guides directly inside its existing walkthrough 
 
 The DS hero uses a newly generated high-resolution transparent book mockup (`assets/images/ds-complete-kit-sharp.png`) matching the original LearnLytics cover. Other product and resource images reuse the existing LearnLytics assets. The homepage hero illustration is reused, while the two guide poster compositions are new.
 
-The Data Scientist and Data Analyst “View kit details” links and comparison cards open their complete product views. ML Engineer and All-in-One still use homepage overviews. The product page's “Get This Kit Now” buttons open an honest availability dialog, with the Razorpay label under the primary button. **Checkout, Razorpay integration, Google Sheets, purchased-kit delivery and accounts remain unimplemented.** Sample PDF downloads are available in the DS view. No old payment or delivery files were copied or edited. Both Data Scientist & Gen AI and Data & BI Analyst with Gen AI product pages are available.
+Selecting Data Scientist or Data Analyst in the career tabs and pressing “View kit details” opens the complete product view. ML Engineer and All-in-One still use homepage overviews. The product page's “Get This Kit Now” buttons open an honest availability dialog, with the Razorpay label under the primary button. **Checkout, Razorpay integration, Google Sheets, purchased-kit delivery and accounts remain unimplemented.** Sample PDF downloads are available in the DS view. No old payment or delivery files were copied or edited. Both Data Scientist & Gen AI and Data & BI Analyst with Gen AI product pages are available.
 
 The product page omits FAQs, file-format badges and refund claims as requested. The requested Loved by Aspirants sections reuse the four original reviews from each old product page verbatim, immediately before Your next chapter is waiting. No ratings or verification badges were added. The two guide videos are the published LearnLytics walkthroughs. Sample Pages keeps the original Handbook / Workbook / Solutions tabs and viewer design. PDF.js renders pages directly from the supplied EDA PDFs in the former image area. Arrows and the three-dot page selector navigate the selected PDF; Click to read opens a larger rendered page and a direct PDF link. The PDFs contain 32, 6 and 11 pages respectively. Rendering is lazy and adapts to mobile and desktop sizes. WhatsApp links use the existing support contact, `+91 91306 31497`.
 
@@ -125,7 +125,7 @@ Open `http://127.0.0.1:4173/Learnlytics.notes/` and set `PREVIEW_URL` to that ad
 
 ## Verification
 
-The browser checks cover 360, 390, 430, 768, 1024 and 1440px widths, every career choice, recommendation content/prices, dialog layout, dismissal and focus, mobile navigation, comparison cards, inline guide placement, autoplay-off parameters, play buttons, YouTube embed IDs, player cleanup on view changes, FAQs, images and internal anchors. Browser acceptance tests stub the two expected YouTube embeds and block other nonlocal requests. They verify integration and cleanup; actual YouTube playback is checked separately.
+The browser checks cover 360, 390, 430, 768, 1024 and 1440px widths, every career choice, recommendation content/prices, dialog layout, dismissal and focus, mobile navigation, featured-kit navigation, inline guide placement, autoplay-off parameters, play buttons, YouTube embed IDs, player cleanup on view changes, FAQs, images and internal anchors. Browser acceptance tests stub the two expected YouTube embeds and block other nonlocal requests. They verify integration and cleanup; actual YouTube playback is checked separately.
 
 The latest results are in `screenshots/verification.json` and `screenshots/product-verification.json`. Full-page screenshots are named `homepage-{width}.png` and `product-{width}.png`, with additional viewport images for 390 and 1440px. The DS purchase bar is hidden only while taking its full-page captures so it does not obscure the middle of the page; viewport screenshots show the actual fixed bar.
 

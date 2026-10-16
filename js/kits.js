@@ -36,15 +36,6 @@ export function setupKits() {
   document.querySelectorAll('input[name="career"]').forEach((input) => {
     input.addEventListener('change', () => selectKit(input.value));
   });
-  document.querySelectorAll('[data-kit]').forEach((button) => {
-    button.addEventListener('click', () => {
-      if (kits[button.dataset.kit]?.view) return;
-      selectKit(button.dataset.kit);
-      field('career-goal').scrollIntoView({ block: 'start' });
-      document.querySelector(`input[name="career"][value="${selected}"]`).focus({ preventScroll: true });
-    });
-  });
-
   field('kit-details').addEventListener('click', (event) => {
     const kit = kits[selected];
     if (kit.view) return;
