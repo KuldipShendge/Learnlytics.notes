@@ -46,12 +46,12 @@ const output = path.resolve(__dirname, '../screenshots');
       assert.equal(await page.locator('.curriculum-unit').count(),77);
       assert.equal(await page.locator('.curriculum-topics > li').count(),637);
       assert(await page.locator('#curriculum').evaluate((el,desktop)=>desktop
-        ? el.parentElement.classList.contains('product-secondary')
+        ? el.parentElement.classList.contains('product-secondary-content')
         : el.previousElementSibling.classList.contains('included-section') && el.nextElementSibling.id==='samples',width>=980));
       assert.equal(await page.locator('.testimonial-card').count(),4);
       assert.deepEqual(await page.locator('.testimonial-person strong').allTextContents(),['Rahul Verma','Sneha Iyer','Ankit Sharma','Pooja Nair']);
       assert.match(await page.locator('.testimonial-card blockquote').first().textContent(),/scenario based questions/);
-      assert(await page.locator('.product-testimonials').evaluate(el=>el.parentElement.classList.contains('product-primary') && el.previousElementSibling.classList.contains('audience-section')));
+      assert(await page.locator('.product-testimonials').evaluate(el=>el.parentElement.classList.contains('product-primary') && el.previousElementSibling.lastElementChild.classList.contains('audience-section')));
       for(const [key,id] of Object.entries({use:'gAV7onDGlNo',choose:'1hUTxkkk5jQ'})) {
         const source = new URL(await page.locator(`[data-inline-video="${key}"] iframe`).getAttribute('src'));
         assert.equal(source.pathname,`/embed/${id}`);

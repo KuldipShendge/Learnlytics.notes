@@ -29,9 +29,9 @@ const origin = new URL(url).origin;
       const cards = track.locator('.testimonial-card');
       assert.equal(await cards.count(), 4);
       assert.deepEqual(await cards.evaluateAll(els => els.map(el => el.dataset.channel)), ['whatsapp', 'linkedin', 'gmail', 'whatsapp']);
-      assert(await page.locator('.product-testimonials').evaluate(el => el.parentElement.classList.contains('product-primary') && el.previousElementSibling.classList.contains('audience-section')));
+      assert(await page.locator('.product-testimonials').evaluate(el => el.parentElement.classList.contains('product-primary') && el.previousElementSibling.lastElementChild.classList.contains('audience-section')));
       assert.equal(await page.locator('.support-section .whatsapp-link').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(21, 128, 61)');
-      assert(await page.locator('.tools-section').evaluate(el => el.parentElement.classList.contains('product-secondary') && el.previousElementSibling.id === 'support'));
+      assert(await page.locator('.tools-section').evaluate(el => el.parentElement.classList.contains('product-secondary') && el.previousElementSibling.lastElementChild.id === 'support'));
       await track.scrollIntoViewIfNeeded();
       await page.waitForFunction(() => document.querySelector('#testimonial-list').dataset.autoSliding === 'true');
       await page.waitForFunction(() => document.querySelector('#testimonial-list').scrollLeft > 100, null, { timeout: 7000 });
@@ -50,7 +50,13 @@ const origin = new URL(url).origin;
       await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
       await page.waitForFunction(() => document.querySelector('#testimonial-list').scrollLeft > 100);
       await page.locator('.testimonial-dot').last().click();
-      await page.waitForFunction(() => document.querySelector('.testimonial-dot:last-child').getAttribute('aria-current') === 'true');
+      try {
+        await page.waitForFunction(() => document.querySelector('.testimonial-dot:last-child').getAttribute('aria-current') === 'true');
+      } catch (error) {
+        console.error(await track.evaluate(el => ({ left: el.scrollLeft, width: el.clientWidth, total: el.scrollWidth, cards: [...el.children].map(card => card.offsetLeft), dots: [...document.querySelectorAll('.testimonial-dot')].map(dot => dot.outerHTML) })));
+        await page.screenshot({ path: `screenshots/${view}-review-selection-failure.png` });
+        throw error;
+      }
       await page.locator('.product-testimonials').screenshot({ path: `screenshots/${view}-reviews-mobile.png` });
       await page.locator('.testimonial-autoplay').click();
       await page.evaluate(() => document.activeElement.blur());
@@ -72,12 +78,20 @@ const origin = new URL(url).origin;
         assert(await page.locator('.testimonial-next').isVisible());
         const toolkit = await page.locator('.tools-section').evaluate(el => {
           const style = getComputedStyle(el);
-          const help = el.previousElementSibling;
+          const help = el.previousElementSibling.querySelector('.support-section');
           return { width: el.getBoundingClientRect().width, helpWidth: help.getBoundingClientRect().width, border: style.borderTopWidth, columns: getComputedStyle(el.querySelector('.technology-grid')).gridTemplateColumns.split(' ').length };
         });
         assert.equal(toolkit.width, toolkit.helpWidth);
         assert.equal(toolkit.border, '1px');
         assert.equal(toolkit.columns, width < 560 ? 3 : 4);
+        if (width >= 980) {
+          const alignment = await page.evaluate(() => {
+            const reviews = document.querySelector('.product-testimonials').getBoundingClientRect();
+            const tools = document.querySelector('.tools-section').getBoundingClientRect();
+            return { top: Math.abs(reviews.top - tools.top), bottom: Math.abs(reviews.bottom - tools.bottom) };
+          });
+          assert(alignment.top < 2 && alignment.bottom < 2, `Review/tool row alignment: ${JSON.stringify(alignment)}`);
+        }
         if (width === 1440) {
           assert.equal(Math.round((await page.locator('.book-model').boundingBox()).width), 340);
           const boxes = await cards.evaluateAll(els => els.map(el => ({ x: el.getBoundingClientRect().x, y: el.getBoundingClientRect().y })));
@@ -99,6 +113,7 @@ const origin = new URL(url).origin;
           await page.waitForFunction(() => document.querySelector('.testimonial-dot:last-child').getAttribute('aria-current') === 'true');
           await page.locator('.product-testimonials').screenshot({ path: `screenshots/${view}-reviews-desktop.png` });
           await page.locator('.tools-section').screenshot({ path: `screenshots/${view}-tools-card-desktop.png` });
+          await page.locator('.difference-section').screenshot({ path: `screenshots/${view}-benefits-card-desktop.png` });
           await page.locator('.book-model').scrollIntoViewIfNeeded();
           await page.screenshot({ path: `screenshots/${view}-larger-book-desktop.png` });
         }

@@ -61,6 +61,14 @@ arrows, responsive page dots, pause/resume and native touch swipe work together.
 Slides advance every 4.5 seconds only while the section is visible. Touch
 interaction, keyboard focus, hovering, hidden tabs, leaving the view and
 reduced-motion preferences stop automatic movement.
+
+On desktop, both columns share a final grid row: reviews on the left and the
+technology card on the right. Their top and bottom edges align even when an
+accordion changes the height of the content above. The review cards fill the
+row height; mobile keeps its single-column reading order. “Why This Kit Is
+Different” is a bordered gradient card with an accent rule and four separated
+icon/text benefits. The primary/sidebar content wrappers allow this alignment
+without fixed spacer heights.
 `tests/testimonials.cjs` checks real touch input, automatic movement, controls,
 repeat visits, larger cover widths, desktop card placement and WhatsApp colours.
 

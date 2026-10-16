@@ -227,7 +227,9 @@
   margin-top: 32px;
 }
 .product-primary,
-.product-secondary { min-width: 0; }
+.product-secondary,
+.product-primary-content,
+.product-secondary-content { min-width: 0; }
 .product-section h2 {
   font-size: 21px;
   line-height: 1.35;
@@ -675,25 +677,44 @@
 [hidden] {
   display: none !important;
 }
+.difference-section {
+  position: relative;
+  padding: 24px 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--tint), var(--white) 65%, var(--blush));
+  box-shadow: var(--shadow);
+}
+.difference-section::before {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 4px;
+  margin-bottom: 18px;
+  border-radius: 3px;
+  background: var(--accent);
+}
 .benefit-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 24px 16px;
-  margin-top: 22px;
+  gap: 20px 22px;
+  margin-top: 24px;
 }
 .benefit-grid article {
   display: flex;
   align-items: start;
   gap: 12px;
   min-width: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
 }
 .benefit-icon {
   display: grid;
   place-items: center;
-  width: 35px;
-  height: 38px;
+  width: 40px;
+  height: 42px;
   flex: 0 0 auto;
-  border-radius: 8px;
+  border-radius: 11px;
   background: #f3e6ef;
   color: var(--accent);
 }
@@ -1524,9 +1545,18 @@
   }
   .product-grid {
     display: grid;
-    grid-template-columns: 1.42fr 1fr;
-    gap: 48px;
+    grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr);
+    grid-template-areas: 'main sidebar' 'reviews tools';
+    column-gap: 48px;
   }
+  .product-primary,
+  .product-secondary {
+    display: contents;
+  }
+  .product-primary-content { grid-area: main; }
+  .product-secondary-content { grid-area: sidebar; }
+  .product-grid .product-testimonials { grid-area: reviews; }
+  .product-grid .tools-section { grid-area: tools; }
   .product-section {
     margin-top: 39px;
   }
@@ -1561,8 +1591,9 @@
     font-size: 7px;
   }
   .benefit-grid {
-    gap: 27px;
+    gap: 24px;
   }
+  .difference-section { padding: 28px; }
   #difference-title,
   #audience-title {
     font-size: 28px;
@@ -1683,6 +1714,12 @@
 .product-testimonials {
   margin-top: 32px;
   padding: 0;
+}
+@media (min-width: 980px) {
+  .product-grid .product-testimonials,
+  .product-grid .tools-section { margin-top: 39px; }
+  .product-grid .product-testimonials { display: flex; flex-direction: column; }
+  .product-grid .testimonial-grid { flex: 1; }
 }
 .testimonials-heading {
   display: flex;

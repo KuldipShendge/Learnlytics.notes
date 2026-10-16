@@ -14,7 +14,7 @@ export function setupProduct({ curriculum = dsCurriculum, productOverview = dsOv
 
   const curriculumSection = document.querySelector('#curriculum');
   const includedSection = document.querySelector('.included-section');
-  const secondaryColumn = document.querySelector('.product-secondary');
+  const secondaryColumn = document.querySelector('.product-secondary-content');
   const desktopLayout = window.matchMedia('(min-width: 980px)');
   function placeCurriculum() {
     if (desktopLayout.matches) secondaryColumn.prepend(curriculumSection);

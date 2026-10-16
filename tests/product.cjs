@@ -64,9 +64,9 @@ const widths = [360, 390, 430, 768, 1024, 1440];
       assert.equal(await page.locator('.technology-grid > div').count(), 12);
       assert.equal(await page.locator('.material-confidence').count(), 0);
       assert.equal(await page.locator('#testimonial-list .testimonial-card').count(), 4);
-      assert(await page.locator('.product-testimonials').evaluate(el => el.parentElement.classList.contains('product-primary') && el.previousElementSibling.classList.contains('audience-section')));
+      assert(await page.locator('.product-testimonials').evaluate(el => el.parentElement.classList.contains('product-primary') && el.previousElementSibling.lastElementChild.classList.contains('audience-section')));
       assert(await page.locator('#curriculum').evaluate((el, desktop) => desktop
-        ? el.parentElement.classList.contains('product-secondary') && el === el.parentElement.firstElementChild
+        ? el.parentElement.classList.contains('product-secondary-content') && el === el.parentElement.firstElementChild
         : el.previousElementSibling.classList.contains('included-section') && el.nextElementSibling.id === 'samples', width >= 980),
         `${width}px: curriculum placement`);
       assert.equal(await page.locator('.module-parts li').count(), 20);
