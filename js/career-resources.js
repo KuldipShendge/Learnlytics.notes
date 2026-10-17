@@ -1,5 +1,5 @@
 import { setupDialog } from './dialog.js';
-import { careerResources, resourceEndpoint } from './career-resources-data.js?v=shared-resources-20261017';
+import { careerResources, resourceEndpoint } from './career-resources-data.js?v=compact-resources-20261017';
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
@@ -21,13 +21,12 @@ export function setupCareerResources() {
   let generation = 0;
 
   grid.innerHTML = careerResources.map((resource, index) => `
-    <article class="resource-card${index === 0 ? ' resource-featured' : ''}" aria-labelledby="resource-${resource.id}-title">
+    <article class="resource-card" aria-labelledby="resource-${resource.id}-title">
       <div class="resource-cover"><img src="assets/images/career-resources/${resource.image}" alt="${escapeHtml(resource.title)} handbook cover" width="${resource.width}" height="${resource.height}" loading="${index === 0 ? 'eager' : 'lazy'}" /></div>
       <div class="resource-copy">
-        <div class="resource-card-meta"><span class="eyebrow">${resource.category}</span><span class="free-tag">Free</span></div>
+        <div class="resource-card-meta"><span class="free-tag">Free</span><span>PDF handbook</span></div>
         <h2 id="resource-${resource.id}-title">${escapeHtml(resource.title)}</h2>
         <p>${escapeHtml(resource.description)}</p>
-        <span class="resource-format"><svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#document" /></svg> PDF handbook</span>
         <button class="button" type="button" data-resource="${resource.id}" aria-label="Get ${escapeHtml(resource.title)} for free">Get free resource <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></button>
       </div>
     </article>`).join('');

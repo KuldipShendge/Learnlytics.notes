@@ -5,26 +5,26 @@ export const careerResources = [
   {
     id: 'analytics-ground-zero', title: 'Analytics — Ground Zero', category: 'START WITH THE FOUNDATIONS',
     description: 'Start building your analytics foundations with this free handbook.',
-    image: 'free-analytics-ground-zero-v1.webp', width: 1024, height: 1536,
+    image: 'free-analytics-ground-zero-blue.webp', width: 768, height: 1154,
   },
   {
     id: 'sql-handbook', title: 'SQL 250+ Interview Questions', category: 'SQL & DATABASES',
     description: 'A SQL handbook for beginners to advanced learners, with 250+ interview questions.',
-    image: 'free-sql-handbook-v2.webp', width: 600, height: 900,
+    image: 'free-sql-handbook-blue.webp', width: 768, height: 1154,
   },
   {
     id: 'ds-handbook', title: 'Machine Learning Handbook (Part 1)', category: 'MACHINE LEARNING',
     description: 'Begin your machine learning journey with the Part 1 handbook.',
-    image: 'free-ml-handbook-v2.webp', width: 600, height: 900,
+    image: 'free-ml-handbook-blue.webp', width: 768, height: 1154,
   },
   {
     id: 'eda-part01', title: 'Exploratory Data Analysis Part-01', category: 'EXPLORE YOUR DATA',
     description: 'Explore data, understand patterns and practise interview questions.',
-    image: 'free-eda-handbook-v1.webp', width: 1024, height: 1536,
+    image: 'free-eda-handbook-blue.webp', width: 768, height: 1154,
   },
   {
     id: 'big-data', title: 'Big Data Management & Analytics', category: 'BIG DATA & ANALYTICS',
     description: 'A free handbook for your big data and analytics learning journey.',
-    image: 'free-big-data-handbook-v1.webp', width: 1024, height: 1536,
+    image: 'free-big-data-handbook-blue.webp', width: 768, height: 1154,
   },
 ];
