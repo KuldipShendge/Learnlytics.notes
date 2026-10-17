@@ -11,6 +11,8 @@ Coming Soon; publishing these previews does not release the actual features.
   separate launch labels for Hub and Toolkit, subject/path configuration and
   static dashboard/project-framework preview renderers.
 - css/learning-experience.css: responsive styles using existing tokens/Manrope.
+- assets/images/project-explanation-toolkit.webp: generated product artwork.
+- docs/toolkit-product-artwork.md: image provenance and exact generation prompt.
 - js/main.js: initialize homepage marketing before the existing videos.
 - js/product.js: initialize DA/DS marketing before existing videos and curriculum.
 - tests/product.cjs and tests/analyst.cjs: update the curriculum's expected next
@@ -25,13 +27,13 @@ The hero's existing supporting-copy block now holds the requested bold secondary
 message, short description and Learning Hub availability line. The h1, image,
 career navigation, guide button and kit CTA remain in place.
 
-The Learning Hub introduction appears immediately after the three-resource
-showcase (#inside) and before the purchase/access explanation (#how-it-works).
+The Learning Hub introduction appears immediately before the first guide video,
+after the hero. Its dedicated homepage mount is data-learning-hub-slot.
 It uses two columns on desktop: concise copy and three short feature labels on
 the left, a dashboard concept preview on the right. On mobile the preview follows
-the text. The Project Explanation Toolkit split card follows within the same
-group. The Handbook / Practice Workbook / Solution Manual trio remains three
-core components.
+the text. Project Explanation Toolkit stays after the three-resource showcase
+(#inside), before the purchase/access explanation (#how-it-works). The Handbook /
+Practice Workbook / Solution Manual trio remains three core components.
 
 ### DA and DS
 
@@ -56,7 +58,7 @@ These describe future tracking, not completed progress or curriculum edits.
 
 ## Visual revision
 
-All three views share the same renderers and theme tokens. Desktop layouts split
+All three views share the same renderers and theme tokens. Desktop Hub layouts split
 copy and preview at 980px; smaller screens stack them in reading order. The
 product variants fit inside the existing primary column without moving the
 curriculum, samples or sidebar.
@@ -80,8 +82,14 @@ in the preview module. Semantic figures, headings, lists and definition lists
 keep the illustrations readable by assistive technology. Decorative icons and
 progress fills are hidden from screen readers; the status words remain readable.
 
-No new raster image or image-generation step is needed: these are responsive
-HTML/CSS previews using the existing SVG icon sprite.
+Toolkit copy now sits above the visuals on all three pages. Below it, the new
+product artwork and existing project framework sit side by side when the card's
+content area is at least 560px wide, and stack in narrower columns or on mobile.
+The artwork caption reads "How To Explain Your Projects
+Confidently In Interview", followed by the smaller "This Toolkit Is Answer".
+The generated image is assets/images/project-explanation-toolkit.webp; the
+built-in generation prompt is recorded in toolkit-product-artwork.md. The Hub
+and framework previews remain lightweight HTML/CSS with the existing SVG sprite.
 
 ## Updating availability
 
@@ -125,6 +133,11 @@ three planned benefits, chapter notes and no horizontal overflow. Screenshots
 were inspected at 390 and 1440px. No real API, checkout or email submission was
 made. JavaScript syntax checks and git diff --check passed. This plain static
 project has no build or lint script and no new dependencies were added.
+
+The subsequent product-artwork update passed homepage regression checks and
+targeted browser QA in all three views at the same six widths: homepage Hub
+before videos, Toolkit introduction above its visuals, image decoding, exact
+caption text, two existing video players and no page or inner-content overflow.
 
 Local preview: http://127.0.0.1:4187/Learnlytics.notes/
 Select Data Analyst or Data Scientist in the existing career selector and open

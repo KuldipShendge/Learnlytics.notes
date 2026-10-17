@@ -167,6 +167,16 @@ export function setupLearningExperience(view) {
         <ul class="learning-toolkit-benefits">${content.toolkitBenefits.map(benefit => `<li>${escapeHtml(benefit)}</li>`).join('')}</ul>
         <p class="learning-availability" id="learning-toolkit-availability">${escapeHtml(learningRelease.toolkit.note)}</p>
       </div>
-      ${renderToolkitPreview(content.project)}
+      <div class="learning-toolkit-visuals">
+        <figure class="toolkit-product">
+          <img src="assets/images/project-explanation-toolkit.webp" width="800" height="1000" loading="lazy" decoding="async" alt="LearnLytics Project Explanation Toolkit book with a Problem, Approach, Decision and Result worksheet" />
+          <figcaption><h3>How To Explain Your Projects Confidently In Interview</h3><p>This Toolkit Is Answer</p></figcaption>
+        </figure>
+        ${renderToolkitPreview(content.project)}
+      </div>
     </section>`;
+
+  // Only the homepage Hub moves above the guide videos; its Toolkit stays later.
+  const hubSlot = view === 'home' && document.querySelector('[data-learning-hub-slot]');
+  if (hubSlot) hubSlot.append(slot.querySelector('.learning-hub'));
 }

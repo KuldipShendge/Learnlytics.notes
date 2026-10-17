@@ -1,4 +1,4 @@
-import { setupLearningExperience } from './learning-experience.js?v=learning-previews-20261017';
+import { setupLearningExperience } from './learning-experience.js?v=toolkit-product-20261017';
 import { setupInlineVideos } from './inline-videos.js?v=guide-covers-logo-20261016';
 import { setupDialog } from './dialog.js';
 import { setupSampleGallery } from './sample-gallery.js?v=pdf-tools-20261016';
