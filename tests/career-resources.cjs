@@ -6,6 +6,8 @@ const origin = new URL(url).origin;
 
 (async () => {
   const { careerResources, resourceEndpoint } = await import('../js/career-resources-data.js');
+  assert(careerResources.every(resource => !('fileLink' in resource)));
+  assert(!fs.readFileSync('js/career-resources-data.js', 'utf8').includes('drive.google.com'));
   const browser = await chromium.launch({ executablePath: process.env.BROWSER_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
   const context = await browser.newContext({ reducedMotion: 'reduce' });
   const page = await context.newPage();
@@ -67,13 +69,13 @@ const origin = new URL(url).origin;
       assert(await page.locator('[data-resource="sql-handbook"]').evaluate(el => el === document.activeElement));
       if ([390,1440].includes(width)) await page.screenshot({ path: `screenshots/career-resources-${width}.png`, fullPage: true });
     }
-    // Every migrated resource uses the original six-field contract and matching file.
+    // Every resource sends its ID for backend delivery, never a file URL.
     for (const resource of careerResources) {
       await openForm(resource.id);
       await page.locator('#resource-form [type="submit"]').click();
       await page.locator('#resource-success').waitFor();
-      assert.deepEqual(posts.at(-1), { name:'QA Reader', email:'qa@example.test', phone:'+91 9000000000', fileLink:resource.fileLink, subject:resource.subject, emailTitle:resource.emailTitle });
-      assert.equal(await page.locator('#resource-success h3').textContent(), 'Check your Email or WhatsApp.');
+      assert.deepEqual(posts.at(-1), { name:'QA Reader', email:'qa@example.test', phone:'+91 9000000000', resourceId:resource.id, subject:resource.subject, emailTitle:resource.emailTitle });
+      assert.equal(await page.locator('#resource-success h3').textContent(), 'Check your Email.');
       assert.equal(await page.locator('#resource-success a, #resource-success button, a[href*="drive.google.com"]').count(), 0);
       if (resource.id === 'sql-handbook') await page.screenshot({path:'screenshots/resource-delivery-success.png'});
       await closeForm();

@@ -1,5 +1,5 @@
 import { setupDialog } from './dialog.js';
-import { careerResources, resourceEndpoint } from './career-resources-data.js';
+import { careerResources, resourceEndpoint } from './career-resources-data.js?v=email-only-20261017';
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
@@ -82,9 +82,9 @@ export function setupCareerResources() {
     submit.textContent = 'Preparing your resource…';
     form.setAttribute('aria-busy', 'true');
     error.hidden = true;
-    // Preserve the original free-download Apps Script schema and destination.
+    // The backend resolves the selected resource ID to its delivery destination.
     const body = new URLSearchParams({ name, email, phone,
-      fileLink: resource.fileLink, subject: resource.subject, emailTitle: resource.emailTitle });
+      resourceId: resource.id, subject: resource.subject, emailTitle: resource.emailTitle });
     try {
       const response = await fetch(resourceEndpoint, { method: 'POST', body, signal: requestController.signal });
       const text = await response.text();
