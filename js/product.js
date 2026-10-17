@@ -1,3 +1,4 @@
+import { setupLearningExperience } from './learning-experience.js?v=learning-previews-20261017';
 import { setupInlineVideos } from './inline-videos.js?v=guide-covers-logo-20261016';
 import { setupDialog } from './dialog.js';
 import { setupSampleGallery } from './sample-gallery.js?v=pdf-tools-20261016';
@@ -9,6 +10,7 @@ const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
 const resources = '<div class="part-resources"><span>Handbook</span><span>Practice workbook</span><span>Solution manual</span></div>';
 
 export function setupProduct({ curriculum = dsCurriculum, productOverview = dsOverview, kit = 'scientist' } = {}) {
+  setupLearningExperience(kit);
   setupInlineVideos();
   setupSampleGallery({ resources: productOverview.samples });
 

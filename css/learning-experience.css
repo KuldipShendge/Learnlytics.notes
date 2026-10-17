@@ -1,0 +1,148 @@
+/* Shared, static product previews. All colours inherit the active theme. */
+.home-page .hero-description[data-learning-hero] { display: grid; gap: 7px; margin-top: 18px; font-size: 14px; line-height: 1.7; }
+.hero-description[data-learning-hero] strong { color: var(--ink); font-weight: 600; line-height: 1.5; }
+.learning-hero-status { display: block; color: var(--accent-dark); font-size: 10px; font-weight: 600; letter-spacing: .15px; }
+.learning-hero-benefit { margin: 0 0 14px; font-size: 12px; line-height: 1.7; }
+.learning-hero-benefit .learning-hero-status { margin-top: 4px; }
+
+.learning-experience { margin-top: 32px; }
+.learning-experience .eyebrow { font-size: 10px; letter-spacing: 1.2px; line-height: 1.7; }
+.learning-hub, .learning-toolkit { border: 1px solid var(--line); border-radius: 18px; padding: 24px 16px 16px; }
+.learning-hub { background: var(--tint); }
+.learning-hub-overview, .learning-toolkit { display: grid; gap: 24px; align-items: center; }
+.learning-hub-intro, .learning-toolkit-copy { min-width: 0; }
+.learning-hub h2, .learning-toolkit h2 { margin-top: 10px; font-size: 25px; line-height: 1.28; letter-spacing: -.65px; text-wrap: balance; }
+.learning-hub-description, .learning-toolkit-description { margin-top: 12px; font-size: 13px; line-height: 1.75; }
+.learning-hub-features { display: grid; gap: 9px; list-style: none; padding: 0; margin: 20px 0 0; }
+.learning-hub-features li { display: flex; align-items: center; gap: 9px; color: var(--ink); font-size: 12px; font-weight: 500; line-height: 1.5; }
+.learning-feature-icon { width: 26px; height: 26px; display: grid; place-items: center; flex-shrink: 0; border: 1px solid var(--line); border-radius: 7px; background: var(--white); color: var(--accent); }
+.learning-feature-icon .icon { width: 15px; height: 15px; }
+.learning-tracker-note { margin-top: 15px; color: var(--copy); font-size: 10px; line-height: 1.6; }
+.learning-hub-footer { margin-top: 20px; padding-top: 13px; border-top: 1px solid var(--line); }
+.learning-availability { display: flex; gap: 7px; align-items: start; color: var(--copy); font-size: 10px; line-height: 1.7; }
+.learning-availability .icon { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
+.learning-status { display: inline-flex; align-items: center; flex-shrink: 0; border: 1px solid var(--line); background: var(--white); color: var(--accent-dark); padding: 3px 7px; border-radius: 5px; font-size: 9px; font-weight: 600; line-height: 1.5; white-space: nowrap; }
+
+/* A small dashboard, not an app: text spans and lists deliberately have no actions. */
+.hub-preview, .toolkit-preview { font-size: 10px; line-height: 1.5; margin: 0; min-width: 0; width: 100%; }
+.hub-preview-window { border: 1px solid var(--line); border-radius: 12px; background: var(--paper); box-shadow: 0 10px 26px color-mix(in srgb, var(--ink) 7%, transparent); overflow: hidden; }
+.hub-preview-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 13px 12px; background: var(--white); border-bottom: 1px solid var(--line); }
+.hub-preview-brand { display: flex; align-items: center; gap: 7px; min-width: 0; color: var(--ink); }
+.hub-preview-brand > .icon { width: 21px; height: 21px; color: var(--accent); flex-shrink: 0; }
+.hub-preview-brand strong { font-size: 11px; line-height: 1.5; font-weight: 700; }
+.hub-preview-header .learning-status { font-size: 10px; padding: 3px 5px; }
+.hub-preview-body { display: grid; gap: 9px; padding: 10px; }
+.hub-preview-panel { padding: 12px; background: var(--white); border: 1px solid var(--line); border-radius: 9px; min-width: 0; }
+.hub-preview-panel h3 { display: flex; gap: 6px; align-items: center; margin: 0; font-size: 12px; line-height: 1.5; letter-spacing: -.1px; }
+.hub-preview-panel h3 > .icon { width: 15px; height: 15px; color: var(--accent); flex-shrink: 0; }
+.hub-library-row { display: flex; align-items: center; gap: 8px; margin-top: 11px; }
+.hub-kit-cover { display: grid; place-items: center; flex: 0 0 27px; height: 35px; background: var(--tint); color: var(--accent); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 2px 4px 4px 2px; }
+.hub-kit-cover .icon { width: 15px; height: 15px; }
+.hub-library-row > div { min-width: 0; flex: 1; }
+.hub-library-row strong { display: block; font-size: 11px; font-weight: 600; line-height: 1.55; color: var(--ink); }
+.hub-library-row small { display: block; margin-top: 3px; font-size: 10px; line-height: 1.5; color: var(--copy); }
+.hub-preview-action { display: flex; align-items: center; gap: 4px; max-width: 65px; color: var(--accent-dark); font-size: 10px; font-weight: 600; line-height: 1.4; }
+.hub-preview-action .icon { width: 12px; height: 12px; flex-shrink: 0; }
+.hub-example-label { margin-left: auto; color: var(--copy); font-size: 9px; letter-spacing: .7px; font-weight: 500; }
+.hub-subjects { display: flex; flex-wrap: wrap; gap: 4px; list-style: none; padding: 0; margin: 10px 0 12px; }
+.hub-subjects li { padding: 3px 6px; border-radius: 4px; color: var(--copy); background: var(--tint); font-size: 9px; line-height: 1.4; }
+.hub-chapter { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 3px 6px; padding-top: 9px; border-top: 1px solid var(--line); }
+.hub-chapter strong { color: var(--ink); font-size: 10px; font-weight: 600; }
+.hub-chapter > span { color: var(--copy); font-size: 10px; }
+.hub-study-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; padding: 0; margin: 10px 0 0; gap: 8px; }
+.hub-study-steps li { display: grid; grid-template-rows: 21px 30px 4px auto; gap: 5px; min-width: 0; }
+.hub-step-symbol { width: 20px; height: 20px; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; color: var(--copy); }
+.hub-step-symbol .icon { width: 12px; height: 12px; }
+.is-complete .hub-step-symbol { background: var(--accent); border-color: var(--accent); color: var(--white); }
+.is-current .hub-step-symbol { color: var(--accent); background: var(--tint); border-color: var(--rose); }
+.hub-study-steps strong { font-weight: 500; font-size: 10px; color: var(--ink); line-height: 1.5; }
+.hub-study-steps small { font-size: 10px; color: var(--copy); line-height: 1.5; }
+.hub-progress-track { display: block; height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; }
+.hub-progress-track i { display: block; height: 100%; width: 0; background: var(--accent); }
+.is-complete .hub-progress-track i { width: 100%; }
+.is-current .hub-progress-track i { width: 48%; }
+.hub-career-path { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; list-style: none; padding: 0; margin: 12px 0 0; }
+.hub-career-path li { min-width: 0; position: relative; border-top: 2px solid var(--line); padding-top: 8px; }
+.hub-career-path li:first-child { border-top-color: var(--accent); }
+.hub-career-path li::before { content: ''; position: absolute; top: -5px; left: 0; width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--accent); background: var(--white); }
+.hub-career-path li:first-child::before { background: var(--accent); }
+.hub-career-path li + li::after { content: '→'; position: absolute; left: -18px; top: 6px; color: var(--accent); font-size: 13px; }
+.hub-career-path small { display: block; color: var(--copy); font-size: 10px; line-height: 1.5; }
+.hub-career-path strong { display: block; color: var(--ink); font-weight: 600; font-size: 11px; line-height: 1.5; margin-top: 2px; }
+.hub-next-skills { margin-top: 11px; }
+.hub-next-skills > span { color: var(--copy); font-size: 10px; }
+.hub-next-skills ul { list-style: none; display: flex; flex-wrap: wrap; gap: 5px; margin: 4px 0 0; padding: 0; }
+.hub-next-skills li { border: 1px solid var(--line); border-radius: 4px; padding: 2px 5px; font-size: 10px; color: var(--accent-dark); line-height: 1.5; }
+.hub-preview figcaption, .toolkit-preview figcaption { font-size: 9px; color: var(--copy); text-align: center; line-height: 1.6; margin-top: 10px; }
+
+/* Interview framework: one example project, one prompt, one answer sequence. */
+.learning-toolkit { margin-top: 20px; background: var(--white); }
+.learning-toolkit-label { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.learning-toolkit-icon { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 9px; color: var(--accent); background: var(--tint); }
+.learning-toolkit-icon .icon { width: 19px; height: 19px; }
+.learning-toolkit h2 { font-size: 24px; }
+.learning-toolkit-benefits { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 16px 0; list-style: none; }
+.learning-toolkit-benefits li { color: var(--accent-dark); font-size: 10px; line-height: 1.6; border: 1px solid var(--line); border-radius: 5px; padding: 4px 7px; background: var(--tint); }
+.toolkit-preview { background: var(--tint); border: 1px solid var(--line); padding: 12px; border-radius: 12px; }
+.toolkit-story { background: var(--white); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 5px 14px color-mix(in srgb, var(--ink) 5%, transparent); overflow: hidden; }
+.toolkit-story-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--line); padding: 11px; color: var(--copy); font-size: 9px; letter-spacing: .6px; }
+.toolkit-story-header > span:first-child { display: flex; align-items: center; gap: 5px; color: var(--accent-dark); font-weight: 700; }
+.toolkit-story-header .icon { width: 13px; height: 13px; }
+.toolkit-story h3 { font-size: 13px; line-height: 1.5; padding: 12px 11px 8px; letter-spacing: -.2px; }
+.toolkit-story-rows { margin: 0; padding: 0 11px 12px; }
+.toolkit-story-rows > div { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.toolkit-story-rows > div:last-child { border-bottom: 0; padding-bottom: 0; }
+.toolkit-story-rows dt { display: flex; align-items: start; gap: 5px; color: var(--ink); font-size: 11px; line-height: 1.5; font-weight: 600; }
+.toolkit-story-rows dt span { color: var(--accent); font-size: 10px; line-height: 1.7; font-weight: 500; }
+.toolkit-story-rows dd { margin: 0; font-size: 11px; color: var(--copy); line-height: 1.5; }
+.toolkit-interviewer { position: relative; padding: 12px; border-radius: 8px; background: var(--ink); color: var(--white); margin: 12px 0; }
+.toolkit-interviewer::before { content: ''; position: absolute; left: 21px; top: -5px; height: 10px; width: 10px; transform: rotate(45deg); background: inherit; }
+.toolkit-prompt-label { display: flex; align-items: center; gap: 5px; font-size: 9px; letter-spacing: .7px; }
+.toolkit-prompt-label .icon { width: 13px; height: 13px; }
+.toolkit-interviewer p { margin-top: 7px; color: var(--white); font-size: 12px; line-height: 1.6; }
+.toolkit-answer > span { font-size: 9px; letter-spacing: .6px; color: var(--copy); }
+.toolkit-answer ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; list-style: none; padding: 0; margin: 7px 0 0; }
+.toolkit-answer li { position: relative; padding: 6px 2px; text-align: center; background: var(--white); border: 1px solid var(--line); border-radius: 4px; color: var(--accent-dark); font-size: 10px; line-height: 1.5; font-weight: 600; }
+.toolkit-answer li + li::before { content: '→'; position: absolute; left: -9px; width: 8px; color: var(--copy); }
+
+@media (min-width: 600px) and (max-width: 979px) {
+  .learning-hub, .learning-toolkit { padding: 28px; }
+  .hub-preview, .toolkit-preview { max-width: 520px; justify-self: center; }
+  .learning-hub-features { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+}
+@media (min-width: 980px) {
+  .learning-experience { margin-top: 39px; }
+  .learning-hub, .learning-toolkit { padding: 22px 16px 16px; }
+  .learning-hub-overview, .learning-toolkit { grid-template-columns: minmax(0, .9fr) minmax(282px, 1.4fr); gap: 18px; }
+  .learning-hub h2, .learning-toolkit h2 { font-size: 23px; }
+  .learning-hub-description, .learning-toolkit-description { font-size: 12px; }
+  .learning-hub-features li { font-size: 11px; gap: 7px; }
+  .learning-toolkit-benefits li { font-size: 9px; }
+  .home-page .learning-hub, .home-page .learning-toolkit { padding: 32px; }
+  .home-page .learning-hub-overview, .home-page .learning-toolkit { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 40px; }
+  .home-page .learning-hub h2 { font-size: 32px; }
+  .home-page .learning-toolkit h2 { font-size: 29px; }
+  .home-page .learning-hub-description, .home-page .learning-toolkit-description { font-size: 14px; }
+  .home-page .learning-hub-features { gap: 13px; margin-top: 24px; }
+  .home-page .learning-hub-features li { font-size: 13px; gap: 10px; }
+  .home-page .learning-toolkit-benefits li { font-size: 11px; }
+  .home-page .hub-preview-body { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 13px; gap: 10px; }
+  .home-page .hub-preview-library { grid-column: 1 / -1; }
+  .home-page .hub-preview-panel { padding: 14px; }
+  .home-page .hub-preview-brand strong { font-size: 13px; }
+  .home-page .hub-library-row strong { font-size: 12px; }
+  .home-page .hub-library-row small, .home-page .hub-preview-action { font-size: 9px; }
+  .home-page .hub-preview-action { max-width: none; }
+  .home-page .hub-study-steps strong { font-size: 10px; }
+  .home-page .hub-career-path { grid-template-columns: 1fr; gap: 20px; }
+  .home-page .hub-career-path li + li::after { content: '↓'; left: 0; top: -22px; }
+  .home-page .hub-study-steps { gap: 5px; }
+  .home-page .hub-study-steps small, .home-page .hub-career-path small, .home-page .hub-next-skills li { font-size: 9px; }
+  .home-page .toolkit-preview { padding: 18px; }
+  .home-page .toolkit-story h3 { font-size: 16px; padding: 14px 16px 10px; }
+  .home-page .toolkit-story-rows { padding: 0 16px 14px; }
+  .home-page .toolkit-story-rows dt, .home-page .toolkit-story-rows dd { font-size: 11px; }
+  .home-page .toolkit-interviewer { padding: 15px; }
+  .home-page .toolkit-interviewer p { font-size: 14px; }
+  .home-page .toolkit-answer li { font-size: 10px; }
+}

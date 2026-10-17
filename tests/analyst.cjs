@@ -47,7 +47,7 @@ const output = path.resolve(__dirname, '../screenshots');
       assert.equal(await page.locator('.curriculum-topics > li').count(),637);
       assert(await page.locator('#curriculum').evaluate((el,desktop)=>desktop
         ? el.parentElement.classList.contains('product-secondary-content')
-        : el.previousElementSibling.classList.contains('included-section') && el.nextElementSibling.id==='samples',width>=980));
+        : el.previousElementSibling.classList.contains('included-section') && el.nextElementSibling.matches('[data-learning-experience]'),width>=980));
       assert.equal(await page.locator('.testimonial-card').count(),4);
       assert.deepEqual(await page.locator('.testimonial-person strong').allTextContents(),['Rahul Verma','Sneha Iyer','Ankit Sharma','Pooja Nair']);
       assert.match(await page.locator('.testimonial-card blockquote').first().textContent(),/scenario based questions/);
