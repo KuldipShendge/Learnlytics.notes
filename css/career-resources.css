@@ -51,6 +51,8 @@
 .resource-dialog form > p { font-size: 13px; margin-bottom: 20px; }
 .resource-field { display: grid; gap: 7px; margin-top: 16px; }
 .resource-field label { font-size: 12px; font-weight: 600; }
+.resource-field-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 10px; }
+.resource-delivery-note { display: inline-block; padding: 4px 8px; border: 1px solid #f3b7b7; border-radius: 6px; background: #fff1f1; color: #b42318; font-size: 10px; font-weight: 600; line-height: 1.5; }
 .resource-field input { width: 100%; min-height: 46px; border: 1px solid var(--line); border-radius: 8px; padding: 11px 12px; color: var(--ink); background: white; font: inherit; font-size: 14px; }
 .resource-field input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .resource-field small { color: var(--copy); font-size: 10px; }
@@ -62,7 +64,6 @@
 .resource-success > .icon { width: 44px; height: 44px; padding: 10px; background: #e7f8ef; color: #12633e; border-radius: 50%; }
 .resource-success h3 { font-size: 25px; margin-top: 14px; }
 .resource-success p { margin-top: 12px; font-size: 13px; }
-.resource-success .button { margin-top: 24px; width: 100%; overflow-wrap: anywhere; }
 .resource-dialog [hidden] { display: none !important; }
 @media (max-width: 359px) {
   .resource-card { grid-template-columns: 76px minmax(0, 1fr); gap: 12px; padding: 14px; }

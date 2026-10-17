@@ -14,7 +14,6 @@ export function setupCareerResources() {
   const submit = form.querySelector('[type="submit"]');
   const error = dialog.querySelector('#resource-error');
   const success = dialog.querySelector('#resource-success');
-  const download = dialog.querySelector('#resource-download');
   const nameInput = form.elements.namedItem('name');
   const phoneInput = form.elements.namedItem('phone');
   let selected;
@@ -52,7 +51,6 @@ export function setupCareerResources() {
     form.hidden = false;
     error.hidden = true;
     success.hidden = true;
-    download.removeAttribute('href');
     dialog.querySelector('#resource-dialog-title').textContent = selected.title;
     modal.open();
     nameInput.focus({ preventScroll: true });
@@ -97,8 +95,6 @@ export function setupCareerResources() {
           /^(error|failed|failure)$/i.test(String(result?.status || result?.result || '')) ||
           (!result && /\b(error|failed|failure|exception)\b/i.test(text))) throw new Error('Submission failed');
       if (request !== generation || !dialog.open || !section.isConnected) return;
-      download.href = resource.fileLink;
-      download.textContent = `Open ${resource.title} ↗`;
       form.hidden = true;
       success.hidden = false;
       success.focus({ preventScroll: true });

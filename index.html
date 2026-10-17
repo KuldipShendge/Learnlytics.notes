@@ -18,9 +18,9 @@
     <link rel="stylesheet" href="css/dialogs.css" />
     <link rel="stylesheet" href="css/product.css?v=benefit-card-20261016" />
     <link rel="stylesheet" href="css/about.css?v=dashboard-type-20261016" />
-    <link rel="stylesheet" href="css/career-resources.css?v=career-resources-20261016" />
+    <link rel="stylesheet" href="css/career-resources.css?v=resource-delivery-20261017" />
     <link rel="stylesheet" href="css/theme-blue.css?v=pdf-tools-20261016" />
-    <script type="module" src="js/main.js?v=career-resources-20261016"></script>
+    <script type="module" src="js/main.js?v=resource-delivery-20261017"></script>
   </head>
   <body class="home-page">
     <div id="app">
@@ -1662,7 +1662,7 @@
           <div class="career-hero-label"><p class="eyebrow">A LITTLE LEARNING. A NEW POSSIBILITY.</p><span class="free-tag">Free</span></div>
           <h1 id="career-resources-title">Career Resources</h1>
           <p>Take your next step in Data &amp; AI. Explore our free handbooks, build your foundations and get a feel for the LearnLytics learning style.</p>
-          <ol class="career-steps"><li><span>01</span> Choose your resource</li><li><span>02</span> Share your details</li><li><span>03</span> Open your free handbook</li></ol>
+          <ol class="career-steps"><li><span>01</span> Choose your resource</li><li><span>02</span> Share your details</li><li><span>03</span> Check your email or WhatsApp</li></ol>
         </section>
         <section aria-labelledby="resource-library-title">
           <div class="resource-library-heading"><h2 id="resource-library-title">Your learning starts here.</h2><span>5 free resources</span></div>
@@ -1680,19 +1680,18 @@
           <button class="icon-button" type="button" data-close aria-label="Close resource form"><svg class="icon"><use href="assets/icons/product.svg#close" /></svg></button>
         </div>
         <form id="resource-form">
-          <p>Share your details to get the download link for this handbook.</p>
+          <p>Enter your correct email address and WhatsApp number to receive this handbook.</p>
           <div class="resource-field"><label for="resource-name">Full name</label><input id="resource-name" name="name" autocomplete="name" maxlength="100" required placeholder="Your name" /></div>
-          <div class="resource-field"><label for="resource-email">Email address</label><input id="resource-email" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com" /></div>
-          <div class="resource-field"><label for="resource-phone">WhatsApp / phone number</label><input id="resource-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="24" required aria-describedby="resource-phone-hint" placeholder="+91 98765 43210" /><small id="resource-phone-hint">Include your country code.</small></div>
+          <div class="resource-field"><div class="resource-field-heading"><label for="resource-email">Email address</label><span class="resource-delivery-note" id="resource-email-delivery">Delivery on your Email</span></div><input id="resource-email" name="email" type="email" aria-describedby="resource-email-delivery" autocomplete="email" maxlength="254" required placeholder="you@example.com" /></div>
+          <div class="resource-field"><div class="resource-field-heading"><label for="resource-phone">WhatsApp / phone number</label><span class="resource-delivery-note" id="resource-phone-delivery">Delivery on your WhatsApp</span></div><input id="resource-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="24" required aria-describedby="resource-phone-delivery resource-phone-hint" placeholder="+91 98765 43210" /><small id="resource-phone-hint">Use your active WhatsApp number, including country code.</small></div>
           <p class="resource-error" id="resource-error" role="alert" tabindex="-1" hidden></p>
           <button class="button" type="submit">Get my free resource</button>
           <p class="resource-privacy">Your details are used to send your requested resources and course updates.</p>
         </form>
         <div class="resource-success" id="resource-success" tabindex="-1" hidden>
           <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#check" /></svg>
-          <h3>Your free resource is ready.</h3>
-          <p>Thank you! Open your handbook using the link below and start learning at your own pace.</p>
-          <a class="button" id="resource-download" target="_blank" rel="noopener noreferrer">Open your handbook ↗</a>
+          <h3>Check your Email or WhatsApp.</h3>
+          <p>Thank you! Your request has been received. Please check your email inbox or WhatsApp for your resource. Check your spam or promotions folder too.</p>
         </div>
         <a class="resource-support" href="mailto:learnlytics.handbook@gmail.com">Need help? Contact LearnLytics ↗</a>
       </dialog>

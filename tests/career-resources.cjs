@@ -60,6 +60,9 @@ const origin = new URL(url).origin;
       if (width >= 900) assert(await page.evaluate(() => document.querySelector('.site-header .brand').getBoundingClientRect().right < document.querySelector('#main-nav').getBoundingClientRect().left));
       await openForm('sql-handbook');
       assert(await page.locator('#resource-dialog').evaluate(el => el.scrollWidth <= el.clientWidth));
+      assert.equal(await page.locator('.resource-delivery-note').count(), 2);
+      assert.equal(await page.locator('#resource-email-delivery').evaluate(el => getComputedStyle(el).color), 'rgb(180, 35, 24)');
+      if ([390,1440].includes(width)) await page.screenshot({path: `screenshots/resource-delivery-form-${width}.png`});
       await closeForm();
       assert(await page.locator('[data-resource="sql-handbook"]').evaluate(el => el === document.activeElement));
       if ([390,1440].includes(width)) await page.screenshot({ path: `screenshots/career-resources-${width}.png`, fullPage: true });
@@ -70,8 +73,9 @@ const origin = new URL(url).origin;
       await page.locator('#resource-form [type="submit"]').click();
       await page.locator('#resource-success').waitFor();
       assert.deepEqual(posts.at(-1), { name:'QA Reader', email:'qa@example.test', phone:'+91 9000000000', fileLink:resource.fileLink, subject:resource.subject, emailTitle:resource.emailTitle });
-      assert.equal(await page.locator('#resource-download').getAttribute('href'), resource.fileLink);
-      assert.equal(await page.locator('#resource-download').getAttribute('target'), '_blank');
+      assert.equal(await page.locator('#resource-success h3').textContent(), 'Check your Email or WhatsApp.');
+      assert.equal(await page.locator('#resource-success a, #resource-success button, a[href*="drive.google.com"]').count(), 0);
+      if (resource.id === 'sql-handbook') await page.screenshot({path:'screenshots/resource-delivery-success.png'});
       await closeForm();
     }
     await openForm('sql-handbook');
@@ -91,7 +95,7 @@ const origin = new URL(url).origin;
       await page.waitForFunction(() => !document.querySelector('#resource-form [type="submit"]').disabled);
       assert(await page.locator('#resource-success').isHidden());
       assert.equal(await page.locator('#resource-email').inputValue(), 'qa@example.test');
-      assert.equal(await page.locator('#resource-download').getAttribute('href'), null);
+      assert.equal(await page.locator('#resource-download').count(), 0);
     }
     reply = 'plain';
     await page.locator('#resource-form [type="submit"]').click();
@@ -111,7 +115,7 @@ const origin = new URL(url).origin;
     assert(await page.locator('#resource-success').isHidden());
     await page.locator('#resource-form [type="submit"]').click();
     await page.locator('#resource-success').waitFor();
-    assert.equal(await page.locator('#resource-download').getAttribute('href'), careerResources.find(item => item.id === 'eda-part01').fileLink);
+    assert.equal(posts.at(-1).emailTitle, careerResources.find(item => item.id === 'eda-part01').emailTitle);
     await closeForm();
     // The new view survives refresh and Back/Forward without changing the URL.
     await page.reload();
@@ -125,6 +129,6 @@ const origin = new URL(url).origin;
     assert(await page.evaluate(() => { const ids=[...document.querySelectorAll('[id]')].map(el=>el.id);return new Set(ids).size===ids.length; }));
     assert.deepEqual(errors, []);
     assert.deepEqual(missing, []);
-    console.log('PASS: Career Resources at 6 widths; all 5 payloads/downloads; validation, failures/retry, duplicate prevention, close/reopen, navigation. No live submissions.');
+    console.log('PASS: Career Resources at 6 widths; all 5 delivery requests without download buttons; validation, failures/retry, duplicate prevention, close/reopen, navigation. No live submissions.');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
