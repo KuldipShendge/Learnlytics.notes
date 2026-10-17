@@ -11,7 +11,8 @@
     "theme:plum": "node scripts/set-theme.mjs plum",
     "test:theme": "node tests/theme.cjs",
     "test:testimonials": "node tests/testimonials.cjs",
-    "test": "node tests/homepage.cjs && node tests/product.cjs && node tests/analyst.cjs && node tests/navigation.cjs && node tests/theme.cjs && node tests/testimonials.cjs",
+    "test": "node tests/homepage.cjs && node tests/product.cjs && node tests/analyst.cjs && node tests/navigation.cjs && node tests/theme.cjs && node tests/testimonials.cjs && node tests/career-resources.cjs",
+    "test:resources": "node tests/career-resources.cjs",
     "test:analyst": "node tests/analyst.cjs",
     "test:product": "node tests/product.cjs"
   }

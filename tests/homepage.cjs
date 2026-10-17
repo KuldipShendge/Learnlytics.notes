@@ -98,7 +98,7 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
         await page.evaluate(() => scrollTo(0, 0));
         await page.locator('.menu-toggle').click();
         assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'), 'true');
-        await page.locator('#main-nav a[href="#inside"]').click();
+        await page.locator('#main-nav a[data-view="resources"]').click();
         assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'), 'false');
       }
       // Capture the page in its default state, with lazy assets fully loaded.

@@ -18,8 +18,9 @@
     <link rel="stylesheet" href="css/dialogs.css" />
     <link rel="stylesheet" href="css/product.css?v=benefit-card-20261016" />
     <link rel="stylesheet" href="css/about.css?v=dashboard-type-20261016" />
+    <link rel="stylesheet" href="css/career-resources.css?v=career-resources-20261016" />
     <link rel="stylesheet" href="css/theme-blue.css?v=pdf-tools-20261016" />
-    <script type="module" src="js/main.js?v=benefit-card-20261016"></script>
+    <script type="module" src="js/main.js?v=career-resources-20261016"></script>
   </head>
   <body class="home-page">
     <div id="app">
@@ -81,7 +82,7 @@
           <svg class="icon"><use href="#i-menu" /></svg>
         </button>
         <nav class="main-nav" id="main-nav" aria-label="Main navigation">
-          <a href="#inside">What’s inside</a><a href="#how-it-works">How it works</a
+          <a class="career-nav" href="#" data-view="resources">Career Resources <span class="free-tag">Free</span></a><a href="#how-it-works">How it works</a
           ><a href="#" data-view="about">About Us</a>
           <a class="button button-small" href="#career-goal"
             >Find your kit <svg class="icon"><use href="#i-arrow" /></svg
@@ -888,6 +889,7 @@
     </main>
     <footer class="product-footer container">
       <a href="#" data-view="home">LearnLytics Media</a>
+      <a href="#" data-view="resources">Career Resources · Free</a>
       <p>Learn. Practise. Grow.</p>
       <span>© 2026 LearnLytics Media</span>
     </footer>
@@ -1334,6 +1336,7 @@
     </main>
     <footer class="product-footer container">
       <a href="#" data-view="home">LearnLytics Media</a>
+      <a href="#" data-view="resources">Career Resources · Free</a>
       <p>Learn. Practise. Grow.</p>
       <span>© 2026 LearnLytics Media</span>
     </footer>
@@ -1412,7 +1415,7 @@
           <svg class="icon"><use href="#i-menu" /></svg>
         </button>
         <nav class="main-nav" id="main-nav" aria-label="Main navigation">
-          <a href="#inside" data-view="home">What’s inside</a><a href="#how-it-works" data-view="home">How it works</a
+          <a class="career-nav" href="#" data-view="resources">Career Resources <span class="free-tag">Free</span></a><a href="#how-it-works" data-view="home">How it works</a
           ><a href="#" data-view="about" aria-current="page">About Us</a>
           <a class="button button-small" href="#career-goal" data-view="home"
             >Find your kit <svg class="icon"><use href="#i-arrow" /></svg
@@ -1635,5 +1638,64 @@
       <a href="mailto:learnlytics.handbook@gmail.com">Contact us ↗</a>
     </footer>
       </template>
+    <template id="view-resources" data-body-class="career-page" data-title="Career Resources — Free Handbooks | LearnLytics Media" data-description="Explore five free LearnLytics resources for SQL, machine learning, exploratory data analysis, big data and analytics foundations.">
+      <a class="skip-link" href="#career-resources">Skip to content</a>
+      <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" /></symbol>
+        <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6" /></symbol>
+        <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" /></symbol>
+      </svg>
+      <header class="site-header">
+        <div class="container header-inner">
+          <a class="brand" href="#" data-view="home" aria-label="LearnLytics Media home"><img src="assets/images/logo.webp?v=updated-logo-20261016" alt="LearnLytics Handbook" width="1933" height="814" /></a>
+          <button class="menu-toggle icon-button" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Open navigation"><svg class="icon"><use href="#i-menu" /></svg></button>
+          <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+            <a class="career-nav" href="#" data-view="resources" aria-current="page">Career Resources <span class="free-tag">Free</span></a>
+            <a href="#how-it-works" data-view="home">How it works</a>
+            <a href="#" data-view="about">About Us</a>
+            <a class="button button-small" href="#career-goal" data-view="home">Find your kit <svg class="icon"><use href="#i-arrow" /></svg></a>
+          </nav>
+        </div>
+      </header>
+      <main id="career-resources" class="career-main container" aria-labelledby="career-resources-title">
+        <section class="career-hero" aria-labelledby="career-resources-title">
+          <div class="career-hero-label"><p class="eyebrow">A LITTLE LEARNING. A NEW POSSIBILITY.</p><span class="free-tag">Free</span></div>
+          <h1 id="career-resources-title">Career Resources</h1>
+          <p>Take your next step in Data &amp; AI. Explore our free handbooks, build your foundations and get a feel for the LearnLytics learning style.</p>
+          <ol class="career-steps"><li><span>01</span> Choose your resource</li><li><span>02</span> Share your details</li><li><span>03</span> Open your free handbook</li></ol>
+        </section>
+        <section aria-labelledby="resource-library-title">
+          <div class="resource-library-heading"><h2 id="resource-library-title">Your learning starts here.</h2><span>5 free resources</span></div>
+          <div class="resource-grid"></div>
+        </section>
+        <section class="career-next" aria-labelledby="career-next-title">
+          <div><h2 id="career-next-title">Ready for a structured path?</h2><p>Explore handbooks, practice workbooks and detailed solutions together.</p></div>
+          <a class="button button-light" href="#career-goal" data-view="home">Explore learning kits <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg></a>
+        </section>
+      </main>
+      <footer class="product-footer container"><a href="#" data-view="home">LearnLytics Media</a><a href="mailto:learnlytics.handbook@gmail.com">Need help? Contact us ↗</a><span>© 2026 LearnLytics Media</span></footer>
+      <dialog class="modal resource-dialog" id="resource-dialog" aria-labelledby="resource-dialog-title">
+        <div class="modal-heading">
+          <div><span class="free-tag">Free resource</span><h2 id="resource-dialog-title">Your free handbook</h2></div>
+          <button class="icon-button" type="button" data-close aria-label="Close resource form"><svg class="icon"><use href="assets/icons/product.svg#close" /></svg></button>
+        </div>
+        <form id="resource-form">
+          <p>Share your details to get the download link for this handbook.</p>
+          <div class="resource-field"><label for="resource-name">Full name</label><input id="resource-name" name="name" autocomplete="name" maxlength="100" required placeholder="Your name" /></div>
+          <div class="resource-field"><label for="resource-email">Email address</label><input id="resource-email" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com" /></div>
+          <div class="resource-field"><label for="resource-phone">WhatsApp / phone number</label><input id="resource-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="24" required aria-describedby="resource-phone-hint" placeholder="+91 98765 43210" /><small id="resource-phone-hint">Include your country code.</small></div>
+          <p class="resource-error" id="resource-error" role="alert" tabindex="-1" hidden></p>
+          <button class="button" type="submit">Get my free resource</button>
+          <p class="resource-privacy">Your details are used to send your requested resources and course updates.</p>
+        </form>
+        <div class="resource-success" id="resource-success" tabindex="-1" hidden>
+          <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#check" /></svg>
+          <h3>Your free resource is ready.</h3>
+          <p>Thank you! Open your handbook using the link below and start learning at your own pace.</p>
+          <a class="button" id="resource-download" target="_blank" rel="noopener noreferrer">Open your handbook ↗</a>
+        </div>
+        <a class="resource-support" href="mailto:learnlytics.handbook@gmail.com">Need help? Contact LearnLytics ↗</a>
+      </dialog>
+    </template>
   </body>
 </html>
