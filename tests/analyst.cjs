@@ -51,7 +51,7 @@ const output = path.resolve(__dirname, '../screenshots');
       assert.equal(await page.locator('.testimonial-card').count(),4);
       assert.deepEqual(await page.locator('.testimonial-person strong').allTextContents(),['Rahul Verma','Sneha Iyer','Ankit Sharma','Pooja Nair']);
       assert.match(await page.locator('.testimonial-card blockquote').first().textContent(),/scenario based questions/);
-      assert(await page.locator('.product-testimonials').evaluate(el=>el.parentElement.classList.contains('product-primary') && el.previousElementSibling.lastElementChild.classList.contains('audience-section')));
+      assert(await page.locator('.product-testimonials').evaluate(el=>el.parentElement.classList.contains('product-primary') && (matchMedia('(min-width: 980px)').matches ? el.previousElementSibling.lastElementChild.id === 'samples' : el.previousElementSibling.lastElementChild.classList.contains('audience-section'))));
       for(const [key,id] of Object.entries({use:'gAV7onDGlNo',choose:'1hUTxkkk5jQ'})) {
         const source = new URL(await page.locator(`[data-inline-video="${key}"] iframe`).getAttribute('src'));
         assert.equal(source.pathname,`/embed/${id}`);

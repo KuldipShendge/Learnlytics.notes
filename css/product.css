@@ -1546,17 +1546,15 @@
   .product-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr);
-    grid-template-areas: 'main sidebar' 'reviews tools';
     column-gap: 48px;
+    align-items: start;
   }
   .product-primary,
   .product-secondary {
-    display: contents;
+    display: block;
   }
-  .product-primary-content { grid-area: main; }
-  .product-secondary-content { grid-area: sidebar; }
-  .product-grid .product-testimonials { grid-area: reviews; }
-  .product-grid .tools-section { grid-area: tools; }
+  /* Each column flows independently, so Tools follows Help without a blank row. */
+  .product-secondary-content .benefit-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .product-section {
     margin-top: 39px;
   }

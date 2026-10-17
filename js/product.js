@@ -17,13 +17,23 @@ export function setupProduct({ curriculum = dsCurriculum, productOverview = dsOv
   const curriculumSection = document.querySelector('#curriculum');
   const includedSection = document.querySelector('.included-section');
   const secondaryColumn = document.querySelector('.product-secondary-content');
+  const primaryColumn = document.querySelector('.product-primary-content');
+  const differenceSection = document.querySelector('.difference-section');
+  const audienceSection = document.querySelector('.audience-section');
+  const supportSection = document.querySelector('.support-section');
   const desktopLayout = window.matchMedia('(min-width: 980px)');
-  function placeCurriculum() {
-    if (desktopLayout.matches) secondaryColumn.prepend(curriculumSection);
-    else includedSection.after(curriculumSection);
+  function placeProductSections() {
+    if (desktopLayout.matches) {
+      secondaryColumn.prepend(curriculumSection);
+      supportSection.before(differenceSection, audienceSection);
+    } else {
+      includedSection.after(curriculumSection);
+      // Preserve the single-column reading order on mobile.
+      primaryColumn.append(differenceSection, audienceSection);
+    }
   }
-  placeCurriculum();
-  desktopLayout.addEventListener('change', placeCurriculum);
+  placeProductSections();
+  desktopLayout.addEventListener('change', placeProductSections);
 
   document.querySelectorAll('[data-question-total]').forEach((element) => {
     element.textContent = `${productOverview.practiceQuestions.toLocaleString('en-IN')}+`;

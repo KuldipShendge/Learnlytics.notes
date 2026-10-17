@@ -85,12 +85,16 @@ const origin = new URL(url).origin;
         assert.equal(toolkit.border, '1px');
         assert.equal(toolkit.columns, width < 560 ? 3 : 4);
         if (width >= 980) {
-          const alignment = await page.evaluate(() => {
-            const reviews = document.querySelector('.product-testimonials').getBoundingClientRect();
+          const sidebar = await page.evaluate(() => {
+            const help = document.querySelector('.support-section').getBoundingClientRect();
             const tools = document.querySelector('.tools-section').getBoundingClientRect();
-            return { top: Math.abs(reviews.top - tools.top), bottom: Math.abs(reviews.bottom - tools.bottom) };
+            return {
+              gap: tools.top - help.bottom,
+              order: [...document.querySelector('.product-secondary-content').children].map(el => el.id || [...el.classList].find(name => name !== 'product-section')),
+            };
           });
-          assert(alignment.top < 2 && alignment.bottom < 2, `Review/tool row alignment: ${JSON.stringify(alignment)}`);
+          assert.deepEqual(sidebar.order, ['curriculum', 'choose-section', 'difference-section', 'audience-section', 'support']);
+          assert(Math.abs(sidebar.gap - 39) < 2, `Tools must follow Help without an empty grid row: ${JSON.stringify(sidebar)}`);
         }
         if (width === 1440) {
           assert.equal(Math.round((await page.locator('.book-model').boundingBox()).width), 340);

@@ -60,8 +60,22 @@ These describe future tracking, not completed progress or curriculum edits.
 
 All three views share the same renderers and theme tokens. Desktop Hub layouts split
 copy and preview at 980px; smaller screens stack them in reading order. The
-product variants fit inside the existing primary column without moving the
-curriculum, samples or sidebar.
+Hub and Toolkit variants fit inside the existing primary column. Their placement
+is unchanged by the sidebar follow-up below.
+
+### Product sidebar follow-up
+
+At desktop widths (980px and above), both product pages now use this right-column
+order: Complete Curriculum > Find Your Fit video > Why This Kit Is Different >
+Who Is This For? > Need Help? > Tools & Technologies Covered. The entire difference
+card and audience block move together using the shared responsive placement
+function in js/product.js. The columns flow independently, so Tools sits 39px
+below Help instead of waiting for the left column to end. Reviews remain in the
+left column after Sample Pages. At smaller widths, the existing reading order is
+preserved: curriculum after the included resources; difference and audience after
+Sample Pages and before reviews. Resizing reuses the same sections without copies.
+DS, DA and testimonial browser suites passed at 360, 390, 430, 768, 1024 and
+1440px, including sidebar order and the 39px Help-to-Tools gap on desktop.
 
 The Hub preview contains My Library, a chapter preparation example with Handbook,
 Warmup Test and Interviewer Test states, and a career path with next-skill chips.
