@@ -1,5 +1,5 @@
 import { setupDialog } from './dialog.js';
-import { careerResources, resourceEndpoint } from './career-resources-data.js?v=email-only-20261017';
+import { careerResources, resourceEndpoint } from './career-resources-data.js?v=shared-resources-20261017';
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
@@ -82,16 +82,16 @@ export function setupCareerResources() {
     submit.textContent = 'Preparing your resource…';
     form.setAttribute('aria-busy', 'true');
     error.hidden = true;
-    // The backend resolves the selected resource ID to its delivery destination.
+    // All selections receive the same email; resourceId only identifies the chosen card.
     const body = new URLSearchParams({ name, email, phone,
-      resourceId: resource.id, subject: resource.subject, emailTitle: resource.emailTitle });
+      resourceId: resource.id });
     try {
       const response = await fetch(resourceEndpoint, { method: 'POST', body, signal: requestController.signal });
       const text = await response.text();
       if (!response.ok || response.type === 'opaque' || /^\s*</.test(text)) throw new Error('Unconfirmed submission');
       let result;
       try { result = JSON.parse(text); } catch { /* The legacy endpoint may return plain text. */ }
-      if (result?.success === false || result?.error ||
+      if (result?.success === false || result?.emailSent === false || result?.error ||
           /^(error|failed|failure)$/i.test(String(result?.status || result?.result || '')) ||
           (!result && /\b(error|failed|failure|exception)\b/i.test(text))) throw new Error('Submission failed');
       if (request !== generation || !dialog.open || !section.isConnected) return;

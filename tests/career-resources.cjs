@@ -24,7 +24,8 @@ const origin = new URL(url).origin;
       if (reply === 'network') return route.abort('failed');
       return route.fulfill({ status: reply === 'http-error' ? 500 : 200,
         contentType: reply === 'html-error' ? 'text/html' : reply === 'plain' ? 'text/plain' : 'application/json',
-        body: reply === 'json-error' ? '{"result":"error","error":"Could not save"}' :
+        body: reply === 'mail-error' ? '{"result":"success","emailSent":false}' :
+          reply === 'json-error' ? '{"result":"error","error":"Could not save"}' :
           reply === 'html-error' ? '<html><title>Error</title>Script failed</html>' :
           reply === 'plain' ? 'Success' : '{"result":"success"}' });
     }
@@ -74,7 +75,7 @@ const origin = new URL(url).origin;
       await openForm(resource.id);
       await page.locator('#resource-form [type="submit"]').click();
       await page.locator('#resource-success').waitFor();
-      assert.deepEqual(posts.at(-1), { name:'QA Reader', email:'qa@example.test', phone:'+91 9000000000', resourceId:resource.id, subject:resource.subject, emailTitle:resource.emailTitle });
+      assert.deepEqual(posts.at(-1), { name:'QA Reader', email:'qa@example.test', phone:'+91 9000000000', resourceId:resource.id });
       assert.equal(await page.locator('#resource-success h3').textContent(), 'Check your Email.');
       assert.equal(await page.locator('#resource-success a, #resource-success button, a[href*="drive.google.com"]').count(), 0);
       if (resource.id === 'sql-handbook') await page.screenshot({path:'screenshots/resource-delivery-success.png'});
@@ -91,7 +92,7 @@ const origin = new URL(url).origin;
     await page.locator('#resource-form [type="submit"]').click();
     assert.equal(posts.length, count);
     await page.locator('#resource-name').fill('QA Reader');
-    for (reply of ['http-error','json-error','html-error','network']) {
+    for (reply of ['http-error','json-error','mail-error','html-error','network']) {
       await page.locator('#resource-form [type="submit"]').click();
       await page.locator('#resource-error').waitFor();
       await page.waitForFunction(() => !document.querySelector('#resource-form [type="submit"]').disabled);
@@ -117,7 +118,7 @@ const origin = new URL(url).origin;
     assert(await page.locator('#resource-success').isHidden());
     await page.locator('#resource-form [type="submit"]').click();
     await page.locator('#resource-success').waitFor();
-    assert.equal(posts.at(-1).emailTitle, careerResources.find(item => item.id === 'eda-part01').emailTitle);
+    assert.equal(posts.at(-1).resourceId, 'eda-part01');
     await closeForm();
     // The new view survives refresh and Back/Forward without changing the URL.
     await page.reload();
