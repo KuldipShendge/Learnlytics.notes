@@ -76,6 +76,7 @@ export const kits = {
     ],
   },
   complete: {
+    view: 'complete',
     title: 'One Kit. More Possibilities.',
     subtitle: 'Data Science + Gen AI + ML Engineer Complete Kit',
     category: 'ALL-IN-ONE COMPLETE KIT',
@@ -86,7 +87,7 @@ export const kits = {
     features: [
       'Data Science, Gen AI & ML Engineering together',
       'Handbooks, practice workbooks & detailed solutions',
-      '9 modules · 80 learning resources',
+      '9 modules · 80 resources · bonus Data Analytics kit',
     ],
     topics: [
       'Mathematics & Statistics',

@@ -6,6 +6,47 @@ export const learningRelease = {
 };
 
 export const learningExperienceContent = {
+  complete: {
+  "hero": "One organised path across Data Science, Gen AI and ML Engineering — with the Data Analytics kit included.",
+  "eyebrow": "YOUR COMPLETE LEARNING JOURNEY",
+  "title": "Connect Your Skills. Plan Your Next Step.",
+  "description": "Organise your preparation from core data skills to LLM applications, model deployment and business communication.",
+  "subjects": [
+    "Data Science",
+    "Gen AI",
+    "MLOps",
+    "Deep Learning",
+    "Analytics",
+    "Storytelling"
+  ],
+  "chapter": "Python · Chapter 03",
+  "currentPath": "Data Scientist",
+  "nextPath": "ML / GenAI Engineer",
+  "nextSkills": [
+    "LLM apps",
+    "Model serving",
+    "Communication"
+  ],
+  "toolkitTitle": "Explain the Whole Project, From Data to Impact.",
+  "toolkitDescription": "Connect your technical decisions with clear outcomes — from analysis and modelling to deployment and business value.",
+  "toolkitBenefits": [
+    "Data & modelling",
+    "LLM applications",
+    "Production trade-offs",
+    "Business impact"
+  ],
+  "project": {
+    "title": "Customer support assistant",
+    "rows": [
+      "Reduce repetitive support requests",
+      "Retrieve context · evaluate responses",
+      "Python · LLMs · retrieval",
+      "Measure answer quality · monitor service",
+      "Help teams resolve queries faster"
+    ],
+    "prompt": "How would you evaluate this system and explain its business value?"
+  }
+},
   engineer: {
   "hero": "Prepare beyond the notebook — organise your learning, track your progress and build towards ML engineering.",
   "eyebrow": "YOUR MACHINE LEARNING JOURNEY",
@@ -117,7 +158,7 @@ const features = [['book', 'My Learning Library'], ['solution', 'Study Preparati
 
 function renderHubPreview(content, view) {
   const kits = view === 'home' ? ['Data Analyst Kit', 'Data Scientist & GenAI Kit']
-    : [{ analyst: 'Data Analyst Kit', scientist: 'Data Scientist & GenAI Kit', engineer: 'Machine Learning Engineer Kit' }[view]];
+    : [{ analyst: 'Data Analyst Kit', scientist: 'Data Scientist & GenAI Kit', engineer: 'Machine Learning Engineer Kit', complete: 'Data Science + Gen AI + ML Engineer Kit' }[view]];
   return `<figure class="hub-preview" aria-label="Concept preview of the upcoming LearnLytics Learning Hub">
     <div class="hub-preview-window">
       <div class="hub-preview-header">

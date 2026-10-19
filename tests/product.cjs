@@ -61,7 +61,7 @@ const widths = [360, 390, 430, 768, 1024, 1440];
       assert.equal(response.status(), 200);
       await page.evaluate(() => document.fonts.ready);
       assert.equal(await page.locator('.curriculum-module').count(), 7);
-      assert.equal(await page.locator('.technology-grid > div').count(), 12);
+      assert.equal(await page.locator('.technology-grid > div').count(), 16);
       assert.equal(await page.locator('.material-confidence').count(), 0);
       assert.equal(await page.locator('#testimonial-list .testimonial-card').count(), 4);
       assert(await page.locator('.product-testimonials').evaluate(el => el.parentElement.classList.contains('product-primary') && (matchMedia('(min-width: 980px)').matches ? el.previousElementSibling.lastElementChild.id === 'samples' : el.previousElementSibling.lastElementChild.classList.contains('audience-section'))));

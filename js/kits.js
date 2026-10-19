@@ -1,4 +1,4 @@
-import { kits } from './catalog.js?v=ml-page-20261019';
+import { kits } from './catalog.js?v=complete-kit-20261019';
 import { setupDialog } from './dialog.js';
 
 export function setupKits() {

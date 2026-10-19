@@ -31,9 +31,15 @@ const url = process.env.PREVIEW_URL || 'http://127.0.0.1:4187/Learnlytics.notes/
       assert.equal(await page.locator('.price-row > strong').textContent(),'₹499');
       assert.equal(await page.locator('.curriculum-module').count(),7);
       assert.equal(await page.locator('.module-parts > li').count(),20);
-      assert.equal(await page.locator('.technology-grid > div').count(),12);
+      assert.equal(await page.locator('.technology-grid > div').count(),16);
       assert.equal(await page.locator('.testimonial-card').count(),4);
       assert.equal(await page.locator('.testimonial-controls').count(),0);
+      if(width>=980) {
+        await page.waitForFunction(()=>Math.abs(document.querySelector('.testimonial-grid').getBoundingClientRect().bottom-document.querySelector('.tools-section').getBoundingClientRect().bottom)<2);
+      }
+      for(const icon of ['mlops','deployment','mlflow','docker','git','fastapi']) {
+        assert.equal(await page.locator(`.technology-grid use[href$="#${icon}"]`).count(),1);
+      }
       assert.match(await page.locator('.hub-library-row').innerText(),/Machine Learning Engineer Kit/);
       assert.match(await page.locator('.learning-toolkit').innerText(),/deploy and monitor/);
       const ids=await page.locator('[id]').evaluateAll(els=>els.map(e=>e.id));

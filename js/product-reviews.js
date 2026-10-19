@@ -1,5 +1,35 @@
 // Reviews copied verbatim from the old DA, DS and ML product sections in D:/website/index.html.
 export const productReviews = {
+  "complete": [
+  {
+    "quote": "“The machine learning scenario questions helped me explain model choices clearly and crack my Deloitte interview!”",
+    "name": "Rahul Verma",
+    "role": "Data Analyst at Deloitte",
+    "initials": "RV",
+    "channel": "whatsapp"
+  },
+  {
+    "quote": "“The Python, statistics and model evaluation questions were extremely useful before my ML interviews.”",
+    "name": "Sneha Iyer",
+    "role": "BI Analyst at TCS",
+    "initials": "SI",
+    "channel": "linkedin"
+  },
+  {
+    "quote": "“The detailed ML answers made difficult concepts easy to understand and present during interviews.”",
+    "name": "Ankit Sharma",
+    "role": "Data Analyst at Amazon",
+    "initials": "AS",
+    "channel": "gmail"
+  },
+  {
+    "quote": "“I practised the ML questions and case studies consistently and cleared three interviews!”",
+    "name": "Pooja Nair",
+    "role": "Data Analyst",
+    "initials": "PN",
+    "channel": "whatsapp"
+  }
+],
   "engineer": [
   {
     "quote": "“The machine learning scenario questions helped me explain model choices clearly and crack my Deloitte interview!”",

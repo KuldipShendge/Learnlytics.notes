@@ -1820,3 +1820,23 @@
     gap: 14px;
   }
 }
+/* Bonus content belongs to the combined kit; shared product structure stays intact. */
+.kit-bonus { margin-top: 24px; padding: 20px; border: 1px solid #b8dfd1; border-radius: 12px; background: #effaf5; }
+.kit-bonus .eyebrow { color: #116451; }
+.kit-bonus h3 { margin: 8px 0; font-size: 18px; }
+.kit-bonus p:not(.eyebrow) { font-size: 13px; line-height: 1.7; }
+.kit-bonus .text-button { margin-top: 12px; }
+.curriculum-part-description { margin-top: 10px; font-size: 13px; line-height: 1.7; }
+
+@media (min-width: 980px) {
+  .product-page:not(.analyst-page) .tools-section {
+    min-height: var(--tools-aligned-height, 0px);
+    display: flex;
+    flex-direction: column;
+  }
+  .product-page:not(.analyst-page) .tools-section .technology-grid {
+    flex: 1;
+    align-content: space-between;
+    padding-top: 4px;
+  }
+}

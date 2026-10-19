@@ -78,21 +78,12 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
         assert.equal(await page.locator('#kit-price').textContent(), id === 'complete' ? '₹899' : id === 'analyst' ? '₹399' : '₹499');
         await noOverflow(`${width}px ${id}`);
         await page.locator('#kit-details').click();
-        if (id === 'scientist' || id === 'analyst' || id === 'engineer') {
-          await page.locator('#product-title').waitFor();
-          assert.equal(page.url(), url);
-          assert(await page.locator('#product-title').isVisible());
-          assert.equal(await page.locator('body.analyst-page').count(), id === 'analyst' ? 1 : 0);
-          await openHome();
-          continue;
-        }
-        assert(await page.locator('#kit-dialog').isVisible());
-        assert.equal(await page.locator('#kit-dialog-title').textContent(), title);
-        const dialogFits = await page.locator('#kit-dialog').evaluate(el => el.scrollWidth <= el.clientWidth);
-        assert(dialogFits, `${width}px ${id} dialog overflow`);
-        await page.keyboard.press('Escape');
-        assert(!(await page.locator('#kit-dialog').isVisible()));
-        assert(await page.locator('#kit-details').evaluate(el => el === document.activeElement));
+        await page.locator('#product-title').waitFor();
+        assert.equal(page.url(), url);
+        assert(await page.locator('#product-title').isVisible());
+        assert.equal(await page.locator('body.analyst-page').count(), id === 'analyst' ? 1 : 0);
+        assert.equal(await page.locator('body.complete-page').count(), id === 'complete' ? 1 : 0);
+        await openHome();
       }
       if (width < 900) {
         await page.evaluate(() => scrollTo(0, 0));
@@ -135,9 +126,9 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
     await page.locator('.goal-option:has(input[value="complete"])').click();
     assert(await page.locator('input[value="complete"]').isChecked());
     await page.locator('#kit-details').click();
-    await page.locator('#explore-materials').click();
-    assert(!(await page.locator('#kit-dialog').isVisible()));
-    assert(await page.locator('#inside-title').evaluate(el => el === document.activeElement));
+    await page.locator('body.complete-page').waitFor();
+    assert.equal(await page.locator('.curriculum-module').count(), 9);
+    await openHome();
     assert.equal(await page.locator('#video-dialog').count(), 0);
     for (const trigger of await page.locator('[data-video]').all()) {
       const id = await trigger.getAttribute('data-video');

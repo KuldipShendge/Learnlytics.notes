@@ -94,12 +94,13 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
         await checkView('#hero-title');
         assert(await page.locator('#career-goal').evaluate(el => el === document.activeElement));
       }
-      // The remaining combo dialog still works after visits to product pages.
+      // The combined kit is now a full product view at the same URL.
       await page.locator('.goal-option:has(input[value="complete"])').click();
       await page.locator('#kit-details').click();
-      assert(await page.locator('#kit-dialog').isVisible());
-      await page.keyboard.press('Escape');
-      await page.locator('#kit-dialog').waitFor({ state: 'hidden' });
+      await checkView('#product-title');
+      assert.equal(await page.locator('body.complete-page').count(), 1);
+      assert.equal(await page.locator('.curriculum-module').count(), 9);
+      await page.locator('.breadcrumbs [data-view="home"]').first().click();
       await page.locator('.goal-option:has(input[value="analyst"])').click();
       await page.locator('#kit-details').click();
       await checkView('#product-title');
