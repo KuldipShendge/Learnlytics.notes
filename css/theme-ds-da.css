@@ -1,0 +1,93 @@
+/* Page-specific colours only. Homepage, combined kit and ML retain their palettes.
+   Scope to the blue theme so the original plum theme remains reversible. */
+html[data-theme="blue"] .scientist-page {
+  --ink: #102a43;
+  --copy: #526a7c;
+  --accent: #087e9b;
+  --accent-dark: #08627a;
+  --line: #d5e8ee;
+  --tint: #f0f8fb;
+  --blush: #e1f1f6;
+  --rose: #98cad8;
+  --paper: #fbfeff;
+  --theme-deep: #12485f;
+  --theme-glow: #eaf8f8;
+  --theme-light: #a5e5ed;
+  --shadow: 0 8px 24px #102a4308;
+}
+html[data-theme="blue"] .analyst-page {
+  --ink: #143b2c;
+  --copy: #526f60;
+  --accent: #107c41;
+  --accent-dark: #0b5e31;
+  --line: #d6e8dc;
+  --tint: #f1f8f3;
+  --blush: #e2f0e6;
+  --rose: #a1cfb1;
+  --paper: #fcfefc;
+  --theme-deep: #185c37;
+  --theme-glow: #edf7e9;
+  --theme-light: #b5e8c8;
+  --shadow: 0 8px 24px #143b2c08;
+}
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .site-header { background: color-mix(in srgb, var(--paper) 96%, transparent); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .main-nav { box-shadow: 0 15px 20px color-mix(in srgb, var(--ink) 3%, transparent); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .book-stage::before { background: radial-gradient(ellipse, var(--blush), var(--theme-glow) 45%, transparent 70%); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .book-model { filter: drop-shadow(4px 8px 8px color-mix(in srgb, var(--ink) 10%, transparent)); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .product-stats > div,
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .sample-tabs > button { background: var(--tint); border-color: var(--line); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .sample-tabs > button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: white; }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .price-row del,
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .product-sticky del,
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .included-count,
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .razorpay-tag,
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .sample-note { color: var(--copy); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .purchase-button { box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 15%, transparent); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .discount { background: var(--blush); border-color: var(--rose); color: var(--accent-dark); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .razorpay-tag b { color: var(--ink); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .included-section,
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .difference-section { background: linear-gradient(130deg, var(--tint), var(--theme-glow)); border-color: var(--line); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .included-icon,
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .included-grid article:nth-child(2) .included-icon,
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .included-grid article:nth-child(3) .included-icon { background: var(--blush); border-color: var(--line); color: var(--accent); box-shadow: inset 0 0 0 4px var(--tint); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .benefit-icon,
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .support-icon { background: var(--blush); color: var(--accent-dark); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .audience-list li::before { color: var(--accent-dark); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .sample-frame { background: var(--blush); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .sample-pagination > button::after { background: var(--rose); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .sample-pagination > button[aria-current="true"]::after { background: var(--accent); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .curriculum-section { border-color: var(--line); background: linear-gradient(160deg, var(--tint), var(--paper)); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .curriculum-banner { background: linear-gradient(120deg, var(--ink), var(--theme-deep)); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .curriculum-banner::after { border-color: color-mix(in srgb, var(--rose) 20%, transparent); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .curriculum-banner .eyebrow { color: var(--theme-light); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) #curriculum-title > span { color: var(--blush); border-color: color-mix(in srgb, var(--blush) 27%, transparent); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .curriculum-module { border-color: var(--line); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .curriculum-module:hover,
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .curriculum-module[open] { border-color: var(--rose); box-shadow: 0 5px 18px color-mix(in srgb, var(--accent) 4%, transparent); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .curriculum-module[open] > summary { background: var(--tint); border-bottom-color: var(--line); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .module-number { background: var(--blush); color: var(--accent-dark); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .curriculum-module[open] .module-number { background: var(--accent); color: white; box-shadow: 0 3px 10px color-mix(in srgb, var(--accent) 13%, transparent); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .module-topic { color: var(--copy); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .curriculum-module > summary > .icon { color: var(--accent-dark); border-color: var(--line); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .curriculum-module[open] > summary > .icon { border-color: var(--rose); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .module-parts li { border-color: var(--line); border-left-color: var(--rose); background: linear-gradient(120deg, #fff, var(--paper)); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .part-stats { border-bottom-color: var(--line); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .part-resources span { background: var(--tint); color: var(--accent-dark); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .choose-section { background: var(--blush); border-color: var(--line); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .product-video { background: var(--ink); border-color: var(--ink); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .support-section,
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .tools-section { background: linear-gradient(140deg, var(--tint), var(--theme-glow)); border-color: var(--line); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .technology-icon,
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .technology-grid > div:nth-child(4) .technology-icon { color: var(--accent); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .product-closing { background: linear-gradient(110deg, var(--ink), var(--theme-deep)); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .product-closing > .icon { color: var(--theme-light); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .product-closing p { color: var(--blush); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .product-sticky { border-top-color: var(--line); box-shadow: 0 -3px 18px color-mix(in srgb, var(--ink) 3%, transparent); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .modal::backdrop { background: color-mix(in srgb, var(--ink) 77%, transparent); }
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .modal { box-shadow: 0 25px 100px color-mix(in srgb, var(--ink) 20%, transparent); }
+
+html[data-theme="blue"] :is(.scientist-page, .analyst-page) .testimonial-card { border-color: var(--line); box-shadow: 0 5px 18px color-mix(in srgb, var(--ink) 2%, transparent); }
+@media (min-width: 980px) {
+  html[data-theme="blue"] :is(.scientist-page, .analyst-page) .product-hero { background: linear-gradient(120deg, var(--tint), #fff 62%); }
+  html[data-theme="blue"] :is(.scientist-page, .analyst-page) .book-caption { color: var(--copy); }
+}

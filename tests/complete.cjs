@@ -76,7 +76,7 @@ const url = process.env.PREVIEW_URL || 'http://127.0.0.1:4187/Learnlytics.notes/
       assert.equal(await page.locator('.curriculum-module').count(),8);
       await page.goBack();await page.locator('body.complete-page').waitFor();
       await home();assert.equal(await accent(),'#0758e8');
-      for(const kit of ['analyst','scientist']) {await openKit(kit);assert.equal(await accent(),'#0758e8');await home();}
+      for(const kit of ['analyst','scientist']) {await openKit(kit);assert.equal(await accent(),kit==='analyst'?'#107c41':'#087e9b');await home();}
     }
     await openKit('complete');await page.reload();await page.locator('body.complete-page').waitFor();
     assert.equal(await accent(),'#0758e8');await home();await page.goBack();await page.locator('body.complete-page').waitFor();
