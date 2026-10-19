@@ -77,6 +77,16 @@ Sample Pages and before reviews. Resizing reuses the same sections without copie
 DS, DA and testimonial browser suites passed at 360, 390, 430, 768, 1024 and
 1440px, including sidebar order and the 39px Help-to-Tools gap on desktop.
 
+### Static reviews follow-up
+
+Both product pages display all four existing reviews in a two-column, two-row
+grid from 560px, or one vertical column below 560px. Carousel controls, automatic
+timers, swipe/keyboard handlers and horizontal scrolling were removed. Read More
+is plain text with the existing arrow style; its destination is deferred at the
+user's request. No fixed card heights or extra section padding were added. The
+responsive review checks passed at all six widths, including a 52px gap from the
+review section to the closing card at 1024 and 1440px on both pages.
+
 The Hub preview contains My Library, a chapter preparation example with Handbook,
 Warmup Test and Interviewer Test states, and a career path with next-skill chips.
 Homepage shows both kits; DA and DS show their respective kit and six subjects.

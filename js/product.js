@@ -4,7 +4,7 @@ import { setupDialog } from './dialog.js';
 import { setupSampleGallery } from './sample-gallery.js?v=pdf-tools-20261016';
 import { curriculum as dsCurriculum, productOverview as dsOverview } from './ds-curriculum.js';
 import { productReviews } from './product-reviews.js?v=reviews-carousel-20261016';
-import { setupProductTestimonials } from './product-testimonials.js?v=reviews-layout-20261016';
+import { setupProductTestimonials } from './product-testimonials.js?v=static-reviews-20261017';
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char]));
 const resources = '<div class="part-resources"><span>Handbook</span><span>Practice workbook</span><span>Solution manual</span></div>';
