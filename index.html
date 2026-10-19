@@ -24,7 +24,8 @@
     <link rel="stylesheet" href="css/theme-ml.css?v=ml-page-20261019" />
     <link rel="stylesheet" href="css/theme-ds-da.css?v=product-colours-20261019" />
     <link rel="stylesheet" href="css/kit-journey.css?v=journey-20261019" />
-    <script type="module" src="js/main.js?v=mobile-reviews-20261019"></script>
+    <link rel="stylesheet" href="css/reviews.css?v=reviews-page-20261019" />
+    <script type="module" src="js/main.js?v=reviews-page-20261019"></script>
   </head>
   <body class="home-page">
     <div id="app">
@@ -468,7 +469,7 @@
           <svg class="icon"><use href="#i-menu" /></svg>
         </button>
         <nav class="main-nav" id="main-nav" aria-label="Main navigation">
-          <a href="#samples">Sample pages</a><a href="#curriculum">Curriculum</a
+          <a class="career-nav" href="#" data-view="resources">Career Resources <span class="free-tag">Free</span></a><a href="#curriculum">Curriculum</a
           ><a href="#support">Need help?</a><a href="#" data-view="about">About Us</a
           ><button class="button button-small" type="button" data-checkout>
             Get this kit <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg>
@@ -736,7 +737,7 @@
           <section class="product-section product-testimonials" id="testimonials" aria-labelledby="reviews-title">
             <div class="testimonials-heading"><h2 id="reviews-title">Loved by Aspirants</h2></div>
             <div class="testimonial-grid" id="testimonial-list" role="region" aria-label="Aspirant reviews"></div>
-            <p class="testimonial-read-more">Read More <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></p>
+            <a class="testimonial-read-more" href="#reviews" data-view="reviews">Read More <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></a>
           </section>
         </div>
 
@@ -938,7 +939,7 @@
           <svg class="icon"><use href="#i-menu" /></svg>
         </button>
         <nav class="main-nav" id="main-nav" aria-label="Main navigation">
-          <a href="#samples">Sample pages</a><a href="#curriculum">Curriculum</a
+          <a class="career-nav" href="#" data-view="resources">Career Resources <span class="free-tag">Free</span></a><a href="#curriculum">Curriculum</a
           ><a href="#support">Need help?</a><a href="#" data-view="about">About Us</a
           ><button class="button button-small" type="button" data-checkout>
             Get this kit <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg>
@@ -1212,7 +1213,7 @@
           <section class="product-section product-testimonials" id="testimonials" aria-labelledby="reviews-title">
             <div class="testimonials-heading"><h2 id="reviews-title">Loved by Aspirants</h2></div>
             <div class="testimonial-grid" id="testimonial-list" role="region" aria-label="Aspirant reviews"></div>
-            <p class="testimonial-read-more">Read More <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></p>
+            <a class="testimonial-read-more" href="#reviews" data-view="reviews">Read More <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></a>
           </section>
         </div>
 
@@ -1413,7 +1414,7 @@
           <svg class="icon"><use href="#i-menu" /></svg>
         </button>
         <nav class="main-nav" id="main-nav" aria-label="Main navigation">
-          <a href="#samples">Sample pages</a><a href="#curriculum">Curriculum</a
+          <a class="career-nav" href="#" data-view="resources">Career Resources <span class="free-tag">Free</span></a><a href="#curriculum">Curriculum</a
           ><a href="#support">Need help?</a><a href="#" data-view="about">About Us</a
           ><button class="button button-small" type="button" data-checkout>
             Get this kit <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg>
@@ -1681,7 +1682,7 @@
           <section class="product-section product-testimonials" id="testimonials" aria-labelledby="reviews-title">
             <div class="testimonials-heading"><h2 id="reviews-title">Loved by Aspirants</h2></div>
             <div class="testimonial-grid" id="testimonial-list" role="region" aria-label="Aspirant reviews"></div>
-            <p class="testimonial-read-more">Read More <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></p>
+            <a class="testimonial-read-more" href="#reviews" data-view="reviews">Read More <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></a>
           </section>
         </div>
 
@@ -1883,7 +1884,7 @@
           <svg class="icon"><use href="#i-menu" /></svg>
         </button>
         <nav class="main-nav" id="main-nav" aria-label="Main navigation">
-          <a href="#samples">Sample pages</a><a href="#curriculum">Curriculum</a
+          <a class="career-nav" href="#" data-view="resources">Career Resources <span class="free-tag">Free</span></a><a href="#curriculum">Curriculum</a
           ><a href="#support">Need help?</a><a href="#" data-view="about">About Us</a
           ><button class="button button-small" type="button" data-checkout>
             Get this kit <svg class="icon"><use href="assets/icons/product.svg#arrow" /></svg>
@@ -2151,7 +2152,7 @@
           <section class="product-section product-testimonials" id="testimonials" aria-labelledby="reviews-title">
             <div class="testimonials-heading"><h2 id="reviews-title">Loved by Aspirants</h2></div>
             <div class="testimonial-grid" id="testimonial-list" role="region" aria-label="Aspirant reviews"></div>
-            <p class="testimonial-read-more">Read More <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></p>
+            <a class="testimonial-read-more" href="#reviews" data-view="reviews">Read More <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></a>
           </section>
         </div>
 
@@ -2611,6 +2612,35 @@
         </div>
         <a class="resource-support" href="mailto:learnlytics.handbook@gmail.com">Need help? Contact LearnLytics ↗</a>
       </dialog>
+    </template>
+    <template id="view-reviews" data-body-class="reviews-page" data-title="Loved by Aspirants | LearnLytics Media" data-description="Read learner reviews of LearnLytics handbooks and learning kits.">
+      <a class="skip-link" href="#reviews">Skip to content</a>
+      <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" /></symbol>
+        <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6" /></symbol>
+        <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" /></symbol>
+      </svg>
+      <header class="site-header">
+        <div class="container header-inner">
+          <a class="brand" href="#" data-view="home" aria-label="LearnLytics Media home"><img src="assets/images/logo.webp?v=updated-logo-20261016" alt="LearnLytics Handbook" width="1933" height="814" /></a>
+          <button class="menu-toggle icon-button" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Open navigation"><svg class="icon"><use href="#i-menu" /></svg></button>
+          <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+            <a class="career-nav" href="#" data-view="resources">Career Resources <span class="free-tag">Free</span></a>
+            <a href="#how-it-works" data-view="home">How it works</a>
+            <a href="#" data-view="about">About Us</a>
+            <a class="button button-small" href="#career-goal" data-view="home">Find your kit <svg class="icon"><use href="#i-arrow" /></svg></a>
+          </nav>
+        </div>
+      </header>
+      <main id="reviews" class="container reviews-main" aria-labelledby="reviews-title">
+        <a class="reviews-back text-button" href="#testimonials" data-view="home" id="reviews-back">← Back to your kit</a>
+        <section class="reviews-hero">
+          <div><p class="eyebrow">THEIR PREPARATION. THEIR WORDS.</p><h1 id="reviews-title">Loved by Aspirants</h1><p>From understanding a concept to explaining it with confidence. Read what learners have shared about their LearnLytics experience.</p></div>
+          <div class="reviews-count"><strong>10</strong><span>Learner reviews</span><svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#book" /></svg></div>
+        </section>
+        <section class="learner-reviews-grid" aria-label="Learner reviews" id="all-reviews"></section>
+      </main>
+      <footer class="product-footer container"><a href="#" data-view="home">LearnLytics Media</a><a href="mailto:learnlytics.handbook@gmail.com">Need help? Contact us ↗</a><span>© 2026 LearnLytics Media</span></footer>
     </template>
   </body>
 </html>

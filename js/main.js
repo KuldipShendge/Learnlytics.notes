@@ -1,4 +1,5 @@
 import { setupKitJourney } from './kit-journey.js?v=journey-20261019';
+import { setupReviewsPage, setupReviewReturn } from './reviews.js?v=reviews-page-20261019';
 import { setupLearningExperience } from './learning-experience.js?v=themed-images-20261019';
 import { setupKits } from './kits.js?v=complete-kit-20261019';
 import { setupInlineVideos } from './inline-videos.js?v=guide-covers-logo-20261016';
@@ -11,6 +12,7 @@ import { setupViews } from './views.js?v=inline-guides-20261015';
 import { setupCareerResources } from './career-resources.js?v=compact-resources-20261017';
 
 setupNavigation();
+setupReviewReturn();
 setupViews({
   home() {
     setupKitJourney();
@@ -23,4 +25,5 @@ setupViews({
   engineer: () => setupProduct({curriculum: mlCurriculum, productOverview: mlOverview, kit: 'engineer'}),
   complete: () => setupProduct({curriculum: completeCurriculum, productOverview: completeOverview, kit: 'complete'}),
   resources: setupCareerResources,
+  reviews: setupReviewsPage,
 });
