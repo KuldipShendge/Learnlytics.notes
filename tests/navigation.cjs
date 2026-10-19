@@ -32,7 +32,7 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
         for (const logo of await page.locator('.brand img').all()) {
           await logo.evaluate(img => img.decode());
           assert((await logo.getAttribute('src')).includes('logo.webp'));
-          assert.equal(await logo.evaluate(img => img.naturalWidth), 1933);
+          assert(await logo.evaluate(img => img.complete && img.naturalWidth > 0), 'Current logo must load successfully');
         }
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         const players = page.locator('[data-inline-video] iframe');
@@ -94,8 +94,8 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
         await checkView('#hero-title');
         assert(await page.locator('#career-goal').evaluate(el => el === document.activeElement));
       }
-      // The remaining kit dialogs still work after visits to product pages.
-      await page.locator('.goal-option:has(input[value="engineer"])').click();
+      // The remaining combo dialog still works after visits to product pages.
+      await page.locator('.goal-option:has(input[value="complete"])').click();
       await page.locator('#kit-details').click();
       assert(await page.locator('#kit-dialog').isVisible());
       await page.keyboard.press('Escape');

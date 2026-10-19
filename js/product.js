@@ -1,9 +1,9 @@
-import { setupLearningExperience } from './learning-experience.js?v=toolkit-product-20261017';
+import { setupLearningExperience } from './learning-experience.js?v=ml-page-20261019';
 import { setupInlineVideos } from './inline-videos.js?v=guide-covers-logo-20261016';
 import { setupDialog } from './dialog.js';
 import { setupSampleGallery } from './sample-gallery.js?v=pdf-tools-20261016';
 import { curriculum as dsCurriculum, productOverview as dsOverview } from './ds-curriculum.js';
-import { productReviews } from './product-reviews.js?v=reviews-carousel-20261016';
+import { productReviews } from './product-reviews.js?v=ml-page-20261019';
 import { setupProductTestimonials } from './product-testimonials.js?v=static-reviews-20261017';
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char]));

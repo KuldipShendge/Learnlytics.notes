@@ -1,8 +1,9 @@
-import { setupLearningExperience } from './learning-experience.js?v=toolkit-product-20261017';
-import { setupKits } from './kits.js?v=single-kit-card-20261016';
+import { setupLearningExperience } from './learning-experience.js?v=ml-page-20261019';
+import { setupKits } from './kits.js?v=ml-page-20261019';
 import { setupInlineVideos } from './inline-videos.js?v=guide-covers-logo-20261016';
-import { setupProduct } from './product.js?v=static-reviews-20261017';
+import { setupProduct } from './product.js?v=ml-page-20261019';
 import { curriculum as daCurriculum, productOverview as daOverview } from './da-curriculum.js';
+import { curriculum as mlCurriculum, productOverview as mlOverview } from './ml-curriculum.js';
 import { setupNavigation } from './navigation.js?v=single-url-1';
 import { setupViews } from './views.js?v=inline-guides-20261015';
 import { setupCareerResources } from './career-resources.js?v=compact-resources-20261017';
@@ -16,5 +17,6 @@ setupViews({
   },
   scientist: setupProduct,
   analyst: () => setupProduct({curriculum: daCurriculum, productOverview: daOverview, kit: 'analyst'}),
+  engineer: () => setupProduct({curriculum: mlCurriculum, productOverview: mlOverview, kit: 'engineer'}),
   resources: setupCareerResources,
 });

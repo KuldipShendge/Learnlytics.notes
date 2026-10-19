@@ -6,6 +6,47 @@ export const learningRelease = {
 };
 
 export const learningExperienceContent = {
+  engineer: {
+  "hero": "Prepare beyond the notebook — organise your learning, track your progress and build towards ML engineering.",
+  "eyebrow": "YOUR MACHINE LEARNING JOURNEY",
+  "title": "Build Your Path From Models to Production.",
+  "description": "Organise your preparation across ML foundations, model evaluation, deep learning and MLOps.",
+  "subjects": [
+    "Math & Stats",
+    "Python",
+    "EDA",
+    "Machine Learning",
+    "Deep Learning",
+    "MLOps"
+  ],
+  "chapter": "Python · Chapter 03",
+  "currentPath": "ML Engineer",
+  "nextPath": "ML Platform Engineer",
+  "nextSkills": [
+    "ML pipelines",
+    "Model serving",
+    "Monitoring"
+  ],
+  "toolkitTitle": "Build Models. Explain Your Engineering Decisions.",
+  "toolkitDescription": "Explain your model choices, evaluation strategy and deployment decisions clearly in interviews.",
+  "toolkitBenefits": [
+    "Feature engineering",
+    "Model evaluation",
+    "Deployment decisions",
+    "Production trade-offs"
+  ],
+  "project": {
+    "title": "Customer churn prediction pipeline",
+    "rows": [
+      "Identify customers at risk",
+      "Engineer features · compare models",
+      "Python · scikit-learn",
+      "Validate recall · monitor model drift",
+      "Prioritise retention outreach"
+    ],
+    "prompt": "How would you deploy and monitor this model?"
+  }
+},
   home: {
     heroHeading: 'More Than Interview PDFs. A Structured Learning Experience.',
     hero: 'Learn concepts, practise interview questions, track your preparation and plan your career with LearnLytics.',
@@ -76,7 +117,7 @@ const features = [['book', 'My Learning Library'], ['solution', 'Study Preparati
 
 function renderHubPreview(content, view) {
   const kits = view === 'home' ? ['Data Analyst Kit', 'Data Scientist & GenAI Kit']
-    : [view === 'analyst' ? 'Data Analyst Kit' : 'Data Scientist & GenAI Kit'];
+    : [{ analyst: 'Data Analyst Kit', scientist: 'Data Scientist & GenAI Kit', engineer: 'Machine Learning Engineer Kit' }[view]];
   return `<figure class="hub-preview" aria-label="Concept preview of the upcoming LearnLytics Learning Hub">
     <div class="hub-preview-window">
       <div class="hub-preview-header">

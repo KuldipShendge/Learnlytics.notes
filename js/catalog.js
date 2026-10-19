@@ -51,6 +51,7 @@ export const kits = {
     ],
   },
   engineer: {
+    view: 'engineer',
     title: 'Crack Machine Learning',
     subtitle: 'Machine Learning Engineer Complete Kit',
     category: 'MACHINE LEARNING ENGINEERING',

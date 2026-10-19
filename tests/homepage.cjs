@@ -78,7 +78,7 @@ const kits = { analyst: 'Crack Data & BI Analyst', scientist: 'Crack Data Scient
         assert.equal(await page.locator('#kit-price').textContent(), id === 'complete' ? '₹899' : id === 'analyst' ? '₹399' : '₹499');
         await noOverflow(`${width}px ${id}`);
         await page.locator('#kit-details').click();
-        if (id === 'scientist' || id === 'analyst') {
+        if (id === 'scientist' || id === 'analyst' || id === 'engineer') {
           await page.locator('#product-title').waitFor();
           assert.equal(page.url(), url);
           assert(await page.locator('#product-title').isVisible());

@@ -1,0 +1,75 @@
+/* ML-only colour treatment. Shared DA/DS layout and type rules stay unchanged.
+   Remove this file/link to return the ML page to the shared blue palette. */
+html[data-theme="blue"] .engineer-page {
+  --ink: #21163f;
+  --copy: #625975;
+  --accent: #7040d6;
+  --accent-dark: #5426b0;
+  --line: #e4dcf3;
+  --tint: #f6f2ff;
+  --blush: #ede5fb;
+  --rose: #bca5e8;
+  --paper: #fdfbff;
+  --shadow: 0 8px 24px #21163f08;
+}
+html[data-theme="blue"] .engineer-page .site-header { background: #fdfbfff5; }
+html[data-theme="blue"] .engineer-page .main-nav { box-shadow: 0 15px 20px #21163f08; }
+html[data-theme="blue"] .engineer-page .book-stage::before { background: radial-gradient(ellipse, #e7dcfc, #e0f5f0 45%, transparent 70%); }
+html[data-theme="blue"] .engineer-page .book-model { filter: drop-shadow(4px 8px 8px #21163f1a); }
+html[data-theme="blue"] .engineer-page .product-stats > div,
+html[data-theme="blue"] .engineer-page .sample-tabs > button { background: var(--tint); border-color: var(--line); }
+html[data-theme="blue"] .engineer-page .sample-tabs > button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: white; }
+html[data-theme="blue"] .engineer-page .price-row del,
+html[data-theme="blue"] .engineer-page .product-sticky del,
+html[data-theme="blue"] .engineer-page .included-count,
+html[data-theme="blue"] .engineer-page .razorpay-tag,
+html[data-theme="blue"] .engineer-page .sample-note { color: var(--copy); }
+html[data-theme="blue"] .engineer-page .purchase-button { box-shadow: 0 6px 16px #7040d625; }
+html[data-theme="blue"] .engineer-page .discount { background: #c9f2e6; border-color: #90d9c4; color: #116451; }
+html[data-theme="blue"] .engineer-page .razorpay-tag b { color: var(--ink); }
+html[data-theme="blue"] .engineer-page .included-section,
+html[data-theme="blue"] .engineer-page .difference-section { background: linear-gradient(130deg, #f6f2ff, #edf8f5); border-color: var(--line); }
+html[data-theme="blue"] .engineer-page .included-icon,
+html[data-theme="blue"] .engineer-page .included-grid article:nth-child(2) .included-icon,
+html[data-theme="blue"] .engineer-page .included-grid article:nth-child(3) .included-icon { background: var(--blush); border-color: var(--line); color: var(--accent); box-shadow: inset 0 0 0 4px var(--tint); }
+html[data-theme="blue"] .engineer-page .benefit-icon,
+html[data-theme="blue"] .engineer-page .support-icon { background: #dcf3ed; color: #147563; }
+html[data-theme="blue"] .engineer-page .audience-list li::before { color: #147563; }
+html[data-theme="blue"] .engineer-page .sample-frame { background: var(--blush); }
+html[data-theme="blue"] .engineer-page .sample-pagination > button::after { background: var(--rose); }
+html[data-theme="blue"] .engineer-page .sample-pagination > button[aria-current="true"]::after { background: var(--accent); }
+html[data-theme="blue"] .engineer-page .curriculum-section { border-color: var(--line); background: linear-gradient(160deg, #f6f2ff, #fdfbff); }
+html[data-theme="blue"] .engineer-page .curriculum-banner { background: linear-gradient(120deg, #21163f, #51338a); }
+html[data-theme="blue"] .engineer-page .curriculum-banner::after { border-color: #bca5e833; }
+html[data-theme="blue"] .engineer-page .curriculum-banner .eyebrow { color: #b9eddf; }
+html[data-theme="blue"] .engineer-page #curriculum-title > span { color: #e9defa; border-color: #e9defa44; }
+html[data-theme="blue"] .engineer-page .curriculum-module { border-color: var(--line); }
+html[data-theme="blue"] .engineer-page .curriculum-module:hover,
+html[data-theme="blue"] .engineer-page .curriculum-module[open] { border-color: var(--rose); box-shadow: 0 5px 18px #7040d60a; }
+html[data-theme="blue"] .engineer-page .curriculum-module[open] > summary { background: var(--tint); border-bottom-color: var(--line); }
+html[data-theme="blue"] .engineer-page .module-number { background: var(--blush); color: var(--accent-dark); }
+html[data-theme="blue"] .engineer-page .curriculum-module[open] .module-number { background: var(--accent); color: white; box-shadow: 0 3px 10px #7040d620; }
+html[data-theme="blue"] .engineer-page .module-topic { color: #71618d; }
+html[data-theme="blue"] .engineer-page .curriculum-module > summary > .icon { color: var(--accent-dark); border-color: var(--line); }
+html[data-theme="blue"] .engineer-page .curriculum-module[open] > summary > .icon { border-color: var(--rose); }
+html[data-theme="blue"] .engineer-page .module-parts li { border-color: var(--line); border-left-color: var(--rose); background: linear-gradient(120deg, #fff, #faf7ff); }
+html[data-theme="blue"] .engineer-page .part-stats { border-bottom-color: var(--line); }
+html[data-theme="blue"] .engineer-page .part-resources span { background: #e3f5ef; color: #116451; }
+html[data-theme="blue"] .engineer-page .choose-section { background: var(--blush); border-color: var(--line); }
+html[data-theme="blue"] .engineer-page .product-video { background: var(--ink); border-color: var(--ink); }
+html[data-theme="blue"] .engineer-page .support-section,
+html[data-theme="blue"] .engineer-page .tools-section { background: linear-gradient(140deg, #f6f2ff, #edf8f5); border-color: var(--line); }
+html[data-theme="blue"] .engineer-page .technology-icon,
+html[data-theme="blue"] .engineer-page .technology-grid > div:nth-child(4) .technology-icon { color: var(--accent); }
+html[data-theme="blue"] .engineer-page .product-closing { background: linear-gradient(110deg, #21163f, #3b2364); }
+html[data-theme="blue"] .engineer-page .product-closing > .icon { color: #9bdfce; }
+html[data-theme="blue"] .engineer-page .product-closing p { color: #ded1f1; }
+html[data-theme="blue"] .engineer-page .product-sticky { border-top-color: var(--line); box-shadow: 0 -3px 18px #21163f08; }
+html[data-theme="blue"] .engineer-page .modal::backdrop { background: #21163fc4; }
+html[data-theme="blue"] .engineer-page .modal { box-shadow: 0 25px 100px #21163f33; }
+
+html[data-theme="blue"] .engineer-page .testimonial-card { border-color: var(--line); box-shadow: 0 5px 18px #21163f05; }
+@media (min-width: 980px) {
+  html[data-theme="blue"] .engineer-page .product-hero { background: linear-gradient(120deg, #f6f2ff, #fff 62%); }
+  html[data-theme="blue"] .engineer-page .book-caption { color: var(--copy); }
+}
