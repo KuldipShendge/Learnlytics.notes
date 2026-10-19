@@ -212,7 +212,26 @@ function renderToolkitPreview(project) {
   </figure>`;
 }
 
+const toolkitArtwork = {
+  "analyst": {
+    "file": "assets/images/da-toolkit-theme-20261019.webp",
+    "width": 1122,
+    "height": 1402
+  },
+  "engineer": {
+    "file": "assets/images/ml-toolkit-theme-20261019.webp",
+    "width": 1122,
+    "height": 1402
+  },
+  "scientist": {
+    "file": "assets/images/ds-toolkit-theme-20261019.webp",
+    "width": 1122,
+    "height": 1402
+  }
+};
+
 export function setupLearningExperience(view) {
+  const artwork = toolkitArtwork[view] || { file: "assets/images/project-explanation-toolkit.webp", width: 800, height: 1000 };
   const content = learningExperienceContent[view];
   const slot = document.querySelector(`[data-learning-experience="${view}"]`);
   if (!content || !slot || slot.childElementCount) return;
@@ -251,7 +270,7 @@ export function setupLearningExperience(view) {
       </div>
       <div class="learning-toolkit-visuals">
         <figure class="toolkit-product">
-          <img src="assets/images/project-explanation-toolkit.webp" width="800" height="1000" loading="lazy" decoding="async" alt="LearnLytics Project Explanation Toolkit book with a Problem, Approach, Decision and Result worksheet" />
+          <img src="${escapeHtml(artwork.file)}" width="${artwork.width}" height="${artwork.height}" loading="lazy" decoding="async" alt="LearnLytics Project Explanation Toolkit book with a Problem, Approach, Decision and Result worksheet" />
           <figcaption><h3>How To Explain Your Projects Confidently In Interview</h3><p>This Toolkit Is Answer</p></figcaption>
         </figure>
         ${renderToolkitPreview(content.project)}

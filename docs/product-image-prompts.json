@@ -1,0 +1,66 @@
+{
+  "tool": "Built-in image_gen",
+  "date": "2026-10-19",
+  "assets": [
+    {
+      "key": "da-hero",
+      "reference": "D:/GitHub Repos/Learnlytics.notes/assets/images/kit-data-analyst.webp",
+      "prompt": "Use case: precise-object-edit. Edit the supplied LearnLytics Data Analyst product mockup for an Excel-inspired green website. Keep the exact portrait 2:3 composition, camera angle, upright white book on three horizontal resource books, bar chart illustration, all existing text and typography, high resolution crisp edges. Change ONLY the colours: replace royal blue lettering and graphics with Excel forest green #107c41 and dark green #143b2c; use light sage #e2f0e6 and mint for chart bars, waves and horizontal book covers. White cover remains white, background becomes very pale green-white #f1f8f3. Retain every text verbatim including LearnLytics, DATA ANALYST, COMPLETE KIT, WITH GEN AI, 2026 EDITION, 01. Comprehensive Handbooks, 02. Interview Practice Workbooks, 03. Solution Manual. No extra objects, no new text, no watermark. Premium sharp product rendering. Output a single portrait image.",
+      "generated": "C:\\Users\\kuldi\\.codex\\generated_images\\01a13b2a-e634-7ba0-86f6-cb174222d3e1\\exec-e5a04c10-3de8-4881-9941-fefa2d3fa506.png",
+      "output": "assets/images/da-hero-theme-20261019.webp",
+      "width": 1023,
+      "height": 1537,
+      "bytes": 69798
+    },
+    {
+      "key": "ml-hero",
+      "reference": "D:/GitHub Repos/Learnlytics.notes/assets/images/kit-machine-learning.webp",
+      "prompt": "Use case: precise-object-edit. Recolour this exact LearnLytics Machine Learning Engineer product mockup to a violet, deep indigo and teal palette. Preserve the portrait 2:3 composition, white upright book on three horizontal resource books, neural network geometry, camera angle, lighting, all exact text and positions. Change blue accents to violet #7040d6, dark text to deep indigo #21163f, pale blue waves and stacked books to pale lavender #ede5fb with subtle teal #147563 network highlights. Background very pale lavender-white #f6f2ff. All text must remain identical and crisp: LearnLytics, MACHINE LEARNING ENGINEER, COMPLETE KIT, 2026 EDITION, 01. Comprehensive Handbooks, 02. Interview Practice Workbooks, 03. Solution Manual. No extra objects or watermark. Output one sharp portrait image.",
+      "generated": "C:\\Users\\kuldi\\.codex\\generated_images\\01a13b2a-e634-7ba0-86f6-cb174222d3e1\\exec-3e2dc3e4-c55c-43c6-b682-b787382e04d5.png",
+      "output": "assets/images/ml-hero-theme-20261019.webp",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 97740
+    },
+    {
+      "key": "ds-hero",
+      "reference": "D:/website/images/light-theme/ds-complete-hero-v2.webp",
+      "prompt": "Use case: precise-object-edit. This is the OLD website hero design the user specifically selected. Preserve its exact white upright book resting on a single flat notebook, camera perspective, proportions, cover composition, star accents and curved connected node illustration. Recolour ONLY from pink/plum to current Data Science navy-cyan: dark text #102a43, GEN AI and star accents #087e9b, graph in navy/cyan, wave fills in pale icy blue #e1f1f6, notebook cover muted cyan #98cad8, very pale ice-white background #f0f8fb. Keep white paper and book cover. Preserve verbatim LearnLytics, DATA SCIENTIST, & GEN AI, COMPLETE KIT, 2026 EDITION. Sharp legible typography, premium 3D product mockup, same portrait 2:3 framing. No extra text, no new props, no watermark.",
+      "generated": "C:\\Users\\kuldi\\.codex\\generated_images\\01a13b2a-e634-7ba0-86f6-cb174222d3e1\\exec-e4889d1f-dc6b-44c9-aaef-73bc9c8b5405.png",
+      "output": "assets/images/ds-hero-theme-20261019.webp",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 80736
+    },
+    {
+      "key": "da-toolkit",
+      "reference": "D:/GitHub Repos/Learnlytics.notes/assets/images/project-explanation-toolkit.webp",
+      "prompt": "Use case: precise-object-edit. Edit this exact LearnLytics Project Explanation Toolkit product mockup. Change only the colour palette to Excel-inspired forest green #107c41 and dark green #143b2c text, pale sage #e2f0e6 and mint accents, light green-white #f1f8f3 background. Keep the 4:5 portrait composition, white upright hardcover, two speech bubble objects, connected steps 1 2 3, separate leaning worksheet with four sections, every object position, exact typography and soft studio lighting. Preserve all text verbatim: LearnLytics; PROJECT EXPLANATION TOOLKIT; Problem; Approach; Decision; Result; 1; 2; 3. Make typography sharp and readable. White paper and cover stay white. No other text, no watermark, no extra props. Output one high resolution portrait image.",
+      "generated": "C:\\Users\\kuldi\\.codex\\generated_images\\01a13b2a-e634-7ba0-86f6-cb174222d3e1\\exec-d0b53a71-9e1f-4e81-afa1-5fa5d3012119.png",
+      "output": "assets/images/da-toolkit-theme-20261019.webp",
+      "width": 1122,
+      "height": 1402,
+      "bytes": 56916
+    },
+    {
+      "key": "ml-toolkit",
+      "reference": "D:/GitHub Repos/Learnlytics.notes/assets/images/project-explanation-toolkit.webp",
+      "prompt": "Use case: precise-object-edit. Edit this exact LearnLytics Project Explanation Toolkit product mockup. Change only the colour palette to violet #7040d6 and deep indigo #21163f text, lavender #ede5fb waves, subtle teal #147563 accent node, pale lavender-white #f6f2ff background. Keep the 4:5 portrait composition, white upright hardcover, two speech bubble objects, connected steps 1 2 3, separate leaning worksheet with four sections, every object position, exact typography and soft studio lighting. Preserve all text verbatim: LearnLytics; PROJECT EXPLANATION TOOLKIT; Problem; Approach; Decision; Result; 1; 2; 3. Make typography sharp and readable. White paper and cover stay white. No other text, no watermark, no extra props. Output one high resolution portrait image.",
+      "generated": "C:\\Users\\kuldi\\.codex\\generated_images\\01a13b2a-e634-7ba0-86f6-cb174222d3e1\\exec-901f5f0b-63ac-42c4-8899-5b5aaa867566.png",
+      "output": "assets/images/ml-toolkit-theme-20261019.webp",
+      "width": 1122,
+      "height": 1402,
+      "bytes": 61572
+    },
+    {
+      "key": "ds-toolkit",
+      "reference": "D:/GitHub Repos/Learnlytics.notes/assets/images/project-explanation-toolkit.webp",
+      "prompt": "Use case: precise-object-edit. Edit this exact LearnLytics Project Explanation Toolkit product mockup. Change only the colour palette to deep navy #102a43 and cyan #087e9b text and accents, icy blue #e1f1f6 waves, pale ice-white #f0f8fb background. Keep the 4:5 portrait composition, white upright hardcover, two speech bubble objects, connected steps 1 2 3, separate leaning worksheet with four sections, every object position, exact typography and soft studio lighting. Preserve all text verbatim: LearnLytics; PROJECT EXPLANATION TOOLKIT; Problem; Approach; Decision; Result; 1; 2; 3. Make typography sharp and readable. White paper and cover stay white. No other text, no watermark, no extra props. Output one high resolution portrait image.",
+      "generated": "C:\\Users\\kuldi\\.codex\\generated_images\\01a13b2a-e634-7ba0-86f6-cb174222d3e1\\exec-cad7d516-3151-4aee-ab64-17d70356f7e8.png",
+      "output": "assets/images/ds-toolkit-theme-20261019.webp",
+      "width": 1122,
+      "height": 1402,
+      "bytes": 61094
+    }
+  ]
+}
