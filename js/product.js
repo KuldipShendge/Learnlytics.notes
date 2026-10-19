@@ -5,7 +5,7 @@ import { setupDialog } from './dialog.js';
 import { setupSampleGallery } from './sample-gallery.js?v=pdf-tools-20261016';
 import { curriculum as dsCurriculum, productOverview as dsOverview } from './ds-curriculum.js';
 import { productReviews } from './product-reviews.js?v=complete-kit-20261019';
-import { setupProductTestimonials } from './product-testimonials.js?v=static-reviews-20261017';
+import { setupProductTestimonials } from './product-testimonials.js?v=mobile-reviews-20261019';
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char]));
 const resources = '<div class="part-resources"><span>Handbook</span><span>Practice workbook</span><span>Solution manual</span></div>';
@@ -15,6 +15,30 @@ export function setupProduct({ curriculum = dsCurriculum, productOverview = dsOv
   setupLearningExperience(kit);
   setupInlineVideos();
   setupSampleGallery({ resources: productOverview.samples });
+
+  const sticky = document.querySelector('.product-sticky');
+  const hero = document.querySelector('.product-hero');
+  const header = document.querySelector('.site-header');
+  let stickyFrame;
+  const updateSticky = () => {
+    cancelAnimationFrame(stickyFrame);
+    stickyFrame = requestAnimationFrame(() => {
+      const show = hero.isConnected && window.scrollY > 0 && hero.getBoundingClientRect().bottom <= (header?.getBoundingClientRect().bottom || 0);
+      sticky.classList.toggle('is-visible', show);
+      sticky.inert = !show;
+    });
+  };
+  sticky.inert = true;
+  window.addEventListener('scroll', updateSticky, { passive: true });
+  window.addEventListener('resize', updateSticky);
+  new ResizeObserver(updateSticky).observe(hero);
+  document.querySelector('#app').addEventListener('learnlytics:view-enter', updateSticky);
+  document.querySelector('#app').addEventListener('learnlytics:view-leave', () => {
+    cancelAnimationFrame(stickyFrame);
+    sticky.classList.remove('is-visible');
+    sticky.inert = true;
+  });
+  updateSticky();
 
   const curriculumSection = document.querySelector('#curriculum');
   const includedSection = document.querySelector('.included-section');

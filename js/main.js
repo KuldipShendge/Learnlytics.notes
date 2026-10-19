@@ -2,7 +2,7 @@ import { setupKitJourney } from './kit-journey.js?v=journey-20261019';
 import { setupLearningExperience } from './learning-experience.js?v=themed-images-20261019';
 import { setupKits } from './kits.js?v=complete-kit-20261019';
 import { setupInlineVideos } from './inline-videos.js?v=guide-covers-logo-20261016';
-import { setupProduct } from './product.js?v=journey-20261019';
+import { setupProduct } from './product.js?v=mobile-reviews-20261019';
 import { curriculum as daCurriculum, productOverview as daOverview } from './da-curriculum.js';
 import { curriculum as mlCurriculum, productOverview as mlOverview } from './ml-curriculum.js';
 import { curriculum as completeCurriculum, productOverview as completeOverview } from './complete-curriculum.js';
