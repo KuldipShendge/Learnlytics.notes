@@ -3,7 +3,7 @@
 export const kits = {
   scientist: {
     view: 'scientist',
-    title: 'Crack Data Scientist & Gen AI',
+    title: 'Crack Data Scientist & Gen AI Interview',
     subtitle: 'Data Scientist & Gen AI Interview Kit',
     category: 'DATA SCIENCE & GENERATIVE AI',
     badge: 'From foundations to Gen AI',
@@ -27,7 +27,7 @@ export const kits = {
   },
   analyst: {
     view: 'analyst',
-    title: 'Crack Data & BI Analyst',
+    title: 'Crack Data & BI Analyst Interview',
     subtitle: 'Data & BI Analyst with Gen AI Complete Kit',
     category: 'DATA ANALYTICS & BUSINESS INTELLIGENCE',
     badge: 'Turn data into decisions',
@@ -52,7 +52,7 @@ export const kits = {
   },
   engineer: {
     view: 'engineer',
-    title: 'Crack Machine Learning',
+    title: 'Crack Machine Learning Interview',
     subtitle: 'Machine Learning Engineer Complete Kit',
     category: 'MACHINE LEARNING ENGINEERING',
     badge: 'From models to deployment',
@@ -77,7 +77,7 @@ export const kits = {
   },
   complete: {
     view: 'complete',
-    title: 'One Kit. More Possibilities.',
+    title: 'One Kit. Crack Every Data & AI Interview',
     subtitle: 'Data Science + Gen AI + ML Engineer Complete Kit',
     category: 'ALL-IN-ONE COMPLETE KIT',
     badge: 'A broader learning journey',

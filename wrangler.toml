@@ -1,0 +1,4 @@
+# Prepared for a separate STAGING Pages project. No account, token, route or live DNS is configured.
+name = "learnlytics-llh-staging"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-10-20"

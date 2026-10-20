@@ -1,0 +1,13 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+/llh.html
+  Cache-Control: no-store
+  Referrer-Policy: no-referrer
+  X-Frame-Options: DENY
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src {{SUPABASE_ORIGIN}}; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'
+
+/assets/vendor/llh-client.js
+  Cache-Control: no-cache

@@ -1,0 +1,20 @@
+/* Local-only additions; library cards and trackers use existing website components. */
+.llh-demo-badge { display: inline-block; margin-bottom: 16px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 20px; color: var(--accent-dark); background: var(--blush); font-size: 12px; font-weight: 700; }
+.llh-demo-controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; background: var(--tint); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-bottom: 20px; }
+.llh-demo-controls label { font-size: 14px; font-weight: 700; }
+.llh-demo-controls p { color: var(--copy); font-size: 12px; margin-top: 4px; }
+.llh-demo-controls select { max-width: 100%; min-height: 44px; padding: 10px 34px 10px 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: var(--white); font: inherit; font-size: 13px; }
+.llh-demo-trackers { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 22px; margin-top: 24px; }
+.llh-demo-trackers .hub-preview-panel { padding: 24px; border-radius: 18px; }
+.llh-demo-trackers h3 { font-size: 20px; margin-bottom: 18px; }
+.llh-demo-trackers .hub-subjects li, .llh-demo-trackers .hub-next-skills li { font-size: 12px; }
+.llh-demo-trackers .hub-chapter strong, .llh-demo-trackers .hub-career-path strong { font-size: 15px; }
+.llh-demo-trackers .hub-study-steps strong { font-size: 12px; }
+.llh-demo-trackers .hub-study-steps small, .llh-demo-trackers .hub-career-path small, .llh-demo-trackers .hub-next-skills > span { font-size: 11px; }
+.llh-demo-dialog { margin: auto; width: calc(100% - 40px); color: var(--ink); }
+.llh-demo-dialog::backdrop { background: #0b123f66; }
+@media (max-width: 650px) {
+  .llh-demo-trackers { grid-template-columns: 1fr; }
+  .llh-demo-trackers .hub-preview-panel { padding: 20px; }
+  .llh-demo-controls select { width: 100%; }
+}

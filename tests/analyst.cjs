@@ -63,9 +63,7 @@ const output = path.resolve(__dirname, '../screenshots');
       assert.match(await page.locator('.curriculum-topics').first().innerText(),/Mean, Median & Mode/);
       assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
       await page.locator('.curriculum-module > summary').first().click();
-      await page.locator('.purchase-button').click();
-      assert(await page.locator('#checkout-dialog').isVisible());
-      await page.keyboard.press('Escape');
+      await require('./payment-link.cjs')(page, 'S2y4eZ3');
       await page.locator('#tab-handbook').click();
       await page.waitForFunction(()=>document.querySelector('#sample-pdf-page').dataset.pdf==='eda-handbook.pdf' && document.querySelector('.sample-frame').getAttribute('aria-busy')==='false');
       for(const [type,file] of Object.entries({workbook:'eda-practice-workbook.pdf',solutions:'eda-solution-manual.pdf'})) {

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" data-theme="blue">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="referrer" content="no-referrer" />
+  <title>My Library | LearnLytics Learning Hub</title>
+  <link rel="icon" href="assets/images/favicon.webp" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/navigation.css" />
+  <link rel="stylesheet" href="css/theme-blue.css" />
+  <link rel="stylesheet" href="css/llh.css" />
+  <script type="module" src="assets/vendor/llh-client.js"></script>
+</head>
+<body class="llh-page">
+  <a class="skip-link" href="#llh-main">Skip to content</a>
+  <header class="site-header"><div class="container header-inner">
+    <a class="brand" href="./" aria-label="LearnLytics home"><img src="assets/images/logo.webp?v=updated-logo-20261016" width="1933" height="814" alt="LearnLytics Media" /></a>
+    <a class="text-button" href="./">Back to website <span aria-hidden="true">↗</span></a>
+  </div></header>
+  <main id="llh-main" class="container llh-main">
+    <div class="llh-intro"><p class="eyebrow">LEARNLYTICS LEARNING HUB</p><h1>Your learning. Your library.</h1><p>Sign in with the verified email you use for your kits. Everything you have access to, in one place.</p></div>
+    <p id="llh-message" class="llh-message" role="status" aria-live="polite"></p>
+    <noscript><p>Enable JavaScript to securely sign in and open your library.</p></noscript>
+    <section id="llh-auth" class="llh-panel" aria-labelledby="auth-title" hidden>
+      <div class="llh-tabs" role="group" aria-label="Account options"><button type="button" data-mode="login" aria-pressed="true">Sign in</button><button type="button" data-mode="signup" aria-pressed="false">Create account</button></div>
+      <h2 id="auth-title">Welcome back</h2>
+      <p id="auth-description">Enter your email and password to open My Library.</p>
+      <form id="auth-form">
+        <div id="email-field"><label for="llh-email">Email address</label><input id="llh-email" type="email" autocomplete="email" maxlength="254" required /></div>
+        <div id="password-field"><label for="llh-password">Password</label><input id="llh-password" type="password" autocomplete="current-password" maxlength="128" required /><p id="password-hint" class="llh-hint" hidden>Use at least 12 characters. Your password is managed securely by Supabase Auth.</p></div>
+        <div id="confirm-field" hidden><label for="llh-confirm">Confirm password</label><input id="llh-confirm" type="password" autocomplete="new-password" maxlength="128" /></div>
+        <button class="button" id="auth-submit" type="submit">Sign in</button>
+      </form>
+      <div class="llh-auth-links"><button type="button" data-mode="forgot">Forgot password?</button><button id="resend-confirmation" type="button">Resend verification email</button></div>
+      <p class="llh-hint">An account does not grant kit access. Use the same email as your purchase. No profile setup required.</p>
+    </section>
+    <section id="llh-link" class="llh-panel" aria-labelledby="link-title" hidden><h2 id="link-title">Confirm your email link</h2><p id="link-description">Continue to securely verify your email.</p><button type="button" class="button" id="verify-link">Continue</button></section>
+    <section id="llh-library" aria-labelledby="library-title" hidden>
+      <div class="llh-library-heading"><div><p class="eyebrow">READY WHEN YOU ARE</p><h2 id="library-title">My Library</h2><p id="account-email"></p></div><div class="llh-account-actions"><button class="button llh-secondary" id="refresh-library" type="button">Refresh library</button><button class="button llh-secondary" id="sign-out" type="button">Sign out</button></div></div>
+      <p id="library-summary" class="llh-library-summary"></p>
+      <div id="library-kits" class="llh-kits"></div>
+      <p class="llh-help">Missing a kit? Check that you are using your purchase email. <a href="mailto:learnlytics.handbook@gmail.com">Contact LearnLytics</a>.</p>
+    </section>
+  </main>
+  <footer class="container llh-footer"><span>LearnLytics Media</span><span>Learn. Practise. Grow.</span></footer>
+</body>
+</html>

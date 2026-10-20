@@ -1,7 +1,6 @@
 import { setupKitJourney } from './kit-journey.js?v=journey-20261019';
 import { setupLearningExperience } from './learning-experience.js?v=themed-images-20261019';
 import { setupInlineVideos } from './inline-videos.js?v=guide-covers-logo-20261016';
-import { setupDialog } from './dialog.js';
 import { setupSampleGallery } from './sample-gallery.js?v=pdf-tools-20261016';
 import { curriculum as dsCurriculum, productOverview as dsOverview } from './ds-curriculum.js';
 import { productReviews } from './product-reviews.js?v=complete-kit-20261019';
@@ -103,8 +102,5 @@ export function setupProduct({ curriculum = dsCurriculum, productOverview = dsOv
     alignTools();
   }
 
-  const checkout = setupDialog(document.querySelector('#checkout-dialog'));
-  document
-    .querySelectorAll('[data-checkout]')
-    .forEach((button) => button.addEventListener('click', () => checkout.open()));
+  // Temporary hosted Payment Page links are native anchors in each product template.
 }

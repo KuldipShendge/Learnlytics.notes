@@ -1,5 +1,9 @@
 # LearnLytics — Single-URL Site
 
+## Learning Hub Phase 1 (local implementation)
+
+Email/password authentication, verified-email kit access, private resource delivery scaffolding and public deployment allowlisting are implemented locally. No Razorpay integration or deployment is included. Start with [Supabase setup](docs/llh-supabase-setup.md), [implementation and validation](docs/llh-phase1.md), and [resource delivery decision](docs/llh-resource-delivery.md). The marketing pages still use their existing purchase flow.
+
 A standalone homepage inspired by the supplied mobile mockup. A reversible navy, blue and mint colour test is currently enabled; the original plum palette is preserved. Run `node scripts/set-theme.mjs plum` to restore it, or `node scripts/set-theme.mjs blue` to reapply the experiment. See [colour test instructions](docs/colour-test.md) for publishing the switch. The default recommendation is **Crack Data Scientist & Gen AI**.
 
 The Data Scientist & Gen AI product page uses the second reference for **structure and content only**. It shares the homepage's Manrope font and base palette from `css/tokens.css`; `css/theme-blue.css` applies the optional colour experiment across all views. The career tabs select a kit in the single featured image card. Its “View kit details” link opens the full product view inside `index.html`, without changing the browser URL. The duplicate lower comparison cards have been removed. Separate page URLs are deferred to v2. See `docs/product-page.md` for implementation and curriculum notes.
@@ -14,7 +18,7 @@ From `D:\GitHub Repos\Learnlytics.notes`, run:
 node scripts/preview.mjs
 ```
 
-Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port. No install or build step is required. Use an HTTP server rather than opening the HTML via `file://`, because JavaScript uses ES modules.
+Open **http://127.0.0.1:4173**. Stop with Ctrl+C. Set `PORT` to use another port. The marketing site needs no build; My Library requires `pnpm install --frozen-lockfile` and `node scripts/build-llh.mjs` first. Use an HTTP server rather than opening the HTML via `file://`, because JavaScript uses ES modules.
 
 ## Structure
 

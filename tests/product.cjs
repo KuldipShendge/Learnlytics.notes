@@ -107,13 +107,8 @@ const widths = [360, 390, 430, 768, 1024, 1440];
       assert.equal(await page.locator('.curriculum-module[open]').count(), 7);
       await noOverflow(`${width}px all modules open`);
       for (const summary of await page.locator('.curriculum-module summary').all()) await summary.click();
-      await page.locator('.purchase-button').click();
-      assert(await page.locator('#checkout-dialog').isVisible());
-      assert.match(await page.locator('#checkout-dialog-title').textContent(), /coming soon/);
-      await closeDialog('#checkout-dialog');
-      await page.locator('.product-sticky [data-checkout]').click();
-      assert(await page.locator('#checkout-dialog').isVisible());
-      await closeDialog('#checkout-dialog');
+      await require('./payment-link.cjs')(page, 'fain7HM');
+      await require('./payment-link.cjs')(page, 'fain7HM', '.product-sticky [data-checkout]');
       if (width < 900) {
         await page.evaluate(() => scrollTo(0, 0));
         await page.locator('.menu-toggle').click();

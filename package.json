@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Single-URL LearnLytics site. No framework or production dependencies.",
+  "description": "Static LearnLytics website with a Supabase-powered Learning Hub.",
+  "packageManager": "pnpm@11.25.0",
   "scripts": {
     "dev": "node scripts/preview.mjs",
     "start": "node scripts/preview.mjs",
@@ -16,6 +17,17 @@
     "test:complete": "node tests/complete.cjs",
     "test:engineer": "node tests/engineer.cjs",
     "test:analyst": "node tests/analyst.cjs",
-    "test:product": "node tests/product.cjs"
+    "test:product": "node tests/product.cjs",
+    "build:llh": "node scripts/build-llh.mjs",
+    "build:public": "node scripts/build-public.mjs",
+    "test:llh": "node --test tests/llh-*.test.mjs",
+    "test:llh:browser": "node tests/llh-browser.cjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.118.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.10",
+    "esbuild": "0.28.2"
   }
 }

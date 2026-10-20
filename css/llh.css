@@ -1,0 +1,52 @@
+.llh-page [hidden] { display: none !important; }
+.llh-main { padding: 40px 0 64px; }
+.llh-intro { max-width: 720px; margin-bottom: 24px; }
+.llh-intro h1 { font-size: clamp(30px,4vw,44px); line-height: 1.2; letter-spacing: -1px; margin: 10px 0 14px; }
+.llh-intro > p:last-child { color: var(--copy); line-height: 1.8; }
+.llh-message:empty { display: none; }
+.llh-message { padding: 14px 18px; margin-bottom: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--tint); color: var(--ink); }
+.llh-panel { max-width: 520px; padding: 28px; border: 1px solid var(--line); border-radius: 22px; background: var(--white); box-shadow: var(--shadow); }
+.llh-panel h2 { font-size: 24px; margin-bottom: 8px; }
+.llh-panel > p { color: var(--copy); font-size: 14px; }
+.llh-tabs { display: flex; gap: 8px; margin-bottom: 24px; }
+.llh-tabs button { flex: 1; padding: 10px; background: var(--tint); border: 1px solid var(--line); border-radius: 8px; }
+.llh-tabs button[aria-pressed="true"] { background: var(--accent); color: white; border-color: var(--accent); }
+.llh-panel label { display: block; margin: 18px 0 6px; font-size: 13px; font-weight: 600; }
+.llh-panel input { width: 100%; min-height: 48px; padding: 12px; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background: var(--white); }
+.llh-panel .button { margin-top: 22px; width: 100%; }
+.llh-hint { font-size: 11px !important; color: var(--copy); margin-top: 12px; }
+.llh-auth-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+.llh-auth-links button { border: 0; background: transparent; padding: 4px 0; color: var(--accent-dark); font-size: 12px; text-align: left; }
+.llh-library-heading { display: flex; gap: 20px; justify-content: space-between; align-items: center; margin: 32px 0 20px; }
+.llh-library-heading h2 { font-size: 28px; }
+#account-email { color: var(--copy); font-size: 13px; overflow-wrap: anywhere; }
+.llh-account-actions { display: flex; gap: 10px; }
+html[data-theme="blue"] .llh-page .llh-secondary { color: var(--accent-dark); border: 1px solid var(--line); background: var(--white); padding: 10px 14px; min-height: 44px; font-size: 12px; }
+html[data-theme="blue"] .llh-page .llh-secondary:hover { background: var(--blush); }
+.llh-library-summary { margin-bottom: 20px; color: var(--copy); }
+.llh-kits { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 22px; }
+.llh-kit { background: var(--white); border: 1px solid var(--line); border-radius: 18px; padding: 24px; }
+.llh-kit.is-locked { background: var(--tint); }
+.llh-kit h3 { font-size: 20px; margin: 14px 0 10px; line-height: 1.4; }
+.llh-kit p { color: var(--copy); font-size: 13px; }
+.llh-kit-status { display: inline-block; color: var(--accent-dark); background: var(--blush); border-radius: 20px; padding: 4px 10px; font-size: 11px; font-weight: 700; }
+.llh-resource-list { list-style: none; margin: 18px 0 0; padding: 0; }
+.llh-resource-list li { padding: 14px 0; border-top: 1px solid var(--line); }
+.llh-resource-list strong { display: block; font-size: 13px; overflow-wrap: anywhere; }
+.llh-resource-list small { display: block; color: var(--copy); margin: 4px 0 8px; }
+.llh-resource-list button { border: 0; border-radius: 7px; padding: 8px 12px; background: var(--accent); color: white; font-size: 12px; }
+.llh-kit .llh-unavailable { margin-top: 18px; }
+.llh-help { margin-top: 28px; color: var(--copy); font-size: 13px; }
+.llh-help a { text-decoration: underline; text-underline-offset: 3px; }
+.llh-footer { display: flex; justify-content: space-between; color: var(--copy); border-top: 1px solid var(--line); padding-top: 20px; padding-bottom: 28px; font-size: 12px; }
+.llh-page button:disabled { opacity: .6; cursor: wait; }
+.llh-page :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 979px) { .llh-kits { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 559px) {
+ .llh-main { padding-top: 26px; }
+ .llh-panel { padding: 22px; }
+ .llh-kits { grid-template-columns: 1fr; }
+ .llh-library-heading { align-items: flex-start; flex-direction: column; }
+ .llh-page .header-inner > .text-button { font-size: 11px; }
+ .llh-page .brand img { max-width: 160px; }
+}

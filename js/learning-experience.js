@@ -1,10 +1,4 @@
-// Static concept previews only: no account, tracker state or working app controls.
-// Update these release labels when the features launch.
-export const learningRelease = {
-  hub: { label: 'Coming Soon', note: 'Learning Hub is in development. Full access will be available after launch.' },
-  toolkit: { label: 'Coming Soon', note: 'Project Explanation Toolkit is in development.' },
-};
-
+// Visual learning previews; authentication is handled independently by llh.html.
 export const learningExperienceContent = {
   complete: {
   "hero": "One organised path across Data Science, Gen AI and ML Engineering — with the Data Analytics kit included.",
@@ -156,14 +150,13 @@ const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({
 const icon = name => `<svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#${name}" /></svg>`;
 const features = [['book', 'My Learning Library'], ['solution', 'Study Preparation Tracker'], ['target', 'Career Preparation Tracker']];
 
-function renderHubPreview(content, view) {
+export function renderHubPreview(content, view) {
   const kits = view === 'home' ? ['Data Analyst Kit', 'Data Scientist & GenAI Kit']
     : [{ analyst: 'Data Analyst Kit', scientist: 'Data Scientist & GenAI Kit', engineer: 'Machine Learning Engineer Kit', complete: 'Data Science + Gen AI + ML Engineer Kit' }[view]];
-  return `<figure class="hub-preview" aria-label="Concept preview of the upcoming LearnLytics Learning Hub">
+  return `<figure class="hub-preview" aria-label="LearnLytics Learning Hub preview">
     <div class="hub-preview-window">
       <div class="hub-preview-header">
         <span class="hub-preview-brand">${icon('book')}<strong>LearnLytics Learning Hub</strong></span>
-        <span class="learning-status">${escapeHtml(learningRelease.hub.label)}</span>
       </div>
       <div class="hub-preview-body">
         <div class="hub-preview-library hub-preview-panel">
@@ -208,7 +201,7 @@ function renderToolkitPreview(project) {
     </div>
     <div class="toolkit-interviewer"><span class="toolkit-prompt-label">${icon('headset')}INTERVIEWER PROMPT</span><p>“${escapeHtml(project.prompt)}”</p></div>
     <div class="toolkit-answer"><span>YOUR ANSWER FRAMEWORK</span><ol><li>Situation</li><li>Method</li><li>Decision</li><li>Result</li></ol></div>
-    <figcaption>A preview of the upcoming toolkit</figcaption>
+    <figcaption>Project Explanation Toolkit preview</figcaption>
   </figure>`;
 }
 
@@ -237,11 +230,10 @@ export function setupLearningExperience(view) {
   if (!content || !slot || slot.childElementCount) return;
   const hero = document.querySelector('[data-learning-hero]');
   if (hero) hero.innerHTML = `${content.heroHeading ? `<strong>${escapeHtml(content.heroHeading)}</strong>` : ''}
-    <span>${escapeHtml(content.hero)}</span>
-    <span class="learning-hero-status">Learning Hub · ${escapeHtml(learningRelease.hub.label)}</span>`;
+    <span>${escapeHtml(content.hero)}</span>`;
 
   slot.innerHTML = `
-    <section class="learning-hub" id="learning-hub" aria-labelledby="learning-hub-title" aria-describedby="learning-hub-availability">
+    <section class="learning-hub" id="learning-hub" aria-labelledby="learning-hub-title">
       <div class="learning-hub-overview">
         <div class="learning-hub-intro">
           <p class="eyebrow">${escapeHtml(content.eyebrow)}</p>
@@ -255,18 +247,17 @@ export function setupLearningExperience(view) {
         ${renderHubPreview(content, view)}
       </div>
       <div class="learning-hub-footer">
-        <p class="learning-availability" id="learning-hub-availability">${icon('clock')}${escapeHtml(learningRelease.hub.note)}</p>
+        <a class="text-button" href="llh.html">Open My Library ${icon('arrow')}</a>
       </div>
       <!-- Future dedicated explainer: insert a responsive video after this footer. -->
     </section>
-    <section class="learning-toolkit" aria-labelledby="learning-toolkit-title" aria-describedby="learning-toolkit-availability">
+    <section class="learning-toolkit" aria-labelledby="learning-toolkit-title">
       <div class="learning-toolkit-copy">
-        <div class="learning-toolkit-label"><span class="learning-toolkit-icon">${icon('workbook')}</span><span class="learning-status">${escapeHtml(learningRelease.toolkit.label)}</span></div>
+        <div class="learning-toolkit-label"><span class="learning-toolkit-icon">${icon('workbook')}</span></div>
         <p class="eyebrow">${view === 'home' ? 'MAKE YOUR NEXT INTERVIEW COUNT' : 'PROJECT EXPLANATION TOOLKIT'}</p>
         <h2 id="learning-toolkit-title">${escapeHtml(content.toolkitTitle)}</h2>
         <p class="learning-toolkit-description">${escapeHtml(content.toolkitDescription)}</p>
         <ul class="learning-toolkit-benefits">${content.toolkitBenefits.map(benefit => `<li>${escapeHtml(benefit)}</li>`).join('')}</ul>
-        <p class="learning-availability" id="learning-toolkit-availability">${escapeHtml(learningRelease.toolkit.note)}</p>
       </div>
       <div class="learning-toolkit-visuals">
         <figure class="toolkit-product">

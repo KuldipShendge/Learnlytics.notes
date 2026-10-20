@@ -58,8 +58,7 @@ const url = process.env.PREVIEW_URL || 'http://127.0.0.1:4187/Learnlytics.notes/
       await page.locator('#tab-handbook').click();
       await page.waitForFunction(()=>document.querySelector('.sample-frame').getAttribute('aria-busy')==='false');
       if(width===390) await checkPdfReader(page,{filename:'eda-handbook.pdf',count:32});
-      await page.locator('.purchase-button').click();
-      assert(await page.locator('#checkout-dialog').isVisible());await page.keyboard.press('Escape');
+      await require('./payment-link.cjs')(page, 'qLYK5iB');
       assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Overflow at ${width}px`);
       if([390,1440].includes(width)) {
         await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));

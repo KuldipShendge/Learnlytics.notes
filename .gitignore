@@ -2,3 +2,15 @@ node_modules/
 .DS_Store
 *.log
 screenshots/
+.env
+.env.*
+!.env.example
+supabase/functions/.env
+supabase/functions/.env.*
+!supabase/functions/.env.example
+dist/
+.wrangler/
+supabase/.temp/
+supabase/.branches/
+assets/vendor/llh-client.js
+.llh-test/
