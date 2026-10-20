@@ -55,6 +55,8 @@
   .header-llh-link { margin-right: 4px; padding: 8px 10px; }
 }
 @media (max-width: 899px) {
+  .header-brand-group { flex: 1; min-width: 0; margin-right: 8px; }
+  .header-llh-link { flex-shrink: 0; margin-left: auto; margin-right: 0; }
   .site-header .brand,
   .site-header .brand img,
   .header-brand-group .brand,
