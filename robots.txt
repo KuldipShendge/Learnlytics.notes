@@ -1,0 +1,14 @@
+# Production domain retained from the previous LearnLytics website.
+User-agent: *
+Allow: /
+Disallow: /pdfs/
+Disallow: /llh.html
+Disallow: /dev/
+Disallow: /__local/
+Disallow: /supabase/
+Disallow: /api/
+Disallow: /server/
+Disallow: /scripts/
+Disallow: /tests/
+
+Sitemap: https://learnlyticshandbook.shop/sitemap.xml

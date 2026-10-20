@@ -1,4 +1,6 @@
 // Keep every view at the existing site URL; static hosting needs no route rewrites.
+import { legacyEntryView } from './legacy-entry.js';
+
 export function setupViews(initializers) {
   const app = document.querySelector('#app');
   const description = document.querySelector('meta[name="description"]');
@@ -72,10 +74,19 @@ export function setupViews(initializers) {
     const state = event.state?.learnlytics;
     show(state?.view || 'home', state?.section || '');
   });
+  window.addEventListener('hashchange', () => {
+    const entry = legacyEntryView(location.hash);
+    if (!entry) return;
+    history.replaceState(history.state, '', location.pathname + location.search);
+    save(entry, '');
+    show(entry, '');
+  });
 
+  const entryView = legacyEntryView(location.hash);
   const saved = history.state?.learnlytics;
-  const view = views.has(saved?.view) ? saved.view : 'home';
-  const section = saved?.section || location.hash.slice(1);
+  const view = entryView || (views.has(saved?.view) ? saved.view : 'home');
+  const section = entryView ? '' : (saved?.section || location.hash.slice(1));
+  if (entryView) history.replaceState(history.state, '', location.pathname + location.search);
   save(view, section);
   if (view !== 'home' || section) show(view, section, false);
 }

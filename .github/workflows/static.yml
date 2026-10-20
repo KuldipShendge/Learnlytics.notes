@@ -24,6 +24,8 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
+    # Keep this preview site's Pages deployment from running after a copy to the Vercel repo.
+    if: github.repository == 'KuldipShendge/Learnlytics.notes'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

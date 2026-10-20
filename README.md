@@ -1,5 +1,7 @@
 # LearnLytics — Single-URL Site
 
+For moving this code to the `learnlytics.handbook` repository and its Vercel project, follow [the production migration guide](docs/production-migration.md). `vercel.json` builds an explicit `dist/` allowlist; do not deploy the repository root or merge the legacy `api/` folder into this static site.
+
 ## Learning Hub Phase 1 (local implementation)
 
 Email/password authentication, verified-email kit access, private resource delivery scaffolding and public deployment allowlisting are implemented locally. No Razorpay integration or deployment is included. Start with [Supabase setup](docs/llh-supabase-setup.md), [implementation and validation](docs/llh-phase1.md), and [resource delivery decision](docs/llh-resource-delivery.md). The marketing pages still use their existing purchase flow.

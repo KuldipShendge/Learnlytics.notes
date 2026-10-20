@@ -10,6 +10,7 @@ supabase/functions/.env.*
 !supabase/functions/.env.example
 dist/
 .wrangler/
+.vercel/
 supabase/.temp/
 supabase/.branches/
 assets/vendor/llh-client.js

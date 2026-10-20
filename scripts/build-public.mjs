@@ -8,7 +8,7 @@ export function validatePublicPath(file) {
   const samples = ['pdfs/eda-handbook.pdf', 'pdfs/eda-practice-workbook.pdf', 'pdfs/eda-solution-manual.pdf'];
   if (typeof file !== 'string' || file.includes('\\') || file.includes('..') || file.startsWith('/') || file.includes(':') || file.split('/').some(p => p.startsWith('.'))) return false;
   if (/\.pdf$/i.test(file)) return samples.includes(file);
-  return ['index.html', 'llh.html'].includes(file) || /^(assets|css|js)\//.test(file);
+  return ['index.html', 'llh.html', 'robots.txt', 'sitemap.xml'].includes(file) || /^(assets|css|js)\//.test(file);
 }
 export async function buildPublic() {
   publicConfig(); // Fail before altering output if a secret key was supplied by mistake.

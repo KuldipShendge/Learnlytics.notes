@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Static LearnLytics website with a Supabase-powered Learning Hub.",
   "packageManager": "pnpm@11.25.0",
+  "engines": { "node": "24.x" },
   "scripts": {
     "dev": "node scripts/preview.mjs",
     "start": "node scripts/preview.mjs",
@@ -20,6 +21,7 @@
     "test:product": "node tests/product.cjs",
     "build:llh": "node scripts/build-llh.mjs",
     "build:public": "node scripts/build-public.mjs",
+    "build:vercel": "node scripts/build-vercel.mjs",
     "test:llh": "node --test tests/llh-*.test.mjs",
     "test:llh:browser": "node tests/llh-browser.cjs"
   },

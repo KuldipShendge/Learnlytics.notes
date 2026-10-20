@@ -8,7 +8,7 @@ import { curriculum as daCurriculum, productOverview as daOverview } from './da-
 import { curriculum as mlCurriculum, productOverview as mlOverview } from './ml-curriculum.js';
 import { curriculum as completeCurriculum, productOverview as completeOverview } from './complete-curriculum.js';
 import { setupNavigation } from './navigation.js?v=single-url-1';
-import { setupViews } from './views.js?v=inline-guides-20261015';
+import { setupViews } from './views.js?v=legacy-entry-20261020';
 import { setupCareerResources } from './career-resources.js?v=compact-resources-20261017';
 
 setupNavigation();

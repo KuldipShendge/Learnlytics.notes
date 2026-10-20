@@ -264,6 +264,7 @@
   "js/kit-journey.js",
   "js/kits.js",
   "js/learning-experience.js",
+  "js/legacy-entry.js",
   "js/llh-auth-utils.js",
   "js/llh-config.js",
   "js/llh-library-ui.js",
@@ -282,6 +283,8 @@
   "js/videos.js",
   "js/views.js",
   "llh.html",
+  "robots.txt",
+  "sitemap.xml",
   "pdfs/eda-handbook.pdf",
   "pdfs/eda-practice-workbook.pdf",
   "pdfs/eda-solution-manual.pdf"
