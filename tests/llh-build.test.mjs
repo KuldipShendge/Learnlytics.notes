@@ -5,6 +5,9 @@ import { execFileSync } from 'node:child_process';
 import { buildPublic, validatePublicPath } from '../scripts/build-public.mjs';
 import { publicConfig } from '../scripts/build-llh.mjs';
 test('public artifact allowlist excludes private files, unexpected assets, paid PDFs and secrets',async()=>{
+ const tracked = new Set(execFileSync('git',['ls-files','-z'],{encoding:'utf8'}).split('\0'));
+ const manifest = JSON.parse(await readFile('deployment/public-files.json','utf8'));
+ assert.deepEqual(manifest.filter(file=>!tracked.has(file)),[], 'Every deployment input must exist in a clean Git checkout');
  const files=[];
  const walk=async dir=>{for(const entry of await readdir(dir,{withFileTypes:true})){const name=`${dir}/${entry.name}`;if(entry.isDirectory())await walk(name);else files.push(name);}};
  const sentinel='assets/llh-unlisted-test.txt';
