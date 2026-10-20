@@ -1,4 +1,5 @@
 import { reviews } from './reviews-data.js';
+import { viewUrl } from './site-routes.js';
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 
@@ -11,7 +12,7 @@ export function setupReviewReturn() {
     const back = document.querySelector('#reviews-back');
     if (!back) return;
     back.dataset.view = source;
-    back.href = source === 'home' ? '#career-goal' : '#testimonials';
+    back.href = viewUrl(source, source === 'home' ? 'career-goal' : 'testimonials');
     back.textContent = source === 'home' ? '← Explore learning kits' : '← Back to your kit';
   });
 }

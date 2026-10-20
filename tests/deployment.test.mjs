@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, readdir } from 'node:fs/promises';
+import { pathView, viewPaths, siteOrigin, hubPath } from '../js/site-routes.js';
 import { legacyEntryView } from '../js/legacy-entry.js';
 
 test('Vercel migration configuration, old-link destinations and public artifact are consistent', async () => {
@@ -10,7 +11,9 @@ test('Vercel migration configuration, old-link destinations and public artifact 
   assert.equal(config.buildCommand,'node scripts/build-vercel.mjs');
   assert.equal(config.installCommand,'pnpm install --frozen-lockfile --ignore-scripts');
   assert.equal(config.cleanUrls,false,'Keep the existing llh.html URL');
-  assert(!config.rewrites && !config.routes,'Unknown URLs must not be rewritten to a homepage');
+  assert(!config.routes);
+  assert.deepEqual(config.rewrites.map(r=>r.source), [...Object.values(viewPaths).filter(Boolean).map(p=>'/'+p), '/'+hubPath]);
+  assert(config.rewrites.every(r=>['/index.html','/llh.html'].includes(r.destination)), 'Only explicit public routes may be rewritten');
   const sources = config.redirects.map(rule=>rule.source);
   assert.equal(new Set(sources).size,sources.length);
   const expected = {
@@ -24,15 +27,14 @@ test('Vercel migration configuration, old-link destinations and public artifact 
   for(const rule of config.redirects) {
     assert.equal(rule.permanent,true);
     assert(rule.source.startsWith('/') && !rule.source.includes('*'));
-    const destination=new URL(rule.destination,'https://learnlyticshandbook.shop');
-    assert.equal(destination.origin,'https://learnlyticshandbook.shop');
-    assert.equal(destination.pathname,'/');
-    assert(destination.hash==='#career-goal' || legacyEntryView(destination.hash));
+    const destination=new URL(rule.destination,siteOrigin);
+    assert.equal(destination.origin,siteOrigin);
+    assert(pathView(destination.pathname,'/'), rule.destination);
   }
   for(const [source,view] of Object.entries(expected)) {
     const rule=config.redirects.find(rule=>rule.source===source);
     assert(rule,source);
-    assert.equal(legacyEntryView(new URL(rule.destination,'https://learnlyticshandbook.shop').hash),view);
+    assert.equal(pathView(new URL(rule.destination,siteOrigin).pathname,'/'),view);
   }
   assert.equal(legacyEntryView('#kit-admin'),null);
   assert.equal(legacyEntryView('#__proto__'),null);
@@ -43,13 +45,13 @@ test('Vercel migration configuration, old-link destinations and public artifact 
   assert(!authHeaders['Content-Security-Policy'].includes("'unsafe-inline'"));
   const sitemap=await readFile('dist/sitemap.xml','utf8');
   assert(sitemap.startsWith('<?xml version="1.0" encoding="UTF-8"?>'));
-  assert.deepEqual([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(m=>m[1]),['https://learnlyticshandbook.shop/']);
+  assert.deepEqual([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(m=>m[1]),Object.values(viewPaths).map(slug=>siteOrigin+'/'+slug));
   const robots=await readFile('dist/robots.txt','utf8');
-  assert(robots.includes('Sitemap: https://learnlyticshandbook.shop/sitemap.xml'));
+  assert(robots.includes('Sitemap: https://www.learnlyticshandbook.shop/sitemap.xml'));
   assert(robots.includes('Disallow: /llh.html'));
   const html=await readFile('dist/index.html','utf8');
   assert(html.includes('name="google-site-verification"'));
-  assert(html.includes('rel="canonical" href="https://learnlyticshandbook.shop/"'));
+  assert(html.includes('rel="canonical" href="https://www.learnlyticshandbook.shop/"'));
   const schema=JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
   assert.equal(schema['@type'],'Organization');
   assert(!('aggregateRating' in schema));
@@ -66,5 +68,6 @@ test('Vercel migration configuration, old-link destinations and public artifact 
   for(const asset of ['assets/images/hero-learning.png','assets/images/logo.webp','assets/images/favicon.webp','js/legacy-entry.js']) {
     assert(files.includes(`dist/${asset}`),`Missing deployment attachment: ${asset}`);
   }
-  console.log('Verified 24 legacy redirects and all deployment metadata; hosted Vercel routing still requires a preview deployment.');
+  assert.deepEqual(config.headers.find(r=>r.source==='/'+hubPath).headers,config.headers.find(r=>r.source==='/llh.html').headers);
+  console.log('Verified explicit page routes, legacy redirects, LLH protection and deployment metadata.');
 });

@@ -39,13 +39,13 @@ In Authentication settings:
 - Enable secure email changes (confirm both addresses) and secure password changes.
 - Use signup/recovery email frequency of at least 60 seconds per recipient. Keep server-side Auth rate limits enabled. The local config uses signup limits of 30, token refresh/password-token requests of 150 and verification limits of 30; hosted UI labels/units should be checked against [Supabase rate-limit documentation](https://supabase.com/docs/guides/auth/rate-limits). The browser cooldown alone is not security.
 - Set Site URL to `http://127.0.0.1:4188/Learnlytics.notes` (no trailing slash).
-- Add exact redirect URL `http://127.0.0.1:4188/Learnlytics.notes/llh.html`.
+- Add exact redirect URL `http://127.0.0.1:4188/Learnlytics.notes/learnlytics-learning-hub`.
 
 Use the same host and port everywhere. If using port 4193, update both URLs and the local `PORT` accordingly. Do not use broad wildcard redirects in production.
 
 In Email Templates replace **Confirm signup** with `supabase/templates/confirmation.html` and **Reset password** with `supabase/templates/recovery.html`. Their subjects are “Confirm your LearnLytics account” and “Reset your LearnLytics password”.
 
-These templates are required: they send token-hash links to `llh.html`, where the user presses Continue. The fragment is immediately removed from the address bar. This verifies email or recovers a password; it does not enable passwordless login. Do not substitute the default callback template without changing and retesting the application.
+These templates are required: they send token-hash links to `learnlytics-learning-hub`, where the user presses Continue. The fragment is immediately removed from the address bar. This verifies email or recovers a password; it does not enable passwordless login. Do not substitute the default callback template without changing and retesting the application.
 
 ### SMTP
 
@@ -67,7 +67,7 @@ $env:PREVIEW_BASE_PATH = '/Learnlytics.notes'
 node scripts/preview.mjs
 ```
 
-Open `http://127.0.0.1:4188/Learnlytics.notes/llh.html`. The public environment values are compiled into the browser bundle. Rebuild after changing them. The scripts do **not** automatically load `.env` files. With no values, the page safely displays “setup is pending”.
+Open `http://127.0.0.1:4188/Learnlytics.notes/learnlytics-learning-hub`. The public environment values are compiled into the browser bundle. Rebuild after changing them. The scripts do **not** automatically load `.env` files. With no values, the page safely displays “setup is pending”.
 
 Create a test account, open its verification email, press Continue and sign in. Initially all kits should be locked. Signup and verified email alone must never create an entitlement.
 
@@ -135,7 +135,7 @@ After delivery-method approval, provision a **private** `llh-paid` bucket with n
 
 `wrangler.toml` prepares a separate staging project. When staging deployment is approved, connect this GitHub repository to Cloudflare Pages, choose no framework, build with `pnpm install --frozen-lockfile && node scripts/build-public.mjs`, and publish **only `dist`**. Use Node 24 and the pinned pnpm version. Provide only `LLH_SUPABASE_URL` and `LLH_SUPABASE_PUBLISHABLE_KEY` to the build.
 
-Use the staging `pages.dev` domain, without changing live DNS or disabling GitHub Pages. Set Supabase Site URL to that exact origin, add `/llh.html` as an allowed redirect, and add the origin to `LLH_ALLOWED_ORIGINS`. The templates follow Site URL, so a separate project for local and staging work is simplest.
+Use the staging `pages.dev` domain, without changing live DNS or disabling GitHub Pages. Set Supabase Site URL to that exact origin, add `/learnlytics-learning-hub` as an allowed redirect, and add the origin to `LLH_ALLOWED_ORIGINS`. The templates follow Site URL, so a separate project for local and staging work is simplest.
 
 `dist/_headers` applies the LLH CSP and cache protections on Cloudflare. Confirm those headers on the actual staging response; the local preview and GitHub Pages do not enforce this file. Never publish the repository root: only allowlisted assets and the three existing public EDA sample PDFs are copied.
 

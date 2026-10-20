@@ -131,12 +131,12 @@ function start() {
         if (error) throw error;
         message(''); await loadAccount(data.user);
       } else if (mode === 'signup') {
-        const { error } = await client.auth.signUp({ email, password, options: { emailRedirectTo: new URL('llh.html', location.href).href } });
+        const { error } = await client.auth.signUp({ email, password, options: { emailRedirectTo: new URL('learnlytics-learning-hub', location.href).href } });
         if (error && error.status === 429) throw error;
         if (error && !['user_already_exists', 'email_exists'].includes(error.code)) throw error;
         message('If this address is eligible, a verification email is on its way. If you already have an account, sign in or reset your password.');
       } else if (mode === 'forgot') {
-        const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: new URL('llh.html', location.href).href });
+        const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: new URL('learnlytics-learning-hub', location.href).href });
         if (error) throw error;
         message('If this address has an account, a recovery email is on its way. Check your inbox and spam folder.');
       } else if (mode === 'reset' && recovery) {
@@ -152,7 +152,7 @@ function start() {
   $('resend-confirmation').addEventListener('click', () => {
     if (!$('llh-email').reportValidity()) return;
     authAction(async () => {
-      const { error } = await client.auth.resend({ type: 'signup', email: $('llh-email').value.trim(), options: { emailRedirectTo: new URL('llh.html', location.href).href } });
+      const { error } = await client.auth.resend({ type: 'signup', email: $('llh-email').value.trim(), options: { emailRedirectTo: new URL('learnlytics-learning-hub', location.href).href } });
       if (error?.status === 429) throw error;
       message('If verification is needed, an email is on its way. Otherwise, sign in or reset your password.');
     });

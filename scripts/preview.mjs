@@ -3,6 +3,7 @@ import { createReadStream } from 'node:fs';
 import { stat, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { viewPaths, hubPath } from '../js/site-routes.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const port = Number(process.env.PORT || 4173);
@@ -21,6 +22,9 @@ const pages = new Map([
   ['/robots.txt', '/robots.txt'],
   ['/sitemap.xml', '/sitemap.xml'],
 ]);
+for (const slug of Object.values(viewPaths).filter(Boolean)) pages.set(`/${slug}`, '/index.html');
+pages.set(`/${hubPath}`, '/llh.html');
+const vercel = JSON.parse(await readFile(path.join(root, 'vercel.json'), 'utf8'));
 const types = { '.html': 'text/html; charset=utf-8', '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.mjs': 'text/javascript', '.wasm': 'application/wasm', '.webp': 'image/webp', '.png': 'image/png', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.pdf': 'application/pdf' };
 const server = http.createServer(async (request, response) => {
   if (!['GET', 'HEAD'].includes(request.method)) { response.writeHead(405); response.end(); return; }
@@ -43,11 +47,22 @@ const server = http.createServer(async (request, response) => {
       }
       pathname = pathname.slice(basePath.length);
     }
+    const oldRoute = vercel.redirects.find(rule => rule.source === pathname);
+    if (oldRoute) {
+      const query = new URL(request.url, 'http://localhost').search;
+      const target = new URL(oldRoute.destination, 'http://localhost');
+      response.writeHead(308, { Location: basePath + target.pathname + query + target.hash });
+      response.end(); return;
+    }
+    if (pathname !== '/' && pathname.endsWith('/') && pages.has(pathname.slice(0, -1))) {
+      response.writeHead(308, { Location: basePath + pathname.slice(0, -1) + new URL(request.url, 'http://localhost').search });
+      response.end(); return;
+    }
     if (demoEnabled && demoFiles.has(pathname)) {
       response.writeHead(200, { 'Content-Type': types[path.extname(pathname)], 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
       response.end(request.method === 'HEAD' ? '' : await readFile(path.join(root, demoFiles.get(pathname)))); return;
     }
-    if (demoEnabled && pathname === '/llh.html') {
+    if (demoEnabled && pages.get(pathname) === '/llh.html') {
       const html = (await readFile(path.join(root, 'llh.html'), 'utf8'))
         .replace('<script type="module" src="assets/vendor/llh-client.js"></script>',
           '<link rel="stylesheet" href="css/learning-experience.css" /><link rel="stylesheet" href="__local/llh-demo.css" /><script type="module" src="__local/llh-demo.js"></script>');

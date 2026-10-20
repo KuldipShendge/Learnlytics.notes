@@ -50,7 +50,7 @@ const session=user=>({access_token:token(user),token_type:'bearer',expires_in:36
  try {
   for(const kit of [...kits,'complete']){
    const {page,context,counts}=await setup(kit);
-   await page.goto(new URL('llh.html',url).href);
+   await page.goto(new URL('learnlytics-learning-hub',url).href);
    await page.locator('#llh-email').fill(users[kit].email);
    await page.locator('#llh-password').fill(password);
    await page.locator('#auth-submit').click();
@@ -75,36 +75,36 @@ const session=user=>({access_token:token(user),token_type:'bearer',expires_in:36
   }
   {
    const {page,context,counts}=await setup();
-   await page.goto(new URL('llh.html',url).href);
+   await page.goto(new URL('learnlytics-learning-hub',url).href);
    await page.locator('[data-mode="signup"]').click();
    await page.locator('#llh-email').fill('new@example.test');await page.locator('#llh-password').fill(password);await page.locator('#llh-confirm').fill(password);
    await page.locator('#auth-submit').click();await page.waitForFunction(()=>document.getElementById('llh-message').textContent.includes('verification email'));
    assert.equal(counts().rpcCount,0,'Signup alone must not grant or load access');
-   await page.goto(new URL(`llh.html#type=signup&token_hash=${'a'.repeat(32)}`,url).href);
+   await page.goto(new URL(`learnlytics-learning-hub#type=signup&token_hash=${'a'.repeat(32)}`,url).href);
    await page.waitForSelector('#llh-link:not([hidden])');assert(!page.url().includes('token_hash'));assert.equal(counts().verifyCount,0);
    await page.waitForTimeout(1600);await page.locator('#verify-link').click();await page.waitForSelector('.llh-kit');assert.equal(counts().verifyCount,1);
    await context.close();
   }
   {
    const {page,context,counts}=await setup();
-   await page.goto(new URL('llh.html',url).href);
+   await page.goto(new URL('learnlytics-learning-hub',url).href);
    await page.locator('[data-mode="forgot"]').click();await page.locator('#llh-email').fill('unknown@example.test');await page.locator('#auth-submit').click();
    await page.waitForFunction(()=>document.getElementById('llh-message').textContent.includes('If this address has an account'));
    assert.equal(counts().resetCount,1);
-   await page.goto(new URL(`llh.html#type=recovery&token_hash=${'b'.repeat(32)}`,url).href);
+   await page.goto(new URL(`learnlytics-learning-hub#type=recovery&token_hash=${'b'.repeat(32)}`,url).href);
    await page.waitForSelector('#llh-link:not([hidden])');await page.waitForTimeout(1600);await page.locator('#verify-link').click();
    await page.waitForFunction(()=>document.getElementById('auth-title').textContent==='Choose a new password');
    assert.equal(counts().rpcCount,0,'Recovery session must stay in password-reset flow');
    await page.waitForTimeout(1600);await page.locator('#llh-password').fill(password);await page.locator('#llh-confirm').fill(password);await page.locator('#auth-submit').click();
    await page.waitForFunction(()=>document.getElementById('llh-message').textContent.includes('Password updated'));
    assert.equal(counts().updates,1);
-   await page.goto(new URL(`llh.html#type=recovery&token_hash=${'x'.repeat(32)}`,url).href);await page.waitForTimeout(1600);await page.locator('#verify-link').click();
+   await page.goto(new URL(`learnlytics-learning-hub#type=recovery&token_hash=${'x'.repeat(32)}`,url).href);await page.waitForTimeout(1600);await page.locator('#verify-link').click();
    await page.waitForFunction(()=>document.getElementById('llh-message').textContent.includes('invalid or expired'));
    assert.equal(counts().updates,1);
    await context.close();
   }
   {
-   const {page,context,limit}=await setup();limit();await page.goto(new URL('llh.html',url).href);
+   const {page,context,limit}=await setup();limit();await page.goto(new URL('learnlytics-learning-hub',url).href);
    await page.locator('#llh-email').fill('analyst@example.test');await page.locator('#llh-password').fill(password);await page.locator('#auth-submit').click();
    await page.waitForFunction(()=>document.getElementById('llh-message').textContent.includes('Too many attempts'));
    assert(!(await page.locator('#llh-message').innerText()).includes('private detail'));

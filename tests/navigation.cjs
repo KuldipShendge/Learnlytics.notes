@@ -22,7 +22,9 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
         ? route.continue() : route.abort());
       async function checkView(selector) {
         await page.locator(selector).waitFor();
-        assert.equal(page.url(), url, 'Navigation must preserve the complete URL');
+        const view = await page.evaluate(() => history.state.learnlytics.view);
+        const paths = {home:'', scientist:'data-scientist-gen-ai', analyst:'data-analyst', engineer:'machine-learning-engineer', complete:'all-in-one-combo', about:'about-us'};
+        assert.equal(new URL(page.url()).pathname, new URL(paths[view], url).pathname);
         assert.equal(await page.locator('main').count(), 1);
         const duplicates = await page.locator('[id]').evaluateAll(elements => {
           const ids = elements.map(element => element.id);
@@ -116,6 +118,6 @@ const url = new URL(process.env.PREVIEW_URL || 'http://127.0.0.1:4173/').href;
       assert.deepEqual(missing, []);
       await context.close();
     }
-    console.log(`PASS: single-URL navigation, Back/Forward, refresh, repeat visits and assets at ${url}`);
+    console.log(`PASS: page URL navigation, Back/Forward, refresh, repeat visits and assets at ${url}`);
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

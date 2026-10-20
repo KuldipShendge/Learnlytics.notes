@@ -21,7 +21,8 @@ const base=process.env.PREVIEW_URL || 'http://127.0.0.1:4194/Learnlytics.notes/'
     await page.goto(`${base}#${fragment}`);
     await page.waitForFunction(({selector,word})=>document.querySelector(selector)?.innerText.includes(word),{selector,word});
     assert((await page.locator(selector).innerText()).includes(word),fragment);
-    assert.equal(page.url(),base,'Legacy entry must return to the single base URL');
+    assert.equal(new URL(page.url()).hash,'','Legacy entry fragment is consumed');
+    assert.notEqual(new URL(page.url()).pathname,new URL(base).pathname,'Each view has its own path');
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     await page.reload();await page.locator(selector).waitFor();
     assert((await page.locator(selector).innerText()).includes(word),'Refresh restores the selected view');

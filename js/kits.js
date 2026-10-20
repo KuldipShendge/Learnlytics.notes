@@ -1,5 +1,6 @@
 import { kits } from './catalog.js?v=complete-kit-20261019';
 import { setupDialog } from './dialog.js';
+import { viewUrl } from './site-routes.js';
 
 export function setupKits() {
   let selected = 'scientist';
@@ -18,7 +19,7 @@ export function setupKits() {
     field('kit-category').textContent = kit.category;
     field('kit-badge').textContent = kit.badge;
     field('kit-price').textContent = kit.price;
-    field('kit-details').href = kit.view ? '#' : '#kit-dialog';
+    field('kit-details').href = kit.view ? viewUrl(kit.view) : '#kit-dialog';
     if (kit.view) field('kit-details').dataset.view = kit.view;
     else delete field('kit-details').dataset.view;
     field('kit-image').src = `assets/images/${kit.image}`;

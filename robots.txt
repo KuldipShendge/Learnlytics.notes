@@ -3,6 +3,7 @@ User-agent: *
 Allow: /
 Disallow: /pdfs/
 Disallow: /llh.html
+Disallow: /learnlytics-learning-hub
 Disallow: /dev/
 Disallow: /__local/
 Disallow: /supabase/
@@ -11,4 +12,4 @@ Disallow: /server/
 Disallow: /scripts/
 Disallow: /tests/
 
-Sitemap: https://learnlyticshandbook.shop/sitemap.xml
+Sitemap: https://www.learnlyticshandbook.shop/sitemap.xml

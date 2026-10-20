@@ -1,5 +1,4 @@
-// Existing external links can open the matching view without adding product routes.
-// These fragments are consumed on arrival; normal navigation keeps the same URL.
+// Existing bookmarks still select the matching view, then resolve to its public URL.
 const views = Object.freeze({
   '#kit-analyst': 'analyst',
   '#kit-scientist': 'scientist',

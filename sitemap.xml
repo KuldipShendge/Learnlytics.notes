@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Product views currently share this URL. LLH is a noindex account page. -->
-  <url>
-    <loc>https://learnlyticshandbook.shop/</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+  <url><loc>https://www.learnlyticshandbook.shop/</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://www.learnlyticshandbook.shop/data-analyst</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://www.learnlyticshandbook.shop/data-scientist-gen-ai</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://www.learnlyticshandbook.shop/machine-learning-engineer</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://www.learnlyticshandbook.shop/all-in-one-combo</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://www.learnlyticshandbook.shop/Career-Resources</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://www.learnlyticshandbook.shop/about-us</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://www.learnlyticshandbook.shop/learner-reviews</loc><lastmod>2026-10-20</lastmod></url>
 </urlset>

@@ -1,6 +1,6 @@
 # LearnLytics — Single-URL Site
 
-For moving this code to the `learnlytics.handbook` repository and its Vercel project, follow [the production migration guide](docs/production-migration.md). `vercel.json` builds an explicit `dist/` allowlist; do not deploy the repository root or merge the legacy `api/` folder into this static site.
+Production source is **KuldipShendge/Learnlytics.notes**, deployed on Vercel at **https://www.learnlyticshandbook.shop/**. See [deployment settings](docs/production-migration.md) and [page URLs](docs/page-urls.md). All changes stay in this repository. Publish only the allowlisted `dist/` output.
 
 ## Learning Hub Phase 1 (local implementation)
 

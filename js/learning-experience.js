@@ -247,7 +247,7 @@ export function setupLearningExperience(view) {
         ${renderHubPreview(content, view)}
       </div>
       <div class="learning-hub-footer">
-        <a class="text-button" href="llh.html">Open My Library ${icon('arrow')}</a>
+        <a class="text-button" href="learnlytics-learning-hub">Open My Library ${icon('arrow')}</a>
       </div>
       <!-- Future dedicated explainer: insert a responsive video after this footer. -->
     </section>

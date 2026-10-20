@@ -50,7 +50,7 @@ test('demo requires local server opt-in; normal auth and remote hosts cannot ena
     const headers = page.match(/<header\b[\s\S]*?<\/header>/g);
     assert.equal(headers.length,8);
     for (const header of headers) {
-      assert.match(header, /<\/a><a class="header-llh-link" href="llh.html"/);
+      assert.match(header, /<\/a><a class="header-llh-link" href="learnlytics-learning-hub"/);
       assert.equal((header.match(/header-llh-link/g)||[]).length,1);
     }
   } finally {

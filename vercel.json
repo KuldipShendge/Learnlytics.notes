@@ -61,117 +61,142 @@
           "value": "no-cache"
         }
       ]
+    },
+    {
+      "source": "/learnlytics-learning-hub",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src https://*.supabase.co; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'"
+        }
+      ]
     }
   ],
   "redirects": [
     {
       "source": "/course-bundles/data-bi-analyst-complete-bundle",
-      "destination": "/#kit-analyst",
+      "destination": "/data-analyst",
       "permanent": true
     },
     {
       "source": "/course-bundles/data-bi-analyst-complete",
-      "destination": "/#kit-analyst",
+      "destination": "/data-analyst",
       "permanent": true
     },
     {
       "source": "/course-bundles/data-bi-analyst-interview-kit",
-      "destination": "/#kit-analyst",
+      "destination": "/data-analyst",
       "permanent": true
     },
     {
       "source": "/course-bundles/data-bi-analyst-bundle",
-      "destination": "/#kit-analyst",
+      "destination": "/data-analyst",
       "permanent": true
     },
     {
       "source": "/course-bundles/data-bi-analyst",
-      "destination": "/#kit-analyst",
+      "destination": "/data-analyst",
       "permanent": true
     },
     {
       "source": "/course-bundles/data-bi-analyst-bundle/interview-questions",
-      "destination": "/#kit-analyst",
+      "destination": "/data-analyst",
       "permanent": true
     },
     {
       "source": "/course-bundles/data-bi-analyst-bundle/data-scientist-genai-engineer-bundle",
-      "destination": "/#kit-scientist",
+      "destination": "/data-scientist-gen-ai",
       "permanent": true
     },
     {
       "source": "/course-bundles/data-scientist-genai-engineer-bundle",
-      "destination": "/#kit-scientist",
+      "destination": "/data-scientist-gen-ai",
       "permanent": true
     },
     {
       "source": "/course-bundles/data-science",
-      "destination": "/#kit-scientist",
+      "destination": "/data-scientist-gen-ai",
       "permanent": true
     },
     {
       "source": "/course-bundles/data-bi-analyst-bundle/data-scientist-genai-engineer-bundle/interview-questions",
-      "destination": "/#kit-scientist",
+      "destination": "/data-scientist-gen-ai",
       "permanent": true
     },
     {
       "source": "/course-bundles/data-scientist-genai-engineer-bundle/interview-questions",
-      "destination": "/#kit-scientist",
+      "destination": "/data-scientist-gen-ai",
       "permanent": true
     },
     {
       "source": "/course-bundles/machine-learning-interview-kit",
-      "destination": "/#kit-engineer",
+      "destination": "/machine-learning-engineer",
       "permanent": true
     },
     {
       "source": "/course-bundles/ai-automation-bundle",
-      "destination": "/#kit-engineer",
+      "destination": "/machine-learning-engineer",
       "permanent": true
     },
     {
       "source": "/course-bundles/ai-playbook-bundle",
-      "destination": "/#kit-engineer",
+      "destination": "/machine-learning-engineer",
       "permanent": true
     },
     {
       "source": "/course-bundles/ai-automation",
-      "destination": "/#kit-engineer",
+      "destination": "/machine-learning-engineer",
       "permanent": true
     },
     {
       "source": "/course-bundles/ds-genai-ml-complete-kit",
-      "destination": "/#kit-complete",
+      "destination": "/all-in-one-combo",
       "permanent": true
     },
     {
       "source": "/free-download",
-      "destination": "/#legacy-resources",
+      "destination": "/Career-Resources",
       "permanent": true
     },
     {
       "source": "/free-handbooks",
-      "destination": "/#legacy-resources",
+      "destination": "/Career-Resources",
       "permanent": true
     },
     {
       "source": "/free",
-      "destination": "/#legacy-resources",
+      "destination": "/Career-Resources",
       "permanent": true
     },
     {
       "source": "/free-ml-part-01.html",
-      "destination": "/#legacy-resources",
+      "destination": "/Career-Resources",
       "permanent": true
     },
     {
       "source": "/review",
-      "destination": "/#legacy-reviews",
+      "destination": "/learner-reviews",
       "permanent": true
     },
     {
       "source": "/reviews",
-      "destination": "/#legacy-reviews",
+      "destination": "/learner-reviews",
       "permanent": true
     },
     {
@@ -181,8 +206,42 @@
     },
     {
       "source": "/help",
-      "destination": "/#legacy-about",
+      "destination": "/about-us",
       "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/data-analyst",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/data-scientist-gen-ai",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/machine-learning-engineer",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/all-in-one-combo",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Career-Resources",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/about-us",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/learner-reviews",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/learnlytics-learning-hub",
+      "destination": "/llh.html"
     }
   ]
 }

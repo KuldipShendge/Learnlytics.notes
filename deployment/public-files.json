@@ -287,5 +287,6 @@
   "sitemap.xml",
   "pdfs/eda-handbook.pdf",
   "pdfs/eda-practice-workbook.pdf",
-  "pdfs/eda-solution-manual.pdf"
+  "pdfs/eda-solution-manual.pdf",
+  "js/site-routes.js"
 ]

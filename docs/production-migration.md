@@ -1,8 +1,8 @@
-# Move the current site to learnlytics.handbook
+# Learnlytics.notes production deployment
 
-Prepared 20 October 2026 using the old `D:\website` deployment files. The existing production domain in those files is **https://learnlyticshandbook.shop/**. No changes to that domain, its DNS, the target repository or the Vercel project have been made.
+Production source: **KuldipShendge/Learnlytics.notes**. All future changes and pushes stay in this repository; do not transfer or push to `learnlytics.handbook`. The user has connected this repository to Vercel. The confirmed canonical domain is **https://www.learnlyticshandbook.shop/**.
 
-## Included for the move
+## Deployment files
 
 | File | Purpose |
 |---|---|
@@ -10,27 +10,25 @@ Prepared 20 October 2026 using the old `D:\website` deployment files. The existi
 | `.vercelignore` | Excludes local demo, backend, credentials, tests, logs and other non-build inputs from CLI upload |
 | `scripts/build-vercel.mjs` | Runs the existing allowlisted build; fails if an obsolete root `api/` directory is present |
 | `deployment/public-files.json` | Exact files allowed in the public artifact, including current images, fonts, video covers, PDF.js and three public EDA sample PDFs |
-| `sitemap.xml` | Current canonical homepage only, reflecting the existing single-URL design |
+| `sitemap.xml` | Homepage and individual public page URLs; LLH stays noindex |
 | `robots.txt` | Sitemap location and crawl rules; excludes account/resources paths from indexing |
 | `index.html` metadata | Existing Search Console verification, canonical domain, current Open Graph/Twitter metadata and basic Organization JSON-LD |
 | `.env.example` | Optional public Supabase configuration names; no secrets required for the marketing site |
-| `js/legacy-entry.js`, `js/views.js` | Old external kit/resource/review links open the appropriate current view, then return the address bar to the single base URL |
+| `js/legacy-entry.js`, `js/views.js` | Old fragment bookmarks resolve to the appropriate new page URL |
 
 Current images, logos, local fonts, technology icons, video covers and PDF viewer dependencies are already in this repository. Preserve their filenames and capitalization. The allowlist prevents unrelated old PDFs, source files and local logo copies from appearing in the public site.
 
-The old catch-all rewrite was deliberately not copied. Unknown paths should be real 404s, not copies of the homepage with broken relative assets. Known old kit URLs have explicit permanent redirects; their temporary fragments select the matching view and are then removed. Normal site navigation remains on one URL.
+Vercel rewrites only known page URLs to the existing frontend; unknown paths return 404. Old kit URLs redirect to their new paths. See [page URLs](page-urls.md) for the full list.
 
 The old `/aptitude-kit` and `/all-handbook-page/de` pages have no equivalent in this redesigned site and are not in the new sitemap or redirect table. Restoring those products is a separate content task.
 
-## Transfer steps
+## Vercel settings
 
-1. Back up the old `learnlytics.handbook` repository and its Vercel project settings. Keep the target repository's `.git` history.
-2. Transfer the current tracked source from `Learnlytics.notes` as a **clean replacement**, not an overlay onto the old website. Include hidden files such as `.vercelignore`, `.gitignore` and `.env.example`, plus `package.json`, `pnpm-lock.yaml`, `scripts`, `deployment`, `assets`, `css`, `js`, the HTML files, `robots.txt` and `sitemap.xml`.
-3. Remove legacy website code from the target checkout that is not part of this replacement, particularly old `api/`, `server/`, old `vercel.json` rewrite rules and old build configuration. Do not delete the target's `.git` or personal backups. A leftover `api/` causes the new Vercel build to fail intentionally.
-4. Do **not** transfer `.env` secrets, `.vercel` project bindings, `.git` from this repository, `node_modules`, generated `dist`, preview logs or personal files. Supabase SQL/docs may remain in the private source workflow, but they are excluded from deployment output.
-5. Run the checks below before pushing the target repo. The existing GitHub Pages workflow is restricted to `KuldipShendge/Learnlytics.notes`; copying it to `learnlytics.handbook` will not start another Pages deployment. You can omit it from the Vercel-only target.
-6. In the existing Vercel project, keep the correct Git connection to `learnlytics.handbook`. Set Root Directory to the directory containing this `vercel.json`, Framework Preset **Other**, Node **24.x**, build command `node scripts/build-vercel.mjs`, output directory **dist**, and install command `pnpm install --frozen-lockfile --ignore-scripts`. The tracked config supplies these commands/output settings.
-7. Inspect a Vercel Preview before promoting Production. Use Vercel deployment protection for previews. Check the supplied domain's configuration in the existing project; do not change DNS merely because the source code changed.
+Keep the Git connection on **KuldipShendge/Learnlytics.notes**, branch **main**. Use Framework **Other**, Node **24.x**, install `pnpm install --frozen-lockfile --ignore-scripts`, build `node scripts/build-vercel.mjs`, and output **dist**. `vercel.json` supplies the commands and output directory.
+
+Publish only the allowlisted build output. Do not copy an old backend into this repository: the build rejects a root `api/` folder. Keep secrets, local demo files, admin scripts and paid resources outside public output. The existing GitHub Pages workflow is preserved; Vercel is the production host for the new clean URLs.
+
+Review Vercel build results and check the routes after pushing. DNS is managed by the owner; no DNS changes are required by this code update.
 
 The Google Apps Script Career Resources endpoint is already in `js/career-resources-data.js`; keep the current working endpoint. The script source is in `google-apps-script/form-handler.gs` for manual maintenance, not a Vercel Function. No new script deployment is needed just to move the frontend.
 
@@ -58,7 +56,7 @@ node --test tests/deployment.test.mjs
 
 `dist` must contain `index.html`, `llh.html`, `robots.txt`, `sitemap.xml`, allowlisted public assets and the generated LLH bundle. It must not contain `dev`, `api`, `server`, `supabase`, `.env`, admin tooling or paid PDFs. With no Supabase configuration, the marketing site and hosted payment links work normally.
 
-After a Vercel Preview is available, check `/`, `/llh.html`, `/robots.txt`, `/sitemap.xml`, current sample PDFs and all four payment destinations. Check old DA/DS/ML/Combined URLs redirect to their correct views; unknown paths and backend paths should return 404. Verify LLH cache/CSP headers in the response. Run a real Career Resources submission only with an email address you control.
+After a Vercel Preview is available, check the URLs in `page-urls.md`, `/llh.html`, `/robots.txt`, `/sitemap.xml`, current sample PDFs and all four payment destinations. Check old DA/DS/ML/Combined URLs redirect to their correct views; unknown paths and backend paths should return 404. Verify LLH cache/CSP headers in the response. Run a real Career Resources submission only with an email address you control.
 
 Submit the updated sitemap in the existing Search Console property after production deployment. The sitemap lists only `/` because product views intentionally share the same URL; independent product SEO pages would require a later routing change.
 

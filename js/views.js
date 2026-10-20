@@ -1,5 +1,5 @@
-// Keep every view at the existing site URL; static hosting needs no route rewrites.
 import { legacyEntryView } from './legacy-entry.js';
+import { pathView, viewUrl, viewPaths, siteOrigin } from './site-routes.js';
 
 export function setupViews(initializers) {
   const app = document.querySelector('#app');
@@ -24,6 +24,18 @@ export function setupViews(initializers) {
   let current = 'home';
   initializers.home();
 
+  function syncMetadata() {
+    const canonical = `${siteOrigin}/${viewPaths[current]}`;
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonical);
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', canonical);
+    for (const selector of ['meta[property="og:title"]', 'meta[name="twitter:title"]']) {
+      document.querySelector(selector)?.setAttribute('content', document.title);
+    }
+    for (const selector of ['meta[property="og:description"]', 'meta[name="twitter:description"]']) {
+      document.querySelector(selector)?.setAttribute('content', description.content);
+    }
+  }
+
   function show(view, section = '', moveFocus = true) {
     if (!views.has(view)) return;
     if (view !== current) {
@@ -42,6 +54,7 @@ export function setupViews(initializers) {
       }
       app.dispatchEvent(new Event('learnlytics:view-enter'));
     }
+    syncMetadata();
     const target = section ? document.getElementById(section) : app.querySelector('h1');
     if (target && moveFocus) {
       target.tabIndex = -1;
@@ -53,40 +66,42 @@ export function setupViews(initializers) {
 
   function save(view, section, push = false) {
     const state = { ...history.state, learnlytics: { view, section } };
-    // Omitting the URL preserves both the project folder and the address bar.
-    if (push) history.pushState(state, '');
-    else history.replaceState(state, '');
+    // Search parameters belong before the fragment (including campaign attribution).
+    const target = new URL(viewUrl(view, section), location.origin);
+    target.search = location.search;
+    if (push) history.pushState(state, '', target.pathname + target.search + target.hash);
+    else history.replaceState(state, '', target.pathname + target.search + target.hash);
   }
 
   document.addEventListener('click', (event) => {
-    const link = event.target.closest('a[href^="#"]');
+    const link = event.target.closest('a[href]');
     if (!link || event.defaultPrevented || event.button !== 0 ||
-        event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-    const view = link.dataset.view || current;
-    const section = link.getAttribute('href').slice(1);
+        event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
+        link.hasAttribute('download') || (link.target && link.target !== '_self')) return;
+    const url = new URL(link.href);
+    if (url.origin !== location.origin) return;
+    const view = link.dataset.view || pathView(url.pathname);
+    const section = url.hash.slice(1);
     if (!views.has(view)) return;
     event.preventDefault();
-    save(view, section, view !== current);
+    save(view, section, view !== current || section !== location.hash.slice(1));
     show(view, section);
   });
 
   window.addEventListener('popstate', (event) => {
-    const state = event.state?.learnlytics;
-    show(state?.view || 'home', state?.section || '');
+    show(pathView(location.pathname) || 'home', location.hash.slice(1));
   });
   window.addEventListener('hashchange', () => {
     const entry = legacyEntryView(location.hash);
-    if (!entry) return;
-    history.replaceState(history.state, '', location.pathname + location.search);
-    save(entry, '');
-    show(entry, '');
+    if (entry) {
+      save(entry, '');
+      show(entry, '');
+    }
   });
 
   const entryView = legacyEntryView(location.hash);
-  const saved = history.state?.learnlytics;
-  const view = entryView || (views.has(saved?.view) ? saved.view : 'home');
-  const section = entryView ? '' : (saved?.section || location.hash.slice(1));
-  if (entryView) history.replaceState(history.state, '', location.pathname + location.search);
+  const view = entryView || pathView(location.pathname) || 'home';
+  const section = entryView ? '' : location.hash.slice(1);
   save(view, section);
   if (view !== 'home' || section) show(view, section, false);
 }
