@@ -77,6 +77,8 @@
 
 /* Interview framework: one example project, one prompt, one answer sequence. */
 .learning-toolkit { margin-top: 20px; background: var(--white); }
+/* Reuse the original website's light pink surface on the homepage Toolkit. */
+.home-page .learning-toolkit { background: #faf4f8; }
 .learning-toolkit-label { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .learning-toolkit-icon { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 9px; color: var(--accent); background: var(--tint); }
 .learning-toolkit-icon .icon { width: 19px; height: 19px; }
