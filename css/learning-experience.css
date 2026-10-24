@@ -122,10 +122,40 @@
 .toolkit-product p { margin-top: 8px; font-size: 12px; color: var(--accent-dark); }
 .learning-toolkit-visuals .toolkit-preview { max-width: none; }
 .learning-hub-placement { margin-top: 0; margin-bottom: 28px; }
+
+/* Homepage Toolkit overview and edition availability share the existing preview styles. */
+.toolkit-parts { display: grid; gap: 24px; border-block: 1px solid var(--line); padding-block: 24px; }
+.toolkit-part { min-width: 0; }
+.toolkit-part + .toolkit-part { border-top: 1px solid var(--line); padding-top: 24px; }
+.toolkit-part .eyebrow { flex-wrap: wrap; }
+.toolkit-part .learning-status { background: var(--tint); font-size: 10px; letter-spacing: 0; }
+.toolkit-part h3 { margin-top: 12px; font-size: 17px; line-height: 1.45; }
+.toolkit-part-access { margin-top: 10px; font-size: 12px; line-height: 1.7; }
+.toolkit-part-features { display: grid; gap: 6px; margin: 12px 0 0; padding-left: 17px; color: var(--copy); font-size: 12px; line-height: 1.7; }
+.toolkit-part-features li::marker { color: var(--accent); }
+.toolkit-editions { border-top: 1px solid var(--line); padding-top: 24px; min-width: 0; }
+.toolkit-editions > h3 { font-size: 19px; line-height: 1.4; }
+.toolkit-edition-grid { display: grid; gap: 12px; list-style: none; margin: 16px 0 0; padding: 0; }
+.toolkit-edition { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); }
+.toolkit-edition-code { font-size: 12px; font-weight: 700; }
+.toolkit-edition h4 { margin: 14px 0 0; color: var(--ink); font-size: 14px; font-weight: 600; line-height: 1.5; }
+.toolkit-edition-detail { margin-top: 7px; font-size: 12px; line-height: 1.7; }
+.toolkit-edition-availability { margin-top: auto; padding-top: 18px; }
+.toolkit-edition-availability .learning-status { font-size: 10px; white-space: normal; }
+.toolkit-edition-availability p { margin-top: 5px; font-size: 11px; line-height: 1.6; }
+
+@container toolkit (min-width: 440px) {
+  .toolkit-edition-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 @container toolkit (min-width: 560px) {
+  .toolkit-parts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .toolkit-part + .toolkit-part { border-top: 0; border-left: 1px solid var(--line); padding-top: 0; padding-left: 24px; }
   .learning-toolkit-visuals { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; }
   .learning-toolkit-visuals .toolkit-preview { align-self: center; }
   .toolkit-product { display: flex; flex-direction: column; justify-content: center; }
+}
+@container toolkit (min-width: 880px) {
+  .toolkit-edition-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (min-width: 980px) {
   .home-page .learning-hub-placement { margin-top: 0; }

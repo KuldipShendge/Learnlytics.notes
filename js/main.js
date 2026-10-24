@@ -1,6 +1,6 @@
 import { setupKitJourney } from './kit-journey.js?v=journey-20261019';
 import { setupReviewsPage, setupReviewReturn } from './reviews.js?v=page-routes-20261020';
-import { setupLearningExperience } from './learning-experience.js?v=page-routes-20261020';
+import { setupLearningExperience } from './learning-experience.js?v=toolkit-editions-20261024';
 import { setupKits } from './kits.js?v=page-routes-20261020';
 import { setupInlineVideos } from './inline-videos.js?v=guide-covers-logo-20261016';
 import { setupProduct } from './product.js?v=mobile-reviews-20261019';

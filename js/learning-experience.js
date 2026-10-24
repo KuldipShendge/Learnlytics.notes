@@ -94,8 +94,8 @@ export const learningExperienceContent = {
     nextPath: 'Analytics Engineer',
     nextSkills: ['Data modelling', 'dbt', 'Pipelines'],
     toolkitTitle: 'Project Explanation Toolkit',
-    toolkitDescription: 'Explain your projects, technical decisions and results confidently in interviews.',
-    toolkitBenefits: ['Problem & data', 'Technical decisions', 'Results & impact', 'Follow-up questions'],
+    toolkitDescription: 'From building real-world projects to confidently defending your technical decisions in interviews.',
+    toolkitBenefits: ['Build', 'Improve', 'Explain', 'Defend'],
     project: {
       title: 'Sales performance analysis',
       rows: ['Understand declining sales', 'Explore trends by segment', 'SQL · Python · Power BI', 'Explain dashboard insights', 'Support business decisions'],
@@ -223,6 +223,57 @@ const toolkitArtwork = {
   }
 };
 
+// Counts and publication status belong to each career edition.
+const toolkitEditions = [
+  { code: 'DA', title: 'Data Analyst', projects: 10, chapters: 16, status: 'Content ready', note: 'Publication pending' },
+  { code: 'AE', title: 'Analytics Engineer', focus: 'Data modelling · SQL · dbt', status: 'In development' },
+  { code: 'DS', title: 'Data Scientist', focus: 'Statistics · ML · GenAI', status: 'Coming soon' },
+  { code: 'ML', title: 'Machine Learning Engineer', focus: 'Models · MLOps · Deployment', status: 'Coming soon' },
+];
+
+function renderToolkitParts() {
+  return `<div class="toolkit-parts">
+    <section class="toolkit-part" aria-labelledby="toolkit-lab-title">
+      <p class="eyebrow">PART 01 <span class="learning-status">Free resource</span></p>
+      <h3 id="toolkit-lab-title">LearnLytics Curated Project Lab</h3>
+      <ul class="toolkit-part-features">
+        <li>10 curated projects with original creator credits.</li>
+        <li>Beginner, Intermediate and Advanced levels.</li>
+        <li>Project improvement challenges and interview preparation.</li>
+      </ul>
+    </section>
+    <section class="toolkit-part" aria-labelledby="toolkit-defense-title">
+      <p class="eyebrow">PART 02 <span class="learning-status">Premium resource</span></p>
+      <h3 id="toolkit-defense-title">Project Explanation &amp; Interview Defense</h3>
+      <p class="toolkit-part-access">Included with eligible Interview Kits.</p>
+      <ul class="toolkit-part-features">
+        <li>Project explanations and technical decisions.</li>
+        <li>Interview questions and mock practice.</li>
+        <li>Chapter counts vary by career edition.</li>
+      </ul>
+    </section>
+  </div>`;
+}
+
+function renderToolkitEditions() {
+  return `<section class="toolkit-editions" aria-labelledby="toolkit-editions-title">
+    <h3 id="toolkit-editions-title">Choose your career path</h3>
+    <ul class="toolkit-edition-grid" role="list">
+      ${toolkitEditions.map(edition => `<li class="toolkit-edition">
+        <span class="learning-toolkit-icon toolkit-edition-code">${escapeHtml(edition.code)}</span>
+        <h4>${escapeHtml(edition.title)}</h4>
+        <p class="toolkit-edition-detail">${edition.projects != null && edition.chapters != null
+          ? `${edition.projects} projects · ${edition.chapters} chapters`
+          : escapeHtml(edition.focus)}</p>
+        <div class="toolkit-edition-availability">
+          <span class="learning-status">${escapeHtml(edition.status)}</span>
+          ${edition.note ? `<p>${escapeHtml(edition.note)}</p>` : ''}
+        </div>
+      </li>`).join('')}
+    </ul>
+  </section>`;
+}
+
 export function setupLearningExperience(view) {
   const artwork = toolkitArtwork[view] || { file: "assets/images/project-explanation-toolkit.webp", width: 800, height: 1000 };
   const content = learningExperienceContent[view];
@@ -259,6 +310,7 @@ export function setupLearningExperience(view) {
         <p class="learning-toolkit-description">${escapeHtml(content.toolkitDescription)}</p>
         <ul class="learning-toolkit-benefits">${content.toolkitBenefits.map(benefit => `<li>${escapeHtml(benefit)}</li>`).join('')}</ul>
       </div>
+      ${view === 'home' ? renderToolkitParts() : ''}
       <div class="learning-toolkit-visuals">
         <figure class="toolkit-product">
           <img src="${escapeHtml(artwork.file)}" width="${artwork.width}" height="${artwork.height}" loading="lazy" decoding="async" alt="LearnLytics Project Explanation Toolkit book with a Problem, Approach, Decision and Result worksheet" />
@@ -266,6 +318,7 @@ export function setupLearningExperience(view) {
         </figure>
         ${renderToolkitPreview(content.project)}
       </div>
+      ${view === 'home' ? renderToolkitEditions() : ''}
     </section>`;
 
   // Only the homepage Hub moves above the guide videos; its Toolkit stays later.
