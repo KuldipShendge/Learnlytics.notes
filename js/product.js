@@ -1,7 +1,7 @@
 import { setupKitJourney } from './kit-journey.js?v=journey-20261019';
 import { setupLearningExperience } from './learning-experience.js?v=themed-images-20261019';
 import { setupInlineVideos } from './inline-videos.js?v=guide-covers-logo-20261016';
-import { setupSampleGallery } from './sample-gallery.js?v=pdf-tools-20261016';
+import { setupSampleGallery } from './sample-gallery.js?v=course-samples-20261028';
 import { curriculum as dsCurriculum, productOverview as dsOverview } from './ds-curriculum.js';
 import { productReviews } from './product-reviews.js?v=complete-kit-20261019';
 import { setupProductTestimonials } from './product-testimonials.js?v=mobile-reviews-20261019';

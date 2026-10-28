@@ -5,7 +5,12 @@ import { buildLLH, publicConfig } from './build-llh.mjs';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'dist');
 export function validatePublicPath(file) {
-  const samples = ['pdfs/eda-handbook.pdf', 'pdfs/eda-practice-workbook.pdf', 'pdfs/eda-solution-manual.pdf'];
+  const samples = [
+    'pdfs/eda-handbook.pdf', 'pdfs/eda-practice-workbook.pdf', 'pdfs/eda-solution-manual.pdf',
+    'pdfs/mlops-handbook-v2.pdf', 'pdfs/mlops-workbook-v2.pdf', 'pdfs/mlops-solutions-v2.pdf',
+    'pdfs/math-solutions-v2.pdf', 'pdfs/math-workbook-v2.pdf', 'pdfs/math-handbook-v2.pdf',
+    'pdfs/BI-handbook-v2.pdf', 'pdfs/BI-workbook-v2.pdf', 'pdfs/BI-solution-v2.pdf',
+  ];
   if (typeof file !== 'string' || file.includes('\\') || file.includes('..') || file.startsWith('/') || file.includes(':') || file.split('/').some(p => p.startsWith('.'))) return false;
   if (/\.pdf$/i.test(file)) return samples.includes(file);
   return ['index.html', 'llh.html', 'robots.txt', 'sitemap.xml'].includes(file) || /^(assets|css|js)\//.test(file);

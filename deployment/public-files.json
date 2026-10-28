@@ -288,5 +288,14 @@
   "pdfs/eda-handbook.pdf",
   "pdfs/eda-practice-workbook.pdf",
   "pdfs/eda-solution-manual.pdf",
+  "pdfs/mlops-handbook-v2.pdf",
+  "pdfs/mlops-workbook-v2.pdf",
+  "pdfs/mlops-solutions-v2.pdf",
+  "pdfs/math-solutions-v2.pdf",
+  "pdfs/math-workbook-v2.pdf",
+  "pdfs/math-handbook-v2.pdf",
+  "pdfs/BI-handbook-v2.pdf",
+  "pdfs/BI-workbook-v2.pdf",
+  "pdfs/BI-solution-v2.pdf",
   "js/site-routes.js"
 ]

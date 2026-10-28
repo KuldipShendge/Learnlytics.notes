@@ -11,6 +11,12 @@ const port = Number(process.env.PORT || 4173);
 const basePath = (process.env.PREVIEW_BASE_PATH || '').replace(/\/$/, '');
 // Explicit local process opt-in, never a browser flag or production auth fallback.
 const demoEnabled = process.env.LLH_DEMO === '1';
+const samplePaths = new Set([
+  '/pdfs/eda-handbook.pdf', '/pdfs/eda-practice-workbook.pdf', '/pdfs/eda-solution-manual.pdf',
+  '/pdfs/mlops-handbook-v2.pdf', '/pdfs/mlops-workbook-v2.pdf', '/pdfs/mlops-solutions-v2.pdf',
+  '/pdfs/math-solutions-v2.pdf', '/pdfs/math-workbook-v2.pdf', '/pdfs/math-handbook-v2.pdf',
+  '/pdfs/BI-handbook-v2.pdf', '/pdfs/BI-workbook-v2.pdf', '/pdfs/BI-solution-v2.pdf',
+]);
 const demoFiles = new Map([
   ['/__local/llh-demo.js', 'dev/llh-demo.js'],
   ['/__local/llh-demo.css', 'dev/llh-demo.css'],
@@ -72,7 +78,7 @@ const server = http.createServer(async (request, response) => {
       response.end(request.method === 'HEAD' ? '' : html); return;
     }
     // Serve only registered pages and public assets, never project tooling.
-    if (!pages.has(pathname) && !/^\/(assets|css|js)\//.test(pathname) && !['/pdfs/eda-handbook.pdf', '/pdfs/eda-practice-workbook.pdf', '/pdfs/eda-solution-manual.pdf'].includes(pathname)) {
+    if (!pages.has(pathname) && !/^\/(assets|css|js)\//.test(pathname) && !samplePaths.has(pathname)) {
       response.writeHead(404); response.end('Not found'); return;
     }
     const file = path.resolve(root, '.' + (pages.get(pathname) || pathname));

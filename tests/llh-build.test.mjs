@@ -35,7 +35,12 @@ test('public artifact allowlist excludes private files, unexpected assets, paid 
   for (const file of files.filter(p=>/\.(html|js|css)$/.test(p))) {
    assert(!/LLH_DEMO|__local\/llh-demo|admin \/ admin|Open demo/.test(await readFile(file,'utf8')),`Demo code leaked into ${file}`);
   }
-  assert.deepEqual(files.filter(p=>p.endsWith('.pdf')).sort(),['dist/pdfs/eda-handbook.pdf','dist/pdfs/eda-practice-workbook.pdf','dist/pdfs/eda-solution-manual.pdf']);
+  assert.deepEqual(files.filter(p=>p.endsWith('.pdf')).sort(), [
+   'dist/pdfs/eda-handbook.pdf', 'dist/pdfs/eda-practice-workbook.pdf', 'dist/pdfs/eda-solution-manual.pdf',
+   'dist/pdfs/mlops-handbook-v2.pdf', 'dist/pdfs/mlops-workbook-v2.pdf', 'dist/pdfs/mlops-solutions-v2.pdf',
+   'dist/pdfs/math-solutions-v2.pdf', 'dist/pdfs/math-workbook-v2.pdf', 'dist/pdfs/math-handbook-v2.pdf',
+   'dist/pdfs/BI-handbook-v2.pdf', 'dist/pdfs/BI-workbook-v2.pdf', 'dist/pdfs/BI-solution-v2.pdf',
+  ].sort());
   const before=process.env.LLH_SUPABASE_PUBLISHABLE_KEY;
   const beforeUrl=process.env.LLH_SUPABASE_URL;
   try {

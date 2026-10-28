@@ -57,7 +57,7 @@ const url = process.env.PREVIEW_URL || 'http://127.0.0.1:4187/Learnlytics.notes/
       await page.locator('.book-model').evaluate(img=>img.decode());
       await page.locator('#tab-handbook').click();
       await page.waitForFunction(()=>document.querySelector('.sample-frame').getAttribute('aria-busy')==='false');
-      if(width===390) await checkPdfReader(page,{filename:'eda-handbook.pdf',count:32});
+      if(width===390) await checkPdfReader(page,{filename:'math-solutions-v2.pdf',count:17});
       await require('./payment-link.cjs')(page, 'qLYK5iB');
       assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Overflow at ${width}px`);
       if([390,1440].includes(width)) {

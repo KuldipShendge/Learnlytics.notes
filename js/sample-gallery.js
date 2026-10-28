@@ -84,7 +84,7 @@ export function setupSampleGallery({ resources = defaultResources } = {}) {
       dot.setAttribute('aria-current', String(number === pageNumber));
     });
     imageButton.setAttribute('aria-label', `Read ${resources[type].title}, page ${pageNumber}`);
-    section.querySelector('#sample-note').textContent = `An actual page from the LearnLytics EDA ${resources[type].label}.`;
+    section.querySelector('#sample-note').textContent = `An actual page from the LearnLytics ${resources[type].subject || 'EDA'} ${resources[type].label}.`;
     openLink.href = `pdfs/${resources[type].file}#page=${pageNumber}`;
   }
 

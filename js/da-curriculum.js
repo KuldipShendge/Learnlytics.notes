@@ -8,9 +8,9 @@ export const productOverview = {
   "units": 77,
   "topics": 637,
   "samples": {
-    "handbook": { "title": "EDA Handbook", "file": "eda-handbook.pdf", "label": "handbook" },
-    "workbook": { "title": "EDA Practice Workbook", "file": "eda-practice-workbook.pdf", "label": "practice workbook" },
-    "solutions": { "title": "EDA Solution Manual", "file": "eda-solution-manual.pdf", "label": "solution manual" }
+    "handbook": { "title": "BI Handbook", "file": "BI-handbook-v2.pdf", "label": "handbook", "subject": "Business Intelligence" },
+    "workbook": { "title": "BI Workbook", "file": "BI-workbook-v2.pdf", "label": "workbook", "subject": "Business Intelligence" },
+    "solutions": { "title": "BI Solutions", "file": "BI-solution-v2.pdf", "label": "solutions", "subject": "Business Intelligence" }
   }
 };
 

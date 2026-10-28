@@ -1,11 +1,15 @@
 // Transcribed from D:/website/index.html, #course-ai-automation.
 // Preserve the source headline (3,680+); its workbook rows total 3,420.
-// EDA sample PDFs are shared with DA/DS until kit-specific samples are supplied.
 export const productOverview = {
   "practiceQuestions": 3680,
   "modules": 7,
   "parts": 20,
-  "resources": 60
+  "resources": 60,
+  "samples": {
+    "handbook": { "title": "MLOps Handbook", "file": "mlops-handbook-v2.pdf", "label": "handbook", "subject": "MLOps" },
+    "workbook": { "title": "MLOps Workbook", "file": "mlops-workbook-v2.pdf", "label": "workbook", "subject": "MLOps" },
+    "solutions": { "title": "MLOps Solutions", "file": "mlops-solutions-v2.pdf", "label": "solutions", "subject": "MLOps" }
+  }
 };
 
 export const curriculum = [

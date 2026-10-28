@@ -145,6 +145,6 @@ Verified in desktop Chromium with emulated viewport sizes; physical-device and S
 
 The DA product view follows the DS structure, including mobile curriculum placement after What's Inside This Kit, sample tabs, two inline videos, support and closing CTA. Its content comes from `D:/website/js/script.js` (eight structured curriculum arrays) and the old Data Analyst section/catalog. The old catalog price is ₹399, with 2,200+ interview questions (1,300+ technical and 900+ scenarios). Eight modules provide 24 handbook/workbook/solution resources; unit and topic totals are computed from the detailed source data. The old DA cover is reused from `assets/images/kit-data-analyst.webp`.
 
-DA intentionally uses the existing EDA PDFs and the same guide videos for now. Replace the DA sample configuration when the final DA PDFs are supplied. The source code under `D:/website` remains unchanged.
+DA Sample Pages uses BI-handbook-v2.pdf, BI-workbook-v2.pdf and BI-solution-v2.pdf. ML uses the three mlops v2 PDFs. The Combined Kit follows the supplied mapping: Handbook opens math-solutions-v2.pdf, Workbook opens math-workbook-v2.pdf, and Solutions opens math-handbook-v2.pdf. DS retains the EDA samples. The guide videos are unchanged. The source code under `D:/website` remains unchanged.
 
 Run `node tests/analyst.cjs` for DA checks. The main test command also includes the DA suite.

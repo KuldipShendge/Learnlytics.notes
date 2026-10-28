@@ -65,14 +65,14 @@ const output = path.resolve(__dirname, '../screenshots');
       await page.locator('.curriculum-module > summary').first().click();
       await require('./payment-link.cjs')(page, 'S2y4eZ3');
       await page.locator('#tab-handbook').click();
-      await page.waitForFunction(()=>document.querySelector('#sample-pdf-page').dataset.pdf==='eda-handbook.pdf' && document.querySelector('.sample-frame').getAttribute('aria-busy')==='false');
-      for(const [type,file] of Object.entries({workbook:'eda-practice-workbook.pdf',solutions:'eda-solution-manual.pdf'})) {
+      await page.waitForFunction(()=>document.querySelector('#sample-pdf-page').dataset.pdf==='BI-handbook-v2.pdf' && document.querySelector('.sample-frame').getAttribute('aria-busy')==='false');
+      for(const [type,file] of Object.entries({workbook:'BI-workbook-v2.pdf',solutions:'BI-solution-v2.pdf'})) {
         await page.locator(`#tab-${type}`).click();
         await page.waitForFunction(file=>document.querySelector('#sample-pdf-page').dataset.pdf===file && document.querySelector('.sample-frame').getAttribute('aria-busy')==='false',file);
       }
       assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
       await page.locator('.book-model').evaluate(img=>img.decode());
-      if ([390,1440].includes(width)) await checkPdfReader(page, { filename:'eda-solution-manual.pdf', count:11 });
+      if ([390,1440].includes(width)) await checkPdfReader(page, { filename:'BI-solution-v2.pdf', count:18 });
       await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
       await page.screenshot({path:path.join(output,`analyst-${width}.png`),fullPage:true,style:'.product-sticky {visibility:hidden}'});
       if([390,1440].includes(width)) await page.screenshot({path:path.join(output,`analyst-${width}-viewport.png`)});

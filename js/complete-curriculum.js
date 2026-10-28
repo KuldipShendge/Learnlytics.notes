@@ -5,7 +5,13 @@ export const productOverview = {
   "practiceQuestions": 4500,
   "modules": 9,
   "parts": 24,
-  "resources": 80
+  "resources": 80,
+  // Preserve the supplied mapping: Handbook uses math-solutions; Solutions uses math-handbook.
+  "samples": {
+    "handbook": { "title": "Mathematics Handbook", "file": "math-solutions-v2.pdf", "label": "handbook", "subject": "Mathematics" },
+    "workbook": { "title": "Mathematics Workbook", "file": "math-workbook-v2.pdf", "label": "workbook", "subject": "Mathematics" },
+    "solutions": { "title": "Mathematics Solutions", "file": "math-handbook-v2.pdf", "label": "solutions", "subject": "Mathematics" }
+  }
 };
 
 export const curriculum = [
