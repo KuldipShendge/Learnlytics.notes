@@ -1,57 +1,42 @@
-# Data Analyst Project Explanation Toolkit
+# Project Explanation Toolkit — DA and DS
 
-Local route: `/project-da`. Uses the shared Data Analyst product layout, navigation,
-theme tokens and `assets/images/da-toolkit-theme-20261019.webp` (also used in the
-existing DA Toolkit section and the new Career Resources card).
+Routes: `/project-da` (Data Analyst) and `/project-ds` (Data Science).
+Both use the same layout, two parts, ten project titles and sixteen chapter titles.
+Each reuses its existing product theme and cover:
+`assets/images/da-toolkit-theme-20261019.webp` and
+`assets/images/ds-toolkit-theme-20261019.webp`.
 
-## Required configuration
+## Availability
 
-Edit `js/project-da-config.js`:
+Prices, strikethroughs and the Diwali campaign have been removed from both pages.
+DA displays **Coming soon on 4 Nov**; DS displays **Coming soon on 12 Nov** (2026).
+These dates are announcements. Purchases remain disabled and do not automatically
+activate on the launch day. No payment infrastructure has been changed.
 
-- `freePdfUrl`: the actual public Part 01 PDF URL. Currently empty: no matching PDF
-  was supplied. All three download links share this value and require no checkout.
-  Prefer a direct same-origin PDF with download headers; cross-origin servers control
-  whether the browser downloads or opens the PDF. If adding a local PDF, explicitly
-  add that exact file to `scripts/preview.mjs` samplePaths,
-  `scripts/build-public.mjs` samples and `deployment/public-files.json`.
-- `checkout.offer.url`: an existing hosted payment link verified to charge ₹199 INR.
-- `checkout.regular.url`: an existing hosted payment link verified to charge ₹499 INR.
-  Both are currently empty. Confirm the product and fixed charge in the existing
-  purchase service before filling these values, and set the corresponding `amount`.
-  Frontend amount declarations cannot verify or change a hosted checkout's charge.
-  The full DA Kit payment link must not be reused for this standalone resource.
-- `offerStart` and exclusive `offerEnd`: timezone-qualified timestamps. Defaults cover
-  October 30 through November 8, 2026 inclusive, IST (10 calendar days).
+Shared configuration lives in `js/project-da-config.js`, keyed by `analyst` and
+`scientist`. Each edition has its own `freePdfUrl` and `launchDate`.
+Both PDF URLs remain empty because the actual files have not been supplied.
+Only configure a real direct public PDF URL; all three download links on an edition
+use that edition's configured URL. No checkout is involved in the free download.
+For a local PDF, add the exact file to the preview and public-build PDF allowlists
+and `deployment/public-files.json`. Cross-origin servers control download behavior.
 
-The page only selects a payment link whose configured amount matches the displayed
-price. A missing or mismatched destination stays unavailable. At expiry the page
-switches to ₹499 and the regular-price destination, never the ₹199 link. It refreshes
-at the date boundary, on visibility/focus, view re-entry and purchase clicks.
-Client time determines presentation; the existing payment provider remains
-authoritative for charges. No payment backend, authentication or delivery code changed.
+## Integration and files
+
+`index.html` contains both page templates. `js/project-da.js` and
+`css/project-da.css` are shared by both editions. `js/main.js`, `js/site-routes.js`,
+`vercel.json` and `sitemap.xml` register the routes. The existing DA and DS Toolkit
+cards in `js/learning-experience.js` link to their respective pages. Career Resources
+uses the existing card renderer and now includes both editions after the five
+original handbooks (`js/career-resources-data.js`, `js/career-resources.js`).
 
 ## Local verification
 
-Run `node scripts/preview.mjs`, then visit `/project-da`, `/data-analyst` and
-`/Career-Resources`. Run `node --test tests/project-da.test.mjs` for campaign boundary
-and destination checks. `node scripts/build-public.mjs` builds locally without deploying.
-
-Browser acceptance: `node tests/project-da-browser.cjs` with Playwright available
-and `PREVIEW_URL` pointing to the preview. Checks 320, 390, 768, 1024 and 1440px,
-direct loads/refresh, metadata, overflow, keyboard accordions, live offer expiry,
-mobile navigation and both entry links. Screenshots go to ignored `screenshots/`.
-`node tests/career-resources.cjs` checks the five existing delivery forms with all
-external submissions intercepted.
-
-## Changed files
-
-Created: `css/project-da.css`, `js/project-da.js`, `js/project-da-config.js`,
-`tests/project-da.test.mjs`, `tests/project-da-browser.cjs`, and this document.
-
-Modified: `index.html` (page template and resource count), `js/main.js` and
-`js/site-routes.js` (initialization/routing), `js/learning-experience.js` (existing DA
-card link), `js/product.js` (updated module cache key), `js/career-resources-data.js`
-and `js/career-resources.js` (new card in the same renderer),
-`deployment/public-files.json`, `vercel.json`, `sitemap.xml` (local asset/route
-registration), and `tests/career-resources.cjs` (six cards, five delivery forms,
-current route assertions).
+Run `node scripts/preview.mjs`, then open either Toolkit route.
+`node --test tests/project-da.test.mjs` checks the launch labels, removal of pricing
+and identical parts/projects/chapters. `node tests/project-da-browser.cjs` checks both
+routes at five widths, navigation/refresh, keyboard accordions, metadata, overflow,
+launch notices and the product/resource entry links. Set `PREVIEW_URL` to the local
+server and make Playwright available. `node tests/career-resources.cjs` tests all five
+existing delivery forms with external requests intercepted.
+`node scripts/build-public.mjs` builds locally without deploying.

@@ -1,31 +1,25 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { projectDAConfig, projectDAOffer } from '../js/project-da-config.js';
+import { readFileSync } from 'node:fs';
+import { projectToolkits, toolkitLaunchLabel } from '../js/project-da-config.js';
 
-test('offer spans exactly ten IST calendar days and expires at midnight November 9', () => {
-  assert.equal(Date.parse(projectDAConfig.offerEnd) - Date.parse(projectDAConfig.offerStart), 10 * 86400000);
-  for (const [date, price, active] of [
-    ['2026-10-29T23:59:59.999+05:30', 499, false],
-    ['2026-10-30T00:00:00+05:30', 199, true],
-    ['2026-11-08T23:59:59.999+05:30', 199, true],
-    ['2026-11-09T00:00:00+05:30', 499, false],
-  ]) assert.deepEqual(projectDAOffer(Date.parse(date)), { active, price, checkoutUrl: '' });
+const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+const template = view => html.split(`<template id="view-${view}"`)[1].split('</template>')[0];
+
+test('each edition announces its November launch without exposing prices or checkout', () => {
+  for (const [edition, view, label] of [
+    ['analyst', 'project', 'Coming soon on 4 Nov'],
+    ['scientist', 'project-ds', 'Coming soon on 12 Nov'],
+  ]) {
+    assert.equal(toolkitLaunchLabel(projectToolkits[edition]), label);
+    assert.match(template(view), new RegExp(label));
+    assert.doesNotMatch(template(view), /₹|DIWALI|data-project-price|data-project-promo|rzp\.io/);
+  }
 });
 
-test('checkout follows the current amount without falling back to expired discounts', () => {
-  const config = structuredClone(projectDAConfig);
-  // Test-only destinations: never included in the production configuration.
-  config.checkout.offer.url = 'https://payments.example.test/offer';
-  config.checkout.regular.url = 'https://payments.example.test/regular';
-  const active = Date.parse(config.offerStart);
-  const expired = Date.parse(config.offerEnd);
-  assert.equal(projectDAOffer(active, config).checkoutUrl, config.checkout.offer.url);
-  assert.equal(projectDAOffer(expired, config).checkoutUrl, config.checkout.regular.url);
-  config.checkout.regular.url = '';
-  assert.equal(projectDAOffer(expired, config).checkoutUrl, '');
-  config.checkout.offer.amount = 499;
-  assert.equal(projectDAOffer(active, config).checkoutUrl, '');
-  config.checkout.offer.amount = 199;
-  config.checkout.offer.url = 'javascript:alert(1)';
-  assert.equal(projectDAOffer(active, config).checkoutUrl, '');
+test('DS preserves the DA parts, projects and chapter titles', () => {
+  const content = view => template(view).match(/<div class="toolkit-projects">(.*?)<p class="toolkit-eligibility">/s)[1];
+  assert.equal(content('project'), content('project-ds'));
+  const parts = view => template(view).match(/<div class="toolkit-parts">(.*?)<section class="toolkit-section"/s)[1];
+  assert.equal(parts('project'), parts('project-ds'));
 });

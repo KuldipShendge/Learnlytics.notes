@@ -212,6 +212,10 @@
   ],
   "rewrites": [
     {
+      "source": "/project-ds",
+      "destination": "/index.html"
+    },
+    {
       "source": "/project-da",
       "destination": "/index.html"
     },

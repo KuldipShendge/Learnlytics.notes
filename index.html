@@ -42,8 +42,8 @@
     <link rel="stylesheet" href="css/theme-ds-da.css?v=product-colours-20261019" />
     <link rel="stylesheet" href="css/kit-journey.css?v=journey-20261019" />
     <link rel="stylesheet" href="css/reviews.css?v=reviews-no-count-20261019" />
-    <link rel="stylesheet" href="css/project-da.css?v=project-da-readable-label-20261030" />
-    <script type="module" src="js/main.js?v=project-da-20261030"></script>
+    <link rel="stylesheet" href="css/project-da.css?v=toolkit-editions-launch-20261030" />
+    <script type="module" src="js/main.js?v=toolkit-editions-launch-20261030"></script>
   </head>
   <body class="home-page">
     <div id="app">
@@ -1882,7 +1882,7 @@
       </template>
 
 
-    <template id="view-project" data-body-class="product-page analyst-page project-da-page" data-title="Project Explanation Toolkit — Data Analyst Edition | LearnLytics" data-description="Explore 10 curated Data Analyst projects in the free Project Lab and 16 chapters of project explanation and interview defense. Build, improve, explain and defend.">
+    <template id="view-project" data-body-class="product-page analyst-page project-toolkit-page" data-title="Project Explanation Toolkit — Data Analyst Edition | LearnLytics" data-description="Explore 10 curated Data Analyst projects in the free Project Lab and 16 chapters of project explanation and interview defense. Build, improve, explain and defend.">
     <a class="skip-link" href="#main">Skip to content</a>
     <svg class="icon-library" aria-hidden="true">
       <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" /></symbol>
@@ -1911,7 +1911,7 @@
     </header>
 
 
-    <main id="main" class="container product-main project-da-main" data-project-da>
+    <main id="main" class="container product-main project-toolkit-main" data-project-toolkit="analyst">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="./" data-view="home">Home</a><span aria-hidden="true">›</span><a href="data-analyst" data-view="analyst">Data Analyst</a><span aria-hidden="true">›</span><span aria-current="page">Project Toolkit</span></nav>
       <section class="product-hero" aria-labelledby="project-title">
         <div class="book-stage">
@@ -1928,14 +1928,10 @@
           <ul class="toolkit-chips" aria-label="Toolkit at a glance"><li>10 Curated Projects</li><li>16 Interview Defense Chapters</li><li>Beginner to Advanced</li></ul>
           <div class="toolkit-actions">
             <a class="button" data-project-download download aria-disabled="true" aria-describedby="hero-download-status">Download Part 01 — FREE</a>
-            <a class="button button-secondary" data-project-buy="hero" aria-disabled="true" aria-describedby="hero-purchase-status" target="_blank" rel="noopener noreferrer">Get Part 02</a>
+            <a class="button button-secondary" data-project-buy="hero" aria-disabled="true" aria-describedby="hero-launch" target="_blank" rel="noopener noreferrer">Part 02 — Coming soon</a>
           </div>
           <p class="toolkit-status" data-download-status id="hero-download-status">Free Project Lab download coming soon.</p>
-          <p class="toolkit-status" data-purchase-status id="hero-purchase-status">Part 02 purchase is not available yet.</p>
-          <div class="toolkit-offer">
-            <p class="eyebrow" data-project-promo hidden>DIWALI SPECIAL OFFER</p>
-            <div class="price-row"><del data-project-regular hidden></del><strong data-project-price></strong><small data-project-promo hidden>Limited-time introductory offer</small></div>
-          </div>
+          <div class="toolkit-offer"><p class="toolkit-launch" id="hero-launch"><time data-toolkit-launch datetime="2026-11-04">Coming soon on 4 Nov</time></p></div>
         </div>
       </section>
       <div class="toolkit-parts">
@@ -1978,12 +1974,117 @@
           <ul><li>Part 01: LearnLytics Curated Project Lab — FREE</li><li>Part 02: Project Explanation &amp; Interview Defense — 16 Chapters</li></ul>
         </div>
         <div>
-          <p class="eyebrow" data-project-promo hidden>DIWALI SPECIAL OFFER</p>
-          <div class="price-row"><del data-project-regular hidden></del><strong data-project-price></strong></div>
-          <p data-offer-dates></p>
-          <a class="button" data-project-buy="final" aria-disabled="true" aria-describedby="final-purchase-status" target="_blank" rel="noopener noreferrer">Get Part 02</a>
-          <p class="toolkit-status" data-purchase-status id="final-purchase-status">Part 02 purchase is not available yet.</p>
+          <p class="eyebrow">PART 02 / AVAILABILITY</p>
+          <p class="toolkit-launch" id="final-launch"><time data-toolkit-launch datetime="2026-11-04">Coming soon on 4 Nov</time></p>
+          <a class="button" data-project-buy="final" aria-disabled="true" aria-describedby="final-launch" target="_blank" rel="noopener noreferrer">Part 02 — Coming soon</a>
           <a class="text-button" href="data-analyst" data-view="analyst">Want the complete Data Analyst Interview Kit? Explore the DA Kit <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+    </main>
+    <footer class="product-footer container">
+      <a href="./" data-view="home">LearnLytics Media</a>
+      <a href="Career-Resources" data-view="resources">Career Resources · Free</a>
+      <p>Learn. Practise. Grow.</p>
+      <span>© 2026 LearnLytics Media</span>
+    </footer>
+    </template>
+
+    <template id="view-project-ds" data-body-class="product-page scientist-page project-toolkit-page" data-title="Project Explanation Toolkit — Data Science Edition | LearnLytics" data-description="Explore 10 curated Data Science projects in the free Project Lab and 16 chapters of project explanation and interview defense. Build, improve, explain and defend.">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <svg class="icon-library" aria-hidden="true">
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" /></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6" /></symbol>
+    </svg>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="header-brand-group"><a class="brand" href="./" data-view="home" aria-label="LearnLytics Media home"
+          ><img src="assets/images/logo.webp?v=updated-logo-20261016" width="1933" height="814" alt="LearnLytics Handbook"
+        /></a><a class="header-llh-link" href="learnlytics-learning-hub" aria-label="LLH — LearnLytics Learning Hub">LLH</a></div>
+        <button
+          class="menu-toggle icon-button"
+          type="button"
+          aria-label="Open navigation"
+          aria-controls="main-nav"
+          aria-expanded="false"
+        >
+          <svg class="icon"><use href="#i-menu" /></svg>
+        </button>
+        <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+          <a class="career-nav" href="Career-Resources" data-view="resources">Career Resources <span class="free-tag">Free</span></a><a href="#chapters">16 Chapters</a
+          ><a href="data-scientist-gen-ai">DS Kit</a><a href="about-us" data-view="about">About Us</a
+          ><a class="button button-small" href="#projects">Explore free projects</a>
+        </nav>
+      </div>
+    </header>
+
+
+    <main id="main" class="container product-main project-toolkit-main" data-project-toolkit="scientist">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="./" data-view="home">Home</a><span aria-hidden="true">›</span><a href="data-scientist-gen-ai" data-view="scientist">Data Science</a><span aria-hidden="true">›</span><span aria-current="page">Project Toolkit</span></nav>
+      <section class="product-hero" aria-labelledby="project-title">
+        <div class="book-stage">
+          <img class="book-model" src="assets/images/ds-toolkit-theme-20261019.webp" alt="LearnLytics Project Explanation Toolkit — Data Science Edition" width="1122" height="1402" fetchpriority="high" decoding="async" />
+          <p class="book-caption">From a portfolio project to a confident explanation.</p>
+        </div>
+        <div class="product-intro">
+          <p class="eyebrow">DATA SCIENCE EDITION • PROJECT INTERVIEW PREPARATION</p>
+          <h1 id="project-title">Project Explanation <span>Toolkit</span></h1>
+          <p class="toolkit-subtitle">Build. Improve. Explain. Defend.</p>
+        </div>
+        <div class="product-purchase">
+          <p class="product-description">Explore 10 carefully curated real-world analytics projects, improve them with meaningful challenges, and learn how to confidently explain your work in technical interviews.</p>
+          <ul class="toolkit-chips" aria-label="Toolkit at a glance"><li>10 Curated Projects</li><li>16 Interview Defense Chapters</li><li>Beginner to Advanced</li></ul>
+          <div class="toolkit-actions">
+            <a class="button" data-project-download download aria-disabled="true" aria-describedby="hero-download-status">Download Part 01 — FREE</a>
+            <a class="button button-secondary" data-project-buy="hero" aria-disabled="true" aria-describedby="hero-launch" target="_blank" rel="noopener noreferrer">Part 02 — Coming soon</a>
+          </div>
+          <p class="toolkit-status" data-download-status id="hero-download-status">Free Project Lab download coming soon.</p>
+          <div class="toolkit-offer"><p class="toolkit-launch" id="hero-launch"><time data-toolkit-launch datetime="2026-11-12">Coming soon on 12 Nov</time></p></div>
+        </div>
+      </section>
+      <div class="toolkit-parts">
+        <section class="toolkit-part" aria-labelledby="part-one-title">
+          <p class="eyebrow">PART 01 <span class="free-tag">FREE</span></p>
+          <h2 id="part-one-title">Part 01 — LearnLytics Curated Project Lab</h2>
+          <p>10 handpicked GitHub projects with original creator credits, structured learning guidance, practical improvement challenges, interview pitches and portfolio preparation checklists.</p>
+          <ul><li>3 Beginner Projects</li><li>3 Intermediate Projects</li><li>4 Advanced Projects</li></ul>
+          <a class="text-button" data-project-download download aria-disabled="true" aria-describedby="hero-download-status">Download Free Project Lab <span aria-hidden="true">↓</span></a>
+        </section>
+        <section class="toolkit-part" aria-labelledby="part-two-title">
+          <p class="eyebrow">PART 02 <span class="pill">PREMIUM</span></p>
+          <h2 id="part-two-title">Part 02 — Project Explanation &amp; Interview Defense</h2>
+          <p>16 detailed chapters covering project architecture, technical decisions, data analysis, stakeholder communication, troubleshooting and real interview defense.</p>
+          <ul><li>16 Comprehensive Chapters</li><li>Interview Frameworks &amp; Model Answers</li><li>Mock Interview &amp; Project Defense Practice</li></ul>
+          <a class="text-button" href="#chapters">Explore 16 Chapters <span aria-hidden="true">↓</span></a>
+        </section>
+      </div>
+      <section class="toolkit-section" id="projects" aria-labelledby="projects-title">
+        <p class="eyebrow">PART 01 / THE FREE PROJECT LAB</p>
+        <h2 id="projects-title">10 Curated Projects. One Stronger Portfolio.</h2>
+        <p>Start with an original project, understand its implementation, make meaningful improvements, and prepare to defend your work in interviews.</p>
+        <div class="toolkit-projects"><article class="toolkit-project-group"><h3>BEGINNER<span>3 Projects</span></h3><ol start="1"><li>Coffee Shop Sales Dashboard</li><li>Retail Sales Analysis Using SQL</li><li>Employee Attrition Analysis with Python</li></ol></article><article class="toolkit-project-group"><h3>INTERMEDIATE<span>3 Projects</span></h3><ol start="4"><li>AtliQ Hospitality Performance Dashboard</li><li>Food Delivery Sales Intelligence</li><li>Cyclistic Bike-Share Behavior Case Study</li></ol></article><article class="toolkit-project-group"><h3>ADVANCED<span>4 Projects</span></h3><ol start="7"><li>Customer Cohort Retention &amp; Value Analysis</li><li>Online Retail II — Messy Data to Power BI</li><li>Marketing Attribution &amp; Budget Optimization</li><li>Walmart Sales: Seasonal Drivers &amp; Dashboard</li></ol></article></div>
+        <p class="section-footnote">Original project creators are credited, and original source links are provided inside the free Project Lab.</p>
+        <a class="text-button" data-project-download download aria-disabled="true" aria-describedby="hero-download-status">Get All 10 Projects — Free Download <span aria-hidden="true">↓</span></a>
+      </section>
+      <section class="toolkit-section" id="chapters" aria-labelledby="chapters-title">
+        <p class="eyebrow">PART 02 / EXPLANATION &amp; INTERVIEW DEFENSE</p>
+        <h2 id="chapters-title">Learn to Explain Every Decision Behind Your Project.</h2>
+        <p>From understanding project architecture to defending technical choices, Part 02 helps you prepare for the questions interviewers ask after seeing your portfolio.</p>
+        <div class="toolkit-chapters"><details><summary><span>01</span><strong>Project Explanation Foundations</strong><small>4 chapters</small></summary><ol start="1"><li>Understanding Project-Based Interviews</li><li>Selecting and Presenting Your Projects</li><li>The Project Explanation Framework</li><li>Business Problems, Data Flow &amp; Project Architecture</li></ol></details><details><summary><span>02</span><strong>Subject-Wise Project Explanation</strong><small>8 chapters</small></summary><ol start="5"><li>Mathematics &amp; Statistics Project Explanation</li><li>Excel &amp; Google Sheets Project Explanation</li><li>SQL &amp; Database Project Explanation</li><li>Python for Data Analytics Project Explanation</li><li>Business Intelligence &amp; Dashboard Project Explanation</li><li>Data Engineering Fundamentals Project Explanation</li><li>Data Storytelling, Communication &amp; Domain Projects</li><li>AI-Era Analytics Project Explanation</li></ol></details><details><summary><span>03</span><strong>Real Interview Application &amp; Project Defense</strong><small>4 chapters</small></summary><ol start="13"><li>End-to-End Data Analytics Project Walkthroughs</li><li>Technical Cross-Questions &amp; Project Defense</li><li>Project Challenges, Failures &amp; Decision-Making</li><li>Resume-to-Interview Project Mastery &amp; Mock Practice</li></ol></details></div>
+        <p class="toolkit-eligibility">Part 02 is also included with eligible Data Science Interview Kits. Existing eligible buyers should not need to purchase the same resource again.</p>
+      </section>
+      <section class="toolkit-purchase" aria-labelledby="toolkit-purchase-title">
+        <div>
+          <p class="eyebrow">YOUR NEXT INTERVIEW STARTS HERE</p>
+          <h2 id="toolkit-purchase-title">Ready to Defend Your Next Project?</h2>
+          <p>Turn your portfolio projects into clear, confident and technically defensible interview explanations.</p>
+          <h3>Project Explanation Toolkit — Data Science Edition</h3>
+          <ul><li>Part 01: LearnLytics Curated Project Lab — FREE</li><li>Part 02: Project Explanation &amp; Interview Defense — 16 Chapters</li></ul>
+        </div>
+        <div>
+          <p class="eyebrow">PART 02 / AVAILABILITY</p>
+          <p class="toolkit-launch" id="final-launch"><time data-toolkit-launch datetime="2026-11-12">Coming soon on 12 Nov</time></p>
+          <a class="button" data-project-buy="final" aria-disabled="true" aria-describedby="final-launch" target="_blank" rel="noopener noreferrer">Part 02 — Coming soon</a>
+          <a class="text-button" href="data-scientist-gen-ai" data-view="scientist">Want the complete Data Science Interview Kit? Explore the DS Kit <span aria-hidden="true">↗</span></a>
         </div>
       </section>
     </main>
@@ -2714,7 +2815,7 @@
           <ol class="career-steps"><li><span>01</span> Choose your resource</li><li><span>02</span> Enter your details</li><li><span>03</span> Check your email</li></ol>
         </section>
         <section aria-labelledby="resource-library-title">
-          <div class="resource-library-heading"><h2 id="resource-library-title">Your learning starts here.</h2><span>5 free handbooks + Project Toolkit</span></div>
+          <div class="resource-library-heading"><h2 id="resource-library-title">Your learning starts here.</h2><span>5 free handbooks + 2 Project Toolkits</span></div>
           <div class="resource-grid"></div>
         </section>
         <section class="career-next" aria-labelledby="career-next-title">

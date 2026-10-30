@@ -306,7 +306,7 @@ export function setupLearningExperience(view) {
       <div class="learning-toolkit-copy">
         <div class="learning-toolkit-label"><span class="learning-toolkit-icon">${icon('workbook')}</span></div>
         <p class="eyebrow">${view === 'home' ? 'MAKE YOUR NEXT INTERVIEW COUNT' : 'PROJECT EXPLANATION TOOLKIT'}</p>
-        <h2 id="learning-toolkit-title">${view === 'analyst' ? `<a class="toolkit-card-link" href="project-da" data-view="project">${escapeHtml(content.toolkitTitle)}</a>` : escapeHtml(content.toolkitTitle)}</h2>
+        <h2 id="learning-toolkit-title">${['analyst', 'scientist'].includes(view) ? `<a class="toolkit-card-link" href="${view === 'analyst' ? 'project-da' : 'project-ds'}" data-view="${view === 'analyst' ? 'project' : 'project-ds'}">${escapeHtml(content.toolkitTitle)}</a>` : escapeHtml(content.toolkitTitle)}</h2>
         <p class="learning-toolkit-description">${escapeHtml(content.toolkitDescription)}</p>
         <ul class="learning-toolkit-benefits">${content.toolkitBenefits.map(benefit => `<li>${escapeHtml(benefit)}</li>`).join('')}</ul>
       </div>

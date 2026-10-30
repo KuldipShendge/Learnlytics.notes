@@ -1,5 +1,5 @@
 import { setupDialog } from './dialog.js';
-import { careerResources, resourceEndpoint } from './career-resources-data.js?v=project-da-20261030';
+import { careerResources, resourceEndpoint } from './career-resources-data.js?v=toolkit-editions-launch-20261030';
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
@@ -28,7 +28,7 @@ export function setupCareerResources() {
         <h2 id="resource-${resource.id}-title">${escapeHtml(resource.title)}</h2>
         <p>${escapeHtml(resource.description)}</p>
         ${resource.href
-          ? `<a class="button" href="${resource.href}" data-view="project">Explore Toolkit <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></a>`
+          ? `<a class="button" href="${resource.href}" data-view="${resource.view}">Explore Toolkit <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></a>`
           : `<button class="button" type="button" data-resource="${resource.id}" aria-label="Get ${escapeHtml(resource.title)} for free">Get free resource <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></button>`}
       </div>
     </article>`).join('');

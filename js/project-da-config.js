@@ -1,25 +1,14 @@
-// Public frontend configuration. Supply only real, verified delivery/payment URLs.
-export const projectDAConfig = {
-  freePdfUrl: '',
-  regularPrice: 499,
-  offerPrice: 199,
-  offerStart: '2026-10-30T00:00:00+05:30',
-  // Exclusive boundary: includes all of November 8 through 11:59:59 PM IST.
-  offerEnd: '2026-11-09T00:00:00+05:30',
-  // Existing hosted payment links, each verified to charge its stated INR amount.
-  // Leave blank until configured; never reuse the full DA Kit payment link.
-  checkout: {
-    offer: { url: '', amount: 199 },
-    regular: { url: '', amount: 499 },
-  },
+// Shared public configuration for the DA and DS Toolkit landing pages.
+// Launch dates are announcements, not automatic checkout activation.
+export const projectToolkits = {
+  analyst: { freePdfUrl: '', launchDate: '2026-11-04' },
+  scientist: { freePdfUrl: '', launchDate: '2026-11-12' },
 };
 
-export function projectDAOffer(now = Date.now(), config = projectDAConfig) {
-  const active = now >= Date.parse(config.offerStart) && now < Date.parse(config.offerEnd);
-  const price = active ? config.offerPrice : config.regularPrice;
-  const checkout = config.checkout[active ? 'offer' : 'regular'];
-  // An expired offer must never fall back to the discounted payment destination.
-  const checkoutUrl = checkout?.amount === price && /^https:\/\//i.test(checkout.url)
-    ? checkout.url : '';
-  return { active, price, checkoutUrl };
+export function toolkitLaunchLabel(config) {
+  const date = new Date(`${config.launchDate}T00:00:00+05:30`);
+  const label = new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric', month: 'short', timeZone: 'Asia/Kolkata',
+  }).format(date);
+  return `Coming soon on ${label}`;
 }

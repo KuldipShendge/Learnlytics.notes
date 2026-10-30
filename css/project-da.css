@@ -1,19 +1,18 @@
-/* Extend the existing DA product layout and palette; no separate design system. */
-.project-da-main { padding-bottom: 30px; }
-.project-da-page [hidden] { display: none !important; }
-.project-da-page .product-intro .eyebrow { font-size: 14px; line-height: 1.6; letter-spacing: .8px; }
-.project-da-page .toolkit-subtitle { margin-top: 12px; color: var(--accent-dark); font-weight: 700; }
-.project-da-page .product-description { margin: 0 0 15px; font-size: 14px; }
+/* Extend the existing DA and DS product layouts and palettes; no separate design system. */
+.project-toolkit-main { padding-bottom: 30px; }
+.project-toolkit-page [hidden] { display: none !important; }
+.project-toolkit-page .product-intro .eyebrow { font-size: 14px; line-height: 1.6; letter-spacing: .8px; }
+.project-toolkit-page .toolkit-subtitle { margin-top: 12px; color: var(--accent-dark); font-weight: 700; }
+.project-toolkit-page .product-description { margin: 0 0 15px; font-size: 14px; }
 .toolkit-chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 0 0 16px; }
 .toolkit-chips li { padding: 5px 9px; font-size: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--tint); color: var(--accent-dark); }
 .toolkit-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .toolkit-actions .button { flex: 1 1 auto; }
-.project-da-page a[aria-disabled="true"] { cursor: default; transform: none; }
+.project-toolkit-page a[aria-disabled="true"] { cursor: default; transform: none; }
 .toolkit-status { font-size: 11px; margin-top: 7px; color: var(--copy); }
-.project-da-page .toolkit-offer { margin-top: 16px; }
-.project-da-page .toolkit-offer .price-row { margin: 4px 0 0; flex-wrap: wrap; }
-.project-da-page .toolkit-offer .price-row > strong { font-size: 27px; }
-.toolkit-offer small { color: var(--copy); font-size: 11px; }
+.project-toolkit-page .toolkit-offer { margin-top: 16px; }
+.project-toolkit-page .toolkit-launch { font-size: clamp(18px, 2vw, 23px); line-height: 1.5; font-weight: 700; color: var(--accent-dark); }
+.toolkit-purchase .toolkit-launch { margin: 8px 0 16px; }
 .toolkit-parts { display: grid; gap: 16px; margin-top: 24px; }
 .toolkit-part, .toolkit-project-group { padding: 23px; background: var(--white); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); }
 .toolkit-part { display: flex; flex-direction: column; align-items: start; }
@@ -49,27 +48,25 @@
 .toolkit-purchase p { font-size: 13px; }
 .toolkit-purchase h3 { font-size: 14px; margin: 18px 0 10px; }
 .toolkit-purchase ul { margin: 0; padding-left: 18px; color: var(--copy); font-size: 12px; }
-.toolkit-purchase .price-row { margin-top: 0; }
-.toolkit-purchase [data-offer-dates] { font-size: 10px; margin: 8px 0 16px; }
 .toolkit-purchase .button { width: 100%; }
 .toolkit-purchase .text-button { font-size: 11px; }
-.analyst-page .learning-toolkit:has(.toolkit-card-link) { position: relative; transition: border-color .2s, box-shadow .2s; }
-.analyst-page .toolkit-card-link::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
-.analyst-page .toolkit-card-link { text-underline-offset: 5px; }
-.analyst-page .toolkit-card-link::before { content: '↗'; position: absolute; top: 24px; right: 24px; color: var(--accent-dark); }
-.analyst-page .learning-toolkit:has(.toolkit-card-link):is(:hover, :focus-within) { border-color: var(--accent); box-shadow: var(--shadow); }
-.analyst-page .learning-toolkit:has(.toolkit-card-link:focus-visible) { outline: 3px solid var(--accent); outline-offset: 3px; }
+:is(.analyst-page, .scientist-page) .learning-toolkit:has(.toolkit-card-link) { position: relative; transition: border-color .2s, box-shadow .2s; }
+:is(.analyst-page, .scientist-page) .toolkit-card-link::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+:is(.analyst-page, .scientist-page) .toolkit-card-link { text-underline-offset: 5px; }
+:is(.analyst-page, .scientist-page) .toolkit-card-link::before { content: '↗'; position: absolute; top: 24px; right: 24px; color: var(--accent-dark); }
+:is(.analyst-page, .scientist-page) .learning-toolkit:has(.toolkit-card-link):is(:hover, :focus-within) { border-color: var(--accent); box-shadow: var(--shadow); }
+:is(.analyst-page, .scientist-page) .learning-toolkit:has(.toolkit-card-link:focus-visible) { outline: 3px solid var(--accent); outline-offset: 3px; }
 @media (min-width: 700px) {
   .toolkit-parts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .toolkit-projects { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .toolkit-purchase { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: center; }
 }
 @media (max-width: 559px) {
-  .project-da-page .breadcrumbs { font-size: 11px; margin: 18px 0; }
-  .project-da-page .product-hero { row-gap: 16px; }
-  .project-da-page .product-intro .eyebrow { font-size: 12px; letter-spacing: .5px; }
-  .project-da-page .toolkit-subtitle { font-size: 12px; }
-  .project-da-page .product-description { font-size: 13px; }
+  .project-toolkit-page .breadcrumbs { font-size: 11px; margin: 18px 0; }
+  .project-toolkit-page .product-hero { row-gap: 16px; }
+  .project-toolkit-page .product-intro .eyebrow { font-size: 12px; letter-spacing: .5px; }
+  .project-toolkit-page .toolkit-subtitle { font-size: 12px; }
+  .project-toolkit-page .product-description { font-size: 13px; }
   .toolkit-actions { flex-direction: column; }
   .toolkit-actions .button { width: 100%; }
   .toolkit-chapters summary { gap: 9px; padding: 12px; flex-wrap: wrap; }

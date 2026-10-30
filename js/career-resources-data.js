@@ -30,8 +30,15 @@ export const careerResources = [
   {
     id: 'project-da', title: 'Project Explanation Toolkit — Data Analyst',
     category: '10 Curated Projects + Interview Defense Guide',
-    badge: 'PART 01 FREE', href: 'project-da',
+    badge: 'PART 01 FREE', href: 'project-da', view: 'project',
     description: 'Explore 10 carefully selected Data Analyst projects, improve your portfolio and discover how to prepare for project-based interviews.',
     image: '../da-toolkit-theme-20261019.webp', width: 1122, height: 1402,
+  },
+  {
+    id: 'project-ds', title: 'Project Explanation Toolkit — Data Science',
+    category: '10 Curated Projects + Interview Defense Guide',
+    badge: 'PART 01 FREE', href: 'project-ds', view: 'project-ds',
+    description: 'Explore 10 carefully selected Data Science projects, improve your portfolio and discover how to prepare for project-based interviews.',
+    image: '../ds-toolkit-theme-20261019.webp', width: 1122, height: 1402,
   },
 ];
