@@ -1,6 +1,7 @@
 /* Extend the existing DA product layout and palette; no separate design system. */
 .project-da-main { padding-bottom: 30px; }
 .project-da-page [hidden] { display: none !important; }
+.project-da-page .product-intro .eyebrow { font-size: 14px; line-height: 1.6; letter-spacing: .8px; }
 .project-da-page .toolkit-subtitle { margin-top: 12px; color: var(--accent-dark); font-weight: 700; }
 .project-da-page .product-description { margin: 0 0 15px; font-size: 14px; }
 .toolkit-chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 0 0 16px; }
@@ -66,7 +67,7 @@
 @media (max-width: 559px) {
   .project-da-page .breadcrumbs { font-size: 11px; margin: 18px 0; }
   .project-da-page .product-hero { row-gap: 16px; }
-  .project-da-page .product-intro .eyebrow { font-size: 7px; }
+  .project-da-page .product-intro .eyebrow { font-size: 12px; letter-spacing: .5px; }
   .project-da-page .toolkit-subtitle { font-size: 12px; }
   .project-da-page .product-description { font-size: 13px; }
   .toolkit-actions { flex-direction: column; }
