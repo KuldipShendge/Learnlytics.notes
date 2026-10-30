@@ -16,6 +16,7 @@ const base = process.env.PREVIEW_URL || 'http://127.0.0.1:4198/';
     for (const [slug, edition, launch, cover] of [
       ['project-da', 'Data Analyst', 'Coming soon on 4 Nov', 'da'],
       ['project-ds', 'Data Science', 'Coming soon on 12 Nov', 'ds'],
+      ['project-ml', 'Machine Learning', 'Coming soon', 'ml'],
     ]) {
       for (const width of [320, 390, 768, 1024, 1440]) {
         await page.setViewportSize({ width, height: 900 });
@@ -48,6 +49,19 @@ const base = process.env.PREVIEW_URL || 'http://127.0.0.1:4198/';
         }
         await page.reload();
         await page.locator('#project-title').waitFor();
+        const kit = { da: 'data-analyst', ds: 'data-scientist-gen-ai', ml: 'machine-learning-engineer' }[cover];
+        const kitLink = page.locator('.toolkit-kit-link');
+        assert.equal(await kitLink.getAttribute('href'), kit);
+        assert.match(await kitLink.innerText(), new RegExp(`Free With Complete ${cover.toUpperCase()} Kit`));
+        assert(await kitLink.evaluate(el => el.nextElementSibling.matches('.eyebrow')));
+        if (width === 390 || width === 1440) {
+          await kitLink.focus();
+          await page.keyboard.press('Enter');
+          await page.locator('#product-title').waitFor();
+          assert.equal(new URL(page.url()).pathname, `/${kit}`);
+          await page.goBack();
+          await page.locator('#project-title').waitFor();
+        }
         if (width === 390) {
           await page.locator('.menu-toggle').click();
           assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'), 'true');
@@ -58,10 +72,10 @@ const base = process.env.PREVIEW_URL || 'http://127.0.0.1:4198/';
     }
     for (const width of [390, 1440]) {
       await page.setViewportSize({ width, height: 900 });
-      for (const [slug, view, product] of [['project-da', 'project', 'data-analyst'], ['project-ds', 'project-ds', 'data-scientist-gen-ai']]) {
+      for (const [slug, view, product] of [['project-da', 'project', 'data-analyst'], ['project-ds', 'project-ds', 'data-scientist-gen-ai'], ['project-ml', 'project-ml', 'machine-learning-engineer']]) {
         await page.goto(new URL('Career-Resources', base).href);
         await page.locator('.resource-card').last().waitFor();
-        assert.equal(await page.locator('.resource-card').count(), 7);
+        assert.equal(await page.locator('.resource-card').count(), 8);
         assert.equal(await page.locator('[data-resource]').count(), 5);
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         await page.locator(`.resource-card a[data-view="${view}"]`).click();
@@ -84,6 +98,6 @@ const base = process.env.PREVIEW_URL || 'http://127.0.0.1:4198/';
     }
     assert.deepEqual(errors, []);
     assert.deepEqual(missing, []);
-    console.log('Both Toolkit editions passed: 5 widths, direct load/refresh, keyboard accordions, launch notices with no prices, mobile menu and product/resource entry links.');
+    console.log('All three Toolkit editions passed: 5 widths, direct load/refresh, keyboard accordions, launch notices with no prices, mobile menu, Complete Kit hero links and product/resource entry links.');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

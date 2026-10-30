@@ -1,5 +1,5 @@
 import { setupDialog } from './dialog.js';
-import { careerResources, resourceEndpoint } from './career-resources-data.js?v=toolkit-editions-launch-20261030';
+import { careerResources, resourceEndpoint } from './career-resources-data.js?v=toolkit-ml-kit-links-20261030';
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',

@@ -6,10 +6,11 @@ import { projectToolkits, toolkitLaunchLabel } from '../js/project-da-config.js'
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const template = view => html.split(`<template id="view-${view}"`)[1].split('</template>')[0];
 
-test('each edition announces its November launch without exposing prices or checkout', () => {
+test('each edition announces availability without exposing prices or checkout', () => {
   for (const [edition, view, label] of [
     ['analyst', 'project', 'Coming soon on 4 Nov'],
     ['scientist', 'project-ds', 'Coming soon on 12 Nov'],
+    ['engineer', 'project-ml', 'Coming soon'],
   ]) {
     assert.equal(toolkitLaunchLabel(projectToolkits[edition]), label);
     assert.match(template(view), new RegExp(label));
@@ -17,9 +18,9 @@ test('each edition announces its November launch without exposing prices or chec
   }
 });
 
-test('DS preserves the DA parts, projects and chapter titles', () => {
+test('DS and ML preserve the DA parts, projects and chapter titles', () => {
   const content = view => template(view).match(/<div class="toolkit-projects">(.*?)<p class="toolkit-eligibility">/s)[1];
-  assert.equal(content('project'), content('project-ds'));
+  for (const view of ['project-ds', 'project-ml']) assert.equal(content('project'), content(view));
   const parts = view => template(view).match(/<div class="toolkit-parts">(.*?)<section class="toolkit-section"/s)[1];
-  assert.equal(parts('project'), parts('project-ds'));
+  for (const view of ['project-ds', 'project-ml']) assert.equal(parts('project'), parts(view));
 });

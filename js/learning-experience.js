@@ -274,7 +274,14 @@ function renderToolkitEditions() {
   </section>`;
 }
 
+const toolkitPages = {
+  analyst: { href: 'project-da', view: 'project' },
+  scientist: { href: 'project-ds', view: 'project-ds' },
+  engineer: { href: 'project-ml', view: 'project-ml' },
+};
+
 export function setupLearningExperience(view) {
+  const toolkitPage = toolkitPages[view];
   const artwork = toolkitArtwork[view] || { file: "assets/images/project-explanation-toolkit.webp", width: 800, height: 1000 };
   const content = learningExperienceContent[view];
   const slot = document.querySelector(`[data-learning-experience="${view}"]`);
@@ -306,7 +313,7 @@ export function setupLearningExperience(view) {
       <div class="learning-toolkit-copy">
         <div class="learning-toolkit-label"><span class="learning-toolkit-icon">${icon('workbook')}</span></div>
         <p class="eyebrow">${view === 'home' ? 'MAKE YOUR NEXT INTERVIEW COUNT' : 'PROJECT EXPLANATION TOOLKIT'}</p>
-        <h2 id="learning-toolkit-title">${['analyst', 'scientist'].includes(view) ? `<a class="toolkit-card-link" href="${view === 'analyst' ? 'project-da' : 'project-ds'}" data-view="${view === 'analyst' ? 'project' : 'project-ds'}">${escapeHtml(content.toolkitTitle)}</a>` : escapeHtml(content.toolkitTitle)}</h2>
+        <h2 id="learning-toolkit-title">${toolkitPage ? `<a class="toolkit-card-link" href="${toolkitPage.href}" data-view="${toolkitPage.view}">${escapeHtml(content.toolkitTitle)}</a>` : escapeHtml(content.toolkitTitle)}</h2>
         <p class="learning-toolkit-description">${escapeHtml(content.toolkitDescription)}</p>
         <ul class="learning-toolkit-benefits">${content.toolkitBenefits.map(benefit => `<li>${escapeHtml(benefit)}</li>`).join('')}</ul>
       </div>

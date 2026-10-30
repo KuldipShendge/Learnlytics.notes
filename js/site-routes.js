@@ -4,6 +4,7 @@ export const viewPaths = Object.freeze({
   analyst: 'data-analyst',
   project: 'project-da',
   'project-ds': 'project-ds',
+  'project-ml': 'project-ml',
   scientist: 'data-scientist-gen-ai',
   engineer: 'machine-learning-engineer',
   complete: 'all-in-one-combo',

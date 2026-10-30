@@ -1,5 +1,5 @@
 import { setupKitJourney } from './kit-journey.js?v=journey-20261019';
-import { setupLearningExperience } from './learning-experience.js?v=toolkit-editions-launch-20261030';
+import { setupLearningExperience } from './learning-experience.js?v=toolkit-ml-kit-links-20261030';
 import { setupInlineVideos } from './inline-videos.js?v=guide-covers-logo-20261016';
 import { setupSampleGallery } from './sample-gallery.js?v=course-samples-20261028';
 import { curriculum as dsCurriculum, productOverview as dsOverview } from './ds-curriculum.js';
