@@ -212,6 +212,10 @@
   ],
   "rewrites": [
     {
+      "source": "/project-da",
+      "destination": "/index.html"
+    },
+    {
       "source": "/data-analyst",
       "destination": "/index.html"
     },

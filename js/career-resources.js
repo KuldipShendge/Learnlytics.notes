@@ -1,5 +1,5 @@
 import { setupDialog } from './dialog.js';
-import { careerResources, resourceEndpoint } from './career-resources-data.js?v=compact-resources-20261017';
+import { careerResources, resourceEndpoint } from './career-resources-data.js?v=project-da-20261030';
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
@@ -24,10 +24,12 @@ export function setupCareerResources() {
     <article class="resource-card" aria-labelledby="resource-${resource.id}-title">
       <div class="resource-cover"><img src="assets/images/career-resources/${resource.image}" alt="${escapeHtml(resource.title)} handbook cover" width="${resource.width}" height="${resource.height}" loading="${index === 0 ? 'eager' : 'lazy'}" /></div>
       <div class="resource-copy">
-        <div class="resource-card-meta"><span class="free-tag">Free</span><span>PDF handbook</span></div>
+        <div class="resource-card-meta"><span class="free-tag">${resource.badge || 'Free'}</span><span>${resource.href ? escapeHtml(resource.category) : 'PDF handbook'}</span></div>
         <h2 id="resource-${resource.id}-title">${escapeHtml(resource.title)}</h2>
         <p>${escapeHtml(resource.description)}</p>
-        <button class="button" type="button" data-resource="${resource.id}" aria-label="Get ${escapeHtml(resource.title)} for free">Get free resource <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></button>
+        ${resource.href
+          ? `<a class="button" href="${resource.href}" data-view="project">Explore Toolkit <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></a>`
+          : `<button class="button" type="button" data-resource="${resource.id}" aria-label="Get ${escapeHtml(resource.title)} for free">Get free resource <svg class="icon" aria-hidden="true"><use href="assets/icons/product.svg#arrow" /></svg></button>`}
       </div>
     </article>`).join('');
 

@@ -2,6 +2,7 @@ export const siteOrigin = 'https://www.learnlyticshandbook.shop';
 export const viewPaths = Object.freeze({
   home: '',
   analyst: 'data-analyst',
+  project: 'project-da',
   scientist: 'data-scientist-gen-ai',
   engineer: 'machine-learning-engineer',
   complete: 'all-in-one-combo',

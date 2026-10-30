@@ -54,8 +54,8 @@ const origin = new URL(url).origin;
     for (const width of [320,390,768,900,1024,1440]) {
       await page.setViewportSize({ width, height: 900 });
       await openResources();
-      assert.equal(page.url(), url);
-      assert.equal(await page.locator('.resource-card').count(), 5);
+      assert.equal(page.url(), new URL('Career-Resources', url).href);
+      assert.equal(await page.locator('.resource-card').count(), 6);
       assert.equal(await page.locator('#main-nav a[href="#inside"]').count(), 0);
       assert.equal(await page.locator('#main-nav [data-view="resources"] .free-tag').textContent(), 'Free');
       await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].map(img => { img.loading = 'eager'; return img.decode(); })); });
@@ -71,7 +71,7 @@ const origin = new URL(url).origin;
       if ([390,1440].includes(width)) await page.screenshot({ path: `screenshots/career-resources-${width}.png`, fullPage: true });
     }
     // Every resource sends its ID for backend delivery, never a file URL.
-    for (const resource of careerResources) {
+    for (const resource of careerResources.filter(resource => !resource.href)) {
       await openForm(resource.id);
       await page.locator('#resource-form [type="submit"]').click();
       await page.locator('#resource-success').waitFor();
@@ -120,15 +120,15 @@ const origin = new URL(url).origin;
     await page.locator('#resource-success').waitFor();
     assert.equal(posts.at(-1).resourceId, 'eda-part01');
     await closeForm();
-    // The new view survives refresh and Back/Forward without changing the URL.
+    // The resource route survives refresh and Back/Forward.
     await page.reload();
     await page.locator('#career-resources-title').waitFor();
     await page.locator('.site-header .brand').click();
     await page.locator('#hero-title').waitFor();
     await page.goBack();
     await page.locator('#career-resources-title').waitFor();
-    assert.equal(page.url(), url);
-    assert.equal(await page.locator('.resource-card').count(), 5);
+    assert.equal(page.url(), new URL('Career-Resources', url).href);
+    assert.equal(await page.locator('.resource-card').count(), 6);
     assert(await page.evaluate(() => { const ids=[...document.querySelectorAll('[id]')].map(el=>el.id);return new Set(ids).size===ids.length; }));
     assert.deepEqual(errors, []);
     assert.deepEqual(missing, []);

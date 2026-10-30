@@ -27,4 +27,11 @@ export const careerResources = [
     description: 'A free handbook for your big data and analytics learning journey.',
     image: 'free-big-data-handbook-blue.webp', width: 768, height: 1154,
   },
+  {
+    id: 'project-da', title: 'Project Explanation Toolkit — Data Analyst',
+    category: '10 Curated Projects + Interview Defense Guide',
+    badge: 'PART 01 FREE', href: 'project-da',
+    description: 'Explore 10 carefully selected Data Analyst projects, improve your portfolio and discover how to prepare for project-based interviews.',
+    image: '../da-toolkit-theme-20261019.webp', width: 1122, height: 1402,
+  },
 ];
