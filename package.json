@@ -23,7 +23,7 @@
     "build:public": "node scripts/build-public.mjs",
     "build:vercel": "node scripts/build-vercel.mjs",
     "test:llh": "node --test tests/llh-*.test.mjs",
-    "test:llh:browser": "node tests/llh-browser.cjs"
+    "test:llh:browser": "node tests/llh-auth-browser.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.118.0"

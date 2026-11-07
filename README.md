@@ -4,6 +4,8 @@ Production source is **KuldipShendge/Learnlytics.notes**, deployed on Vercel at 
 
 ## Learning Hub Phase 1 (local implementation)
 
+**Current LLH work: Tasks 01 and 02, Login UI and Dashboard.** Publishing both tasks is authorized. The public Login UI remains inactive until real authentication is connected; the Dashboard flow runs only in the local demo. See [Task 01](docs/llh-auth-task01.md) for local authentication instructions and [Task 02](docs/llh-dashboard-task02.md) for Dashboard scope and release verification. The Phase 1 information below describes the preserved, inactive password-auth infrastructure.
+
 Email/password authentication, verified-email kit access, private resource delivery scaffolding and public deployment allowlisting are implemented locally. No Razorpay integration or deployment is included. Start with [Supabase setup](docs/llh-supabase-setup.md), [implementation and validation](docs/llh-phase1.md), and [resource delivery decision](docs/llh-resource-delivery.md). The marketing pages still use their existing purchase flow.
 
 A standalone homepage inspired by the supplied mobile mockup. A reversible navy, blue and mint colour test is currently enabled; the original plum palette is preserved. Run `node scripts/set-theme.mjs plum` to restore it, or `node scripts/set-theme.mjs blue` to reapply the experiment. See [colour test instructions](docs/colour-test.md) for publishing the switch. The default recommendation is **Crack Data Scientist & Gen AI**.

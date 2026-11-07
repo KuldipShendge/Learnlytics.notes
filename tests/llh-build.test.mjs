@@ -19,12 +19,17 @@ test('public artifact allowlist excludes private files, unexpected assets, paid 
   assert(!validatePublicPath('assets/../private'));
   assert(!validatePublicPath('pdfs/paid-kit.pdf'));
   assert(!validatePublicPath('assets/paid-kit.pdf'));
-  const previousDemo = process.env.LLH_DEMO;
+  const environmentKeys = ['LLH_DEMO', 'LLH_SUPABASE_URL', 'LLH_SUPABASE_PUBLISHABLE_KEY'];
+  const previousEnvironment = Object.fromEntries(environmentKeys.map(key => [key, process.env[key]]));
   try {
    process.env.LLH_DEMO = '1'; // Even a developer's demo environment cannot affect deploy output.
+   process.env.LLH_SUPABASE_URL = 'https://fixture.supabase.co';
+   process.env.LLH_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_build_fixture';
    await buildPublic();
   } finally {
-   if(previousDemo === undefined) delete process.env.LLH_DEMO; else process.env.LLH_DEMO = previousDemo;
+   for (const key of environmentKeys) {
+    if (previousEnvironment[key] === undefined) delete process.env[key]; else process.env[key] = previousEnvironment[key];
+   }
   }
   await walk('dist');
   assert((await readFile('dist/llh.html','utf8')).includes('src="assets/vendor/llh-client.js"'));
@@ -33,8 +38,11 @@ test('public artifact allowlist excludes private files, unexpected assets, paid 
   assert(!files.some(p=>/supabase\/|scripts\/|tests\/|docs\/|\.env|unlisted-test|pnpm-lock/.test(p)));
   assert(!files.some(p=>/\/dev\/|__local|llh-demo/.test(p)));
   for (const file of files.filter(p=>/\.(html|js|css)$/.test(p))) {
-   assert(!/LLH_DEMO|__local\/llh-demo|admin \/ admin|Open demo/.test(await readFile(file,'utf8')),`Demo code leaked into ${file}`);
+   assert(!/LLH_DEMO|__local\/|admin \/ admin|Open demo|DEMO_IDENTIFIER|DEMO_OTP|createDemoAdapter|PBKDF2|llh-demo-adapter/.test(await readFile(file,'utf8')),`Demo code leaked into ${file}`);
   }
+  const client = await readFile('dist/assets/vendor/llh-client.js','utf8');
+  assert(!/\badmin\b|0000|supabaseUrl|signInWithPassword|llh_library|llh-resource-access/.test(client), 'No demo credentials, authentication backend or legacy library in production client');
+  assert(!files.some(file => /\/internal\//.test(file)), 'Preserved legacy auth infrastructure is private');
   assert.deepEqual(files.filter(p=>p.endsWith('.pdf')).sort(), [
    'dist/pdfs/eda-handbook.pdf', 'dist/pdfs/eda-practice-workbook.pdf', 'dist/pdfs/eda-solution-manual.pdf',
    'dist/pdfs/mlops-handbook-v2.pdf', 'dist/pdfs/mlops-workbook-v2.pdf', 'dist/pdfs/mlops-solutions-v2.pdf',

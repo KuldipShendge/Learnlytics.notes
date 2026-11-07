@@ -18,8 +18,8 @@ const samplePaths = new Set([
   '/pdfs/BI-handbook-v2.pdf', '/pdfs/BI-workbook-v2.pdf', '/pdfs/BI-solution-v2.pdf',
 ]);
 const demoFiles = new Map([
-  ['/__local/llh-demo.js', 'dev/llh-demo.js'],
-  ['/__local/llh-demo.css', 'dev/llh-demo.css'],
+  ['/__local/llh-auth-demo.js', 'dev/llh-auth-demo.js'],
+  ['/__local/llh-demo-adapter.js', 'dev/llh-demo-adapter.js'],
 ]);
 const pages = new Map([
   ['/', '/index.html'],
@@ -71,7 +71,7 @@ const server = http.createServer(async (request, response) => {
     if (demoEnabled && pages.get(pathname) === '/llh.html') {
       const html = (await readFile(path.join(root, 'llh.html'), 'utf8'))
         .replace('<script type="module" src="assets/vendor/llh-client.js"></script>',
-          '<link rel="stylesheet" href="css/learning-experience.css" /><link rel="stylesheet" href="__local/llh-demo.css" /><script type="module" src="__local/llh-demo.js"></script>');
+          '<script type="module" src="__local/llh-auth-demo.js"></script>');
       response.writeHead(200, { 'Content-Type': types['.html'], 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
         'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'",
         'Referrer-Policy': 'no-referrer' });

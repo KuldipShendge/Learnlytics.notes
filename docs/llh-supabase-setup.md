@@ -1,5 +1,7 @@
 # Supabase setup — LLH Phase 1
 
+**Historical password-auth setup reference.** Task 01 now uses an inactive production adapter and a separate local-only PIN UI fixture; none of the steps below enables the new UI. Do not connect or deploy production PIN authentication without a reviewed server-side design. The prior client/DOM contract is preserved in `internal/llh/`. See [current Task 01 instructions](llh-auth-task01.md).
+
 These are manual configuration instructions, not completed remote actions. Work is local; do not push or deploy the website until approved. Use a separate development/staging Supabase project, not a production project with customer records. No Razorpay configuration is needed.
 
 ## 1. Create the development project

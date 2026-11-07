@@ -1,0 +1,54 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createDemoAdapter } from '../dev/llh-demo-adapter.js';
+
+test('temporary demo requires OTP, matching PIN confirmation and verification for PIN recovery', async () => {
+  const demo = createDemoAdapter();
+  await assert.rejects(demo.preparePin('2468'), /Verify/);
+  await assert.rejects(demo.enter(), /Start/);
+  await assert.rejects(demo.begin('real@example.com', 'signup'), /local preview/);
+  assert.equal(await demo.begin('admin', 'signup'), 'otp');
+  await assert.rejects(demo.verify('1111'), /doesn’t match/);
+  await demo.verify('0000');
+  await assert.rejects(demo.preparePin('123'), /exactly 4/);
+  await assert.rejects(demo.preparePin('12a4'), /exactly 4/);
+  await demo.preparePin('2468');
+  await assert.rejects(demo.confirmPin('2469'), /don’t match/);
+  await demo.confirmPin('2468');
+  await demo.enter();
+  await demo.logout();
+  assert.equal(await demo.begin('admin', 'login'), 'login');
+  await assert.rejects(demo.login('2469'), /doesn’t match/);
+  await demo.recover();
+  await assert.rejects(demo.preparePin('1357'), /Verify/);
+  await demo.verify('0000');
+  await demo.preparePin('1357');
+  await demo.confirmPin('1357');
+  await demo.enter(); await demo.logout();
+  await demo.begin('admin', 'login');
+  await assert.rejects(demo.login('2468'), /doesn’t match/);
+  await demo.login('1357'); await demo.logout();
+  demo.destroy();
+  await assert.rejects(demo.begin('admin', 'login'), /Create your PIN/);
+  await assert.rejects(createDemoAdapter().begin('admin', 'login'), /Create your PIN/);
+});
+
+test('demo exercises OTP expiration, resend cooldown and temporary attempt lockout', async () => {
+  let clock = 1000000;
+  const demo = createDemoAdapter({ now: () => clock });
+  await demo.begin('admin', 'signup');
+  await assert.rejects(demo.resend(), /wait 30/);
+  clock += 300001;
+  await assert.rejects(demo.verify('0000'), /expired/);
+  await demo.resend();
+  for (let i = 0; i < 5; i++) await assert.rejects(demo.verify('1111'), /doesn’t match/);
+  await assert.rejects(demo.verify('0000'), /Too many/);
+  clock += 30001;
+  await demo.verify('0000');
+  await demo.preparePin('2468'); await demo.confirmPin('2468'); await demo.enter(); await demo.logout();
+  await demo.begin('admin', 'login');
+  for (let i = 0; i < 5; i++) await assert.rejects(demo.login('1111'), /doesn’t match/);
+  await assert.rejects(demo.login('2468'), /Too many/);
+  clock += 30001;
+  await demo.login('2468');
+});

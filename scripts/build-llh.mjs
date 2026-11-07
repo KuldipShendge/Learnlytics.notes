@@ -12,11 +12,11 @@ export function publicConfig() {
   return config;
 }
 export async function buildLLH(outdir = root) {
-  const config = publicConfig();
-  await build({ entryPoints: [path.join(root, 'js/llh.js')], outfile: path.join(outdir, 'assets/vendor/llh-client.js'), bundle: true,
+  publicConfig(); // Continue rejecting secrets even while production auth is inactive.
+  await build({ entryPoints: [path.join(root, 'js/llh-auth.js')], outfile: path.join(outdir, 'assets/vendor/llh-client.js'), bundle: true,
     platform: 'browser', format: 'esm', target: ['es2022'], minify: true, sourcemap: false, legalComments: 'eof',
-    plugins: [{ name: 'public-config-only', setup(builder) {
-      builder.onLoad({ filter: /[\\/]llh-config\.js$/ }, () => ({ contents: `export const llhConfig = Object.freeze(${JSON.stringify(config)});`, loader: 'js' }));
+    plugins: [{ name: 'no-demo-in-production', setup(builder) {
+      builder.onResolve({ filter: /(?:dev[\\/]|__local|demo-adapter|auth-demo)/ }, () => { throw new Error('Local authentication fixtures cannot enter a production bundle'); });
     } }],
   });
 }

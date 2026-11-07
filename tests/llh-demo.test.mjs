@@ -27,14 +27,16 @@ test('demo requires local server opt-in; normal auth and remote hosts cannot ena
     const normalHTML = await (await fetch(`${normal}llh.html?demo=1`)).text();
     assert(normalHTML.includes('src="assets/vendor/llh-client.js"'));
     assert(!normalHTML.includes('__local'));
-    assert.equal((await fetch(`${normal}__local/llh-demo.js`)).status,404);
+    assert.equal((await fetch(`${normal}__local/llh-auth-demo.js`)).status,404);
+    assert.equal((await fetch(`${normal}__local/llh-demo-adapter.js`)).status,404);
     assert.equal((await fetch(`${normal}assets/%2e%2e%2fdev/llh-demo.js`)).status,403);
     const response = await fetch(`${demo}llh.html`);
     const demoHTML = await response.text();
-    assert(demoHTML.includes('src="__local/llh-demo.js"'));
+    assert(demoHTML.includes('src="__local/llh-auth-demo.js"'));
     assert(!demoHTML.includes('assets/vendor/llh-client.js'));
     assert(response.headers.get('content-security-policy').includes("connect-src 'none'"));
-    assert.equal((await fetch(`${demo}__local/llh-demo.js`)).status,200);
+    assert.equal((await fetch(`${demo}__local/llh-auth-demo.js`)).status,200);
+    assert.equal((await fetch(`${demo}__local/llh-demo-adapter.js`)).status,200);
     assert.equal((await fetch(`${demo}dev/llh-demo.js`)).status,404);
     assert.equal((await fetch(`${demo}supabase/config.toml`)).status,404);
     // Explicit Host through http.request simulates a DNS-rebound/proxy request.
@@ -45,7 +47,8 @@ test('demo requires local server opt-in; normal auth and remote hosts cannot ena
       request.on('error',reject);
     });
     assert.equal(foreignHostStatus,403);
-    const source = await readFile('dev/llh-demo.js','utf8');
+    assert.equal((await fetch(`${demo}internal/llh/auth-client.js`)).status,404);
+    const source = await readFile('dev/llh-auth-demo.js','utf8') + await readFile('dev/llh-demo-adapter.js','utf8');
     assert(!/createClient|localStorage|sessionStorage|fetch\(|XMLHttpRequest|indexedDB/.test(source));
     const page = await readFile('index.html','utf8');
     const headers = page.match(/<header\b[\s\S]*?<\/header>/g);

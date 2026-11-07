@@ -16,6 +16,7 @@ supabase
 server
 api
 private
+internal
 google-apps-script
 tests
 docs

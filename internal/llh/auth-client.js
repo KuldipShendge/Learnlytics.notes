@@ -1,8 +1,8 @@
-import { libraryCards } from './llh-library-ui.js';
+// Preserved password-auth infrastructure. Not served or bundled by Task 01.
+import { libraryCards } from '../../js/llh-library-ui.js';
 import { createClient } from '@supabase/supabase-js';
-import { llhConfig } from './llh-config.js';
-import { publicConfigurationValid, emailLinkAction } from './llh-auth-utils.js';
-import { showPublicPreview } from './llh-preview.js';
+import { llhConfig } from '../../js/llh-config.js';
+import { publicConfigurationValid, emailLinkAction } from '../../js/llh-auth-utils.js';
 
 const $ = id => document.getElementById(id);
 const message = text => { $('llh-message').textContent = text; };
@@ -12,7 +12,7 @@ const hadLink = Boolean(location.hash);
 if (location.hash || location.search) history.replaceState(null, '', location.pathname);
 
 if (!publicConfigurationValid(llhConfig)) {
-  showPublicPreview();
+  message('Authentication setup is pending.');
 } else {
   start();
 }

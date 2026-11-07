@@ -35,8 +35,8 @@ The Google Apps Script Career Resources endpoint is already in `js/career-resour
 ## Current operational state
 
 - The four temporary hosted Razorpay payment links remain unchanged. There is no Orders API, payment webhook or automatic kit granting yet.
-- Without Supabase configuration, LLH opens the existing dashboard as a public preview: kit cards, a kit selector and illustrative Study/Career Trackers. No login, demo credentials, saved progress or paid-file access is provided. Resource buttons show an explanation dialog only. Configured Supabase builds retain the real authentication flow; do not promise automatic access after purchase until the future payment verifier exists.
-- The `admin/admin` preview is local only. It is not part of `dist` and must never be deployed as an auth option.
+- The owner authorized publishing Tasks 01 and 02 together: the new Login UI and main Dashboard. The production adapter still rejects authentication; Supabase variables do not enable it. The Dashboard flow is available through the loopback demo only until a reviewed real-authentication backend is connected. No public bypass exists. See [Task 02](llh-dashboard-task02.md) for scope and release checks.
+- The old buyer/library demo has been removed. The new registration/PIN fixture is loopback-only and excluded from `dist`; no fixture credentials or authentication bypass may enter a public artifact.
 - Vercel LLH CSP permits hosted `https://*.supabase.co` connections. When enabling Supabase, narrow `connect-src` to the exact project origin. A custom Supabase domain must be explicitly added before use; the Cloudflare `_headers` file is not used by Vercel.
 - Real paid files, permanent Drive delivery links and all secret keys remain outside public output. Robots rules are indexing hints, not access control.
 
