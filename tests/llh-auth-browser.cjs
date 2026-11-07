@@ -35,6 +35,17 @@ const base = process.env.PREVIEW_URL || 'http://127.0.0.1:4210/';
     };
     const verifyDashboard = async () => {
       const initialUrl = page.url();
+      const accountToggle = page.getByRole('button', { name: 'Account options' });
+      const accountPanel = page.locator('#dash-account-panel');
+      const overviewLink = page.getByRole('link', { name: 'Overview', exact: true });
+      const toolsLink = page.getByRole('link', { name: 'Learning tools', exact: true });
+      const settleScroll = () => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+      const assertNavigation = async current => {
+        await settleScroll();
+        assert.equal(await overviewLink.getAttribute('aria-current'), current === 'Overview' ? 'location' : null);
+        assert.equal(await toolsLink.getAttribute('aria-current'), current === 'Learning tools' ? 'location' : null);
+        assert.equal(await page.locator('.dash-breadcrumb strong').innerText(), current);
+      };
       for (const width of [320,390,768,900,1440]) {
         await page.setViewportSize({ width, height: width < 500 ? 844 : 960 });
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Dashboard overflow at ' + width);
@@ -43,18 +54,81 @@ const base = process.env.PREVIEW_URL || 'http://127.0.0.1:4210/';
           await card.click();
           assert.equal(page.url(), initialUrl, 'Unavailable feature must not navigate');
         }
+        if (width < 500) {
+          await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
+          await settleScroll();
+          await assertNavigation('Learning tools');
+          const accountPosition = await accountToggle.evaluate(button => {
+            const box = button.getBoundingClientRect();
+            return {
+              scrollY, top: box.top, bottom: box.bottom, left: box.left, right: box.right,
+              height: box.height, viewportHeight: innerHeight, viewportWidth: innerWidth,
+              reachable: button.contains(document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2)),
+            };
+          });
+          assert(accountPosition.scrollY > 0, 'Mobile account check must run after scrolling');
+          assert(accountPosition.top >= 0 && accountPosition.bottom <= accountPosition.viewportHeight, 'Mobile account must stay in the viewport');
+          assert(accountPosition.left >= 0 && accountPosition.right <= accountPosition.viewportWidth, 'Mobile account must not overflow horizontally');
+          assert(accountPosition.height >= 44 && accountPosition.reachable, 'Mobile account must remain a reachable touch target');
+          await accountToggle.click();
+          assert.equal(await accountPanel.isVisible(), true);
+          assert.equal(await page.getByRole('button', { name: 'Logout', exact: true }).isVisible(), true);
+          assert.equal(await page.evaluate(() => scrollY), accountPosition.scrollY, 'Opening account must not jump to the top');
+          await page.keyboard.press('Escape');
+        }
         await page.evaluate(() => scrollTo(0, 0));
+        await assertNavigation('Overview');
+        await page.locator('#dashboard-main').evaluate(main => main.focus({ preventScroll: true }));
         await page.screenshot({ path: 'screenshots/llh-dashboard-' + width + '.png', fullPage: true });
       }
-      await page.getByRole('button', { name: 'Account options' }).click();
+
+      const activityDetail = page.locator('#dash-activity-detail');
+      const activityReset = page.getByRole('button', { name: 'Show weekly activity total' });
+      const friday = page.getByRole('button', { name: 'Friday: 40 sample minutes', exact: true });
+      const wednesday = page.getByRole('button', { name: 'Wednesday: 0 sample minutes', exact: true });
+      assert.equal(await activityDetail.innerText(), '120 sample minutes this week');
+      assert.equal(await activityReset.isVisible(), false);
+      assert.equal(await page.locator('.dash-day[aria-pressed="true"]').count(), 0);
+      await friday.click();
+      assert.equal(await activityDetail.innerText(), 'Friday · 40 sample minutes');
+      assert.equal(await friday.getAttribute('aria-pressed'), 'true');
+      assert.equal(await page.locator('.dash-day[aria-pressed="true"]').count(), 1);
+      assert.equal(await activityReset.isVisible(), true);
+      await wednesday.focus();
+      await page.keyboard.press('Space');
+      assert.equal(await activityDetail.innerText(), 'Wednesday · 0 sample minutes · Rest day');
+      assert.equal(await wednesday.getAttribute('aria-pressed'), 'true');
+      assert.equal(await friday.getAttribute('aria-pressed'), 'false');
+      assert.equal(await page.locator('.dash-day[aria-pressed="true"]').count(), 1);
+      await activityReset.click();
+      assert.equal(await activityDetail.innerText(), '120 sample minutes this week');
+      assert.equal(await activityReset.isVisible(), false);
+      assert.equal(await page.locator('.dash-day[aria-pressed="false"]').count(), 7);
+      assert.equal(await wednesday.evaluate(button => button === document.activeElement), true, 'Reset must return focus to the selected day');
+      assert.equal(page.url(), initialUrl, 'Exploring sample activity must not navigate');
+
+      await accountToggle.click();
       await page.keyboard.press('Escape');
-      assert.equal(await page.locator('#dash-account-panel').isVisible(), false);
-      assert.equal(await page.getByRole('button', { name: 'Account options' }).getAttribute('aria-expanded'), 'false');
-      await page.getByRole('link', { name: 'Learning tools', exact: true }).click();
+      assert.equal(await accountPanel.isVisible(), false);
+      assert.equal(await accountToggle.getAttribute('aria-expanded'), 'false');
+      assert.equal(await accountToggle.evaluate(button => button === document.activeElement), true);
+      await accountToggle.click();
+      await page.keyboard.press('Shift+Tab');
+      assert.equal(await page.locator('.dash-account-website').evaluate(link => link === document.activeElement), true);
+      assert.equal(await accountPanel.isVisible(), true, 'Moving focus within account must keep it open');
+      await page.keyboard.press('Tab');
+      await page.keyboard.press('Tab');
+      assert.equal(await accountPanel.isVisible(), false, 'Tabbing outside account must dismiss the panel');
+      assert.equal(await accountToggle.getAttribute('aria-expanded'), 'false');
+      assert.equal(await page.locator('.dash-account').evaluate(account => account.contains(document.activeElement)), false);
+
+      await toolsLink.click();
       assert.equal(await page.evaluate(() => document.activeElement.id), 'dashboard-tools');
+      await assertNavigation('Learning tools');
       assert.equal(page.url(), initialUrl);
-      await page.getByRole('link', { name: 'Overview', exact: true }).click();
+      await overviewLink.click();
       assert.equal(await page.evaluate(() => document.activeElement.id), 'dashboard-main');
+      await assertNavigation('Overview');
       assert.equal(await page.locator('#llh-dashboard').count(), 1);
     };
     await page.goto(new URL('learnlytics-learning-hub', base).href);
@@ -166,7 +240,7 @@ const base = process.env.PREVIEW_URL || 'http://127.0.0.1:4210/';
       assert.equal((await fetch(publicOrigin + endpoint)).status, 404);
     }
     await production.close();
-    console.log('PASS: registration, OTP errors, PIN mismatch, returning login, verified recovery, old PIN rejection, logout, reload reset, zero persistent storage/API calls; production cannot authenticate and excludes local/legacy modules.');
+    console.log('PASS: registration, OTP errors, PIN mismatch, returning login, verified recovery, old PIN rejection, logout, reload reset, zero persistent storage/API calls; dashboard activity selection/reset, navigation state, keyboard account dismissal and mobile account access; production cannot authenticate and excludes local/legacy modules.');
   } finally {
     await browser.close();
     if (productionServer) await new Promise(resolve => productionServer.close(resolve));

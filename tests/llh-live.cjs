@@ -25,7 +25,13 @@ const origin = process.env.LIVE_URL || 'https://www.learnlyticshandbook.shop';
   assert(!/\badmin\b|0000|DEMO_OTP|createDemoAdapter|PBKDF2|sb_secret_|__local/.test(bundle));
   // The canonical domain must serve this exact locally tested release artifact.
   assert.equal(bundle, await fs.readFile('dist/assets/vendor/llh-client.js','utf8'));
-  for (const path of ['/css/llh-dashboard.css', '/js/llh-dashboard.js', '/js/llh-dashboard-data.js']) assert.equal((await fetch(origin + path)).status,200,path);
+  for (const path of ['/css/llh-dashboard.css', '/js/llh-dashboard.js', '/js/llh-dashboard-data.js']) {
+    const asset = await fetch(origin + path);
+    assert.equal(asset.status, 200, path);
+    const deployed = (await asset.text()).replace(/\r\n/g, '\n');
+    const tested = (await fs.readFile('dist' + path, 'utf8')).replace(/\r\n/g, '\n');
+    assert.equal(deployed, tested, 'Deployed dashboard asset must match the tested release: ' + path);
+  }
   for (const id of ['S2y4eZ3','fain7HM','6j2zp8fF','qLYK5iB']) {
     const response = await fetch('https://rzp.io/rzp/' + id);
     assert.equal(response.status,200,id);
