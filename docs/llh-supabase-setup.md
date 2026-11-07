@@ -67,7 +67,7 @@ $env:PREVIEW_BASE_PATH = '/Learnlytics.notes'
 node scripts/preview.mjs
 ```
 
-Open `http://127.0.0.1:4188/Learnlytics.notes/learnlytics-learning-hub`. The public environment values are compiled into the browser bundle. Rebuild after changing them. The scripts do **not** automatically load `.env` files. With no values, the page safely displays “setup is pending”.
+Open `http://127.0.0.1:4188/Learnlytics.notes/learnlytics-learning-hub`. The public environment values are compiled into the browser bundle. Rebuild after changing them. The scripts do **not** automatically load `.env` files. With no values, the page displays a credential-free public dashboard preview; it makes no backend requests and grants no resource access.
 
 Create a test account, open its verification email, press Continue and sign in. Initially all kits should be locked. Signup and verified email alone must never create an entitlement.
 

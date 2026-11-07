@@ -2,6 +2,7 @@ import { libraryCards } from './llh-library-ui.js';
 import { createClient } from '@supabase/supabase-js';
 import { llhConfig } from './llh-config.js';
 import { publicConfigurationValid, emailLinkAction } from './llh-auth-utils.js';
+import { showPublicPreview } from './llh-preview.js';
 
 const $ = id => document.getElementById(id);
 const message = text => { $('llh-message').textContent = text; };
@@ -11,7 +12,7 @@ const hadLink = Boolean(location.hash);
 if (location.hash || location.search) history.replaceState(null, '', location.pathname);
 
 if (!publicConfigurationValid(llhConfig)) {
-  message('Learning Hub setup is pending. Please contact LearnLytics if you need access to your kit.');
+  showPublicPreview();
 } else {
   start();
 }

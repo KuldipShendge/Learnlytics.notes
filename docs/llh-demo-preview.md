@@ -32,7 +32,7 @@ Only the explicitly enabled **loopback preview server** substitutes a local scri
 
 The demo has no Supabase SDK import, API requests, auth tokens, database grants or administration privileges. Its page has `connect-src 'none'` and `form-action 'none'`. The server binds to 127.0.0.1 and rejects non-local Host headers.
 
-`dev/llh-demo.js` and `dev/llh-demo.css` are outside the public deployment allowlist. `node scripts/build-public.mjs` always generates the real auth page, even if `LLH_DEMO=1` is set. Publish **only `dist/`**, never the repository root or `scripts/preview.mjs`; this applies to staging and future Vercel production hosting. Build tests scan output for demo code/credential markers.
+`dev/llh-demo.js` and `dev/llh-demo.css` are outside the public deployment allowlist. `node scripts/build-public.mjs` always generates the production client, even if `LLH_DEMO=1` is set. With no Supabase configuration, that client shows the existing dashboard as a public preview through `js/llh-preview.js`: no credentials, login, account, paid-file links or saved progress. When Supabase is configured, it uses real authentication. Publish **only `dist/`**, never the repository root or `scripts/preview.mjs`. Build tests scan output for local demo code/credential markers. Run `node tests/llh-preview-browser.cjs` after building to verify the public preview, or set `PREVIEW_URL` to the deployed site to verify it live.
 
 ## Files changed for this task
 
