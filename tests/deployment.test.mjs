@@ -12,7 +12,8 @@ test('Vercel migration configuration, old-link destinations and public artifact 
   assert.equal(config.installCommand,'pnpm install --frozen-lockfile --ignore-scripts');
   assert.equal(config.cleanUrls,false,'Keep the existing llh.html URL');
   assert(!config.routes);
-  assert.deepEqual(config.rewrites.map(r=>r.source), [...Object.values(viewPaths).filter(Boolean).map(p=>'/'+p), '/'+hubPath]);
+  // These are exact, non-overlapping routes; their declaration order is immaterial.
+  assert.deepEqual(config.rewrites.map(r=>r.source).sort(), [...Object.values(viewPaths).filter(Boolean).map(p=>'/'+p), '/'+hubPath].sort());
   assert(config.rewrites.every(r=>['/index.html','/llh.html'].includes(r.destination)), 'Only explicit public routes may be rewritten');
   const sources = config.redirects.map(rule=>rule.source);
   assert.equal(new Set(sources).size,sources.length);
@@ -45,7 +46,7 @@ test('Vercel migration configuration, old-link destinations and public artifact 
   assert(!authHeaders['Content-Security-Policy'].includes("'unsafe-inline'"));
   const sitemap=await readFile('dist/sitemap.xml','utf8');
   assert(sitemap.startsWith('<?xml version="1.0" encoding="UTF-8"?>'));
-  assert.deepEqual([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(m=>m[1]),Object.values(viewPaths).map(slug=>siteOrigin+'/'+slug));
+  assert.deepEqual([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(m=>m[1]).sort(),Object.values(viewPaths).map(slug=>siteOrigin+'/'+slug).sort());
   const robots=await readFile('dist/robots.txt','utf8');
   assert(robots.includes('Sitemap: https://www.learnlyticshandbook.shop/sitemap.xml'));
   assert(robots.includes('Disallow: /llh.html'));

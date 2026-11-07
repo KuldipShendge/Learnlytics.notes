@@ -4,6 +4,7 @@ import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { readFile } from 'node:fs/promises';
 import http from 'node:http';
+import { viewPaths } from '../js/site-routes.js';
 
 test('demo requires local server opt-in; normal auth and remote hosts cannot enable it', async () => {
   const children = [];
@@ -48,7 +49,7 @@ test('demo requires local server opt-in; normal auth and remote hosts cannot ena
     assert(!/createClient|localStorage|sessionStorage|fetch\(|XMLHttpRequest|indexedDB/.test(source));
     const page = await readFile('index.html','utf8');
     const headers = page.match(/<header\b[\s\S]*?<\/header>/g);
-    assert.equal(headers.length,8);
+    assert.equal(headers.length,Object.keys(viewPaths).length);
     for (const header of headers) {
       assert.match(header, /<\/a><a class="header-llh-link" href="learnlytics-learning-hub"/);
       assert.equal((header.match(/header-llh-link/g)||[]).length,1);
