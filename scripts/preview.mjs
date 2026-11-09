@@ -9,17 +9,11 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const port = Number(process.env.PORT || 4173);
 // Set PREVIEW_BASE_PATH=/Learnlytics.notes to reproduce GitHub project hosting.
 const basePath = (process.env.PREVIEW_BASE_PATH || '').replace(/\/$/, '');
-// Explicit local process opt-in, never a browser flag or production auth fallback.
-const demoEnabled = process.env.LLH_DEMO === '1';
 const samplePaths = new Set([
   '/pdfs/eda-handbook.pdf', '/pdfs/eda-practice-workbook.pdf', '/pdfs/eda-solution-manual.pdf',
   '/pdfs/mlops-handbook-v2.pdf', '/pdfs/mlops-workbook-v2.pdf', '/pdfs/mlops-solutions-v2.pdf',
   '/pdfs/math-solutions-v2.pdf', '/pdfs/math-workbook-v2.pdf', '/pdfs/math-handbook-v2.pdf',
   '/pdfs/BI-handbook-v2.pdf', '/pdfs/BI-workbook-v2.pdf', '/pdfs/BI-solution-v2.pdf',
-]);
-const demoFiles = new Map([
-  ['/__local/llh-auth-demo.js', 'dev/llh-auth-demo.js'],
-  ['/__local/llh-demo-adapter.js', 'dev/llh-demo-adapter.js'],
 ]);
 const pages = new Map([
   ['/', '/index.html'],
@@ -64,19 +58,6 @@ const server = http.createServer(async (request, response) => {
       response.writeHead(308, { Location: basePath + pathname.slice(0, -1) + new URL(request.url, 'http://localhost').search });
       response.end(); return;
     }
-    if (demoEnabled && demoFiles.has(pathname)) {
-      response.writeHead(200, { 'Content-Type': types[path.extname(pathname)], 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
-      response.end(request.method === 'HEAD' ? '' : await readFile(path.join(root, demoFiles.get(pathname)))); return;
-    }
-    if (demoEnabled && pages.get(pathname) === '/llh.html') {
-      const html = (await readFile(path.join(root, 'llh.html'), 'utf8'))
-        .replace('<script type="module" src="assets/vendor/llh-client.js"></script>',
-          '<script type="module" src="__local/llh-auth-demo.js"></script>');
-      response.writeHead(200, { 'Content-Type': types['.html'], 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
-        'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'",
-        'Referrer-Policy': 'no-referrer' });
-      response.end(request.method === 'HEAD' ? '' : html); return;
-    }
     // Serve only registered pages and public assets, never project tooling.
     if (!pages.has(pathname) && !/^\/(assets|css|js)\//.test(pathname) && !samplePaths.has(pathname)) {
       response.writeHead(404); response.end('Not found'); return;
@@ -86,7 +67,8 @@ const server = http.createServer(async (request, response) => {
       response.writeHead(403); response.end(); return;
     }
     if (!(await stat(file)).isFile()) { response.writeHead(404); response.end(); return; }
-    response.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
+    const policy = vercel.headers.find(rule => rule.source === pathname)?.headers || [];
+    response.writeHead(200, { ...Object.fromEntries(policy.map(h => [h.key, h.value])), 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
     if (request.method === 'HEAD') { response.end(); return; }
     createReadStream(file).pipe(response);
   } catch { response.writeHead(404); response.end('Not found'); }

@@ -40,8 +40,17 @@ test('public artifact allowlist excludes private files, unexpected assets, paid 
   for (const file of files.filter(p=>/\.(html|js|css)$/.test(p))) {
    assert(!/LLH_DEMO|__local\/|admin \/ admin|Open demo|DEMO_IDENTIFIER|DEMO_OTP|createDemoAdapter|PBKDF2|llh-demo-adapter/.test(await readFile(file,'utf8')),`Demo code leaked into ${file}`);
   }
+  for (const file of files.filter(p=>/\.(html|js|css|json)$/.test(p))) {
+   const source = await readFile(file,'utf8');
+   assert(!/sb_secret_[A-Za-z0-9_-]{20,}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|postgres(?:ql)?:\/\/[^\s]+:[^\s]+@/.test(source), 'Secret material in '+file);
+   for (const token of source.match(/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/g)||[]) {
+    let claims;try {claims=JSON.parse(Buffer.from(token.split('.')[1],'base64url').toString());}catch{continue;}
+    assert.notEqual(claims.role,'service_role','Privileged JWT in '+file);
+   }
+  }
   const client = await readFile('dist/assets/vendor/llh-client.js','utf8');
-  assert(!/\badmin\b|0000|supabaseUrl|signInWithPassword|llh_library|llh-resource-access/.test(client), 'No demo credentials, authentication backend or legacy library in production client');
+  assert(!/DEMO_OTP|createDemoAdapter|llh_library|llh-resource-access/.test(client), 'No demo bypass or legacy library in production client');
+  assert(client.includes('verifyOtp') && client.includes('getUser'), 'Real OTP and server user verification are bundled');
   assert(!files.some(file => /\/internal\//.test(file)), 'Preserved legacy auth infrastructure is private');
   assert.deepEqual(files.filter(p=>p.endsWith('.pdf')).sort(), [
    'dist/pdfs/eda-handbook.pdf', 'dist/pdfs/eda-practice-workbook.pdf', 'dist/pdfs/eda-solution-manual.pdf',

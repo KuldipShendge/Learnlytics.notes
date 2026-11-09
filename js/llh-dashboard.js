@@ -41,8 +41,8 @@ export function mountDashboard({ displayName = 'Learner', onLogout }) {
     </aside>
     <div class="dash-workspace">
       <header class="dash-topbar"><div class="dash-breadcrumb"><span>Learning Hub</span><span aria-hidden="true">/</span><strong>Overview</strong></div><div class="dash-account">
-        <button class="dash-account-toggle" type="button" aria-expanded="false" aria-controls="dash-account-panel" aria-label="Account options"><span class="dash-avatar" aria-hidden="true">${initial}</span><span class="dash-account-name">${name}<small>Local preview</small></span>${icon('chevron')}</button>
-        <div id="dash-account-panel" class="dash-account-panel" hidden><strong>${name}</strong><p>Temporary local session</p><a class="dash-account-website" href="./">Back to website ${icon('arrow')}</a><button class="dash-logout" type="button">${icon('logout')}Logout</button><p class="dash-account-error" role="alert"></p></div>
+        <button class="dash-account-toggle" type="button" aria-expanded="false" aria-controls="dash-account-panel" aria-label="Account options"><span class="dash-avatar" aria-hidden="true">${initial}</span><span class="dash-account-name">${name}<small>Signed in</small></span>${icon('chevron')}</button>
+        <div id="dash-account-panel" class="dash-account-panel" hidden><strong>${name}</strong><p>Verified email session</p><a class="dash-account-website" href="./">Back to website ${icon('arrow')}</a><button class="dash-logout" type="button">${icon('logout')}Logout</button><p class="dash-account-error" role="alert"></p></div>
       </div></header>
       <main class="dash-main" id="dashboard-main" tabindex="-1">
         <section class="dash-welcome" aria-labelledby="dash-title"><p class="dash-eyebrow">MAKE ROOM FOR YOUR NEXT CHAPTER</p><h1 id="dash-title">Welcome back, ${name}<span>.</span></h1><p>A little focus today. A stronger foundation tomorrow.</p></section>

@@ -717,3 +717,12 @@ p,h1,h2 {
   letter-spacing: calc(25cqw - 16px);
   text-indent: calc(12.5cqw - 8px);
 }
+/* Six-digit email OTP keeps the existing form styling at every width. */
+.code-input {
+  background: #fff;
+  text-align: center;
+  letter-spacing: .35em;
+  text-indent: .35em;
+}
+/* Email and name fields no longer have a leading credential icon. */
+#auth-email, #auth-name { padding-left: 18px; }

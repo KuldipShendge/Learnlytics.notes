@@ -5,16 +5,16 @@ import { publicConfigurationValid } from '../js/llh-auth-utils.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export function publicConfig() {
-  const config = { supabaseUrl: process.env.LLH_SUPABASE_URL || '', publishableKey: process.env.LLH_SUPABASE_PUBLISHABLE_KEY || '' };
+  const config = { supabaseUrl: process.env.LLH_SUPABASE_URL || 'https://coyucrdmkduauotxvxob.supabase.co', publishableKey: process.env.LLH_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_nqh5pcQDHVf2ljLoNVlJbA_ZhoxZDSu' };
   if ((config.supabaseUrl || config.publishableKey) && !publicConfigurationValid(config)) {
     throw new Error('Invalid LLH public configuration. Supply a valid Supabase URL and publishable/anon key. Never use a secret key.');
   }
   return config;
 }
 export async function buildLLH(outdir = root) {
-  publicConfig(); // Continue rejecting secrets even while production auth is inactive.
+  const config = publicConfig();
   await build({ entryPoints: [path.join(root, 'js/llh-auth.js')], outfile: path.join(outdir, 'assets/vendor/llh-client.js'), bundle: true,
-    platform: 'browser', format: 'esm', target: ['es2022'], minify: true, sourcemap: false, legalComments: 'eof',
+    define: { __LLH_CONFIG__: JSON.stringify(config) }, platform: 'browser', format: 'esm', target: ['es2022'], minify: true, sourcemap: false, legalComments: 'eof',
     plugins: [{ name: 'no-demo-in-production', setup(builder) {
       builder.onResolve({ filter: /(?:dev[\\/]|__local|demo-adapter|auth-demo)/ }, () => { throw new Error('Local authentication fixtures cannot enter a production bundle'); });
     } }],

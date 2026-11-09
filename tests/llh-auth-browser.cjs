@@ -1,38 +1,28 @@
 const assert = require('node:assert/strict');
-const fs = require('node:fs/promises');
-const http = require('node:http');
-const path = require('node:path');
 const { chromium } = require('playwright');
-const base = process.env.PREVIEW_URL || 'http://127.0.0.1:4210/';
-
 (async () => {
-  const browser = await chromium.launch({ executablePath: process.env.BROWSER_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
-  let productionServer;
-  try {
-    await fs.mkdir('screenshots', { recursive: true });
-    const context = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 960 } });
-    const page = await context.newPage();
-    const errors = [], backend = [], failures = [];
-    page.on('pageerror', e => errors.push(e.message));
-    page.on('request', r => { if (['xhr','fetch'].includes(r.resourceType())) backend.push(r.url()); });
-    page.on('response', r => { if (r.status() >= 400) failures.push(r.url()); });
-    const title = text => page.getByRole('heading', { name: text, exact: true }).waitFor();
-    const logout = async () => {
-      await page.getByRole('button', { name: 'Account options' }).click();
-      await page.getByRole('button', { name: 'Logout', exact: true }).click();
-      await page.locator('#llh-dashboard').waitFor({ state: 'detached' });
-    };
-    const code = async (value, button) => {
-      await page.locator('#auth-code').fill(value);
-      await page.getByRole('button', { name: button, exact: true }).click();
-      await page.locator('form[aria-busy="true"]').waitFor({ state: 'detached' });
-    };
-    const screenshot = async name => {
-      for (const width of [390,1440]) {
-        await page.setViewportSize({ width, height: width === 390 ? 844 : 960 });
-        await page.screenshot({ path: `screenshots/llh-auth-${name}-${width}.png`, fullPage: true });
-      }
-    };
+ const browser = await chromium.launch({executablePath:process.env.BROWSER_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+ try {
+ const context=await browser.newContext({reducedMotion:'reduce'});const page=await context.newPage();const errors=[]; page.on('pageerror',e=>errors.push(e.message));
+ let user={id:'d314ec22-4120-49cf-a6c8-b57fc81cfa02',aud:'authenticated',role:'authenticated',email:'learner@example.com',email_confirmed_at:new Date().toISOString(),user_metadata:{}}, revoked=false, sends=0;
+ const session=()=>({access_token:'fixture-access',refresh_token:'fixture-refresh',expires_in:3600,expires_at:Math.floor(Date.now()/1000)+3600,token_type:'bearer',user});
+ // Network fixtures only: no testing entry points or credentials enter shipped code.
+ await page.route('https://*.supabase.co/auth/v1/**',async route=>{
+   const req=route.request(), path=new URL(req.url()).pathname;const data=req.postDataJSON();let status=200,body={};
+   if(path.endsWith('/otp')) sends++;
+   else if(path.endsWith('/verify')) {if(data.token==='654321') body=session();else {status=403;body={code:'otp_expired',msg:'Invalid or expired OTP'};}}
+   else if(path.endsWith('/user')) {if(revoked){status=401;body={msg:'Invalid JWT'};}else {if(req.method()==='PUT')user={...user,user_metadata:data.data};body=user;}}
+   else if(path.endsWith('/token')) body=session();
+   await route.fulfill({status,contentType:'application/json',body:JSON.stringify(body)});
+ });
+ await page.goto((process.env.PREVIEW_URL || 'http://127.0.0.1:4211/')+'learnlytics-learning-hub?demo=1#admin');
+ await page.locator('#auth-email').fill('admin');await page.getByRole('button',{name:'Send code',exact:true}).click();assert.equal(sends,0);
+ await page.locator('#auth-email').fill(user.email); await page.getByRole('button',{name:'Send code',exact:true}).click();await page.locator('#auth-code').waitFor();
+ assert.equal(await page.locator('#resend').isDisabled(),true);assert.equal(sends,1);
+ await page.locator('#auth-code').fill('111111');await page.getByRole('button',{name:'Verify email',exact:true}).click();await page.getByRole('alert').filter({hasText:'incorrect or expired'}).waitFor();
+ await page.clock.install();await page.clock.fastForward(61000);await page.locator('#resend').click();assert.equal(sends,2);
+ await page.locator('#auth-code').fill('654321');await page.getByRole('button',{name:'Verify email',exact:true}).click();await page.locator('#auth-name').fill('Test Learner');await page.getByRole('button',{name:'Continue to LLH'}).click();await page.locator('#llh-dashboard').waitFor();
+ await page.reload();await page.locator('#llh-dashboard').waitFor();assert.equal(await page.locator('#auth-name').count(),0);
     const verifyDashboard = async () => {
       const initialUrl = page.url();
       const accountToggle = page.getByRole('button', { name: 'Account options' });
@@ -131,118 +121,10 @@ const base = process.env.PREVIEW_URL || 'http://127.0.0.1:4210/';
       await assertNavigation('Overview');
       assert.equal(await page.locator('#llh-dashboard').count(), 1);
     };
-    await page.goto(new URL('learnlytics-learning-hub', base).href);
-    await title('Begin something great.');
-    await page.evaluate(() => document.fonts.ready);
-    await screenshot('registration');
-    for (const width of [320,390,768,900,1440]) {
-      await page.setViewportSize({ width, height: 900 });
-      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Overflow at ${width}`);
-    }
-    await page.locator('#auth-email').fill('admin');
-    await page.getByRole('button', { name: 'Continue', exact: true }).click();
-    await title('Check your inbox.');
-    await screenshot('otp');
-    await code('1111', 'Verify email');
-    await page.getByRole('alert').filter({ hasText: 'doesn’t match' }).waitFor();
-    assert.equal(await page.locator('#auth-code').inputValue(), '');
-    await page.getByRole('button', { name: 'Resend code' }).click();
-    await page.getByRole('alert').filter({ hasText: 'wait 30 seconds' }).waitFor();
-    await code('0000', 'Verify email');
-    await title('Your own little key.');
-    await screenshot('pin-setup');
-    await page.locator('#auth-code').fill('12a3');
-    assert.equal(await page.locator('#auth-code').inputValue(), '123');
-    await code('2468', 'Continue');
-    await title('Make it official.');
-    await screenshot('pin-confirm');
-    await code('2469', 'Confirm PIN');
-    await page.getByRole('alert').filter({ hasText: 'don’t match' }).waitFor();
-    assert.equal(await page.locator('#auth-code').inputValue(), '');
-    await code('2468', 'Confirm PIN');
-    await title('The next chapter is yours.');
-    await screenshot('ready');
-    await page.getByRole('button', { name: 'Continue to LLH' }).click();
-    await title('Welcome back, Learner.');
-    assert.equal(await page.locator('.dash-feature').count(), 4);
-    assert.match(await page.locator('.dash-preview-note').innerText(), /Sample data.*illustrative/s);
-    assert.equal(await page.locator('.dash-feature a').count(), 0);
-    assert.equal(await page.locator('.dash-feature button:disabled').count(), 4);
-    assert.equal(await page.locator('.llh-kit,.hub-preview-panel,canvas').count(), 0);
-    await verifyDashboard();
-    await logout();
-    await title('Good to see you again.');
-    await screenshot('sign-in');
-    await page.getByRole('button', { name: 'Continue', exact: true }).click();
-    await title('Welcome back.');
-    await screenshot('returning-pin');
-    await code('2469', 'Sign in');
-    await page.getByRole('alert').filter({ hasText: 'doesn’t match' }).waitFor();
-    await code('2468', 'Sign in');
-    await title('Welcome back, Learner.');
-    await logout();
-    await page.getByRole('button', { name: 'Continue', exact: true }).click();
-    await page.getByRole('button', { name: 'Forgot PIN?' }).click();
-    await title('Check your inbox.');
-    await code('0000', 'Verify email');
-    await title('A fresh start.');
-    await screenshot('recovery');
-    await code('1357', 'Continue');
-    await code('1357', 'Confirm PIN');
-    await title('A new PIN. A fresh start.');
-    await page.getByRole('button', { name: 'Continue to LLH' }).click();
-    await logout();
-    await page.getByRole('button', { name: 'Continue', exact: true }).click();
-    await code('2468', 'Sign in');
-    await page.getByRole('alert').filter({ hasText: 'doesn’t match' }).waitFor();
-    await code('1357', 'Sign in');
-    await title('Welcome back, Learner.');
-    assert.equal(await page.evaluate(() => localStorage.length + sessionStorage.length), 0);
-    assert.deepEqual(await context.cookies(), []);
-    assert.equal(await page.evaluate(async () => (await indexedDB.databases()).length), 0);
-    await page.reload();
-    await page.getByRole('button', { name: 'Sign in', exact: true }).click();
-    await page.locator('#auth-email').fill('admin');
-    await page.getByRole('button', { name: 'Continue', exact: true }).click();
-    await page.getByRole('alert').filter({ hasText: 'Create your PIN in this tab first' }).waitFor();
-    assert.deepEqual(backend, []); assert.deepEqual(errors, []); assert.deepEqual(failures, []);
-    await context.close();
-
-    // Serve the actual public build, not the repository or local demo server.
-    const root = path.resolve('dist');
-    productionServer = http.createServer(async (req, res) => {
-      try {
-        let pathname = new URL(req.url, 'http://localhost').pathname;
-        if (['/', '/learnlytics-learning-hub'].includes(pathname)) pathname = '/llh.html';
-        const file = path.resolve(root, '.' + decodeURIComponent(pathname));
-        if (!file.startsWith(root + path.sep)) throw new Error('Forbidden');
-        const body = await fs.readFile(file);
-        const type = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css', '.ttf':'font/ttf', '.webp':'image/webp' }[path.extname(file)];
-        res.writeHead(200, { 'Content-Type': type || 'application/octet-stream' }); res.end(body);
-      } catch { res.writeHead(404); res.end(); }
-    });
-    await new Promise(resolve => productionServer.listen(0, '127.0.0.1', resolve));
-    const production = await browser.newContext();
-    const publicPage = await production.newPage();
-    const publicOrigin = `http://127.0.0.1:${productionServer.address().port}`;
-    for (const route of ['/learnlytics-learning-hub?demo=1#admin', '/llh.html']) {
-      await publicPage.goto(publicOrigin + route);
-      await publicPage.locator('#auth-email').waitFor();
-      assert.equal(await publicPage.locator('#environment-label').isVisible(), false);
-      assert.equal(await publicPage.locator('#auth-email').getAttribute('type'), 'email');
-      assert(!publicPage.url().includes('?') && !publicPage.url().includes('#'));
-      await publicPage.locator('#auth-email').fill('test@example.com');
-      await publicPage.getByRole('button', { name: 'Continue', exact: true }).click();
-      await publicPage.getByRole('alert').filter({ hasText: 'Sign-in is not available yet' }).waitFor();
-      assert.equal(await publicPage.locator('#auth-code,#llh-dashboard').count(), 0);
-    }
-    for (const endpoint of ['/__local/llh-auth-demo.js','/__local/llh-demo-adapter.js','/dev/llh-demo-adapter.js','/internal/llh/auth-client.js']) {
-      assert.equal((await fetch(publicOrigin + endpoint)).status, 404);
-    }
-    await production.close();
-    console.log('PASS: registration, OTP errors, PIN mismatch, returning login, verified recovery, old PIN rejection, logout, reload reset, zero persistent storage/API calls; dashboard activity selection/reset, navigation state, keyboard account dismissal and mobile account access; production cannot authenticate and excludes local/legacy modules.');
-  } finally {
-    await browser.close();
-    if (productionServer) await new Promise(resolve => productionServer.close(resolve));
-  }
-})().catch(error => { console.error(error); process.exitCode = 1; });
+ await verifyDashboard();
+ await page.getByRole('button',{name:'Account options'}).click();await page.getByRole('button',{name:'Logout',exact:true}).click();await page.locator('#auth-email').waitFor();await page.reload();await page.locator('#auth-email').waitFor();assert.equal(await page.locator('#llh-dashboard').count(),0);
+ await page.locator('#auth-email').fill(user.email);await page.getByRole('button',{name:'Send code',exact:true}).click();await page.locator('#auth-code').fill('654321');await page.getByRole('button',{name:'Verify email',exact:true}).click();await page.locator('#llh-dashboard').waitFor();assert.equal(await page.locator('#auth-name').count(),0);
+ revoked=true;await page.reload();await page.locator('#auth-email').waitFor();assert.equal(await page.locator('#llh-dashboard').count(),0);
+ assert.deepEqual(errors,[]); console.log('PASS: OTP errors/resend, first-name setup, persisted verified session, returning user skips name, logout, rejected session blocks dashboard, responsive disabled cards and sample activity.');
+ } finally {await browser.close();}
+})().catch(e=>{console.error(e);process.exitCode=1;});
